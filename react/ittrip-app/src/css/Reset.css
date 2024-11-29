@@ -1,0 +1,64 @@
+/*전체 공통 스타일*/
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 헤더 폰트 */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+/* 글 태그, 버튼 태그*/
+h2,p,span,a,button{
+    font-family: 'Pretendard-Regular';
+    text-decoration: none;
+}
+/*h2같은 타이틀 스타일*/
+.title{
+    color:#F6A354;
+}
+
+/*로고 이미지 스타일*/
+.logoImg{
+    width:150px;
+    margin: 20px 0;
+}
+
+/*input 스타일**/
+input{
+    border: 1px solid #DADADA;
+    margin: 10px;
+    outline-color: #F6A354;
+}
+
+/*button 스타일*/
+button{
+    background-color: #F6A354;
+    color:#fff;
+    border: none;
+    border-radius: 8px;
+    width:100px;
+    height:40px;
+    
+}
+
+button:hover{
+    background-color: #f78b26;
+}
+
+/*로그인, 회원가입 공통*/
+.container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    width: 700px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px #adadad, 0 -3px 10px #adadad;
+}

@@ -1,0 +1,62 @@
+.signUp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* .signUp_container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    width: 40vw;
+    height: 50vh;
+    border-radius: 15px;
+    box-shadow: 0 3px 10px #F6A354, 0 -3px 10px #F6A354;
+} */
+.signUp_contents{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signUp_contents input{
+    width:500px;
+    height:50px;
+    border-radius: 28px;
+    border: 1px solid #DADADA;
+    font-size: 16px;
+    padding-left: 20px;
+}
+/*아이디 input*/
+.signUp_id {
+    display: flex;
+    position: relative;
+}
+
+.signUp_id button{
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right:25px;
+    width:80px;
+}
+
+/*회원가기, 돌아가기 버튼*/
+.sigUp_Btns button{
+    margin: 20px 0;
+}
+
+.sigUp_Btns button:first-child{
+    margin-right:10px;
+}
+
+/* 생년월일 */
+
+.birthDate{
+    width:100%;
+    height: auto;
+}
+
+.profilePhoto{
+    display:none;
+}

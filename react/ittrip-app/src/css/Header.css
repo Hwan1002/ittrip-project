@@ -1,0 +1,50 @@
+
+
+/* 클래스,아이디 규칙 : 카멜표기 */
+.header {
+    display: flex;
+    align-items: center;
+    /* 
+    justify-content: center; 
+     세로 중앙 정렬 */
+    width: 100%;            /* 가로 창 전체 너비 */
+    height: 100px;          /* 높이는 140px */
+    background-color: #F6A354;
+    position: fixed;        /* 스크롤 시 고정 */
+    top: 0;                 /* 화면 상단에 고정 */
+    left: 0;                /* 화면 왼쪽에 고정 */
+
+}
+.logo{
+    flex:1;
+}
+
+.headerLogo{
+    margin: 0 75px 0 75px;
+    width: 120px;
+}
+
+.menuBar{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.menu{
+    text-decoration: none;
+    margin:  20px 75px 10px 75px;
+    color: #fff;
+    font-size: 23px;
+}
+
+.headerBtn{
+    text-align: center;
+    flex:1;
+    font-size: 14px;
+}
+.headerBtn a{
+    margin-right: 10px;
+    color:#fff;
+    font-family: 'Pretendard-Regular';
+    font-weight: 100;
+}

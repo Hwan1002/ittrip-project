@@ -1,0 +1,36 @@
+<div className="signUp_container container">
+                    <div className="signUp_contents">
+                        <h2 className="title">회원가입</h2>
+                        <button
+                            onClick={() => {
+                                ImageUpload();
+                            }}
+                        >
+                            프로필 사진
+                        </button>
+                        {/* <input className='profilePhoto' type="file" accept="image/*" onChange={ImageUpload} ref={inputImg}/> */}
+                        <div className='signUp_id'>
+                            <input name="id_input" ref={inputUserId} type="text" placeholder='아이디를 입력하세요.' onChange={(e)=>{setUserId(e.target.value)}} value={userId}/>
+                            <button onClick={()=> idCheck(userId)}>중복체크</button>
+                        </div>
+                        <div>
+                            <input name="pwd_input" type="password" placeholder='비밀번호를 입력하세요.' onChange={(e)=>{setUserPwd(e.target.value)}}/>
+                        </div>
+                        <div>
+                            <input name="pwdCf_input" type="password" placeholder='비밀번호 확인.' onChange={(e)=>{setUserPwdConfirm(e.target.value)}} />
+                        </div>
+                        <div>
+                            <input type="text" placeholder='이름을 입력하세요.' onChange={(e) => {setUserName(e.target.value)}}/>
+                        </div>
+                        <div>
+                            <input name="email_input" type="email" placeholder='이메일을 입력하세요' onChange={(e)=>{setEmail(e.target.value)}}/>
+                        </div>
+                        <div>
+                            <input name="address_input" type="text" placeholder='주소를 입력하세요' onChange={(e)=>{setAddress(e.target.value)}} />
+                        </div>
+                        <div className="sigUp_Btns">
+                            <button className="sigupBtn" type="submit" onClick={signUp}>회원가입</button>
+                            <button className="backByn" type="submit" onClick={()=>navigate("/")}>돌아가기</button>
+                        </div>
+                    </div>
+                </div>
