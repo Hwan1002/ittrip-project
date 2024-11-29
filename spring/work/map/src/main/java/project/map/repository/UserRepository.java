@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import project.map.entity.UserEntity;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
 
 	UserEntity findByUserId(String userId); 
 	// 아이디 통해 entity 반환

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class UserService {
 		try {
 			// 필수 필드 검증
 			if (dto.getUserId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null || dto.getBirthDate() == null || dto.getAddress() == null
+					|| dto.getEmail() == null || dto.getAddress() == null
 					|| dto.getProfilePhoto() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
@@ -107,13 +106,13 @@ public class UserService {
 		return UserEntity.builder().idx(dto.getIdx()).userId(dto.getUserId())
 				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
 				.userName(dto.getUserName()).email(dto.getEmail()).address(dto.getAddress())
-				.profilePhoto(dto.getProfilePhoto()).birthDate(dto.getBirthDate()).build();
+				.profilePhoto(dto.getProfilePhoto()).build();
 	}
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
 		return UserDTO.builder().idx(entity.getIdx()).userId(entity.getUserId()).userName(entity.getUserName())
-				.email(entity.getEmail()).birthDate(entity.getBirthDate()).signupDate(entity.getSignupDate())
+				.email(entity.getEmail()).signupDate(entity.getSignupDate())
 				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
 	}
 
