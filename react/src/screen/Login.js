@@ -5,15 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Logo from "../components/Logo";
 import axios from "axios";
+import { ProjectContext } from "../context/ProjectContext";
+import { API_BASE_URL } from "../service/api-config";
 
 const Login = () => {
     //useState
-    const [logData, setLogData] = useState({
-        userId : '',
-        password : '',
-    })
-    const [loginSuccess , setLoginSuccess] = useState(false);
-
+    const { setLoginSuccess } = useContext(ProjectContext);
+    const [logData, setLogData] = useState({ userId : '', password : ''});
 
     //navigate
     const navigate = useNavigate();
@@ -26,9 +24,8 @@ const Login = () => {
     const handleLogin = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:9090/signin',logData);
+            const response = await axios.post(`${API_BASE_URL}`,logData);
             if(response.data){
-                setLoginSuccess(true);
                 alert("로그인 성공");
                 navigate("/");
             }else{
