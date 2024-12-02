@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@IdClass(TripId.class)
 public class TripEntity {
 	
 	@Id
@@ -38,13 +40,14 @@ public class TripEntity {
 	private Date updateDate;//데이터 수정한 날
 	private String title;	//여행 제목
 	
+	//관계 선언
 	@ManyToOne
-	@JoinColumn(name="id", referencedColumnName="id", insertable=false, updatable=false)
+	@JoinColumn(name="id", referencedColumnName="idx", insertable=false, updatable=false)
 	private UserEntity user;
 	
-	@OneToOne(mappedBy = "trip", cascade = CascadeType.ALL)
-	private MapEntity map;		//관계를 위한 정의
-	
-	@OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
-	private List<CheckListEntity> checklists;
+//	@OneToOne(mappedBy = "tripId", cascade = CascadeType.ALL)
+//	private MapEntity map;		//관계를 위한 정의
+//	
+//	@OneToMany(mappedBy = "tripId", cascade = CascadeType.ALL)
+//	private List<CheckListEntity> checklists;
 }
