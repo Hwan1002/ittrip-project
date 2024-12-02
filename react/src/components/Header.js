@@ -5,6 +5,7 @@ import logoWhite from '../img/logoWhite.svg'
 import { Link } from "react-router-dom";
 
 const Header=()=>{
+
     //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
     return(
         <div className="header">

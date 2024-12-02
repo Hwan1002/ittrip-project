@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idx; //식별자 
 	private String userId; // 회원아이디
 	private String password; // 비밀번호

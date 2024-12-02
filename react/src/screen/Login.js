@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import "../css/Login.css"
 import '../css/Reset.css'
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import Logo from "../components/Logo";
 import axios from "axios";
-// import { signin } from "../service/ApiService";
-
 
 const Login = () => {
     //useState
@@ -13,12 +12,8 @@ const Login = () => {
         userId : '',
         password : '',
     })
-    // const [id,setId]=useState('')
-    // const [pw,setPw]=useState('')
-    // const logInfo = {
-    //     "userId" : id,
-    //     "password" : pw,
-    // }
+    const [loginSuccess , setLoginSuccess] = useState(false);
+
 
     //navigate
     const navigate = useNavigate();
@@ -29,14 +24,11 @@ const Login = () => {
     }
 
     const handleLogin = async(e) => {
-
         e.preventDefault();
         try {
-            debugger;
             const response = await axios.post('http://localhost:9090/signin',logData);
-            console.log('로그인 응답 데이터:', response.data);
-            console.log()
             if(response.data){
+                setLoginSuccess(true);
                 alert("로그인 성공");
                 navigate("/");
             }else{
@@ -50,12 +42,8 @@ const Login = () => {
                 console.log("뭔 오류인지 모름")
                 alert("뭔 오류인지 모름")
             }
-            
         }
-        console.log("로그인 데이터 : " , logData);
-        
     }
-
     return (
         <div id="login">
             <div className="logoImg">
