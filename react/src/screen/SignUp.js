@@ -91,10 +91,10 @@ const SignUp = () => {
             if(error.response){
                 const { message, status } = error.response.data;
                 console.error(`서버측에서 에러던진 내용 (${status}): ${message}`);
-                alert(`중복체크 Error: ${message}`);
+                alert(`중복 체크 함수 Error 상태 ${status}: ${message}`);
             } else {
                 console.error('Unexpected error:', error);
-                alert('An unexpected error occurred.');
+                alert('중복 체크 함수 쪽 에러남 스프링 연결 확인');
             }
         }
     }
@@ -107,7 +107,7 @@ const SignUp = () => {
         //formData에서 빈값 체크
         const emptyValue = Object.keys(formData).find((key) => {
             const value = formData[key];
-            return typeof value === 'string' && value.trim() === '';
+            return value.trim() === '';
         });
 
         if(emptyValue){
@@ -132,7 +132,7 @@ const SignUp = () => {
                     const { message, status } = error.response.data;
                     alert(`회원가입 Error 상태 ${status} : ${message}`);
                 } else {
-                    alert('An unexpected error occurred.');
+                    alert('회원가입 함수 쪽 에러남 스프링 연결 확인.');
                 }
             }
         }
