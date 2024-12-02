@@ -30,10 +30,5 @@ public class TripService {
 		return wayPoints.split("|");
 	}
 	
-	//제목을 누르면 
-	public void showTitles(TripEntity entity) {
-		Optional<TripEntity> trip = tripRepository.findTripById(entity.getIdx(),entity.getId());
-		String title = trip.get().getTitle();
-		
-	}
+	
 }

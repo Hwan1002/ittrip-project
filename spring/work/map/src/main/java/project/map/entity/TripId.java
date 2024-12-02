@@ -3,6 +3,7 @@ package project.map.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+//TripEntity의 복합키를 구현하기 위한 클래스
 public class TripId implements Serializable {
     private int idx;
     private String id;

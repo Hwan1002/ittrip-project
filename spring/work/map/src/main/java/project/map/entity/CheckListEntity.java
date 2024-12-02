@@ -3,6 +3,7 @@ package project.map.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +18,14 @@ import lombok.NoArgsConstructor;
 public class CheckListEntity {
 	
 	@Id
-	private String idetifier;
-	private String checkList;
+	private String identifier;
+	
+	private String checkList;	//체크리스트 배열을 db저장을 위해 스트링으로 변환해서 받을 것
 	
 	@ManyToOne
-	@JoinColumn(name="identifier", referencedColumnName="idx", insertable=false, updatable=false)
-	private TripEntity trip;
+	@JoinColumns({
+		@JoinColumn(name = "idx"),
+        @JoinColumn(name = "id")
+    })
+    private TripEntity trip;
 }
