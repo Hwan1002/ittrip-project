@@ -39,7 +39,7 @@ public class UserService {
 		try {
 			// 필수 필드 검증
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null || dto.getBirthDate() == null || dto.getAddress() == null
+					|| dto.getEmail() == null  || dto.getAddress() == null
 					|| dto.getProfilePhoto() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}

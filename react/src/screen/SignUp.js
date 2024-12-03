@@ -76,6 +76,7 @@ const SignUp = () => {
 
     //중복 아이디 체크
     const idCheck = async() => {
+        debugger;
         try {
             if(formData.userId === '') {
                 alert("아이디를 입력하세요.")
