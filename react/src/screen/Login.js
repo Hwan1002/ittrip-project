@@ -5,15 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Logo from "../components/Logo";
 import axios from "axios";
+import { ProjectContext } from "../context/ProjectContext";
+import { API_BASE_URL } from "../service/api-config";
 
 const Login = () => {
     //useState
-    const [logData, setLogData] = useState({
-        userId : '',
-        password : '',
-    })
-    const [loginSuccess , setLoginSuccess] = useState(false);
-
+    const { setLoginSuccess } = useContext(ProjectContext);
+    const [logData, setLogData] = useState({ userId : '', password : ''});
 
     //navigate
     const navigate = useNavigate();
@@ -26,9 +24,8 @@ const Login = () => {
     const handleLogin = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:9090/signin',logData);
+            const response = await axios.post(`${API_BASE_URL}`,logData);
             if(response.data){
-                setLoginSuccess(true);
                 alert("로그인 성공");
                 navigate("/");
             }else{
@@ -50,8 +47,8 @@ const Login = () => {
                 <Logo/>
             </div>
             <div className="login_container container">
+            <form onSubmit={handleLogin}>
                 <div className="login_contents">
-                <form onSubmit={handleLogin}>
                     <h2 className="title">로그인</h2>
                     <div>
                         <input name="userId" type="text" onChange={handleChange} placeholder="아이디"/>
@@ -61,18 +58,15 @@ const Login = () => {
                     </div>
                     <div>
                         <button id="loginBt" type="submit">로그인하기</button>
-                    </div>
-                    <div>
-                        <button id="kakaoBt">카카오로 로그인하기</button>
-                    </div>
-                    <div>
+                        <button id="kakaoBt">
+                            <img src="../img/kakaotalk.png" alt="kakao" style={{width:"20px"}} />
+                            카카오로 로그인하기
+                        </button>
                         <button id="naverBt">네이버로 로그인하기</button>
-                    </div>
-                    <div>
                         <button id="googleBt">구글로 로그인하기</button>
                     </div>
-                    </form>
                 </div>
+                </form>
             </div>
             
         </div>

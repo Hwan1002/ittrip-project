@@ -1,0 +1,110 @@
+.newTrip {
+    display: flex; /* Flexbox 활성화 */
+    width: 1150px;
+    height: calc(100vh - 101px);
+    flex-direction: column; /* 자식 요소들을 세로로 나열 */
+    align-items: center; /* 자식 요소들을 가로로 중앙 정렬 */
+    justify-content: center; /* 자식 요소들을 위에서부터 배치 */
+    height: 100vh; /* 화면 전체 높이에 맞추기 (선택 사항) */
+    padding: 20px; /* 여백 추가 (선택 사항) */
+    background-color: rgba(255,255,255,0.7);
+    box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
+    margin-top: 100px;
+}
+
+
+
+
+.bigPlan{
+    width:260px;
+    height: 45px;
+    border:3px solid #DADADA;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 18px;
+    margin: 8px 20px 0 20px;
+}
+
+#rootSet{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#locationFrame{
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    border: 3px solid #DADADA;
+    border-right: none;
+    border-left: none;
+    width: 875px;
+    height: 335px;
+}
+
+#newMap{
+    height: 100%;
+    background-color: rgb(190, 190, 190);
+}
+
+#addDirectionFrame{
+    height: 100%;
+    overflow-y: scroll;
+
+}
+
+#checkAndEnd{
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    width:875px;
+    height: 313px;
+}
+
+#checkListFrame{
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    align-items: center;
+}
+
+#checkList{
+    border : 3px solid #DADADA;
+    border-right: none;
+    border-left: none;
+    width: 490px;
+    height: 245px;
+    overflow-y:scroll;
+    padding-left: 30px;
+}
+
+#newEnd,#newNoBack{
+    width :267px;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    font-size: 20px;
+    margin: 20px 0 10px 50px;
+    
+}
+
+#endBtFrame{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#newEnd{   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F6A354;   
+    color: #fff;
+}
+
+#newNoBack{
+    background-color: #a1a1a1;
+    color: #fff;
+}

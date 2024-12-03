@@ -43,8 +43,12 @@ public class TripEntity {
 	
 	//관계 선언
 	@ManyToOne
+<<<<<<< HEAD
+	@JoinColumn(name="idx")
+=======
 	@JoinColumn(name="userId", referencedColumnName="id")
 	@MapsId("userId")
+>>>>>>> test
 	private UserEntity user;
 	
 //	@OneToOne(mappedBy = "tripId", cascade = CascadeType.ALL)
