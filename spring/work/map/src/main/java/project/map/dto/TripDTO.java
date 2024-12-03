@@ -14,13 +14,13 @@ import project.map.entity.TripEntity;
 @Data
 public class TripDTO {
 	
-	private String id;
+	private String userId;
 	private String title;
 	private Date startDate;
 	private Date lastDate;
 	
 	public TripDTO(TripEntity entity) {
-		this.id = entity.getId();
+		this.userId = entity.getUserId();
 		this.title = entity.getTitle();
 		this.startDate = entity.getStartDate();
 		this.lastDate = entity.getLastDate();
@@ -28,7 +28,7 @@ public class TripDTO {
 	
 	public static TripEntity toEntity(TripDTO dto) {
 		return TripEntity.builder().
-				id(dto.getId()).
+				userId(dto.getUserId()).
 				title(dto.getTitle()).
 				startDate(dto.getStartDate()).
 				lastDate(dto.getLastDate()).

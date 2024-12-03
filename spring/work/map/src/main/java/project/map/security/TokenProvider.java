@@ -34,9 +34,9 @@ public class TokenProvider {
 	public String create(UserEntity entity) {
 		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 
-		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(entity.getUserId())
+		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(entity.getId())
 				.setIssuer("map").setIssuedAt(new Date()).setExpiration(expiryDate).compact();
-		log.info("Token created for user: {}", entity.getUserId());
+		log.info("Token created for user: {}", entity.getId());
 
 		return token;
 	}

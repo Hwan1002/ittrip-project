@@ -21,9 +21,8 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idx; //식별자 
-	private String userId; // 회원아이디
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	private String id; // 회원아이디
 	private String password; // 비밀번호
 	private String userName ; // 이름
 	private String email; // 이메일

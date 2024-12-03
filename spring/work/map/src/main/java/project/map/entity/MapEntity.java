@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +28,7 @@ public class MapEntity {
 	private int days;				//일자
 	
 	@OneToOne
-	@JoinColumns({
-		@JoinColumn(name = "idx"),
-        @JoinColumn(name = "id")
-    })
-	private TripEntity trip;
+	@JoinColumn(name = "trip_idx",referencedColumnName="idx")
+	@MapsId("identifier")
+    private TripEntity trip;
 }
