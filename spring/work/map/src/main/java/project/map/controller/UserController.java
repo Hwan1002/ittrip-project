@@ -45,7 +45,7 @@ public class UserController {
 	// 로그인
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticate(@RequestBody UserDTO dto) {
-		UserDTO user = service.getByCredentials(dto.getUserId(), dto.getPassword());
+		UserDTO user = service.getByCredentials(dto.getId(), dto.getPassword());
 		if (user != null) {
 
 			ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
@@ -62,13 +62,13 @@ public class UserController {
 	// 중복체크
 	@PostMapping("/")
 	public ResponseEntity<?> duplicate(@RequestBody UserDTO dto) {
-		return ResponseEntity.ok(service.duplicate(dto.getUserId()));
+		return ResponseEntity.ok(service.duplicate(dto.getId()));
 	}
 
 	// 회원정보 수정
 	@PutMapping
 	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId,@RequestBody UserDTO dto) {
-		service.modify(dto.getUserId(),dto);
+		service.modify(dto.getId(),dto);
 		return ResponseEntity.ok("회원정보 수정완료");
 
 	}
