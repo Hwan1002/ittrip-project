@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -105,11 +104,12 @@ public class UserService {
 		return UserEntity.builder().id(dto.getId())
 				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
 				.userName(dto.getUserName()).email(dto.getEmail()).address(dto.getAddress())
-				.profilePhoto(dto.getProfilePhoto()).birthDate(dto.getBirthDate()).build();
+				.profilePhoto(dto.getProfilePhoto()).build();
 	}
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
+
 		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
 				.email(entity.getEmail()).birthDate(entity.getBirthDate()).signupDate(entity.getSignupDate())
 				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
