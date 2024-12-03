@@ -15,7 +15,7 @@ const Header=()=>{
         alert("로그아웃 성공");
         navigate('/login');
       };
-
+    console.log("로그인 성공 여부 ",loginSuccess);
     //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
     return(
         <div className="header">
@@ -33,14 +33,12 @@ const Header=()=>{
                         <Link className="logout" onClick={handleLogout}>LOGOUT</Link>
                         <Link className="mypage" to={'/mypage'}>MYPAGE</Link>
                     </>
-                    ):(
-                        <>
-                            <Link className="login" to={'/login'}>LOGIN</Link>
-                            <Link className="signup" to={'/signup'}>SIGNUP</Link>
-                        </>
-                    )
-                }
-                
+                ):(
+                    <>
+                        <Link className="login" to={'/login'}>LOGIN</Link>
+                        <Link className="signup" to={'/signup'}>SIGNUP</Link>
+                    </>
+                )}
             </div>
         </div>
     )

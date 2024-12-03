@@ -81,7 +81,8 @@ const SignUp = () => {
             if(formData.userId === '') {
                 alert("아이디를 입력하세요.")
             }else{
-                const response = await axios.post(`${API_BASE_URL}/check`,{userId : formData.userId})
+                console.log(formData);
+                const response = await axios.post(`${API_BASE_URL}/check`,{id : formData.userId})
                 if(response.data){
                     alert("중복된 아이디 입니다.");
                 }else{

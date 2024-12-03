@@ -13,7 +13,6 @@ function App() {
   return (
     <BrowserRouter>
     <ProjectProvider>
-      <div className='app'>
         <Header/>
         <Routes>
           <Route path="/" element={<Main/>}/>
@@ -24,7 +23,6 @@ function App() {
           <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
         </Routes>
-      </div>
       </ProjectProvider>
     </BrowserRouter>
   );

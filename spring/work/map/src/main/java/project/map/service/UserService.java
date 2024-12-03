@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,13 +40,13 @@ public class UserService {
 		try {
 			// 필수 필드 검증
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null  || dto.getAddress() == null
-					|| dto.getProfilePhoto() == null) {
+					|| dto.getEmail() == null || dto.getAddress() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			// UserEntity 빌드
 			UserEntity entity = toEntity(dto);
 			final String userId = entity.getId();
+			
 			if (repository.existsById(userId)) {
 				log.warn("UserId already exist {}", userId);
 				throw new RuntimeException("UserName alredy exist");
@@ -55,13 +56,14 @@ public class UserService {
 			return toDTO(entity);
 		} catch (Exception e) {
 			// 예외 발생 시 로그를 남기고 사용자 정의 예외를 던짐
+			
 			throw new RuntimeException("유저 생성에 실패했습니다: " + e.getMessage(), e);
 		}
 	}
 
 	// signin을 위한 userId , password 검증
-	public UserDTO getByCredentials(String id, String password) {
-		UserEntity entity = repository.findById(id).get();
+	public UserDTO getByCredentials(String userId, String password) {
+		UserEntity entity = repository.findById(userId).get();
 		if (entity != null && passwordEncoder.matches(password, entity.getPassword())) {
 			final String token = tokenProvider.create(entity);
 			UserDTO dto = toDTO(entity);
@@ -75,8 +77,8 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 , 주소 ,프로필사진
 	@Transactional
-	public void modify(String id, UserDTO dto) {
-		UserEntity entity = repository.findById(id).get();
+	public void modify(String userId, UserDTO dto) {
+		UserEntity entity = repository.findById(userId).get();
 		entity.setPassword(dto.getPassword());
 		entity.setAddress(dto.getAddress());
 		entity.setProfilePhoto(dto.getProfilePhoto());
@@ -86,14 +88,14 @@ public class UserService {
 
 	// 회원 삭제
 	@Transactional
-	public void delete(String id) {
-		UserEntity entity = repository.findById(id).get();
+	public void delete(String userId) {
+		UserEntity entity =repository.findById(userId).get();
 		repository.delete(entity);
 	}
 
 	// 중복체크
-	public boolean duplicate(String id) {
-		if (repository.existsById(id)) {
+	public boolean duplicate(String Id) {
+		if (repository.existsById(Id)) {
 			return true;
 		}
 		return false;
@@ -109,9 +111,8 @@ public class UserService {
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
-
 		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
-				.email(entity.getEmail()).birthDate(entity.getBirthDate()).signupDate(entity.getSignupDate())
+				.email(entity.getEmail()).signupDate(entity.getSignupDate())
 				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
 	}
 

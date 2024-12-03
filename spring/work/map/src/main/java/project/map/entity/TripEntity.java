@@ -1,4 +1,3 @@
-
 //package project.map.entity;
 //
 //import java.sql.Date;

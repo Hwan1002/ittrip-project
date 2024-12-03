@@ -29,6 +29,7 @@ const Login = () => {
             if(response.data && response.data.value.token){
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
+                setLoginSuccess(true);
                 alert("로그인 성공");
                 navigate("/");
             }else{
