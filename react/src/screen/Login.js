@@ -47,8 +47,8 @@ const Login = () => {
                 <Logo/>
             </div>
             <div className="login_container container">
+            <form onSubmit={handleLogin}>
                 <div className="login_contents">
-                <form onSubmit={handleLogin}>
                     <h2 className="title">로그인</h2>
                     <div>
                         <input name="userId" type="text" onChange={handleChange} placeholder="아이디"/>
@@ -58,18 +58,15 @@ const Login = () => {
                     </div>
                     <div>
                         <button id="loginBt" type="submit">로그인하기</button>
-                    </div>
-                    <div>
-                        <button id="kakaoBt">카카오로 로그인하기</button>
-                    </div>
-                    <div>
+                        <button id="kakaoBt">
+                            <img src="../img/kakaotalk.png" alt="kakao" style={{width:"20px"}} />
+                            카카오로 로그인하기
+                        </button>
                         <button id="naverBt">네이버로 로그인하기</button>
-                    </div>
-                    <div>
                         <button id="googleBt">구글로 로그인하기</button>
                     </div>
-                    </form>
                 </div>
+                </form>
             </div>
             
         </div>

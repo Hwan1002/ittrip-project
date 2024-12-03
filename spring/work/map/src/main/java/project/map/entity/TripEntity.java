@@ -42,7 +42,7 @@ public class TripEntity {
 	
 	//관계 선언
 	@ManyToOne
-	@JoinColumn(name="id", referencedColumnName="idx", insertable=false, updatable=false)
+	@JoinColumn(name="idx")
 	private UserEntity user;
 	
 //	@OneToOne(mappedBy = "tripId", cascade = CascadeType.ALL)
