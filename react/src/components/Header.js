@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import '../css/Header.css'
 import '../css/Reset.css'
-import logoWhite from '../img/logoWhite.svg'
+import logo from '../img/logo.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { ProjectContext} from "../context/ProjectContext";
 
@@ -20,13 +20,12 @@ const Header=()=>{
     return(
         <div className="header">
             <Link className="logo" to={'/'}>
-                <img className="headerLogo" src={logoWhite} alt="Logo"/>
+                <img className="headerLogo" src={logo} alt="Logo"/>
             </Link>
             <nav className="menuBar">
-                <Link className="menu" to={'/entireplan'}>Menu1</Link>
-                <Link className="menu" to={'/login'}>Menu2</Link>
-                <Link className="menu" to={'/map'}>Menu3</Link>
-                <Link className="menu" to={'/'}>Menu4</Link>
+                <Link className="menu" to={'/'}>Main</Link>
+                <Link className="menu" to={'/entireplan'}>My Plan</Link>
+                <Link className="menu" to={'/newtrip'}>New Plan</Link>
             </nav>
             <div className="headerBtn">
                 {loginSuccess ? (

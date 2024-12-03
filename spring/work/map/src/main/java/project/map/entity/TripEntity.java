@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class TripEntity {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idx;
 	@Id
-	private String id;
+	private String userId;
 	
 	private Date startDate;	//계획첫날
 	private Date lastDate; //계획마지막날
@@ -42,7 +43,12 @@ public class TripEntity {
 	
 	//관계 선언
 	@ManyToOne
+<<<<<<< HEAD
 	@JoinColumn(name="idx")
+=======
+	@JoinColumn(name="userId", referencedColumnName="id")
+	@MapsId("userId")
+>>>>>>> test
 	private UserEntity user;
 	
 //	@OneToOne(mappedBy = "tripId", cascade = CascadeType.ALL)

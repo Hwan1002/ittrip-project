@@ -16,8 +16,7 @@ public class UserDTO {
 
 	private String token ; // 토큰인증방식 사용시 사용될 토큰
 	
-	private Long idx; //식별자 
-	private String userId; // 회원아이디
+	private String id; // 회원아이디(식별자)
 	private String password; // 비밀번호
 	private String userName ; // 이름
 	private String email; // 이메일
@@ -30,8 +29,7 @@ public class UserDTO {
 	
 	
 	public  UserDTO(UserEntity entity) {
-		this.idx =entity.getIdx() ;
-		this.userId = entity.getUserId() ;
+		this.id = entity.getId() ;
 		this.userName = entity.getUserName() ;
 		this.email = entity.getEmail() ;
 		this.birthDate = entity.getBirthDate();
