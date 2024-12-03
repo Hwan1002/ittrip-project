@@ -3,11 +3,13 @@ package project.map.entity;
 import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +19,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "USER")
 @Entity
 public class UserEntity {
-
+	
 	@Id
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private String id; // 회원아이디
 	private String password; // 비밀번호
@@ -32,6 +36,6 @@ public class UserEntity {
 	private Date birthDate; // 생년월일
 	@CreationTimestamp
 	private Date signupDate; // 회원가입 날짜 
-}
 
+}
 

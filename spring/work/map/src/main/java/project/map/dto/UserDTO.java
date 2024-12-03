@@ -2,6 +2,8 @@ package project.map.dto;
 
 import java.util.Date;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +11,11 @@ import lombok.NoArgsConstructor;
 import project.map.entity.UserEntity;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserDTO {
+	
 
 	private String token ; // 토큰인증방식 사용시 사용될 토큰
 	
@@ -27,18 +30,16 @@ public class UserDTO {
 	
 	
 	
+
 	
 	public  UserDTO(UserEntity entity) {
 		this.id = entity.getId() ;
 		this.userName = entity.getUserName() ;
 		this.email = entity.getEmail() ;
-		this.birthDate = entity.getBirthDate();
 		this.signupDate = entity.getSignupDate();
 		this.address = entity.getAddress() ;
 		this .profilePhoto = entity.getProfilePhoto() ;
 	}
-	
-	
 	
 	
 }
