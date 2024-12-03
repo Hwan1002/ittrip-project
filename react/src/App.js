@@ -9,6 +9,7 @@ import Map from './components/Map';
 import SignUp from './screen/SignUp';
 import NewTrip from './screen/NewTrip';
 import AddData from './components/AddData';
+import AddRoot from './components/AddRoot';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/entireplan" element={<EntirePlan/>}/>
           <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/test" element={<AddRoot/>}/>
         </Routes>
       </div>
     </BrowserRouter>
