@@ -22,13 +22,10 @@ public class TokenProvider {
 
 	      Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 
-	      return Jwts.builder()
-	    		.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-	            .setSubject(entity.getUserId())
-	            .setIssuer("demo app") 
-	            .setIssuedAt(new Date())
-	            .setExpiration(expiryDate) 
-	            .compact(); 
+		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(entity.getId())
+				.setIssuer("map").setIssuedAt(new Date()).setExpiration(expiryDate).compact();
+		log.info("Token created for user: {}", entity.getId());
+
 
 	   }
 	   

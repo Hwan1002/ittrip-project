@@ -38,14 +38,14 @@ public class UserService {
 	public UserDTO create(UserDTO dto) {
 		try {
 			// 필수 필드 검증
-			if (dto.getUserId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null || dto.getAddress() == null
+			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
+					|| dto.getEmail() == null || dto.getBirthDate() == null || dto.getAddress() == null
 					|| dto.getProfilePhoto() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			// UserEntity 빌드
 			UserEntity entity = toEntity(dto);
-			final String userId = entity.getUserId();
+			final String userId = entity.getId();
 			if (repository.existsByUserId(userId)) {
 				log.warn("UserId already exist {}", userId);
 				throw new RuntimeException("UserName alredy exist");
@@ -75,9 +75,8 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 , 주소 ,프로필사진
 	@Transactional
-	public void modify(String userId, UserDTO dto) {
-		UserEntity entity = repository.findById(repository.findByUserId(userId).getIdx())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다 ."));
+	public void modify(String id, UserDTO dto) {
+		UserEntity entity = repository.findByUserId(id);
 		entity.setPassword(dto.getPassword());
 		entity.setAddress(dto.getAddress());
 		entity.setProfilePhoto(dto.getProfilePhoto());
@@ -87,9 +86,8 @@ public class UserService {
 
 	// 회원 삭제
 	@Transactional
-	public void delete(String userId) {
-		UserEntity entity = repository.findById(repository.findByUserId(userId).getIdx())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다 ."));
+	public void delete(String id) {
+		UserEntity entity = repository.findByUserId(id);
 		repository.delete(entity);
 	}
 
@@ -103,7 +101,7 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-		return UserEntity.builder().idx(dto.getIdx()).userId(dto.getUserId())
+		return UserEntity.builder().id(dto.getId())
 				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
 				.userName(dto.getUserName()).email(dto.getEmail()).address(dto.getAddress())
 				.profilePhoto(dto.getProfilePhoto()).build();
@@ -111,8 +109,9 @@ public class UserService {
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
-		return UserDTO.builder().idx(entity.getIdx()).userId(entity.getUserId()).userName(entity.getUserName())
-				.email(entity.getEmail()).signupDate(entity.getSignupDate())
+
+		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
+				.email(entity.getEmail()).birthDate(entity.getBirthDate()).signupDate(entity.getSignupDate())
 				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
 	}
 
