@@ -20,10 +20,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @IdClass(TripId.class)
 public class TripEntity {
@@ -43,12 +44,8 @@ public class TripEntity {
 	
 	//관계 선언
 	@ManyToOne
-<<<<<<< HEAD
-	@JoinColumn(name="idx")
-=======
 	@JoinColumn(name="userId", referencedColumnName="id")
 	@MapsId("userId")
->>>>>>> test
 	private UserEntity user;
 	
 //	@OneToOne(mappedBy = "tripId", cascade = CascadeType.ALL)
