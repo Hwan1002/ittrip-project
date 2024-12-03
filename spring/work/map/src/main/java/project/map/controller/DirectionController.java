@@ -17,7 +17,6 @@ public class DirectionController {
 	@Value("${naver.api.url}")
     private String apiUrl;					//Directions 15 요청 서버 url	
 											//https://naveropenapi.apigw.ntruss.com/map-direction-15
-
     @Value("${naver.api.key.id}")			//client-id
     private String apiKeyId;
 
@@ -33,6 +32,7 @@ public class DirectionController {
     @GetMapping("/v1/driving")				//baseurl에 포함시키려했으나 권장하지 않는대서 여기에 넣음
     public ResponseEntity<?> getDirections(
             @RequestParam String start,		//127.74645%2C37.64424 형태로 보내야함
+            @RequestParam String wayPoints,
             @RequestParam String goal
             		//기본값 trafast
     ){
@@ -41,6 +41,7 @@ public class DirectionController {
         String response = webClient.get()
                 .uri(uriBuilder -> uriBuilder		//uri를 빌드(파라미터들,헤더)
                         .queryParam("start", start)
+                        .queryParam("wayPoints", wayPoints)
                         .queryParam("goal", goal)
                         .build())
                 .header("x-ncp-apigw-api-key-id", apiKeyId)

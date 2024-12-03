@@ -32,7 +32,6 @@ public class UserEntity {
 	private String address; //주소
 	private String profilePhoto; //프로필사진
 	private String authProvider; //소셜로그인공급자
-	@CreationTimestamp
-	private Date signupDate; //회원가입 날짜
+
 }
 

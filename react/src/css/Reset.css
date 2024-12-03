@@ -58,7 +58,6 @@ button:hover{
     align-items: center;
     background-color: #ffffff;
     width: 700px;
-    height: auto;
     border-radius: 15px;
     box-shadow: 0 3px 10px #adadad, 0 -3px 10px #adadad;
 }
