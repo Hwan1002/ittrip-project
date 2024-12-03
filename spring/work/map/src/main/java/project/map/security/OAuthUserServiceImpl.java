@@ -70,7 +70,7 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		// 유저가 존재하지 않으면 새로 생성한다.
 		if (repository.existsByUserId(userId) == false) {
 			userEntity = UserEntity.builder()
-								.userId(userId)
+								.id(userId)
 								.authProvider(authProvider)
 								.profilePhoto(profilePhoto)
 								.build();
@@ -80,6 +80,6 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		}
 
 		log.info("Successfully pulled user info username {} authProvider {} image {}", userId, authProvider,profilePhoto);
-		return new ApplicationOAuth2User(userEntity.getIdx(), oAuth2User.getAttributes());
+		return new ApplicationOAuth2User(userEntity.getId(), oAuth2User.getAttributes());
 	}
 }
