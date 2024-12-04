@@ -48,18 +48,24 @@ body, html {
     font-weight: 550;
 }
 
-#loginBt{
+.socialBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginBt{
     background-color: #FFA551;
 }
 
-#kakaoBt{
+.kakaoBt{
     background-color: #FEE500;
 }
 
-#naverBt{
+.naverBt{
     background-color: #00ff1f;
 }
 
-#googleBt{
+.googleBt{
     background-color: #00aee1;
 }

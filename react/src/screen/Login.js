@@ -4,6 +4,7 @@ import '../css/Reset.css'
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Logo from "../components/Logo";
+import kakao from "../img/kakaotalk.png";
 import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
 import { API_BASE_URL } from "../service/api-config";
@@ -11,7 +12,7 @@ import { API_BASE_URL } from "../service/api-config";
 const Login = () => {
     //useState
     const { setLoginSuccess } = useContext(ProjectContext);
-    const [logData, setLogData] = useState({ userId : '', password : ''});
+    const [logData, setLogData] = useState({ id : '', password : ''});
 
     //navigate
     const navigate = useNavigate();
@@ -55,19 +56,19 @@ const Login = () => {
                 <div className="login_contents">
                     <h2 className="title">로그인</h2>
                     <div>
-                        <input name="userId" type="text" onChange={handleChange} placeholder="아이디"/>
+                        <input name="id" type="text" onChange={handleChange} placeholder="아이디"/>
                     </div>
                     <div>
                         <input name="password" type="password" onChange={handleChange} placeholder="비밀번호" />
                     </div>
                     <div>
-                        <button id="loginBt" type="submit">로그인하기</button>
-                        <button id="kakaoBt">
-                            <img src="../img/kakaotalk.png" alt="kakao" style={{width:"20px"}} />
+                        <button className="loginBt" type="submit">로그인</button>
+                        <button className="kakaoBt socialBtn">
+                            <img src={kakao} alt="kakao" style={{width:"20px"}} />
                             카카오로 로그인하기
                         </button>
-                        <button id="naverBt">네이버로 로그인하기</button>
-                        <button id="googleBt">구글로 로그인하기</button>
+                        <button className="naverBt socialBtn">네이버로 로그인하기</button>
+                        <button className="googleBt socialBtn">구글로 로그인하기</button>
                     </div>
                 </div>
                 </form>

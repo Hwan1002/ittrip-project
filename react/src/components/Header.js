@@ -2,20 +2,19 @@ import React, { useContext } from "react";
 import '../css/Header.css'
 import '../css/Reset.css'
 import logo from '../img/Logo/logo.svg'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ProjectContext} from "../context/ProjectContext";
 
 
 const Header=()=>{
 
     const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
-    const navigate = useNavigate();
+
     const handleLogout = () => {
         setLoginSuccess(false);
         alert("로그아웃 성공");
-        navigate('/login');
-      };
-    console.log("로그인 성공 여부 ",loginSuccess);
+    };
+
     //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
     return(
         <div className="header">
@@ -30,7 +29,7 @@ const Header=()=>{
             <div className="headerBtn">
                 {loginSuccess ? (
                     <>
-                        <Link className="logout" onClick={handleLogout}>LOGOUT</Link>
+                        <Link className="logout" onClick={handleLogout} to={'/'}>LOGOUT</Link>
                         <Link className="mypage" to={'/mypage'}>MYPAGE</Link>
                     </>
                 ):(
