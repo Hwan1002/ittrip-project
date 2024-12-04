@@ -48,6 +48,6 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		//orElseGet(()-> LOCAL_REDIRECT_URL) 
 		//Optional객체가 값이 있으면 해당 값을 반환하고, 없으면 orElseGet()에 제공된
 		//함수가 실행되어 그 결과를 반환한다.
-		response.sendRedirect(redirectUri.orElseGet(()-> LOCAL_REDIRECT_URL)+"/socialLogin?token="+token);
+		response.sendRedirect(redirectUri.orElseGet(()-> LOCAL_REDIRECT_URL));
 	}
 }

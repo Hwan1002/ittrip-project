@@ -85,7 +85,7 @@ const SignUp = () => {
             if(formData.id === '') {
                 alert("아이디를 입력하세요.")
             }else{
-                const response = await axios.post(`${API_BASE_URL}/check`,{"id" : formData.id})
+                const response = await axios.post(`${API_BASE_URL}/check`,{id : formData.id})
                 if(response.data){
                     alert("중복된 아이디 입니다.");
                 }else{
@@ -122,8 +122,6 @@ const SignUp = () => {
             alert("비밀번호 확인란을 입력해 주세요.")
         }else if(formData.password !== userPwdConfirm){
             alert("비밀번호가 일치하지 않습니다.")
-        }else if(!formData.profilePhoto){
-            alert("프로필 사진을 설정해주세요.")
         }else{
             debugger;
             try{  
