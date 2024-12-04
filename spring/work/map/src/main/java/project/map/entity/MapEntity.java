@@ -30,7 +30,7 @@ public class MapEntity {
 	@Column(name = "idx", nullable = false)
     private Integer idx; // Primary Key
 	
-	@Column(name = "start", nullable = false , length = 30)
+	@Column(name = "`start`", nullable = false , length = 30)
     private String start;   // 출발지
 	
 	@Column(name = "goal", nullable = false , length = 30)
@@ -39,16 +39,17 @@ public class MapEntity {
 	@Column(name = "waypoints", length = 255)
     private String waypoints; // 경유지
 	
-	@Column(name = "day", nullable = false , length = 10)
-    private int day;       // 일자
+	@Column(name = "days", nullable = false , length = 10)
+    private int days;       // 일자
     
     
     @ManyToOne
-    @JoinColumns({
-    	 @JoinColumn(name = "user_id", referencedColumnName = "user_id"), // TripEntity의 만 매핑
     	 @JoinColumn(name = "trip_title", referencedColumnName = "title") // TripEntity의 만 매핑
-    })
     private TripEntity trip; // 외래 키 매핑
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id",nullable=false) // 외래키: user_id
+    private UserEntity user;
 	
 	
 }
