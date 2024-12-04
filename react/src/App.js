@@ -8,12 +8,12 @@ import SignUp from './screen/SignUp'
 import { ProjectProvider } from './context/ProjectContext';
 import MyPage from './components/MyPage';
 import NewTrip from './screen/NewTrip';
+import SocialLogin from './components/SocialLogin';
 
 function App() {
   return (
     <BrowserRouter>
     <ProjectProvider>
-      <div className='app'>
         <Header/>
         <Routes>
           <Route path="/" element={<Main/>}/>
@@ -23,8 +23,8 @@ function App() {
           <Route path="/map" element={<Map/>}/>
           <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
+          <Route path="/socialLogin" element={<SocialLogin/>}/>
         </Routes>
-      </div>
       </ProjectProvider>
     </BrowserRouter>
   );

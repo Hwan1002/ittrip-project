@@ -39,6 +39,7 @@ public class MapEntity {
 	@Column(name = "waypoints_point", length = 255)
     private String waypointsPoint; // 경유지좌표
 	
+
 	@Column(name = "start_place", nullable = false , length = 30)
     private String startPlace;   // 출발지지번주소
 	
@@ -53,7 +54,7 @@ public class MapEntity {
     
     
     @ManyToOne
-    	 @JoinColumn(name = "trip_title", referencedColumnName = "title") // TripEntity의 만 매핑
+    @JoinColumn(name = "trip_title", referencedColumnName = "title") // TripEntity의 만 매핑
     private TripEntity trip; // 외래 키 매핑
     
     @ManyToOne
