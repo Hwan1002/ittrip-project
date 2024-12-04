@@ -30,14 +30,23 @@ public class MapEntity {
 	@Column(name = "idx", nullable = false)
     private Integer idx; // Primary Key
 	
-	@Column(name = "`start`", nullable = false , length = 30)
-    private String start;   // 출발지
+	@Column(name = "start_point", nullable = false , length = 30)
+    private String startPoint;   // 출발지좌표
 	
-	@Column(name = "goal", nullable = false , length = 30)
-    private String goal;    // 목적지
+	@Column(name = "goal_point", nullable = false , length = 30)
+    private String goalPoint;    // 목적지좌표
 	
-	@Column(name = "waypoints", length = 255)
-    private String waypoints; // 경유지
+	@Column(name = "waypoints_point", length = 255)
+    private String waypointsPoint; // 경유지좌표
+	
+	@Column(name = "start_place", nullable = false , length = 30)
+    private String startPlace;   // 출발지지번주소
+	
+	@Column(name = "goal_place", nullable = false , length = 30)
+    private String goalPlace;    // 목적지지번주소
+	
+	@Column(name = "waypoints_place", length = 255)
+    private String waypointsPlace; // 경유지지번주소
 	
 	@Column(name = "days", nullable = false , length = 10)
     private int days;       // 일자
