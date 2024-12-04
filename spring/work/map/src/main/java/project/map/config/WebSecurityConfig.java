@@ -55,9 +55,9 @@ public class WebSecurityConfig {
          
          .authorizeHttpRequests(authorizeRequestsConfigurer -> 
             authorizeRequestsConfigurer
-            .requestMatchers("/", "/auth/**","/oauth2/**").permitAll()
+            .requestMatchers("/", "/**","/auth/**","/oauth2/**").permitAll()
             .anyRequest().authenticated()
-         )
+         ) 
          .oauth2Login()
          .redirectionEndpoint()
          .baseUri("/login/oauth2/code/*")
