@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import '../css/Header.css'
 import '../css/Reset.css'
 
-import logo from '../img/logo.svg'
+import logo from '../img/Logo/logo.svg'
 
 
 

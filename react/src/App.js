@@ -27,6 +27,7 @@ function App() {
           <Route path="/entireplan" element={<EntirePlan/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/test" element={<AddRoot/>}/>
+          <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/map" element={<Map/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
         </Routes>
