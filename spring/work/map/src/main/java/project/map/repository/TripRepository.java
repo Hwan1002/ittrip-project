@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import project.map.entity.TripEntity;
-import project.map.entity.TripId;
-@Repository
-public interface TripRepository extends JpaRepository<TripEntity, TripId> {
 
-	public Optional<TripEntity> findTripById(int idx,String id);
+@Repository
+public interface TripRepository extends JpaRepository<TripEntity, Integer> {
+
+	
 }

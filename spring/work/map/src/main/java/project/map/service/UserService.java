@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,15 +38,15 @@ public class UserService {
 	public UserDTO create(UserDTO dto) {
 		try {
 			// 필수 필드 검증
-			if (dto.getUserId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null || dto.getBirthDate() == null || dto.getAddress() == null
+			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
+					|| dto.getEmail() == null  || dto.getAddress() == null
 					|| dto.getProfilePhoto() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			// UserEntity 빌드
 			UserEntity entity = toEntity(dto);
-			final String userId = entity.getUserId();
-			if (repository.existsByUserId(userId)) {
+			final String userId = entity.getId();
+			if (repository.existsById(userId)) {
 				log.warn("UserId already exist {}", userId);
 				throw new RuntimeException("UserName alredy exist");
 			}
@@ -61,8 +60,8 @@ public class UserService {
 	}
 
 	// signin을 위한 userId , password 검증
-	public UserDTO getByCredentials(String userId, String password) {
-		UserEntity entity = repository.findByUserId(userId);
+	public UserDTO getByCredentials(String id, String password) {
+		UserEntity entity = repository.findById(id).get();
 		if (entity != null && passwordEncoder.matches(password, entity.getPassword())) {
 			final String token = tokenProvider.create(entity);
 			UserDTO dto = toDTO(entity);
@@ -76,9 +75,8 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 , 주소 ,프로필사진
 	@Transactional
-	public void modify(String userId, UserDTO dto) {
-		UserEntity entity = repository.findById(repository.findByUserId(userId).getIdx())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다 ."));
+	public void modify(String id, UserDTO dto) {
+		UserEntity entity = repository.findById(id).get();
 		entity.setPassword(dto.getPassword());
 		entity.setAddress(dto.getAddress());
 		entity.setProfilePhoto(dto.getProfilePhoto());
@@ -88,15 +86,14 @@ public class UserService {
 
 	// 회원 삭제
 	@Transactional
-	public void delete(String userId) {
-		UserEntity entity = repository.findById(repository.findByUserId(userId).getIdx())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다 ."));
+	public void delete(String id) {
+		UserEntity entity = repository.findById(id).get();
 		repository.delete(entity);
 	}
 
 	// 중복체크
-	public boolean duplicate(String userId) {
-		if (repository.existsByUserId(userId)) {
+	public boolean duplicate(String id) {
+		if (repository.existsById(id)) {
 			return true;
 		}
 		return false;
@@ -104,16 +101,17 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-		return UserEntity.builder().idx(dto.getIdx()).userId(dto.getUserId())
+		return UserEntity.builder().id(dto.getId())
 				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
 				.userName(dto.getUserName()).email(dto.getEmail()).address(dto.getAddress())
-				.profilePhoto(dto.getProfilePhoto()).birthDate(dto.getBirthDate()).build();
+				.profilePhoto(dto.getProfilePhoto()).build();
 	}
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
-		return UserDTO.builder().idx(entity.getIdx()).userId(entity.getUserId()).userName(entity.getUserName())
-				.email(entity.getEmail()).birthDate(entity.getBirthDate()).signupDate(entity.getSignupDate())
+
+		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
+				.email(entity.getEmail()).signupDate(entity.getSignupDate())
 				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
 	}
 

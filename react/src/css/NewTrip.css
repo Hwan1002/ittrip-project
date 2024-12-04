@@ -1,6 +1,7 @@
 .newTrip {
     display: flex; /* Flexbox 활성화 */
     width: 1150px;
+
     margin-top: 335px;
     flex-direction: column; /* 자식 요소들을 세로로 나열 */
     align-items: center; /* 자식 요소들을 가로로 중앙 정렬 */
@@ -9,6 +10,8 @@
     padding: 20px; /* 여백 추가 (선택 사항) */
     background-color: rgba(255,255,255,0.7);
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
+
+
 }
 
 
@@ -39,6 +42,7 @@
     border-left: none;
     width: 875px;
     height: 550px;
+
 }
 
 #newMap{

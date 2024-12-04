@@ -5,7 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import project.map.entity.CheckListEntity;
 
+
 @Repository
-public interface CheckListRepository extends JpaRepository<CheckListEntity, String>{
+public interface CheckListRepository extends JpaRepository<CheckListEntity, Integer>{
 
 }

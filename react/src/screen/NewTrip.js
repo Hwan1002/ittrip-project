@@ -5,7 +5,9 @@ import Scroll from '../components/Scroll'
 import Map from "../components/Map.js"
 import Plus2 from "../img/plus2.svg"
 import AddData from "../components/AddData.js";
+
 import AddRoot from "../components/AddRoot.js";
+
 
 const NewTrip = () => {
     // useState
@@ -53,7 +55,9 @@ const NewTrip = () => {
                     <div id="locationFrame">
                         <div id="newMap"><Map/></div>
                         <div id="addDirectionFrame">
-                            <AddRoot/>
+
+                            <AddData width="200px"/>
+
 
                         </div>
                     </div >

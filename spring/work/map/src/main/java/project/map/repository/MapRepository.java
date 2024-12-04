@@ -5,7 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import project.map.entity.MapEntity;
 
+
 @Repository
-public interface MapRepository extends JpaRepository<MapEntity, String>{
+public interface MapRepository extends JpaRepository<MapEntity, Integer>{
 
 }
