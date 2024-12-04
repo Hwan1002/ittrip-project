@@ -25,8 +25,10 @@ const Login = () => {
     // 소셜로그인
     const socialLogin = (e, provider) => {
         e.preventDefault();
+        debugger;
         // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
         window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
+        console.log(provider);
         
     }
     const handleLogin = async (e) => {
