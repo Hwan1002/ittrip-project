@@ -15,7 +15,7 @@ const SignUp = () => {
     
     //input 값 상태 관리
     const [formData, setFormData] = useState({
-        userId : '',
+        id : '',
         password : '',
         userName : '',
         email : '',
@@ -78,10 +78,10 @@ const SignUp = () => {
     const idCheck = async() => {
         debugger;
         try {
-            if(formData.userId === '') {
+            if(formData.id === '') {
                 alert("아이디를 입력하세요.")
             }else{
-                const response = await axios.post(`${API_BASE_URL}/check`,{userId : formData.userId})
+                const response = await axios.post(`${API_BASE_URL}/check`,{id : formData.id})
                 if(response.data){
                     alert("중복된 아이디 입니다.");
                 }else{
@@ -118,8 +118,6 @@ const SignUp = () => {
             alert("비밀번호 확인란을 입력해 주세요.")
         }else if(formData.password !== userPwdConfirm){
             alert("비밀번호가 일치하지 않습니다.")
-        }else if(!formData.profilePhoto){
-            alert("프로필 사진을 설정해주세요.")
         }else{
             try{  
                 console.log(formData);
@@ -159,7 +157,7 @@ const SignUp = () => {
                             <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
                         </div>
                         <div className='signUp_id'>
-                            <input name="userId" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.userId}/>
+                            <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.id}/>
                             <button type="button" onClick={idCheck}>중복체크</button>
                         </div>
                         <div>

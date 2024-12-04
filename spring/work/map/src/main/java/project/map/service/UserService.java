@@ -38,9 +38,8 @@ public class UserService {
 	public UserDTO create(UserDTO dto) {
 		try {
 			// 필수 필드 검증
-			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null  || dto.getAddress() == null
-					|| dto.getProfilePhoto() == null) {
+			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null || dto.getEmail() == null
+					|| dto.getAddress() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			// UserEntity 빌드
@@ -60,8 +59,8 @@ public class UserService {
 	}
 
 	// signin을 위한 userId , password 검증
-	public UserDTO getByCredentials(String id, String password) {
-		UserEntity entity = repository.findById(id).get();
+	public UserDTO getByCredentials(String userId, String password) {
+		UserEntity entity = repository.findById(userId).get();
 		if (entity != null && passwordEncoder.matches(password, entity.getPassword())) {
 			final String token = tokenProvider.create(entity);
 			UserDTO dto = toDTO(entity);
@@ -77,7 +76,9 @@ public class UserService {
 	@Transactional
 	public void modify(String id, UserDTO dto) {
 		UserEntity entity = repository.findById(id).get();
-		entity.setPassword(dto.getPassword());
+		// 수정 후 password 인코딩 빠져있어서 추가 .
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+
 		entity.setAddress(dto.getAddress());
 		entity.setProfilePhoto(dto.getProfilePhoto());
 		repository.save(entity);
@@ -101,8 +102,7 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-		return UserEntity.builder().id(dto.getId())
-				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
+		return UserEntity.builder().id(dto.getId()).password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
 				.userName(dto.getUserName()).email(dto.getEmail()).address(dto.getAddress())
 				.profilePhoto(dto.getProfilePhoto()).build();
 	}
@@ -110,9 +110,9 @@ public class UserService {
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
 
-		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
-				.email(entity.getEmail()).signupDate(entity.getSignupDate())
-				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
+		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName()).email(entity.getEmail())
+				.signupDate(entity.getSignupDate()).address(entity.getAddress()).profilePhoto(entity.getProfilePhoto())
+				.build();
 	}
 
 }

@@ -71,6 +71,7 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		if (repository.existsById(userId) == false) {
 			userEntity = UserEntity.builder()
 								.id(userId)
+								.password("1234")
 								.authProvider(authProvider)
 								.profilePhoto(profilePhoto)
 								.build();
