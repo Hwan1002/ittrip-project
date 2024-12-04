@@ -111,7 +111,7 @@ public class UserService {
 	public UserDTO toDTO(UserEntity entity) {
 
 		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
-				.email(entity.getEmail()).birthDate(entity.getBirthDate()).signupDate(entity.getSignupDate())
+				.email(entity.getEmail()).signupDate(entity.getSignupDate())
 				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
 	}
 

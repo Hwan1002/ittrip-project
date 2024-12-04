@@ -21,7 +21,7 @@ public class AreaDTO {
 		this.signguCd = entity.getSignguCd();
 		this.areaCd = entity.getAreaCd();
 		this.areaNm = entity.getAreaNm();
-		this.sigunguNm = entity.getSigunguNm();
+		this.sigunguNm = entity.getSignguNm();
 	}
 	
 	public static AreaEntity toEntity(AreaDTO dto) {
@@ -29,7 +29,7 @@ public class AreaDTO {
 				signguCd(dto.getSignguCd()).
 				areaCd(dto.getAreaCd()).
 				areaNm(dto.getAreaNm()).
-				sigunguNm(dto.getSigunguNm()).
+				signguNm(dto.getSigunguNm()).
 				build();
 	}
 }
