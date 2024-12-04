@@ -20,6 +20,6 @@ public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		//user_Id를 기반으로 가져온 trip에서 title 변경하기
 		@Transactional
 		@Modifying
-		@Query("update t from TRIP t SET t.title = ?1 where t.user_id = ?2")
+		@Query("update t from TripEntity t SET t.title = ?1 where t.user_id = ?2")
 		void updateTitleByUserId(String title, String userId);
 }
