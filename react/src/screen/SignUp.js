@@ -155,7 +155,7 @@ const SignUp = () => {
                                     <img src={imagePreview} alt="preview"/>
                                 </div>    
                             ) : ''}
-                            <button type="button" onClick={handleProfileClick}>프로필 사진</button>
+                            <button type="button" className='profileChangeBtn'  onClick={handleProfileClick}>프로필 사진</button>
                             <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
                         </div>
                         <div className='signUp_id'>
@@ -179,7 +179,7 @@ const SignUp = () => {
                         </div>
                         <div className="sigUp_Btns">
                             <button className="sigupBtn" type="submit">회원가입</button>
-                            <button className="backByn" type="button" onClick={()=>navigate("/")}>돌아가기</button>
+                            <button className="backBtn" type="button" onClick={()=>navigate("/")}>돌아가기</button>
                         </div>
                     </form>
                 </div>
