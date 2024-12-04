@@ -19,7 +19,7 @@ const App = () => {
                 initialRouteName='main'
                 screenOptions={{
                     headerTitle:()=>(
-                        <Image source={require('./img/logo.svg')} style={{width:'50px'}}/>
+                        <Image source={require('./img/logo.png')} style={{width:50}}/>
                 )}}
             >
                 <Tab.Screen name='main' component={Main} />
