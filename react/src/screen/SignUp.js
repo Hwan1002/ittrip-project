@@ -4,7 +4,7 @@ import '../css/Reset.css';
 //component
 import Logo from "../components/Logo";
 //react import
-import React,{useState, useContext, useRef} from "react";
+import React,{useState, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { API_BASE_URL } from '../service/api-config';
@@ -76,6 +76,7 @@ const SignUp = () => {
 
     //중복 아이디 체크
     const idCheck = async() => {
+        debugger;
         try {
             if(formData.userId === '') {
                 alert("아이디를 입력하세요.")
@@ -103,11 +104,11 @@ const SignUp = () => {
     // 회원가입 버튼
     const signUp = async(e) => {
         e.preventDefault();
-
+        debugger;
         //formData에서 빈값 체크
         const emptyValue = Object.keys(formData).find((key) => {
             const value = formData[key];
-            return value.trim() === '';
+            return  typeof value === 'string' && value.trim() === '';
         });
 
         if(emptyValue){
@@ -143,48 +144,46 @@ const SignUp = () => {
             <div className="logoImg">
                 <Logo/>
             </div>
-                <div className="signUp_container container">
-                    <div className="signUp_contents">
-                    
-                        <h2 className="title">회원가입</h2>
-                        <form className='sigup_formData' onSubmit={(e) => signUp(e)}>
-                            <div className='profilePhoto'>
-                                {imagePreview !== null? (
-                                    <div className='photoImg'>
-                                        <img src={imagePreview} alt="preview"/>
-                                    </div>    
-                                ) : ''}
-                                <button type="button" onClick={handleProfileClick}>프로필 사진</button>
-                                <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
-                            </div>
-                            <div className='signUp_id'>
-                                <input name="userId" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.userId}/>
-                                <button type="button" onClick={idCheck}>중복체크</button>
-                            </div>
-                            <div>
-                                <input name="password" type="password" placeholder='비밀번호를 입력하세요.' onChange={handleInputChange} value={formData.password}/>
-                            </div>
-                            <div>
-                                <input type="password" placeholder='비밀번호 확인.' onChange={(e)=>setUserPwdConfirm(e.target.value)}/>
-                            </div>
-                            <div>
-                                <input name="userName" type="text" placeholder='이름을 입력하세요.' onChange={handleInputChange} value={formData.userName}/>
-                            </div>
-                            <div>
-                                <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
-                            </div>
-                            <div>
-                                <input name="address" type="text" placeholder='주소를 입력하세요' onChange={handleInputChange} value={formData.address}/>
-                            </div>
-                            <div className="sigUp_Btns">
-                                <button className="sigupBtn" type="submit">회원가입</button>
-                                <button className="backByn" type="button" onClick={()=>navigate("/")}>돌아가기</button>
-                            </div>
-                        </form>
-                        
-                        
-                    </div>
+            <div className="signUp_container container">
+                <div className="signUp_contents">
+                
+                    <h2 className="title">회원가입</h2>
+                    <form className='sigup_formData' onSubmit={(e) => signUp(e)}>
+                        <div className='profilePhoto'>
+                            {imagePreview !== null? (
+                                <div className='photoImg'>
+                                    <img src={imagePreview} alt="preview"/>
+                                </div>    
+                            ) : ''}
+                            <button type="button" onClick={handleProfileClick}>프로필 사진</button>
+                            <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
+                        </div>
+                        <div className='signUp_id'>
+                            <input name="userId" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.userId}/>
+                            <button type="button" onClick={idCheck}>중복체크</button>
+                        </div>
+                        <div>
+                            <input name="password" type="password" placeholder='비밀번호를 입력하세요.' onChange={handleInputChange} value={formData.password}/>
+                        </div>
+                        <div>
+                            <input type="password" placeholder='비밀번호 확인.' onChange={(e)=>setUserPwdConfirm(e.target.value)}/>
+                        </div>
+                        <div>
+                            <input name="userName" type="text" placeholder='이름을 입력하세요.' onChange={handleInputChange} value={formData.userName}/>
+                        </div>
+                        <div>
+                            <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
+                        </div>
+                        <div>
+                            <input name="address" type="text" placeholder='주소를 입력하세요' onChange={handleInputChange} value={formData.address}/>
+                        </div>
+                        <div className="sigUp_Btns">
+                            <button className="sigupBtn" type="submit">회원가입</button>
+                            <button className="backByn" type="button" onClick={()=>navigate("/")}>돌아가기</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
         </div>
     )
 }

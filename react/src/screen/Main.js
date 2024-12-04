@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import local1 from "../img/local1.gif";
-import local2 from "../img/local2.gif";
-import local3 from "../img/local3.gif";
-import local4 from "../img/local4.gif";
-import local5 from "../img/local5.gif";
-import local6 from "../img/local6.gif";
-import local7 from "../img/local7.gif";
-import local8 from "../img/local8.png";
+// import banner1 from "../img/MainPage/banner/banner1.jpg";
+import banner2 from "../img/MainPage/banner/banner2.jpg";
+// import ImgSliderData from "../img/test/ImgSliderData";
+import local1 from "../img/MainPage/local1.gif";
+import local2 from "../img/MainPage/local2.gif";
+import local3 from "../img/MainPage/local3.gif";
+import local4 from "../img/MainPage/local4.gif";
+import local5 from "../img/MainPage/local5.gif";
+import local6 from "../img/MainPage/local6.gif";
+import local7 from "../img/MainPage/local7.gif";
+import local8 from "../img/MainPage/local8.png";
 import "../css/Main.css";
 import { useNavigate } from "react-router-dom";
 
@@ -55,8 +58,9 @@ const Main = () => {
     return (
         <div id="main">
             {/* 큰 배너 */}
-            <div id="bigbanner"></div>
-
+            <div id="bigbanner">
+                <img src={banner2} alt="banner"/>
+            </div>
             {/* 지역 4개 */}
             <div className="localSet">
                 <div className="localtrip" onClick={() => {
@@ -64,36 +68,46 @@ const Main = () => {
                     setSelect("서울");
                 }}>
                     <div className="localName">
-                        <p className="localEnglish">SEOUL</p> <p className="localKorea">서울</p>
+                        <p className="localEnglish">SEOUL</p>
+                        <p className="localKorea">서울</p>
                     </div>
-                    <img src={local1} />
+                    <div className="localImg">
+                        <img src={local1} alt="서울"/>
+                    </div>
                 </div>
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
                     setSelect("경기");
                 }}>
-                    <div>
-                        <p className="localEnglish">GYEONGGI</p> <p className="localKorea">경기</p>
+                    <div className="localName">
+                        <p className="localEnglish">GYEONGGI</p>
+                        <p className="localKorea">경기</p>
                     </div>
-                    <img src={local2} />
+                    <div className="localImg">
+                        <img src={local2} alt="경기"/>
+                    </div>
                 </div>
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
                     setSelect("인천");
                 }}>
-                    <div>
+                    <div className="localName">
                         <p className="localEnglish">INCHEON</p> <p className="localKorea">인천</p>
                     </div>
-                    <img src={local3} />
+                    <div className="localImg">
+                        <img src={local3} alt="인천"/>
+                    </div>
                 </div>
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
                     setSelect("강원");
                 }}>
-                    <div>
+                    <div className="localName">
                         <p className="localEnglish">GANGWON</p> <p className="localKorea">강원</p>
                     </div>
-                    <img src={local4} />
+                    <div className="localImg">
+                        <img src={local4} alt="강원"/>
+                    </div>
                 </div>
             </div>
 
@@ -103,37 +117,46 @@ const Main = () => {
                     setWhiteBox(true);
                     setSelect("충청");
                 }}>
-                    <div>
+                    <div className="localName">
                         <p className="localEnglish">CHUNCHEONG</p> <p className="localKorea">충청</p>
                     </div>
-                    <img src={local5} />
+                    <div className="localImg">
+                        <img src={local5} alt="충청도"/>
+                    </div>
                 </div>
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
                     setSelect("전라");
                 }}>
-                    <div>
+                    <div className="localName">
                         <p className="localEnglish">JEOLLA</p> <p className="localKorea">전라</p>
                     </div>
-                    <img src={local6} />
-                </div>
+                    <div className="localImg">
+                        <img src={local6} alt="전라도"/>
+                    </div>
+
+                </div >
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
                     setSelect("경상");
                 }}>
-                    <div>
+                    <div className="localName">
                         <p className="localEnglish">GYEONGSANG</p> <p className="localKorea">경상</p>
                     </div>
-                    <img src={local7} />
+                    <div className="localImg">
+                        <img src={local7} alt="경기도"/>
+                    </div>
                 </div>
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
                     setSelect("제주");
                 }}>
-                    <div>
+                    <div className="localName">
                         <p className="localEnglish">JEJU</p> <p className="localKorea">제주</p>
                     </div>
-                    <img src={local8} />
+                    <div className="localImg">
+                        <img src={local8} alt="제주"/>
+                    </div>
                 </div>
             </div>
 

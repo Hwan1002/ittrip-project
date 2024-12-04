@@ -23,9 +23,12 @@ const Login = () => {
 
     const handleLogin = async(e) => {
         e.preventDefault();
+        debugger;
         try {
-            const response = await axios.post(`${API_BASE_URL}`,logData);
-            if(response.data){
+            const response = await axios.post(`${API_BASE_URL}/signin`,logData);
+            if(response.data && response.data.value.token){
+                const token = response.data.value.token;
+                localStorage.setItem("token", token);
                 alert("로그인 성공");
                 navigate("/");
             }else{

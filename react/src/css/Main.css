@@ -6,11 +6,14 @@
     align-items: center;
 }
 #bigbanner{
-    width: 100vw;
+    width: 200vw;
     height: 500px;
-    background-color: #C6C6C6;
+    overflow: hidden;
 }
-
+#bigbanner img {
+    width:100%;
+    object-fit: cover;
+}
 .localSet{
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
@@ -19,13 +22,13 @@
 }
 
 .localEnglish{
-    font-size: 28px;
+    font-size: 20px;
     display: inline-block;
     color: #706F6F;
 }
 
 .localKorea{
-    font-size: 20px;
+    font-size: 15px;
     display: inline-block;
     margin-left: 5px;
     color: #706F6F;
@@ -34,10 +37,23 @@
 .localtrip{
     margin : 10px 20px 10px 20px;
 }
-.localtrip img{
-    width: 264px;
-    height: 264px;
-    
+.localImg{
+    width: 250px;
+    height: 250px;
+}
+.localImg img{
+    width:100%;
+    object-fit: cover;
+}
+
+.localtrip:hover .localImg{
+    transition: 1s;
+    filter: blur(1px) sepia(1) hue-rotate(0) saturate(1);
+}
+
+.localtrip:hover .localName p{
+    color:#F6A354;
+    transition: 0.5s;
 }
 
 .overlay {
