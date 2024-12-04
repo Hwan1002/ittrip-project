@@ -25,7 +25,7 @@ public interface MapRepository extends JpaRepository<MapEntity, Integer>{
 		//days,user_Id,trip_title을 기반으로 위치정보 수정하기(경유지가 없는 경우)
 		@Transactional
 		@Modifying
-		@Query("update MapEntity t SET t.start_point = ?1 , t.start_place = ?2, t.goal_point = ?3 , t.goal_place = ?4 where t.user_id = ?5 and t.trip_title = ?")				
+		@Query("update MapEntity t SET t.startPoint = ?1 , t.startPlace = ?2, t.goalPoint = ?3 , t.goalPlace = ?4 where t.user.id = ?5 and t.trip.title = ?")				
 		void updateMapNoWayPoints(String s_point , String s_place , String g_point , String g_place , String userId , String title);
 
 		//days,user_Id,trip_title을 기반으로 위치정보 수정하기(경유지가 있는 경우)
