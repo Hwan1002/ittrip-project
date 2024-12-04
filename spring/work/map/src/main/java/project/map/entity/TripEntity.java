@@ -42,18 +42,18 @@ public class TripEntity {
     @Column(name = "idx", nullable = false)
     private Integer idx; 	 //식별자
     
-    @Column(name = "startDate", nullable = false)
+    @Column(name = "start_date", nullable = false)
     private Date startDate;  // 계획 첫날
     
-    @Column(name = "lastDate", nullable = false)
+    @Column(name = "last_date", nullable = false)
     private Date lastDate;   // 계획 마지막날
     
     @CreatedDate
-    @Column(name = "addDate", nullable = false)
+    @Column(name = "add_date", nullable = false)
     private Date addDate;    // 데이터 로드한 날
     
     @LastModifiedDate
-    @Column(name = "updateDate", nullable = false)
+    @Column(name = "update_date", nullable = false)
     private Date updateDate; // 데이터 수정한 날
     
     @Column(name = "title", nullable = false, length = 50)
