@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../css/Login.css"
 import '../css/Reset.css'
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { ProjectContext } from "../context/ProjectContext";
 import { API_BASE_URL } from "../service/api-config";
 
 const Login = () => {
+    
     //useState
     const { setLoginSuccess } = useContext(ProjectContext);
     const [logData, setLogData] = useState({ id : '', password : ''});
@@ -26,10 +27,8 @@ const Login = () => {
         e.preventDefault();
         window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
     }
-
     const handleLogin = async (e) => {
         e.preventDefault();
-        debugger;
         try {
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
             if (response.data && response.data.value.token) {
@@ -43,10 +42,8 @@ const Login = () => {
             }
         } catch (error) {
             if (error.response) {
-                console.log("로그인 실패 결과 : ", error.response.data);
-                alert("로그인 실패 결과 : ", error.response.data);
+                alert("로그인 실패");
             } else {
-                console.log("뭔 오류인지 모름")
                 alert("뭔 오류인지 모름")
             }
         }
