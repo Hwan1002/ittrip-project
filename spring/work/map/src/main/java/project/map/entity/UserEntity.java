@@ -19,13 +19,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "USER")
+@Table(name = "\"USER\"")
 @Entity
 public class UserEntity {
 	
 	@Id
-
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private String id; // 회원아이디
 	private String password; // 비밀번호
 	private String userName ; // 이름
@@ -33,7 +31,6 @@ public class UserEntity {
 	private String address; // 주소 
 	private String profilePhoto; // 프로필사진
 	private String authProvider ; // 소셜로그인공급자 
-	private Date birthDate; // 생년월일
 	@CreationTimestamp
 	private Date signupDate; // 회원가입 날짜 
 
