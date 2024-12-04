@@ -108,7 +108,6 @@ const SignUp = () => {
     // 회원가입 버튼
     const signUp = async(e) => {
         e.preventDefault();
-        
         //formData에서 빈값 체크
         const emptyValue = Object.keys(formData).find((key) => {
             const value = formData[key];
@@ -123,7 +122,6 @@ const SignUp = () => {
         }else if(formData.password !== userPwdConfirm){
             alert("비밀번호가 일치하지 않습니다.")
         }else{
-            debugger;
             try{  
                 console.log(formData);
                 const response = await axios.post(`${API_BASE_URL}/signup`,formData,config);

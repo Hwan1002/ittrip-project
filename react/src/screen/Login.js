@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Login.css"
 import '../css/Reset.css'
 import { useNavigate } from "react-router-dom";
@@ -17,22 +17,19 @@ const Login = () => {
     //navigate
     const navigate = useNavigate();
 
-
     const handleChange = (e) => {
         setLogData({ ...logData, [e.target.name]: e.target.value });
     }
 
     // 소셜로그인
-    const socialLogin = (e, provider) => {
+    const socialLogin = (e,provider) => {
         e.preventDefault();
-        debugger;
-        // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
         window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
-        console.log(provider);
-        
     }
+
     const handleLogin = async (e) => {
         e.preventDefault();
+        debugger;
         try {
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
             if (response.data && response.data.value.token) {
@@ -73,10 +70,10 @@ const Login = () => {
                             <button className="loginBt" type="submit">로그인</button>
                             <button className="kakaoBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"kakao")}>
                                 <img src={kakao} alt="kakao" style={{width:"20px"}} />
-                                카카오로 로그인하기
+                                카카오로 로그인
                             </button>
-                            <button className="naverBt socialBtn">네이버로 로그인하기</button>
-                            <button className="googleBt socialBtn">구글로 로그인하기</button>
+                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}>네이버로 로그인</button>
+                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")}>구글로 로그인</button>
                         </div>
                     </div>
                 </form>

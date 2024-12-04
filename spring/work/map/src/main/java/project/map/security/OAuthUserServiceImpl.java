@@ -65,22 +65,16 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 			 profilePhoto = (String) oAuth2User.getAttributes().get("picture");
 		}
 
-		UserEntity userEntity = null;
+		   if (!repository.existsById(userId)) {
+	            repository.save(UserEntity.builder()
+	                .id(userId)
+	                .password("1234")
+	                .authProvider(authProvider)
+	                .profilePhoto(profilePhoto)
+	                .build());
+	        }
 
-		// 유저가 존재하지 않으면 새로 생성한다.
-		if (repository.existsById(userId) == false) {
-			userEntity = UserEntity.builder()
-								.id(userId)
-								.password("1234")
-								.authProvider(authProvider)
-								.profilePhoto(profilePhoto)
-								.build();
-
-			// 내용을 넣은 userEntity객체를 db에 저장
-			userEntity = repository.save(userEntity);
-		}
-
-		log.info("Successfully pulled user info username {} authProvider {} image {}", userId, authProvider,profilePhoto);
-		return new ApplicationOAuth2User(userEntity.getId(), oAuth2User.getAttributes());
+	      log.info("Successfully pulled user info username {} authProvider {} image {}", userId, authProvider,profilePhoto);
+	      return new ApplicationOAuth2User(userId, oAuth2User.getAttributes());
 	}
 }
