@@ -10,8 +10,8 @@ import SignUp from './screen/SignUp';
 import AddData from './components/AddData';
 import AddRoot from './components/AddRoot';
 import { ProjectProvider } from './context/ProjectContext';
-import MyPage from './components/MyPage';
-import NewTrip from './screen/NewTrip';
+import MyPage from './screen/MyPage';
+import NewTrip from './screen/NewTrip'
 
 function App() {
   return (
