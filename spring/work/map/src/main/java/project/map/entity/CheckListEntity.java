@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "CHECKLIST")
+@Table(name = "check_list")
 @Entity
 public class CheckListEntity {
 	

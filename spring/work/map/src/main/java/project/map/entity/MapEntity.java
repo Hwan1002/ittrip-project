@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "MAP")
+@Table(name = "map")
 @Entity
 public class MapEntity {
 	
