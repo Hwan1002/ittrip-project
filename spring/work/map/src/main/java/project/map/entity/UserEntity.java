@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class UserEntity {
 	
 	@Id
-	@Column(name = "user_id", nullable = false, length = 20)
+	@Column(name = "id", nullable = false, length = 20)
 	private String id; // 회원아이디
 	
 	@Column(name = "`password`", nullable = false, length = 30)
