@@ -3,14 +3,12 @@ package project.map.entity;
 import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,15 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "USERS")
+@Table(name = "users")
 @Entity
 public class UserEntity {
 	
 	@Id
-	@Column(name = "id", nullable = false, length = 20)
+	@Column(name = "id", length = 255)
 	private String id; // 회원아이디
 	
-	@Column(name = "`password`", nullable = false, length = 30)
+	@Column(name = "`password`", nullable = false, length = 255)
 	private String password; // 비밀번호
 	
 	@Column(name = "user_name", length = 20)
@@ -40,9 +38,10 @@ public class UserEntity {
 	@Column(name = "address", length = 70)
 	private String address; // 주소 
 	
-	@Column(name = "profile_photo", nullable = false, length = 100)
+	@Column(name = "profile_photo", nullable = false, length = 255)
 	private String profilePhoto; // 프로필사진
 	
+	@Transient //테이블에 매핑 되지 않음
 	private String authProvider ; // 소셜로그인공급자 
 
 	@CreationTimestamp

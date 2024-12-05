@@ -21,8 +21,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 //	// userName , password를 통해 두필드를 모두 만족하는 데이터를 찾는 조건의쿼리생성.
 
 		//유저의 address를 받아오기(마이페이지에서 공공데이터 받아올 때 씀)
-		@Query("select t.address from USERS t where t.id = ?1")	
-		AreaEntity findAddressByUserId(String userId);
+//		@Query("select t.address from users t where t.id = ?1")	
+//		AreaEntity findAddressByUserId(String userId);
 
 
 }
