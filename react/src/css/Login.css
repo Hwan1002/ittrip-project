@@ -38,7 +38,7 @@ body, html {
     font-size: 16px;
 }
 
-#login button {
+.socialBtn,.loginBt{
     height: 50px;
     width: 525px;
     margin: 10px 0;

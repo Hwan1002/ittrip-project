@@ -42,18 +42,17 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            debugger;
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
+            setLoginSuccess(true);
             if (response.data && response.data.value.token) {
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
-                setLoginSuccess(true);
                 openModal({
                     title: "로그인 성공",
                     message:"환영합니다.",
-                    actions : [{label : "확인", onClick: closeModal}],
+                    actions : [{label : "확인", onClick: () => {closeModal(); navigate("/")} }],
                 })
-                // navigate("/");
+                
             } else {
                 openModal({
                     title: "",

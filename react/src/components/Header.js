@@ -24,7 +24,7 @@ const Header=()=>{
         localStorage.removeItem("token");
         alert("로그아웃 성공");
         closeModal();
-        navigate("/");
+        return navigate("/login");
     };
 
     //modal창 구현 영역
