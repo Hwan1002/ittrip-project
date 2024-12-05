@@ -1,3 +1,4 @@
+
 package project.map.entity;
 
 import java.sql.Date;
@@ -64,3 +65,4 @@ public class TripEntity {
     @JoinColumn(name = "user_id",nullable=false) // 외래키: user_id
     private UserEntity user;
 }
+

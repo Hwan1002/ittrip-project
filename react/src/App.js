@@ -10,15 +10,19 @@ import SignUp from './screen/SignUp';
 import AddData from './components/AddData';
 import AddRoot from './components/AddRoot';
 import { ProjectProvider } from './context/ProjectContext';
+
 import MyPage from './screen/MyPage';
 import NewTrip from './screen/NewTrip'
 import MainLocal from './components/MainLocal';
+
+
+import SocialLogin from './components/SocialLogin';
+
 
 function App() {
   return (
     <BrowserRouter>
     <ProjectProvider>
-      <div className='app'>
         <Header/>
         <Routes>
           <Route path="/" element={<Main/>}/>
@@ -31,9 +35,12 @@ function App() {
           <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/map" element={<Map/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
+
           <Route path="/mainlocal" element={<MainLocal/>}/>
+
+          <Route path="/socialLogin" element={<SocialLogin/>}/>
+
         </Routes>
-      </div>
       </ProjectProvider>
     </BrowserRouter>
   );

@@ -39,8 +39,8 @@ public class MapEntity {
 	@Column(name = "waypoints", length = 255)
     private String waypoints; // 경유지
 	
-	@Column(name = "day", nullable = false , length = 10)
-    private int day;       // 일자
+	@Column(name = "days", nullable = false , length = 10)
+    private int days;       // 일자
     
     
     @ManyToOne

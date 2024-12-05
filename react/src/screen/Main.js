@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from "react";
 
-import local1 from "../img/local1.gif";
-import local2 from "../img/local2.gif";
-import local3 from "../img/local3.gif";
-import local4 from "../img/local4.gif";
-import local5 from "../img/local5.gif";
-import local6 from "../img/local6.gif";
-import local7 from "../img/local7.gif";
-import local8 from "../img/local8.png";
 
-import banner2 from "../img/MainPage/banner/banner2.jpg";
+
 import { useNavigate } from "react-router-dom";
 import "../css/Main.css";
+
+// import banner1 from "../img/MainPage/banner/banner1.jpg";
+import banner2 from "../img/MainPage/banner/banner2.jpg";
+// import ImgSliderData from "../img/test/ImgSliderData";
+import local1 from "../img/MainPage/local1.gif";
+import local2 from "../img/MainPage/local2.gif";
+import local3 from "../img/MainPage/local3.gif";
+import local4 from "../img/MainPage/local4.gif";
+import local5 from "../img/MainPage/local5.gif";
+import local6 from "../img/MainPage/local6.gif";
+import local7 from "../img/MainPage/local7.gif";
+import local8 from "../img/MainPage/local8.png";
+import "../css/Main.css";
+
+import Modal from "../components/Modal";
+import useModal from "../context/useModal";
+
 const Main = () => {
     const navigate = useNavigate()
 
     const [whiteBox, setWhiteBox] = useState(false);  // 흰 배경 박스를 띄우는 것을 조절하는 state
     const [select, setSelect] = useState(''); // 어떤 지역을 선택했는지 알려주는 state
     const [content, setContent] = useState(''); // 표출할 내용을 저장하는 state
+    
+    const {
+        isModalOpen,
+        modalTitle,
+        modalMessage,
+        modalActions,
+        openModal,
+        closeModal,
+    } = useModal();
 
     // select가 변경될 때마다 content를 업데이트
     useEffect(() => {
@@ -176,7 +194,13 @@ const Main = () => {
 
                 </div>
             </div>
-
+            <Modal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    title={modalTitle}
+                    content={<p>{modalMessage}</p>}
+                    actions={modalActions}
+            />
             {/* 클릭시 팝업 페이지 */}
             {whiteBox && (
                 <div className="overlay">

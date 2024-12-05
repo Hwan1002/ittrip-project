@@ -7,6 +7,8 @@ body, html {
     align-items: center; 
 }
 
+
+
 #login {
     text-align: center;
     /* background-color: #F6F6F6; */
@@ -22,7 +24,6 @@ body, html {
     height: 100vh; /* 화면 전체 높이를 사용 */
 }
 
-
 #loginLogo{
     width: 120px;
 }
@@ -37,7 +38,7 @@ body, html {
     font-size: 16px;
 }
 
-#login button {
+.socialBtn,.loginBt{
     height: 50px;
     width: 525px;
     margin: 10px 0;
@@ -48,18 +49,24 @@ body, html {
     font-weight: 550;
 }
 
-#loginBt{
+.socialBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginBt{
     background-color: #FFA551;
 }
 
-#kakaoBt{
+.kakaoBt{
     background-color: #FEE500;
 }
 
-#naverBt{
+.naverBt{
     background-color: #00ff1f;
 }
 
-#googleBt{
+.googleBt{
     background-color: #00aee1;
 }
