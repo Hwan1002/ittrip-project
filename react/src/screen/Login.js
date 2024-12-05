@@ -11,7 +11,7 @@ import { API_BASE_URL } from "../service/api-config";
 const Login = () => {
     //useState
     const { setLoginSuccess } = useContext(ProjectContext);
-    const [logData, setLogData] = useState({ userId : '', password : ''});
+    const [logData, setLogData] = useState({ id : '', password : ''});
 
     //navigate
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Login = () => {
     const handleLogin = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${API_BASE_URL}`,logData);
+            const response = await axios.post(`${API_BASE_URL}/signin`,logData);
             if(response.data){
                 alert("로그인 성공");
                 navigate("/");
@@ -41,6 +41,16 @@ const Login = () => {
             }
         }
     }
+
+    const socialLogin = (e, provider) => {
+        e.preventDefault();
+        // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
+        window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
+
+    }
+
+
+
     return (
         <div id="login">
             <div className="logoImg">
@@ -58,12 +68,12 @@ const Login = () => {
                     </div>
                     <div>
                         <button id="loginBt" type="submit">로그인하기</button>
-                        <button id="kakaoBt">
+                        <button id="kakaoBt" type="button" onClick={ (e) =>socialLogin( e,"kakao")}>
                             <img src="../img/kakaotalk.png" alt="kakao" style={{width:"20px"}} />
                             카카오로 로그인하기
                         </button>
-                        <button id="naverBt">네이버로 로그인하기</button>
-                        <button id="googleBt">구글로 로그인하기</button>
+                        <button id="naverBt" type="button" onClick={ (e) =>socialLogin(e,"naver")}>네이버로 로그인하기</button>
+                        <button id="googleBt" type="button" onClick={ (e) =>socialLogin(e,"google")}>구글로 로그인하기</button>
                     </div>
                 </div>
                 </form>

@@ -41,19 +41,19 @@ public class TokenProvider {
 		return token;
 	}
 
-	public String create(Authentication authentication) {
+	public String create(final Authentication authentication) {
 
 		ApplicationOAuth2User userPrincipal = (ApplicationOAuth2User) authentication.getPrincipal();
 		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 
-		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(userPrincipal.getName()) // id가
-																													// 반환됨
+		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(userPrincipal.getName()) // id가																									// 반환됨
 				.setIssuer("map") // 토큰 발행 주체
 				.setIssuedAt(new Date()) // 토큰 발행 날짜
 				.setExpiration(expiryDate) // exp
 				.compact(); // 토큰을 . 으로 구분된 하나의 문자열로 만들어준다
 
 		return token;
+		
 
 	}
 

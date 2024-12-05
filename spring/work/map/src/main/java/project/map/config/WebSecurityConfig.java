@@ -55,7 +55,7 @@ public class WebSecurityConfig {
          
          .authorizeHttpRequests(authorizeRequestsConfigurer -> 
             authorizeRequestsConfigurer
-            .requestMatchers("/","/**" , "/auth/**","/oauth2/**").permitAll()
+            .requestMatchers("/","/**", "/auth/**","/oauth2/**").permitAll()
             .anyRequest().authenticated()
          )
          .oauth2Login()
@@ -68,7 +68,7 @@ public class WebSecurityConfig {
          .userInfoEndpoint()
          .userService(oAuthUserService)
          .and()
-         .successHandler(oAuthSuccessHandler)
+         .successHandler(oAuthSuccessHandler)  
          .and()
          .exceptionHandling()
          .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
