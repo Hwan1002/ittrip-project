@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { useNavigate } from "react-router-dom";
-
 
 const SocialLogin = (props) => {
     const {setLoginSuccess } = useContext(ProjectContext);
     const navigate = useNavigate();
 
-    
 
     useEffect(()=>{
         const getUrlParameter = (name) => {
@@ -21,7 +19,6 @@ const SocialLogin = (props) => {
         console.log('토큰 파싱 : ' + token);
         
         if(token){
-            debugger;
             localStorage.setItem("token",token);
             setLoginSuccess(true);
             alert("SocialLogin.js 쪽 :로그인 성공");
@@ -30,7 +27,7 @@ const SocialLogin = (props) => {
             alert("로그인 할 수 없습니다.")
             navigate("/login");
         }
-    },[]);
+    },[navigate, setLoginSuccess]);
 
     return navigate("/"); 
 }
