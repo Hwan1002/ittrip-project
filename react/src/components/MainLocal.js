@@ -2,21 +2,23 @@ import React from "react";
 import '../css/MainLocal.css'
 import local1 from '../img/MainPage/local1.gif'
 
-const MainLocal = () => {
+const MainLocal = ({select,content}) => {
 
+    //임시 구 정보 (API로 대체 예정)
     const guData =['종로구','중구','용산구','성동구','광진구','동대문구','중랑구','성북구','강북구','도봉구','노원구','은평구','서대문구','마포구','양천구','강서구','구로구','금천구','영등포구','동작구','관악구','서초구','강남구','송파구','강동구']
+
     return (
         <div id="mainLocal">
             <div id="siGun">
                 <div id="siGunText">
                     <div >
-                        <p id="seoulKo">서울</p>
-                        <p id="seoulEn">SEOUL</p>
+                        <div>
+                            <p id="seoulKo">{select}</p>
+                            <p id="seoulEn">{content.english}</p>
+                        </div>
                     </div>
-                    <p>서울은 현대적이고 전통적인 매력을 모두 갖춘 도시로,
-                        고궁과 전통 시장, 쇼핑과 음식이 풍성한 명소,
-                        북촌 한옥마을, 경복궁, 남산타워 등 다양한 명소가
-                        방문객을 맞이합니다.
+                    <p >
+                        {content.explan}
                     </p>
                 </div>
                 <div id="siGunImg"><img src={local1} style={{ width: '355px', height: '355px' }} /></div>

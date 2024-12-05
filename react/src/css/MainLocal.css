@@ -6,8 +6,9 @@
     align-items: center;
 }
 
+/* 지역설명,사진 가로라인 */
 #siGun {
-    width: 820px;
+    width: 780px;
     height: 355px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -31,9 +32,19 @@
     color: #9D9D9C;
 }
 
+
 #siGunText{
     color:#575756;
+    position: relative;
 }
+
+
+#siGunText div{
+    color:#575756;
+    margin-bottom: 50px;
+}
+
+
 #siGunImg{
     display: flex;
     flex-direction: column;
@@ -46,7 +57,7 @@
 }
 
 #guSelect {
-    width: 780px;
+    width: 740px;
     height: auto;
     border: 2px solid #F6A354;
     border-radius: 10px;
@@ -59,8 +70,12 @@
     
 }
 
-#buttonFrame{
-    width: 820px;
-    height: auto;
-    border: 1px solid #000;
+.guBt{
+    margin:4px;
+    width:70px;
+    height: 26px;
+    border-radius: 13px;
+    border: none;
+    background-color: #F6A354;
+    color: #fff;
 }
