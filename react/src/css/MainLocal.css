@@ -1,0 +1,42 @@
+#mainLocal {
+    margin-top: "100px";
+    border: 1px solid #000;
+    width: 60vw;
+    min-width: 900px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#ciGun {
+    border: 1px solid #000;
+    width: 820px;
+    height: 355px;
+}
+
+#tripSelect p{
+    font-size: 18px;
+    color: #F6A354;
+}
+
+#guSelect {
+    width: 780px;
+    height: auto;
+    border: 2px solid #F6A354;
+    border-radius: 10px;
+    padding : 20px;
+    text-align: center;
+    line-height: 1.8;
+    font-weight: 600;
+    color: #575756;
+    font-size: 15px;
+    
+}
+
+#buttonFrame{
+    width: 820px;
+    height: auto;
+    border: 1px solid #000;
+}

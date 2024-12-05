@@ -12,6 +12,7 @@ import AddRoot from './components/AddRoot';
 import { ProjectProvider } from './context/ProjectContext';
 import MyPage from './screen/MyPage';
 import NewTrip from './screen/NewTrip'
+import MainLocal from './components/MainLocal';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/map" element={<Map/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
+          <Route path="/mainlocal" element={<MainLocal/>}/>
         </Routes>
       </div>
       </ProjectProvider>

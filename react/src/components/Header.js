@@ -32,6 +32,8 @@ const Header=()=>{
                 <Link className="menu" to={'/'}>Main</Link>
                 <Link className="menu" to={'/entireplan'}>My Plan</Link>
                 <Link className="menu" to={'/newtrip'}>New Plan</Link>
+                <Link className="menu" to={'/mypage'}>Main page</Link>
+                <Link className="menu" to={'/mainlocal'}>Test</Link>
             </nav>
             <div className="headerBtn">
                 {loginSuccess ? (

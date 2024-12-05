@@ -87,12 +87,12 @@
 
     /* 흰색 박스 */
     .boxContent {
-        width: 900px;
-        height: 550px;
+        width: 1000px;
+        height: 700px;
         background-color: white;
         border-radius: 10px;
         padding: 20px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 1px 0px 4px 6px rgba(0, 0, 0, 0.1);
         text-align: center;
         display: flex;
         justify-content: center;
