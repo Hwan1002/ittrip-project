@@ -57,7 +57,7 @@ public class WebSecurityConfig {
             authorizeRequestsConfigurer
             .requestMatchers("/","/**", "/auth/**","/oauth2/**").permitAll()
             .anyRequest().authenticated()
-         )
+         ) 
          .oauth2Login()
          .redirectionEndpoint()
          .baseUri("/login/oauth2/code/*")
@@ -84,7 +84,7 @@ public class WebSecurityConfig {
    @Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://localhost:3001")); // 프론트엔드 주소
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 프론트엔드 주소
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);

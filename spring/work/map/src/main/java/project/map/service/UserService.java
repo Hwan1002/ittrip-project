@@ -39,8 +39,10 @@ public class UserService {
 	public UserDTO create(UserDTO dto) {
 		try {
 			// 필수 필드 검증
-			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
-					|| dto.getEmail() == null || dto.getAddress() == null) {
+
+			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null || dto.getEmail() == null
+					|| dto.getAddress() == null) {
+
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			// UserEntity 빌드
@@ -77,9 +79,10 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 , 주소 ,프로필사진
 	@Transactional
-	public void modify(String userId, UserDTO dto) {
-		UserEntity entity = repository.findById(userId).get();
-		entity.setPassword(dto.getPassword());
+	public void modify(String id, UserDTO dto) {
+		UserEntity entity = repository.findById(id).get();
+		// 수정 후 password 인코딩 빠져있어서 추가 .
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity.setAddress(dto.getAddress());
 		entity.setProfilePhoto(dto.getProfilePhoto());
 		repository.save(entity);
@@ -103,17 +106,18 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-		return UserEntity.builder().id(dto.getId())
-				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
+		return UserEntity.builder().id(dto.getId()).password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
 				.userName(dto.getUserName()).email(dto.getEmail()).address(dto.getAddress())
 				.profilePhoto(dto.getProfilePhoto()).build();
 	}
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
-		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName())
-				.email(entity.getEmail()).signupDate(entity.getSignupDate())
-				.address(entity.getAddress()).profilePhoto(entity.getProfilePhoto()).build();
+
+		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName()).email(entity.getEmail())
+				.signupDate(entity.getSignupDate()).address(entity.getAddress()).profilePhoto(entity.getProfilePhoto())
+				.build();
+				
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,19 +20,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "\"USER\"")
+@Table(name = "USERS")
 @Entity
 public class UserEntity {
 	
 	@Id
+	@Column(name = "id", nullable = false, length = 20)
 	private String id; // 회원아이디
+	
+	@Column(name = "`password`", nullable = false, length = 30)
 	private String password; // 비밀번호
+	
+	@Column(name = "user_name", length = 20)
 	private String userName ; // 이름
+	
+	@Column(name = "email", length = 50)
 	private String email; // 이메일
+	
+	@Column(name = "address", length = 70)
 	private String address; // 주소 
+	
+	@Column(name = "profile_photo", nullable = false, length = 100)
 	private String profilePhoto; // 프로필사진
+	
 	private String authProvider ; // 소셜로그인공급자 
+
 	@CreationTimestamp
+	@Column(name = "signup_date", nullable = false)
 	private Date signupDate; // 회원가입 날짜 
 
 }
