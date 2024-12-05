@@ -21,11 +21,16 @@ public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		//user_Id를 기반으로 가져온 trip에서 title 변경하기
 		@Transactional
 		@Modifying
-		@Query("update TripEntity t SET t.title = ?1 where t.user_id = ?2")
-		void updateTitleByUserId(String userId,String title);
+		@Query("update TripEntity t SET t.title = ?1 where t.idx = ?2")
+		TripEntity updateTitleByIdx(String title,Integer idx);
 		
 		//타이틀 중복여부 확인
 		boolean existsByTitle(String title);
 		
-		String getidxByTitle(String title);
+		//updateTitle에서 idx로 구분하여 타이틀을 수정하기 위해 
+		Integer getidxByTitle(String title);
+		
+		//idx를 통해 TripEntity반환
+		TripEntity findAllByIdx(Integer idx);
+		
 }
