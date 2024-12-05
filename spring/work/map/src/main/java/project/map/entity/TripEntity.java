@@ -56,6 +56,7 @@ public class TripEntity {
     @Column(name = "update_date", nullable = false)
     private Date updateDate; // 데이터 수정한 날
     
+
     @Column(name = "title",unique=true ,nullable = false, length = 50)
     private String title;    // 여행 제목
     
