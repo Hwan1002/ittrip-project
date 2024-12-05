@@ -129,7 +129,8 @@ const SignUp = () => {
     // 회원가입 버튼
     const signUp = async(e) => {
         e.preventDefault();
-
+        debugger
+        alert(formData.profilePhoto);
         //formData에서 빈값 체크
         const emptyValue = Object.keys(formData).find((key) => {
             const value = formData[key];
@@ -146,7 +147,7 @@ const SignUp = () => {
         }else if(userPwdConfirm === ''){
             openModal({
                 title:"비밀번호 오류",
-                message:"비밀번호 확인란을 입력해 주세요..",
+                message:"비밀번호 확인란을 입력해주세요..",
                 actions:[{label: "확인", onClick:closeModal}],
             })
             return;

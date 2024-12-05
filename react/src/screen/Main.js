@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import banner1 from "../img/MainPage/banner/banner1.jpg";
 import banner2 from "../img/MainPage/banner/banner2.jpg";
-// import ImgSliderData from "../img/test/ImgSliderData";
 import local1 from "../img/MainPage/local1.gif";
 import local2 from "../img/MainPage/local2.gif";
 import local3 from "../img/MainPage/local3.gif";
@@ -14,13 +13,14 @@ import "../css/Main.css";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
-const Main = () => {
-    const navigate = useNavigate()
 
+
+const Main = () => {
+    
     const [whiteBox, setWhiteBox] = useState(false);  // 흰 배경 박스를 띄우는 것을 조절하는 state
     const [select, setSelect] = useState(''); // 어떤 지역을 선택했는지 알려주는 state
     const [content, setContent] = useState(''); // 표출할 내용을 저장하는 state
-    
+    const navigate = useNavigate()
     const {
         isModalOpen,
         modalTitle,

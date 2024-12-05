@@ -35,6 +35,7 @@ const Header=()=>{
         }
     }, [setLoginSuccess, loginSuccess]);
 
+    //로그아웃 버튼 클릭시 함수
     const handleLogout = () => {
         setLoginSuccess(false);
         localStorage.removeItem("token");
@@ -42,8 +43,9 @@ const Header=()=>{
         closeModal();
         navigate("/login");
     };
-
+    //로그아웃 전용 모달창
     const openLogoutModal = () => {
+        setIsNewPlanModal(false);
         openModal({
             title:"로그아웃",
             message:"로그아웃 하시겠습니까?",
@@ -61,15 +63,13 @@ const Header=()=>{
         });
     };
 
-
     //날짜 받는 input handle
     const handleTripInput = (e) => {
         const {name, value} = e.target;
         setTripDates((prev) => ({...prev,[name]:value}));
     };
-
+    
     const handleNewPlanSubmit = () => {
-        debugger;
         if(!tripDates.startDate || !tripDates.endDate){
             openModal({
                 title: "입력 오류",
@@ -77,11 +77,9 @@ const Header=()=>{
                 actions : [{label : "확인", onClick: closeModal}],
             })
             //DB에 저장할 함수 추가 하는 걸로
-            alert(tripDates.startDate);
             setTripDates(tripDates.startDate, tripDates.endDate);
             return;
         }
-        console.log("여행 계획",  tripDates);
         setTripDates({startDate:"", endDate:""});
         closeModalWithReset();
     }
@@ -100,8 +98,6 @@ const Header=()=>{
         closeModal();
    }
     
-
-
 
     //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
     return(
