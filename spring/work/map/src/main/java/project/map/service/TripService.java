@@ -76,9 +76,12 @@ public class TripService {
 		return tripRepository.getTripsByUserId(userId);
 	}
 	
-	//user_Id를 기반으로 가져온 trip에서 title 변경하기 (dto.getIdx()로 받은 idx로 )
-	public void updateTitle(String title,String updatedTitle,String userId) {
-		
+	//user_Id를 기반으로 가져온 trip에서 title 변경하기 (dto.gettitle=title,dto.getUserId()=userId,updatedTitle=사용자가 입력한 title)
+	public TripEntity updateTitle(String title,String updateTitle,String userId) {
+		String tempTitle = titleToDB(title,userId);		//DB에 저장된 title과 비교하기위해 가공
+		Integer idx = tripRepository.getidxByTitle(tempTitle);	//가공된 title로 idx 반환
+		TripEntity entity = tripRepository.findAllByIdx(idx);	//idx로 Trip객체 찾아서 반환
+		return tripRepository.updateTitleByIdx(updateTitle,idx);							
 	}
 	
 	
