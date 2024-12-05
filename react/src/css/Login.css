@@ -7,6 +7,8 @@ body, html {
     align-items: center; 
 }
 
+
+
 #login {
     text-align: center;
     /* background-color: #F6F6F6; */
@@ -21,7 +23,6 @@ body, html {
     align-items: center; /* 가로 중앙 정렬 */
     height: 100vh; /* 화면 전체 높이를 사용 */
 }
-
 
 #loginLogo{
     width: 120px;

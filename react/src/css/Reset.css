@@ -66,6 +66,14 @@ button:hover{
     background-color: #f78b26;
 }
 
+/*모달 버튼 스타일 공통*/
+.modalBtn{
+    width:50px;
+    height:20px;
+    background-color: red;
+    font-size: 12px;
+}
+
 /*로그인, 회원가입 공통*/
 .container{
     display:flex;

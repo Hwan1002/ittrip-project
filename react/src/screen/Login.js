@@ -8,12 +8,23 @@ import kakao from "../img/kakaotalk.png";
 import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
 import { API_BASE_URL } from "../service/api-config";
+import Modal from "../components/Modal";
+import useModal from "../context/useModal";
 
 const Login = () => {
     
     //useState
     const { setLoginSuccess } = useContext(ProjectContext);
     const [logData, setLogData] = useState({ id : '', password : ''});
+
+    const {
+        isModalOpen,
+        modalTitle,
+        modalMessage,
+        modalActions,
+        openModal,
+        closeModal,
+    } = useModal();
 
     //navigate
     const navigate = useNavigate();
@@ -27,25 +38,39 @@ const Login = () => {
         e.preventDefault();
         window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
     }
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
+            debugger;
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
             if (response.data && response.data.value.token) {
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
                 setLoginSuccess(true);
-                alert("로그인 성공");
-                navigate("/");
+                openModal({
+                    title: "로그인 성공",
+                    message:"환영합니다.",
+                    actions : [{label : "확인", onClick: closeModal}],
+                })
+                // navigate("/");
             } else {
-                alert("로그인 실패: 서버에서 올바른 데이터를 못받음");
+                openModal({
+                    title: "",
+                    message: "로그인 실패: 서버에서 올바른 데이터를 못받음",
+                    actions : [{label : "확인", onClick: closeModal}],
+                })
+                return;
             }
         } catch (error) {
             if (error.response) {
-                alert("로그인 실패");
-            } else {
-                alert("뭔 오류인지 모름")
-            }
+                openModal({
+                    title: "",
+                    message: "로그인 실패: 서버에서 올바른 데이터를 못받음2",
+                    actions : [{label : "확인", onClick: closeModal}],
+                })
+                return;
+            } 
         }
     }
     return (
@@ -74,6 +99,13 @@ const Login = () => {
                         </div>
                     </div>
                 </form>
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    title={modalTitle}
+                    content={<p>{modalMessage}</p>}
+                    actions={modalActions}
+                />
             </div>
         </div>
     )

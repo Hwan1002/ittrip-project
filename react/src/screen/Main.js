@@ -14,12 +14,12 @@ import "../css/Main.css";
 import { useNavigate } from "react-router-dom";
 
 const Main = () => {
-    const navi=useNavigate()
+    const navigate = useNavigate()
 
     const [whiteBox, setWhiteBox] = useState(false);  // 흰 배경 박스를 띄우는 것을 조절하는 state
     const [select, setSelect] = useState(''); // 어떤 지역을 선택했는지 알려주는 state
     const [content, setContent] = useState(''); // 표출할 내용을 저장하는 state
-
+    
     // select가 변경될 때마다 content를 업데이트
     useEffect(() => {
         const contentEvent = () => {
@@ -167,7 +167,7 @@ const Main = () => {
                         <p style={{fontSize:"25px" , color:"#706F6F"}}>{content}</p>
                         <div>
                         <button id="mainBackBt" onClick={() => setWhiteBox(false)}>돌아가기</button>
-                        <button id="mainNewBt" onClick={()=>{navi("/newtrip")}}>일정 만들기</button>
+                        <button id="mainNewBt" onClick={()=>{navigate("/newtrip")}}>일정 만들기</button>
                         </div>
                     </div>
                 </div>
