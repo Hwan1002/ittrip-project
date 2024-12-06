@@ -129,8 +129,6 @@ const SignUp = () => {
     // 회원가입 버튼
     const signUp = async(e) => {
         e.preventDefault();
-        debugger
-        alert(formData.profilePhoto);
         //formData에서 빈값 체크
         const emptyValue = Object.keys(formData).find((key) => {
             const value = formData[key];
