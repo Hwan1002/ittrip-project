@@ -71,11 +71,16 @@
 }
 
 .signUp_id button{
-    position:absolute;
-    top:50%;
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%);
-    right:25px;
-    width:80px;
+    right: 25px;
+    width: 80px;
+    border: none;
+    background-color: #F6A354;
+    color: white;
+    border-radius: 8px;
+    height: 40px;
 }
 
 /*회원가기, 돌아가기 버튼*/

@@ -22,7 +22,6 @@ const SignUp = () => {
         password : '',
         userName : '',
         email : '',
-        address : '',
         profilePhoto : '',
     })
      //비밀번호 확인 상태만 따로 관리 (용도 : 입력한 비밀번호와 비교 용도)
@@ -221,9 +220,6 @@ const SignUp = () => {
                         </div>
                         <div>
                             <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
-                        </div>
-                        <div>
-                            <input name="address" type="text" placeholder='주소를 입력하세요' onChange={handleInputChange} value={formData.address}/>
                         </div>
                         <div className="sigUp_Btns">
                             <button className="sigupBtn" type="submit">회원가입</button>
