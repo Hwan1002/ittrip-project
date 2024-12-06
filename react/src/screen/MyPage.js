@@ -1,12 +1,27 @@
 import React from "react";
 import '../css/MyPage.css'
-
+import { useContext,useEffect } from "react";
+import { ProjectContext } from "../context/ProjectContext";
 const MyPage = () => {
+
+    
+    //회원 조회를해서 회원이 가지고 있는 profilePhoto 가져오기
+    const imagePreview = useContext(ProjectContext);
+
+    useEffect(()=>{
+        return () => {
+            if(imagePreview){
+                URL.revokeObjectURL(imagePreview);
+            }
+        };
+    },[imagePreview])
     return (
         <div className="container">
             <div id="myPage">
                 <div id="profileFrame">
-                    <div></div>
+                    <div>
+                        <img src={imagePreview} alt="프로필 사진" style={{width:"100%"}}/>
+                    </div>
                     <button>프로필 변경</button>
                 </div>
 

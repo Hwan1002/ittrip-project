@@ -121,9 +121,6 @@
 .dateContents{
   text-align: center;
 }
-.dateContents:first-child{
-  margin-right: 20px;
-}
 
 .modal-trip-plan  .modal-actions{
   margin-top: 20px;

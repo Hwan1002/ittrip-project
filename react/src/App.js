@@ -22,8 +22,8 @@ import SocialLogin from './components/SocialLogin';
 function App() {
   return (
     <BrowserRouter>
-    <ProjectProvider>
-        <Header/>
+      <ProjectProvider>
+      <Header/>
         <Routes>
           <Route path="/" element={<Main/>}/>
           <Route path="/addData" element={<AddData/>}/>
@@ -35,11 +35,8 @@ function App() {
           <Route path="/newtrip" element={<NewTrip/>}/>
           <Route path="/map" element={<Map/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
-
           <Route path="/mainlocal" element={<MainLocal/>}/>
-
           <Route path="/socialLogin" element={<SocialLogin/>}/>
-
         </Routes>
       </ProjectProvider>
     </BrowserRouter>
