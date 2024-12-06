@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import project.map.dto.ResponseDTO;
@@ -34,24 +36,32 @@ public class UserController {
 		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
 	}
-	
-	 // id를 이용한 1명 유저 조회
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable String userId) {
-        try {
-            UserDTO user = service.getById(userId);
-            ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
-            return ResponseEntity.badRequest().body(responseDTO);
-        }
-    }
+
+	// id를 이용한 1명 유저 조회
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> getUserById(@PathVariable String userId) {
+		try {
+			UserDTO user = service.getById(userId);
+			ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
+			return ResponseEntity.ok(response);
+		} catch (RuntimeException e) {
+			ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+			return ResponseEntity.badRequest().body(responseDTO);
+		}
+	}
 
 	// 회원가입
-	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@RequestBody UserDTO dto) {
-		UserDTO registerUser = service.create(dto);
+	@PostMapping(value = "/signup", consumes = "multipart/form-data")
+	public ResponseEntity<?> registerUser(@RequestParam("id") String id, 
+											@RequestParam("password") String password,
+											@RequestParam("userName") String userName,
+											@RequestParam("email") String email,
+											@RequestParam("address") String address, 
+											@RequestParam("profilePhoto") MultipartFile profilePhoto) {
+		// DTO 객체 생성
+		UserDTO dto = new UserDTO(id, password, userName, email, address, null);
+		// profilePhoto 처리
+		UserDTO registerUser = service.create(dto, profilePhoto);
 		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
 		return ResponseEntity.ok(response);
 	}
@@ -72,8 +82,6 @@ public class UserController {
 		}
 
 	}
-	
-	
 
 	// 중복체크
 	@PostMapping("/check")
@@ -83,18 +91,18 @@ public class UserController {
 
 	// 회원정보 수정
 	@PutMapping
-	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId,@RequestBody UserDTO dto) {
-		service.modify(dto.getId(),dto);
+	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, @RequestBody UserDTO dto) {
+		service.modify(dto.getId(), dto);
 		return ResponseEntity.ok("회원정보 수정완료");
 
 	}
-	
+
 	// 회원정보 삭제
 	@DeleteMapping
-	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId ){
-		service.delete(userId) ;
+	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId) {
+		service.delete(userId);
 		return ResponseEntity.ok("회원삭제완료");
-		
+
 	}
 
 }
