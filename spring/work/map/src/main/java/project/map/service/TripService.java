@@ -33,6 +33,7 @@ public class TripService {
 		return wayPoints.split("|");
 	}
 	//경유지 String[] -> String (다시 React에서 배열로 사용해야 하기 때문)
+	//체크리스트 String[] -> String
 	public String mapToString(String[] waypoints) {
 		return String.join("|", waypoints);
 	}

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.map.entity.MapEntity;
+import project.map.entity.TripEntity;
+import project.map.entity.UserEntity;
 
 @Builder
 @NoArgsConstructor
@@ -12,6 +14,7 @@ import project.map.entity.MapEntity;
 @Data
 public class MapDTO {
 	
+	private Integer idx;			//맵 식별자
 	private String startPoint;		//출발지 좌표
 	private String startPlace;		//출발지 지번주소
 	private String waypointsPoint;	//경유지 좌표들
@@ -22,27 +25,33 @@ public class MapDTO {
 	private String userId;			//UserEntity의 id
 	private String tripTitle;		//TripEntity의 title
 	
-	public MapDTO(MapEntity entity) {
-		this.startPoint = entity.getStartPoint();
-		this.startPoint = entity.getStartPlace();
-		this.waypointsPoint = entity.getWaypointsPoint();
-		this.waypointsPlace = entity.getWaypointsPlace();
-		this.goalPoint = entity.getGoalPoint();
-		this.goalPlace = entity.getGoalPlace();
-		this.days = entity.getDays();
-		this.userId = entity.getUser().getId();
-		this.tripTitle = entity.getTrip().getTitle();
-	}
+	public static MapDTO fromEntity(MapEntity entity) {
+        return MapDTO.builder()
+                .idx(entity.getIdx())
+                .startPoint(entity.getStartPoint())
+                .goalPoint(entity.getGoalPoint())
+                .waypointsPoint(entity.getWaypointsPoint())
+                .startPlace(entity.getStartPlace())
+                .goalPlace(entity.getGoalPlace())
+                .waypointsPlace(entity.getWaypointsPlace())
+                .days(entity.getDays())
+                .tripTitle(entity.getTrip() != null ? entity.getTrip().getTitle() : null)
+                .userId(entity.getUser() != null ? entity.getUser().getId().toString() : null)
+                .build();
+    }
 	
-	public static MapEntity toEntity(MapDTO dto) {
-		return MapEntity.builder().
-				startPoint(dto.getStartPoint()).
-				startPlace(dto.getStartPlace()).
-				waypointsPoint(dto.getWaypointsPoint()).
-				waypointsPlace(dto.getWaypointsPlace()).
-				goalPoint(dto.getGoalPoint()).
-				goalPlace(dto.getGoalPlace()).
-				days(dto.getDays()).
-				build();
-	}
+	public MapEntity toEntity(UserEntity user, TripEntity trip) {
+        return MapEntity.builder()
+                .idx(this.idx)
+                .startPoint(this.startPoint)
+                .goalPoint(this.goalPoint)
+                .waypointsPoint(this.waypointsPoint)
+                .startPlace(this.startPlace)
+                .goalPlace(this.goalPlace)
+                .waypointsPlace(this.waypointsPlace)
+                .days(this.days)
+                .user(user) // UserEntity 설정
+                .trip(trip) // TripEntity 설정
+                .build();
+    }
 }

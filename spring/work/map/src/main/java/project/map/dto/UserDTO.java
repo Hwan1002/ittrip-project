@@ -22,21 +22,16 @@ public class UserDTO {
 	private String id; // 회원아이디(식별자)
 	private String password; // 비밀번호
 	private String userName ; // 이름
-	private String email; // 이메일
-	private String address; // 주소 
+	private String email; // 이메일 
 	private String profilePhoto; // 프로필사진
 	private Date signupDate; // 회원가입 날짜 
 	
 	
-	
-
-	
-	public  UserDTO(UserEntity entity) {
+	public UserDTO(UserEntity entity) {
 		this.id = entity.getId() ;
 		this.userName = entity.getUserName() ;
 		this.email = entity.getEmail() ;
 		this.signupDate = entity.getSignupDate();
-		this.address = entity.getAddress() ;
 		this .profilePhoto = entity.getProfilePhoto() ;
 	}
 	
