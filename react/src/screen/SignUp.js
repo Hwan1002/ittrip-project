@@ -134,7 +134,7 @@ const SignUp = () => {
             const value = formData[key];
             return  typeof value === 'string' && value.trim() === '';
         });
-
+        
         if(emptyValue){
             openModal({
                 title:"입력오류",
