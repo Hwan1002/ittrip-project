@@ -14,13 +14,13 @@
   .modal-content {
     display: flex;   
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     background: white;
     padding: 20px;
     border-radius: 8px;
     width: 400px;
-    height:200px;
+    height: auto;
     max-width: 90%;
     
   }
@@ -63,5 +63,20 @@
   .modal-actions button[type="button"] {
     background-color: #F6A354;
     color: white;
+  }
+
+  /* Header.js 모달 전용 */
+  .tripPlan_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:30vw;
+  }
+
+  .tripPlan_content input{
+    width:15vw;
+    height:25px;
+    border-radius: 10px;
   }
   

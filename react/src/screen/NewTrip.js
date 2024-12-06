@@ -20,7 +20,6 @@ const NewTrip = () => {
 
 
 
-
                 <h2 className="title">새로운 여행 하기</h2>
 
                 {/* input 3개 나란히 */}
@@ -70,10 +69,12 @@ const NewTrip = () => {
                         </div>
                         <div id="endBtFrame">
                             <button  id="newEnd"><p style={{marginLeft:"40px"}} onClick={()=>{alert("새로운 여행이 추가되었습니다")}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"25px"}}/></button>
-                        </div>
+
+                    
                     </div>
                 </div>
             </div>
+        </div>
 
     );
 }
