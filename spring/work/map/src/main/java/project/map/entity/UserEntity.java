@@ -35,9 +35,6 @@ public class UserEntity {
 	@Column(name = "email", length = 50)
 	private String email; // 이메일
 	
-	@Column(name = "address", length = 70)
-	private String address; // 주소 
-	
 	@Column(name = "profile_photo", nullable = false, length = 255)
 	private String profilePhoto; // 프로필사진
 	
