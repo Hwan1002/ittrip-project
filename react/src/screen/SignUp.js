@@ -207,7 +207,7 @@ const SignUp = () => {
                         </div>
                         <div className='signUp_id'>
                             <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.id}/>
-                            <button type="button" onClick={idCheck}>중복체크</button>
+                            <button  type="button" onClick={idCheck}>중복체크</button>
                         </div>
                         <div>
                             <input name="password" type="password" placeholder='비밀번호를 입력하세요.' onChange={handleInputChange} value={formData.password}/>
