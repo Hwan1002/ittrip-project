@@ -9,8 +9,11 @@
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
 }
 
+
+
+
 #mapFrame {
-    position: relative;
+
     display: grid;
     justify-content: center;
     align-items: center;
