@@ -163,6 +163,7 @@ const Header=()=>{
                                     />
                                     {tripDates.startDate && tripDates.endDate && (
                                         <div>
+                                            <p>여행 이름 : {tripTitle}</p>
                                             <p>출발 : {tripDates.startDate.toLocaleDateString()}</p>
                                             <p>도착 : {tripDates.endDate.toLocaleDateString()}</p>
                                         </div>
