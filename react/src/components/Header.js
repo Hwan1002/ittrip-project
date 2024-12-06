@@ -42,6 +42,7 @@ const Header=()=>{
     const handleLogout = () => {
         setLoginSuccess(false);
         localStorage.removeItem("token");
+        sessionStorage.clear();
         alert("로그아웃 성공");
         closeModal();
         navigate("/login");
