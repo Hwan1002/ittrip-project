@@ -4,7 +4,9 @@ import '../css/Reset.css'
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Logo from "../components/Logo";
-import kakao from "../img/kakaotalk.png";
+import Kakao from "../img/Logo/kakao.png";
+import Naver from '../img/Logo/naver.svg'
+import Google from '../img/Logo/google.svg'
 import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
 import { API_BASE_URL } from "../service/api-config";
@@ -90,11 +92,16 @@ const Login = () => {
                         <div>
                             <button className="loginBt" type="submit">로그인</button>
                             <button className="kakaoBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"kakao")}>
-                                <img src={kakao} alt="kakao" style={{width:"20px"}} />
+                                <img src={Kakao} alt="kakao" style={{width:"25px", marginRight:"5px"}} />
                                 카카오로 로그인
                             </button>
-                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}>네이버로 로그인</button>
-                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")}>구글로 로그인</button>
+                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}>
+                                <img src={Naver} alt="kakao" style={{width:"18px", marginRight:"10px"}} />
+                                네이버로 로그인
+                            </button>
+                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")}>
+                                <img src={Google} alt="kakao" style={{width:"20px",marginRight:"18px"}} />구글로 로그인
+                            </button>
                         </div>
                     </div>
                 </form>
