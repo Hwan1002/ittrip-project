@@ -165,7 +165,7 @@ const SignUp = () => {
                         message:"환영합니다!.",
                         actions:[{label: "확인", onClick:closeModal}],
                     })
-                    setTimeout(() => navigate("/login"), 2000);
+                    setTimeout(() => navigate("/login"), 1500);
                 }
             } catch (error) {
                 if(error.response){
