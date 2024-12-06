@@ -56,10 +56,9 @@ public class UserController {
 											@RequestParam("password") String password,
 											@RequestParam("userName") String userName,
 											@RequestParam("email") String email,
-											@RequestParam("address") String address, 
 											@RequestParam("profilePhoto") MultipartFile profilePhoto) {
 		// DTO 객체 생성
-		UserDTO dto = new UserDTO(id, password, userName, email, address, null);
+		UserDTO dto = new UserDTO(id, password, userName, email, null);
 		// profilePhoto 처리
 		UserDTO registerUser = service.create(dto, profilePhoto);
 		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
