@@ -23,15 +23,23 @@ public class TripDTO {
 	private String userId;
 	
 	
-	public static TripDTO fromEntity(TripEntity entity) {
-        return TripDTO.builder()
-                .idx(entity.getIdx())
-                .startDate(entity.getStartDate())
-                .lastDate(entity.getLastDate())
-                .title(entity.getTitle())
-                .userId(entity.getUser() != null ? entity.getUser().getId().toString() : null)
-                .build();
-    }
+	public TripDTO(TripEntity entity){
+		this.idx = entity.getIdx() ;
+		this.title = entity.getTitle() ;
+		this.startDate = entity.getStartDate() ;
+		this.lastDate = entity.getLastDate();
+		this .userId = entity.getUser().getId(); 
+	}
+	
+//	public static TripDTO fromEntity(TripEntity entity) {
+//        return TripDTO.builder()
+//                .idx(entity.getIdx())
+//                .startDate(entity.getStartDate())
+//                .lastDate(entity.getLastDate())
+//                .title(entity.getTitle())
+//                .userId(entity.getUser() != null ? entity.getUser().getId().toString() : null)
+//                .build();
+//    }
 
     // DTO -> Entity 변환 메서드
     public TripEntity toEntity(UserEntity user) {

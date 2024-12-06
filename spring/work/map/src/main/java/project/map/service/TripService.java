@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.map.entity.AreaEntity;
+import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
 import project.map.repository.AreaRepository;
@@ -85,5 +86,14 @@ public class TripService {
 		return tripRepository.updateTitleByIdx(updateTitle,idx);							
 	}
 	
+	//trip의 title을 받아서 MapEntity들 반환하기
+	public List<MapEntity> getMaps(String userId,String title){
+		return mapRepository.getLocationByUserIdAndTitle(userId, title);
+	}
+	
+	//trip의 title을 받아서 CheckListEntity 반환하기
+	public CheckListEntity getCheckLists(String userId,String title){
+		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
+	}
 	
 }

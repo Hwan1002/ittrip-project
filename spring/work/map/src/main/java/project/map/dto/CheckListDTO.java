@@ -20,14 +20,22 @@ public class CheckListDTO {
 	private String userId;		//UserEntity의 id
 	private String tripTitle;	//TripEntity의 title
 	
-	public static CheckListDTO fromEntity(CheckListEntity entity) {
-        return CheckListDTO.builder()
-                .idx(entity.getIdx())
-                .checkList(entity.getCheckList())
-                .tripTitle(entity.getTrip() != null ? entity.getTrip().getTitle() : null)
-                .userId(entity.getUser() != null ? entity.getUser().getId().toString() : null)
-                .build();
-    }
+	
+	public CheckListDTO(CheckListEntity entity) {
+		this.idx = entity.getIdx();
+		this.checkList = entity.getCheckList();
+		this.userId = entity.getUser().getId();
+		this.tripTitle = entity.getTrip().getTitle();
+	}
+	
+//	public static CheckListDTO fromEntity(CheckListEntity entity) {
+//        return CheckListDTO.builder()
+//                .idx(entity.getIdx())
+//                .checkList(entity.getCheckList())
+//                .tripTitle(entity.getTrip() != null ? entity.getTrip().getTitle() : null)
+//                .userId(entity.getUser() != null ? entity.getUser().getId().toString() : null)
+//                .build();
+//    }
 	
 	public CheckListEntity toEntity(UserEntity user, TripEntity trip) {
         return CheckListEntity.builder()
