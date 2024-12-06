@@ -1,5 +1,7 @@
 package project.map.service;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +37,17 @@ public class UserService {
 		List<UserDTO> dtos = entities.stream().map(UserDTO::new).collect(Collectors.toList());
 		return dtos;
 	}
+	
+	//유저 id로 조회
+	public UserDTO getById(String userId) {
+	    UserEntity entity = repository.findById(userId).orElseThrow(() -> 
+	        new RuntimeException("해당 ID를 가진 유저가 존재하지 않습니다.")
+	    );
+	    return toDTO(entity);
+	}
 
 	// 유저 생성
-	public UserDTO create(UserDTO dto) {
+	public UserDTO create(UserDTO dto , MultipartFile profilePhoto) {
 		try {
 			// 필수 필드 검증
 
@@ -44,6 +55,33 @@ public class UserService {
 
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
+			
+		    // 이미지 파일 처리 (업로드 디렉토리 설정)
+			 // 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
+	        String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();
+
+	     // 업로드 디렉토리가 없다면 생성
+	        File uploadDirectory = new File(uploadDir);
+	        if (!uploadDirectory.exists()) {
+	            uploadDirectory.mkdirs(); // 디렉토리 생성
+	        }
+	        
+	        
+	        if (profilePhoto != null && !profilePhoto.isEmpty()) {
+	        	// 파일 이름을 현재 시간 기반으로 고유하게 생성
+                String fileName = System.currentTimeMillis() + "_" + profilePhoto.getOriginalFilename();
+                // 파일 객체 생성
+                File file = new File(uploadDir + File.separator + fileName);
+                // 파일 저장
+                profilePhoto.transferTo(file);  
+                // 저장된 파일 이름을 DTO에 반영
+                String profilePhotoPath = uploadDir + File.separator + fileName;  
+                dto.setProfilePhoto(profilePhotoPath);
+	        }
+			
+	    
+	        
+			
 			// UserEntity 빌드
 			UserEntity entity = toEntity(dto);
 			final String userId = entity.getId();
@@ -104,16 +142,25 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-		return UserEntity.builder().id(dto.getId()).password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
-				.userName(dto.getUserName()).email(dto.getEmail())
-				.profilePhoto(dto.getProfilePhoto()).build();
+
+		return UserEntity.builder()
+				.id(dto.getId())
+				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
+				.userName(dto.getUserName())
+				.email(dto.getEmail())
+				.profilePhoto(dto.getProfilePhoto())
+				.build();
 	}
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
 
-		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName()).email(entity.getEmail())
-				.signupDate(entity.getSignupDate()).profilePhoto(entity.getProfilePhoto())
+		return UserDTO.builder()
+				.id(entity.getId())
+				.userName(entity.getUserName())
+				.email(entity.getEmail())
+				.signupDate(entity.getSignupDate())
+				.profilePhoto(entity.getProfilePhoto())
 				.build();
 				
 	}

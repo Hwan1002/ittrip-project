@@ -3,6 +3,8 @@ package project.map.security;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -10,7 +12,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import lombok.extern.slf4j.Slf4j;
 import project.map.entity.UserEntity;
@@ -27,6 +28,8 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 	@Autowired
 	private UserRepository repository;
 
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	public OAuthUserServiceImpl() {
 		super();
 	}
@@ -41,42 +44,58 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		} catch (Exception e) {
 			log.error("Error serializing OAuth2User attributes", e);
 		}
-
+		
+		
 		String userId = null;
+		String email =null;
 		String profilePhoto = null;
+		String userName =null;
 		// 현재 사용자가 어떤 OAuth2 제공자를 통해 로그인했는지 이름을 반환한다.
-	
-		final String authProvider = userRequest.getClientRegistration().getClientName();
-		
-		if (authProvider.equals("naver")) {
-	          // Naver에서 name을 가져오기 위해 'response' 필드를 찾습니다.
-	           Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("response");
-	           if (response != null) {
-	               userId = (String) response.get("id");  // 'response' 객체에서 'name' 추출
-	               profilePhoto = (String) response.get("profile_image");
-	           }
-	      } else if (authProvider.equals("Kakao")) {
-	         Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
-	         Object id = oAuth2User.getAttributes().get("id");
-	         userId = String.valueOf(id);
-	          if (response != null) {
-	                  profilePhoto = (String) response.get("profile_image");
-	              }
-	      } else {
-	         userId = (String) oAuth2User.getAttributes().get("sub");
-	          profilePhoto = (String) oAuth2User.getAttributes().get("picture");
-	      }
-		
-		   if (!repository.existsById(userId)) {
-	            repository.save(UserEntity.builder()
-	                .id(userId)
-	                .password("1234")
-	                .authProvider(authProvider)
-	                .profilePhoto(profilePhoto)
-	                .build());
-	        }
 
-	      log.info("Successfully pulled user info username {} authProvider {} image {}", userId, authProvider,profilePhoto);
-	      return new ApplicationOAuth2User(userId, oAuth2User.getAttributes());
+		final String authProvider = userRequest.getClientRegistration().getClientName();
+
+		if (authProvider.equals("Kakao")) {
+		    Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
+		    userId = String.valueOf(oAuth2User.getAttributes().get("id"));
+		    if (response != null) {
+		        userName = (String) response.get("nickname");  // 카카오의 nickname을 사용자의 이름으로
+		        profilePhoto = (String) response.get("profile_image");  // 프로필 사진
+		    }
+		    Map<String, Object> kakaoAccount = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
+		    if (kakaoAccount != null) {
+		        email = (String) kakaoAccount.get("email");  // 이메일 추출
+		    }
+		} else if (authProvider.equals("naver")) {
+			// Naver에서 name을 가져오기 위해 'response' 필드를 찾습니다.
+			Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("response");
+			if (response != null) {
+				userId = (String) response.get("id"); // 'response' 객체에서 'id' 추출
+				email = (String) response.get("email"); 
+				profilePhoto = (String) response.get("profile_image");
+				userName = (String) response.get("name"); 
+			}
+		} else {
+			userId = (String) oAuth2User.getAttributes().get("sub");
+			email = (String) oAuth2User.getAttributes().get("email"); 
+			profilePhoto = (String) oAuth2User.getAttributes().get("picture");
+			userName = (String) oAuth2User.getAttributes().get("name"); 
+		}
+
+		if (!repository.existsById(userId)) {
+			// 비밀번호를 인코딩하여 저장
+			String encodedPassword = passwordEncoder.encode("1234"); // 기본 비밀번호 "1234"
+			repository.save(UserEntity.builder()
+					.id(userId)
+					.email(email)
+					.password(encodedPassword) // 인코딩된 비밀번호 저장
+					.authProvider(authProvider)
+					.profilePhoto(profilePhoto)
+					.userName(userName)
+					.build());
+		}
+
+		log.info("Successfully pulled user info username {} authProvider {} image {}", userId, authProvider,
+				profilePhoto);
+		return new ApplicationOAuth2User(userId, oAuth2User.getAttributes());
 	}
 }

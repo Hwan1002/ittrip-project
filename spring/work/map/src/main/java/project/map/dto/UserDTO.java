@@ -38,6 +38,15 @@ public class UserDTO {
 		this .profilePhoto = entity.getProfilePhoto() ;
 	}
 	
+	 public UserDTO(String id, String password, String userName, String email, String profilePhoto) {
+	        this.id = id;
+	        this.password = password;
+	        this.userName = userName;
+	        this.email = email;
+	        this.profilePhoto = profilePhoto;
+	    }
+	
+	
 	
 }
 

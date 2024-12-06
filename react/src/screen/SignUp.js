@@ -128,6 +128,21 @@ const SignUp = () => {
     // 회원가입 버튼
     const signUp = async(e) => {
         e.preventDefault();
+
+
+         // FormData 객체를 생성하여 formData와 이미지 파일을 함께 서버로 전송
+    const formDataToSend = new FormData();
+    for (let key in formData) {
+        formDataToSend.append(key, formData[key]);
+    }
+
+    // 이미지 파일도 FormData에 추가
+    if (imagePreview) {
+        const imageFile = document.querySelector('input[type="file"]').files[0];
+        formDataToSend.append('profilePhoto', imageFile);
+    }
+
+
         //formData에서 빈값 체크
         const emptyValue = Object.keys(formData).find((key) => {
             const value = formData[key];
@@ -157,8 +172,13 @@ const SignUp = () => {
             })
             return;
         }else{
-            try{  
-                const response = await axios.post(`${API_BASE_URL}/signup`,formData,config);
+            try {
+                const response = await axios.post(`${API_BASE_URL}/signup`, formDataToSend, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'  // 파일 업로드를 위한 Content-Type 설정
+                    }
+                });
+
                 if(response.status === 200){
                     openModal({
                         title:"가입 성공",

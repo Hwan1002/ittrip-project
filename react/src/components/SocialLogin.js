@@ -2,7 +2,7 @@ import  { useContext, useEffect } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { useNavigate } from "react-router-dom";
 
-const SocialLogin = (props) => {
+const SocialLogin = () => {
     const {setLoginSuccess } = useContext(ProjectContext);
     const navigate = useNavigate();
 
