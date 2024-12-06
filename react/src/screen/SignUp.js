@@ -76,7 +76,6 @@ const SignUp = () => {
 
     //중복 아이디 체크
     const idCheck = async() => {
-        
         try {
             if(formData.id === '') {
                 openModal({
