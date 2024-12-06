@@ -42,6 +42,7 @@ public class UserService {
 
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null || dto.getEmail() == null
 					|| dto.getAddress() == null) {
+
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			// UserEntity 빌드
@@ -78,12 +79,10 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 , 주소 ,프로필사진
 	@Transactional
-
 	public void modify(String id, UserDTO dto) {
 		UserEntity entity = repository.findById(id).get();
 		// 수정 후 password 인코딩 빠져있어서 추가 .
 		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-
 		entity.setAddress(dto.getAddress());
 		entity.setProfilePhoto(dto.getProfilePhoto());
 		repository.save(entity);

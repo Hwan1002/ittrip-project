@@ -68,7 +68,7 @@ public class WebSecurityConfig {
          .userInfoEndpoint()
          .userService(oAuthUserService)
          .and()
-         .successHandler(oAuthSuccessHandler)
+         .successHandler(oAuthSuccessHandler)  
          .and()
          .exceptionHandling()
          .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
