@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,19 @@ public class UserController {
 		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
 	}
+	
+	 // id를 이용한 1명 유저 조회
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable String userId) {
+        try {
+            UserDTO user = service.getById(userId);
+            ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
 
 	// 회원가입
 	@PostMapping("/signup")

@@ -35,6 +35,8 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		TokenProvider tokenProvider =new TokenProvider();
 		String token = tokenProvider.create(authentication);
 		
+		 
+		
 		response.getWriter().write(token);
 		log.info("token {}",token);
 		

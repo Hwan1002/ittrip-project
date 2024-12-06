@@ -34,6 +34,14 @@ public class UserService {
 		List<UserDTO> dtos = entities.stream().map(UserDTO::new).collect(Collectors.toList());
 		return dtos;
 	}
+	
+	//유저 id로 조회
+	public UserDTO getById(String userId) {
+	    UserEntity entity = repository.findById(userId).orElseThrow(() -> 
+	        new RuntimeException("해당 ID를 가진 유저가 존재하지 않습니다.")
+	    );
+	    return toDTO(entity);
+	}
 
 	// 유저 생성
 	public UserDTO create(UserDTO dto) {
