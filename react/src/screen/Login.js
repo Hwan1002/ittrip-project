@@ -36,14 +36,10 @@ const Login = () => {
     }
 
     // 소셜로그인
-    const socialLogin = (e,provider) => {
-        e.preventDefault();
-        window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
-    }
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
+
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
             setLoginSuccess(true);
             if (response.data && response.data.value.token) {
@@ -55,6 +51,7 @@ const Login = () => {
                     actions : [{label : "확인", onClick: () => {closeModal(); navigate("/")} }],
                 })
                 
+
             } else {
                 openModal({
                     title: "",
@@ -73,6 +70,13 @@ const Login = () => {
                 return;
             } 
         }
+    }
+
+    const socialLogin = (e, provider) => {
+        e.preventDefault();
+        // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
+        window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
+
     }
     return (
         <div id="login">
@@ -104,6 +108,7 @@ const Login = () => {
                             </button>
                         </div>
                     </div>
+
                 </form>
                 <Modal
                     isOpen={isModalOpen}

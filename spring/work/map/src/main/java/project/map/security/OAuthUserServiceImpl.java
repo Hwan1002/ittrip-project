@@ -45,6 +45,7 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		String userId = null;
 		String profilePhoto = null;
 		// 현재 사용자가 어떤 OAuth2 제공자를 통해 로그인했는지 이름을 반환한다.
+	
 		final String authProvider = userRequest.getClientRegistration().getClientName();
 		
 		if (authProvider.equals("naver")) {

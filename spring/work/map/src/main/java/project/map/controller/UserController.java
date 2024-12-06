@@ -58,6 +58,8 @@ public class UserController {
 		}
 
 	}
+	
+	
 
 	// 중복체크
 	@PostMapping("/check")

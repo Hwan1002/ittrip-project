@@ -22,7 +22,6 @@ const SignUp = () => {
         password : '',
         userName : '',
         email : '',
-        address : '',
         profilePhoto : '',
     })
      //비밀번호 확인 상태만 따로 관리 (용도 : 입력한 비밀번호와 비교 용도)
@@ -134,7 +133,7 @@ const SignUp = () => {
             const value = formData[key];
             return  typeof value === 'string' && value.trim() === '';
         });
-
+        
         if(emptyValue){
             openModal({
                 title:"입력오류",
@@ -166,7 +165,7 @@ const SignUp = () => {
                         message:"환영합니다!.",
                         actions:[{label: "확인", onClick:closeModal}],
                     })
-                    setTimeout(() => navigate("/login"), 2000);
+                    setTimeout(() => navigate("/login"), 1500);
                 }
             } catch (error) {
                 if(error.response){
@@ -221,9 +220,6 @@ const SignUp = () => {
                         </div>
                         <div>
                             <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
-                        </div>
-                        <div>
-                            <input name="address" type="text" placeholder='주소를 입력하세요' onChange={handleInputChange} value={formData.address}/>
                         </div>
                         <div className="sigUp_Btns">
                             <button className="sigupBtn" type="submit">회원가입</button>

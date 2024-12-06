@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import Logo from "../components/Logo";
 import '../css/NewTrip.css'
 
-import Map from "../components/Map.js"
 import Plus2 from "../img/plus2.svg"
 import AddData from "../components/AddData.js";
-
-import AddRoot from "../components/AddRoot.js";
+import Map from "../components/Map.js";
 
 
 const NewTrip = () => {
     // useState
-    const [tripName, setTripName] = useState(''); // 여행이름 저장
-    const [tripLocal, setTripLocal] = useState(''); // 여행 지역 저장
-    const [tripDays, setTripDays] = useState(0);  // 여행일정 저장
+    const [setTripName] = useState(''); // 여행이름 저장
+    const [setTripLocal] = useState(''); // 여행 지역 저장
+    const [setTripDays] = useState(0);  // 여행일정 저장
 
     return (
         <div className="newTrip">
@@ -54,10 +51,7 @@ const NewTrip = () => {
                     <div id="locationFrame">
                         <div id="newMap"><Map/></div>
                         <div id="addDirectionFrame">
-
                             <AddData width="200px"/>
-
-
                         </div>
                     </div >
                     <div id="checkAndEnd">
@@ -68,6 +62,7 @@ const NewTrip = () => {
                             </div>
                         </div>
                         <div id="endBtFrame">
+
                             <button  id="newEnd"><p style={{marginLeft:"40px"}} onClick={()=>{alert("새로운 여행이 추가되었습니다")}}>새로운 여행 추가</p> <img src={Plus2}   style={{marginLeft:"25px", width:"28px"}}/></button>
 
                     
