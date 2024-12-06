@@ -13,6 +13,7 @@ const Header=()=>{
     const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
     const navigate = useNavigate();
 
+    const [tripTitle, setTripTitle] = useState("");
     const [tripDates, setTripDates] = useState({startDate : "" , endDate: ""});
     const [isNewPlanModal, setIsNewPlanModal] = useState(false);
 
@@ -139,7 +140,16 @@ const Header=()=>{
                 title={isNewPlanModal ? "새로운 여행 계획" : "로그아웃"}
                 content={
                     isNewPlanModal ? (
-                        <div>
+                        <div className="tripPlan_content" >
+                            <label>
+                                여행 제목:
+                                <input
+                                    type="text"
+                                    name="tripTitle"
+                                    value={tripTitle}
+                                    onChange={handleTripInput}
+                                />
+                            </label>
                             <label>
                                 출발 날짜:{" "}
                                 <input
@@ -149,7 +159,6 @@ const Header=()=>{
                                     onChange={handleTripInput}
                                 />
                             </label>
-                            <br />
                             <label>
                                 도착 날짜:{" "}
                                 <input
