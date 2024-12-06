@@ -19,6 +19,17 @@
     align-items: center;
     flex-direction: column;
 }
+.profileChangeBtn{
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    border:none;
+    color: #fff;
+    font-size: 18px;
+
+    background-color: #F6A354;
+
+}
 
 .photoImg {
     width:90px;
@@ -70,10 +81,19 @@
 /*회원가기, 돌아가기 버튼*/
 .sigUp_Btns button{
     margin: 20px 0;
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    border:none;
+    background-color: #878787;
+    color: #fff;
+    font-size: 18px;
+    
 }
 
 .sigUp_Btns button:first-child{
     margin-right:10px;
+    background-color: #F6A354;
 }
 
 /* 생년월일 */

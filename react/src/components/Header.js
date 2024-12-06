@@ -1,11 +1,20 @@
 import React, { useContext,useEffect,useState } from "react";
 import '../css/Header.css'
 import '../css/Reset.css'
+
 import logo from '../img/Logo/logo.svg'
-import { Link } from "react-router-dom";
-import { ProjectContext} from "../context/ProjectContext";
-import { useNavigate } from "react-router-dom";
+
+
+
+
+
+import { Link, useNavigate } from "react-router-dom";
+
 import Modal from "./Modal";
+
+import { ProjectContext} from "../context/ProjectContext";
+
+
 import useModal from "../context/useModal";
 
 const Header=()=>{
@@ -109,7 +118,10 @@ const Header=()=>{
             <nav className="menuBar">
                 <Link className="menu" to={'/'}>Main</Link>
                 <Link className="menu" to={'/entireplan'}>My Plan</Link>
+                <Link className="menu" to={'/mypage'}>Main page</Link>
                 <Link className="menu" to={'/newtrip'} onClick={openNewPlanModal}>New Plan</Link>
+
+
             </nav>
             <div className="headerBtn">
                 {loginSuccess ? (

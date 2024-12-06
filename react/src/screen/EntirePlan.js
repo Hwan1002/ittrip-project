@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import Map from "../components/Map";
 import '../css/Reset.css'
 import Plus2 from "../img/plus2.svg"
-import Scroll from "../components/Scroll";
+
 import AddData from "../components/AddData";
 
 const EntirePlan = () => {
-    //임시 여행리스트
-    const tripList = ["여행1", "여행2", "여행3", "여행", "여행", "여행", "여행", "여행", "여행", "여행", "여행"]
+
 
     return (
         <div id="entirePlan">
@@ -18,9 +17,53 @@ const EntirePlan = () => {
             </div>
             <div id="planFrame">
                 <Link to="/newTrip"><div id="newTripBt"><p style={{marginLeft:"15px"}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"15px"}}/></div></Link>
-                <Scroll title="여행목록" style={{width:"300px",height:"160px"}} list={tripList}/>
-                <Scroll title="여행경로" style={{width:"300px",height:"160px"}} list={tripList}/>
-                <Scroll title="체크리스트" style={{width:"300px",height:"160px"}} list={tripList}/>
+                
+            {/* 여행목록 */}
+            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px"}}>여행목록</p>
+            <div
+                style={{
+                    border: "2px solid #DADADA",
+                    borderRight: "none",
+                    borderLeft: "none",
+                    overflowY: "auto",  // 세로 스크롤을 가능하게 함 
+                    padding: "10px",  // 내부 여백을 추가 (선택 사항)
+                    width:"300px",
+                    height:"160px"
+                }}
+            >
+                여행
+            </div>
+
+            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px"}}>여행경로</p>
+            <div
+                style={{
+                    border: "2px solid #DADADA",
+                    borderRight: "none",
+                    borderLeft: "none",
+                    overflowY: "auto",  // 세로 스크롤을 가능하게 함 
+                    padding: "10px",  // 내부 여백을 추가 (선택 사항)
+                    width:"300px",
+                    height:"160px"
+                }}
+            >
+                여행
+            </div>
+
+            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px"}}>체크리스트</p>
+            <div
+                style={{
+                    border: "2px solid #DADADA",
+                    borderRight: "none",
+                    borderLeft: "none",
+                    overflowY: "auto",  // 세로 스크롤을 가능하게 함 
+                    padding: "10px",  // 내부 여백을 추가 (선택 사항)
+                    width:"300px",
+                    height:"160px"
+                }}
+            >
+                여행
+            </div>
+
             </div>
         </div>
     )
