@@ -102,12 +102,7 @@ public class UserController {
 		return ResponseEntity.ok("회원정보 수정완료");
 
 	}
-<<<<<<< Updated upstream
 
-=======
-	
-	
->>>>>>> Stashed changes
 	// 회원정보 삭제
 	@DeleteMapping
 	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId) {
