@@ -7,6 +7,8 @@ export const ProjectProvider = ({ children }) => {
 
   const [userInfo, setUserInfo] = useState(null);  // 로그인한 사용자 정보
 
+  const [imagePreview, setImagePreview] = useState(null); //프로필 이미지 url 상태
+
     const setUserData = (data) => {
         setUserInfo(data);
         setLoginSuccess(true);
@@ -14,7 +16,7 @@ export const ProjectProvider = ({ children }) => {
 
   
   return (
-    <ProjectContext.Provider value={{ loginSuccess, setLoginSuccess ,userInfo,setUserData}}>
+    <ProjectContext.Provider value={{ loginSuccess, setLoginSuccess, imagePreview, setImagePreview ,userInfo,setUserData}}>
 
       {children}
     </ProjectContext.Provider>
