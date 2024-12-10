@@ -1,13 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import '../css/MyPage.css'
-
+import { API_BASE_URL } from "../service/api-config";
 import { ProjectContext } from "../context/ProjectContext";
+import axios from "axios";
 
 const MyPage = () => {
 
 
-    const { userInfo } = useContext(ProjectContext);
+    const [userInfo, setUserInfo] = useState('');
 
+    useEffect(()=>{
+        const response = axios.get(`${API_BASE_URL}/userinfo`)
+        userInfo =  response.data.value
+    },[])
 
     return (
         <div className="container">
