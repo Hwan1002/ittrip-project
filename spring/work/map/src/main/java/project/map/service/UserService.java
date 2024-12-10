@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import project.map.dto.UserDTO;
@@ -178,7 +178,6 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-
 
 		return UserEntity.builder()
 				.id(dto.getId())
