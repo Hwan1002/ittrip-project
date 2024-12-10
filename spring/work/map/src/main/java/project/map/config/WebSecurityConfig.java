@@ -23,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
 import project.map.security.JwtAuthenticationFilter;
 import project.map.security.OAuthSuccessHandler;
 import project.map.security.OAuthUserServiceImpl;
