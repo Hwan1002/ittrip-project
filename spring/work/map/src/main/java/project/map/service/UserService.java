@@ -7,11 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< Updated upstream
-=======
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
->>>>>>> Stashed changes
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -182,7 +179,6 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-<<<<<<< Updated upstream
 
 		return UserEntity.builder()
 				.id(dto.getId())
@@ -191,16 +187,11 @@ public class UserService {
 				.email(dto.getEmail())
 				.profilePhoto(dto.getProfilePhoto())
 				.build();
-=======
-		return UserEntity.builder().id(dto.getId()).password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
-				.userName(dto.getUserName()).email(dto.getEmail()).profilePhoto(dto.getProfilePhoto()).build();
->>>>>>> Stashed changes
 	}
 
 	// entity -> dto
 	public UserDTO toDTO(UserEntity entity) {
 
-<<<<<<< Updated upstream
 		return UserDTO.builder()
 				.id(entity.getId())
 				.userName(entity.getUserName())
@@ -209,11 +200,7 @@ public class UserService {
 				.profilePhoto(entity.getProfilePhoto())
 				.build();
 				
-=======
-		return UserDTO.builder().id(entity.getId()).userName(entity.getUserName()).email(entity.getEmail())
-				.signupDate(entity.getSignupDate()).profilePhoto(entity.getProfilePhoto()).build();
 
->>>>>>> Stashed changes
 	}
 
 }

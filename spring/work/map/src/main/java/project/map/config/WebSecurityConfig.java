@@ -16,13 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-<<<<<<< Updated upstream
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-=======
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
->>>>>>> Stashed changes
 
 import project.map.security.JwtAuthenticationFilter;
 import project.map.security.OAuthSuccessHandler;
@@ -103,13 +100,13 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 	}
    
    
-<<<<<<< Updated upstream
+
    @Override
    public void addResourceHandlers(ResourceHandlerRegistry registry) {
       registry.addResourceHandler("/uploads/**")
               .addResourceLocations("file:uploads/"); // 파일 시스템에서 'uploads' 디렉토리의 파일을 서빙
    }
-=======
+
    // . WebClient에서 XML 데이터 처리 설정 //JAXB 디코더 추가
    @Bean
    public WebClient webClient(WebClient.Builder builder) {
@@ -120,10 +117,5 @@ public class WebSecurityConfig implements WebMvcConfigurer {
    }
    
    
-   
-   
-   
-   
-   
->>>>>>> Stashed changes
+  
 }
