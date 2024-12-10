@@ -116,8 +116,8 @@ const Header=()=>{
                 {loginSuccess ? (
                     <>
                          <span>
-                         <img width='30' src={userInfo.profilePhoto.indexOf('http') !=-1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`}/>
-                            {userInfo ? `Welcome, ${userInfo.userName}` : "Hello"}
+                         {/* <img width='30' src={userInfo.profilePhoto.indexOf('http') !=-1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`}/>
+                            {userInfo ? `Welcome, ${userInfo.userName}` : "Hello"} */}
                         </span>  {/* 사용자 이름 표시 */}
                         <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
                         <Link className="mypage" to={'/mypage'}>MYPAGE</Link>

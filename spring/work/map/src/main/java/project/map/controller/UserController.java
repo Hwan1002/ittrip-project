@@ -27,12 +27,15 @@ public class UserController {
 	private UserService service;
 
 
+
+	// 마이페이지에서 정보확인을위한 조회.
 	@GetMapping("/userinfo")
-	public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
-		UserDTO user = service.getById(userId);
-		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
-		return ResponseEntity.ok(response);
-	}
+
+	   public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
+	      UserDTO user = service.getById(userId);
+	      ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
+	      return ResponseEntity.ok(response);
+	   }
 
 	// 회원가입
 	@PostMapping(value = "/signup", consumes = "multipart/form-data")
@@ -72,9 +75,11 @@ public class UserController {
 
 	// 회원정보 수정
 	@PutMapping
-	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, @RequestParam("password") String password,
-			@RequestParam("userName") String userName, @RequestParam("email") String email,
-			@RequestParam("profilePhoto") MultipartFile profilePhoto) {
+	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, 
+										@RequestParam("password") String password,
+										@RequestParam("userName") String userName, 
+										@RequestParam("email") String email,
+										@RequestParam(value ="profilePhoto" , required = false) MultipartFile profilePhoto) {
 		// DTO 객체 생성
 		UserDTO dto = new UserDTO(userId, password, userName, email, null);
 		service.modify(userId, dto, profilePhoto);
