@@ -19,8 +19,13 @@ const App = () => {
                 initialRouteName='main'
                 screenOptions={{
                     headerTitle:()=>(
-                        <Image source={require('./img/logo.png')} style={{width:50}}/>
-                )}}
+                        <View style={styles.headerContainer}>
+                            <Image style={styles.image} source={require('../assets/logo.png')}/>
+                        </View>
+                    ),
+                    headerTitleAlign:'center'
+                }}
+
             >
                 <Tab.Screen name='main' component={Main} />
                 <Tab.Screen name='newPlan' component={NewPlan} />
@@ -32,7 +37,8 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-
+    headerContainer:{flex:1, justifyContent:'center', alignItems:'center'},
+    image:{width:90, height:40, resizeMode:'contain'}
 })
 
 export default App;
