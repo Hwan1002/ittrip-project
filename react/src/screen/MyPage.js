@@ -14,7 +14,6 @@ const MyPage = () => {
         "Authorization": `Bearer ${token}`
     });
     useEffect(()=>{
-        debugger;
         try {
             const getUserInfo = async() => {
                 const response = await axios.get(`${API_BASE_URL}/mypage`,header);
