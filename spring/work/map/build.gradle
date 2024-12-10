@@ -55,7 +55,10 @@ dependencies {
    	// WebClient 사용을 위한 WebFlux 의존성
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     
+	//Jackson XML 모듈 의존성 추가
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
+	
     
 
    
