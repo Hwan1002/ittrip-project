@@ -23,14 +23,14 @@ const App = () => {
                             <Image style={styles.image} source={require('../assets/logo.png')}/>
                         </View>
                     ),
-                    headerTitleAlign:'center'
+                    headerTitleAlign:'center',
                 }}
 
             >
-                <Tab.Screen name='main' component={Main} />
-                <Tab.Screen name='newPlan' component={NewPlan} />
-                <Tab.Screen name="planView" component={PlanView} />
-                <Tab.Screen name="myPage" component={MyPage} />
+                <Tab.Screen name='메인' component={Main} />
+                <Tab.Screen name='일정만들기' component={NewPlan} />
+                <Tab.Screen name="일정보기" component={PlanView} />
+                <Tab.Screen name="마이페이지" component={MyPage} />
             </Tab.Navigator>
         </NavigationContainer>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View,Text, Image, StyleSheet, Pressable, ScrollView } from "react-native";
 
 const Main =()=>{
@@ -6,10 +6,13 @@ const Main =()=>{
     const [whiteBox,setWhiteBox]=useState(false)
     const [local,setLocal]=useState('')
 
+
     return(
         <ScrollView style={{flex:1}}>
             <View >
-                <Image source={require('../../assets/main/banner2.jpg')} style={{width:"100%",height:280,}}/>
+                <Image source={require('../../assets/main/banner2.jpg')} 
+                    style={{width:"100%",height:280,}}
+                />
 
                 {/* 지역 첫줄 */}
                 <View style={styles.local1Line}>
@@ -99,6 +102,37 @@ const Main =()=>{
                             setLocal('전라');
                         }}>
                             <Image source={require('../../assets/main/local6.png')} style={styles.localImage}/>
+                        </Pressable>
+                    </View>
+
+                </View>
+
+                {/* 지역 네번째줄 */}
+                <View style={styles.local1Line}>
+
+                    <View style={styles.local1}>
+                        <View style={styles.titleFrame}>
+                            <Text style={styles.titleEnglish}>GYEONGSANG</Text>
+                            <Text style={styles.titleKorea}>경상</Text>
+                        </View>
+                        <Pressable onPress={()=>{
+                            setWhiteBox(true);
+                            setLocal('경상');
+                        }}>
+                            <Image source={require('../../assets/main/local7.png')} style={styles.localImage}/>
+                        </Pressable>
+                    </View>
+
+                    <View>
+                        <View style={styles.titleFrame}>
+                            <Text style={styles.titleEnglish}>JEJU</Text> 
+                            <Text style={styles.titleKorea}>제주</Text>
+                        </View>
+                        <Pressable onPress={()=>{
+                            setWhiteBox(true);
+                            setLocal('제주');
+                        }}>
+                            <Image source={require('../../assets/main/local8.png')} style={styles.localImage}/>
                         </Pressable>
                     </View>
 
