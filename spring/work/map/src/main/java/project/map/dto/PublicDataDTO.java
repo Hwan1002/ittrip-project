@@ -1,11 +1,10 @@
 package project.map.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class PublicDataDTO {

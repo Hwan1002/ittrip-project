@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DirectionsResponseDto {
+public class DirectionsResponseDTO {
 
 	private Route route ;
 
