@@ -103,7 +103,6 @@ public class UserController {
 
 	}
 
-
 	// 회원정보 삭제
 	@DeleteMapping
 	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId) {
