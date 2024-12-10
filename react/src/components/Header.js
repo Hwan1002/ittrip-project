@@ -12,16 +12,15 @@ import useModal from "../context/useModal";
 
 const Header=()=>{
     
-    const { loginSuccess, setLoginSuccess,userInfo } = useContext(ProjectContext);
+    const { loginSuccess, setLoginSuccess, userInfo, setUserInfo } = useContext(ProjectContext);
     const navigate = useNavigate();
-
     const [tripTitle, setTripTitle] = useState("");
     const [tripDates, setTripDates] = useState({startDate : null, endDate: null});
     const [isNewPlanModal, setIsNewPlanModal] = useState(false);
-
     
-     //modal창 상태
-     const {
+    
+    //modal창 상태
+    const {
         isModalOpen,
         modalTitle,
         modalMessage,
@@ -36,17 +35,18 @@ const Header=()=>{
         if (token && !loginSuccess) {
             setLoginSuccess(true);
         }
-    }, [setLoginSuccess, loginSuccess]);
+        // fetchUserInfo();
+    }, [loginSuccess, setLoginSuccess]);
 
     //로그아웃 버튼 클릭시 함수
     const handleLogout = () => {
         setLoginSuccess(false);
         localStorage.removeItem("token");
-        // sessionStorage.clear();
         alert("로그아웃 성공");
         closeModal();
         navigate("/login");
     };
+
     //로그아웃 전용 모달창
     const openLogoutModal = () => {
         setIsNewPlanModal(false);
@@ -59,12 +59,6 @@ const Header=()=>{
             ],
         });
     };
-
-    //날짜 받는 input handle
-    // const handleTripInput = (e) => {
-    //     const {name, value} = e.target;
-    //     setTripDates((prev) => ({...prev,[name]:value}));
-    // };
     
     const handleNewPlanSubmit = () => {
         if(!tripTitle ||!tripDates.startDate || !tripDates.endDate){
@@ -76,8 +70,8 @@ const Header=()=>{
             //DB에 저장할 함수 추가 하는 걸로
             return;
         }
+
         console.log("Trip saved:", {title: tripTitle, ...tripDates});
-        alert(`여행 계획 요런식으로 저장될거임 : ${tripTitle}\n 출발: ${tripDates.startDate?.toLocaleDateString()}\n 도착: ${tripDates.endDate?.toLocaleDateString()}`);
         setTripTitle("");
         setTripDates({startDate: null, endDate:null});
         closeModalWithReset();
@@ -92,12 +86,11 @@ const Header=()=>{
         })
     };
 
-   const closeModalWithReset = () => {
+    const closeModalWithReset = () => {
         setIsNewPlanModal(false);
         closeModal();
-   }
+    }
     
-
     //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
     return(
         <div className="header">
@@ -115,12 +108,14 @@ const Header=()=>{
             <div className="headerBtn">
                 {loginSuccess ? (
                     <>
-                        <div>
-                            <img width='30' src={userInfo.profilePhoto.indexOf('http') !== -1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`} alt="profileImg"/>
+                        {/* <div className="headerProfileImg">
+                            <img src={userInfo.profilePhoto.indexOf('http') !== -1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`} alt="profileImg"/>
                             <p>{`Welcome, ${userInfo.userName}`}</p>
+                        </div> */}
+                        <div>
+                            <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
+                            <Link className="mypage" to={'/mypage'}>MYPAGE</Link>
                         </div>
-                        <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
-                        <Link className="mypage" to={'/mypage'}>MYPAGE</Link>
                     </>
                 ):(
                     <>

@@ -25,25 +25,25 @@ public class UserDTO {
 	private String email; // 이메일
 	private String profilePhoto; // 프로필사진
 	private Date signupDate; // 회원가입 날짜 
+	private String authProvider;
 	
-	
-	
-
 	
 	public  UserDTO(UserEntity entity) {
 		this.id = entity.getId() ;
 		this.userName = entity.getUserName() ;
 		this.email = entity.getEmail() ;
 		this.signupDate = entity.getSignupDate();
-		this .profilePhoto = entity.getProfilePhoto() ;
+		this.profilePhoto = entity.getProfilePhoto();
+		this.authProvider = entity.getAuthProvider();
 	}
 	
-	 public UserDTO(String id, String password, String userName, String email, String profilePhoto) {
+	 public UserDTO(String id, String password, String userName, String email, String profilePhoto, String authProvider) {
 	        this.id = id;
 	        this.password = password;
 	        this.userName = userName;
 	        this.email = email;
 	        this.profilePhoto = profilePhoto;
+	        this.authProvider = authProvider;
 	    }
 	
 	

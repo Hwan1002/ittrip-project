@@ -16,7 +16,7 @@ const Login = () => {
     //useState
     const { setLoginSuccess, setUserData } = useContext(ProjectContext); // setUserData 추가
     const [logData, setLogData] = useState({ id : '', password : ''});
-
+    
     const {
         isModalOpen,
         modalTitle,

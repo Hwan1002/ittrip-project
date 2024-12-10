@@ -253,7 +253,7 @@ const signUp = async(e) => {
                     />
                 </div>
             </div>
-            
+
         </div>
     )
 }

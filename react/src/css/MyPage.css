@@ -5,6 +5,7 @@
     height: 500px;
 }
 
+
 #myPage button{
     width: 120px;
     height: 40px;
@@ -37,6 +38,13 @@
 #profileFrame img {
     width:100%;
     object-fit: cover;
+}
+
+#myInfo{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #myInfoFrame{

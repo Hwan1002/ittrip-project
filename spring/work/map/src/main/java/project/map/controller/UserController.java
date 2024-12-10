@@ -2,6 +2,8 @@ package project.map.controller;
 
 
 
+import java.security.AuthProvider;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,7 +33,7 @@ public class UserController {
 	@Autowired
 	private TokenProvider tokenProvider;
 
-	@GetMapping("/userinfo")
+	@GetMapping("/mypage")
 	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authorization) {	
 		if (authorization == null || !authorization.startsWith("Bearer ")) {
 			return ResponseEntity.status(400).body("Bad Request: Invalid Authorization header");
@@ -58,7 +60,7 @@ public class UserController {
 										@RequestParam("email") String email,
 										@RequestParam("profilePhoto") MultipartFile profilePhoto) {
 		// DTO 객체 생성
-		UserDTO dto = new UserDTO(id, password, userName, email, null);
+		UserDTO dto = new UserDTO(id, password, userName, email, profilePhoto);
 		// profilePhoto 처리
 		UserDTO registerUser = service.create(dto, profilePhoto);
 		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();

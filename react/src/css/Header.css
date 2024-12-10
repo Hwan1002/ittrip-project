@@ -36,7 +36,6 @@
 .menuBar{
     display: flex;
     justify-content: space-between;
-    flex: 2;
 }
 
 .menu{
@@ -49,6 +48,10 @@
 .headerBtn{
     text-align: center;
     font-size: 15px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .headerBtn a{
@@ -66,4 +69,10 @@
     margin: 0 10px;
 }
 
+.headerProfileImg{
+    width:30px;
+}
+.headerProfileImg img {
+    width:100%;
+}
 
