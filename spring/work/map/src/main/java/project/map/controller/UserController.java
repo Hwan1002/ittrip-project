@@ -28,28 +28,17 @@ public class UserController {
 	@Autowired
 	private UserService service;
 
-	@Autowired
-	private TokenProvider tokenProvider;
 
+
+	// 마이페이지에서 정보확인을위한 조회.
 	@GetMapping("/userinfo")
-	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authorization) {	
-		if (authorization == null || !authorization.startsWith("Bearer ")) {
-			return ResponseEntity.status(400).body("Bad Request: Invalid Authorization header");
-		}
-		String token = authorization.substring(7);
-		// 토큰을 검증하고 사용자 ID를 추출
-		String userId = tokenProvider.validateAndGetUserId(token);
-		// 사용자 정보를 DB에서 가져오기
-		UserDTO user = service.getById(userId);
-
-		if (user != null) {
-			ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
-			return ResponseEntity.ok(response);
-		} else {
-			return ResponseEntity.status(404).body("User not found");
-		}
-	}
-
+	   public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
+	      UserDTO user = service.getById(userId);
+	      ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
+	      return ResponseEntity.ok(response);
+	   }
+	
+	
 	// 회원가입
 	@PostMapping(value = "/signup", consumes = "multipart/form-data")
 	public ResponseEntity<?> registerUser(@RequestParam("id") String id, 
@@ -91,14 +80,13 @@ public class UserController {
 	// 회원정보 수정
 	@PutMapping
 	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, 
-										@RequestParam("id") String id, 
 										@RequestParam("password") String password,
 										@RequestParam("userName") String userName, 
 										@RequestParam("email") String email,
-										@RequestParam("profilePhoto") MultipartFile profilePhoto) {
+										@RequestParam(value ="profilePhoto" , required = false) MultipartFile profilePhoto) {
 		// DTO 객체 생성
-		UserDTO dto = new UserDTO(id, password, userName, email, null);
-		service.modify(dto.getId(), dto, profilePhoto);
+		UserDTO dto = new UserDTO(userId, password, userName, email, null);
+		service.modify(userId, dto, profilePhoto);
 		return ResponseEntity.ok("회원정보 수정완료");
 
 	}
