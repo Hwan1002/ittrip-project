@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import project.map.dto.DirectionsResponseDto;
+import project.map.dto.DirectionsResponseDTO;
 
 import java.util.Map;
 
@@ -41,7 +41,7 @@ public class DirectionController {
     ){
     	try{
     
-    		DirectionsResponseDto response = webClient.get()
+    		DirectionsResponseDTO response = webClient.get()
                 .uri(uriBuilder -> uriBuilder		//uri를 빌드(파라미터들,헤더)
                         .queryParam("start", start)
                         .queryParam("waypoints", wayPoints)
@@ -50,7 +50,7 @@ public class DirectionController {
                 .header("x-ncp-apigw-api-key-id", apiKeyId)
                 .header("x-ncp-apigw-api-key", apiKeySecret)
                 .retrieve()
-                .bodyToMono(DirectionsResponseDto.class)			//mono (0개 또는 1개) 로 반환
+                .bodyToMono(DirectionsResponseDTO.class)			//mono (0개 또는 1개) 로 반환
                 .block();							//block -> ResponseEntity로 반환하기 위해 씀
 
         return ResponseEntity.ok(response);
