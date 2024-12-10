@@ -38,6 +38,8 @@ public class UserService {
 		List<UserDTO> dtos = entities.stream().map(UserDTO::new).collect(Collectors.toList());
 		return dtos;
 	}
+
+	
 	
 	//유저 id로 조회
 	public UserDTO getById(String userId) {
@@ -158,9 +160,10 @@ public class UserService {
 
 	// 회원 삭제
 	@Transactional
-	public void delete(String userId) {
+	public String delete(String userId) {
 		UserEntity entity = repository.findById(userId).get();
 		repository.delete(entity);
+		return "삭제 완료" ;
 	}
 
 	// 중복체크

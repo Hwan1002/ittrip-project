@@ -94,8 +94,9 @@ public class UserController {
 	// 회원정보 삭제
 	@DeleteMapping
 	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId) {
-		service.delete(userId);
-		return ResponseEntity.ok("회원삭제완료");
+		String message = service.delete(userId);
+		ResponseDTO response = ResponseDTO.builder().value(message).build() ;
+		return ResponseEntity.ok(response);
 
 	}
 

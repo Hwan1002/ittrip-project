@@ -40,6 +40,36 @@ const MyPage = () => {
     }, [])
 
 
+    //내정보 수정 
+    // const modifyAccount = 
+
+
+    //회원 삭제
+    const handleDeleteAccount = async () => {
+        if (window.confirm("정말로 회원 탈퇴를 진행하시겠습니까?")) {
+          try {
+            // Authorization 토큰 가져오기 (예: JWT 토큰)
+            const token = localStorage.getItem("token");
+    
+            // DELETE 요청
+            const response = await axios.delete(`${API_BASE_URL}`, {
+              headers: {
+                Authorization: `Bearer ${token}`, // 인증 헤더 추가
+              },
+            });
+    
+            // 성공 메시지 처리
+            alert(response.data); // 서버에서 반환된 메시지 출력
+           
+    
+            // 회원 삭제 후 리다이렉트 또는 상태 초기화
+            window.location.href = "/login"; // 로그인 페이지로 이동
+          } catch (error) {
+            console.error("회원 삭제 실패:", error);
+            alert("회원 삭제 중 오류가 발생했습니다.");
+          }
+        }
+      };
 
 
 
@@ -48,7 +78,7 @@ const MyPage = () => {
             <div id="myPage">
                 <div id="profileFrame">
                     <div className="UserImg">
-                        <img src={ `http://localhost:8080${userData.profilePhoto}`} />
+                    <img src={userData.authProvider ===null?  `http://localhost:8080${userData.profilePhoto}` : userData.profilePhoto} />
                     </div>
                     <button>프로필 변경</button>
                 </div>
@@ -66,7 +96,7 @@ const MyPage = () => {
 
                     </div>
                     <button>내정보 수정</button>
-                    <button>회원 탈퇴</button> 
+                    <button onClick={handleDeleteAccount}>회원 탈퇴</button> 
                 </div>
             </div>
 
