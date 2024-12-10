@@ -25,6 +25,7 @@ public class UserDTO {
 	private String email; // 이메일
 	private String profilePhoto; // 프로필사진
 	private Date signupDate; // 회원가입 날짜 
+	private String authProvider ; // 소셜로그인 공급자
 	
 	
 	

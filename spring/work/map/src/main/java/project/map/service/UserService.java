@@ -119,13 +119,10 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 ,프로필사진
 	@Transactional
-	public void modify(String id, UserDTO dto , MultipartFile profilePhoto) {
-		UserEntity entity = repository.findById(id).get();
-		// 수정 후 password 인코딩 빠져있어서 추가 .
-		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-		entity.setUserName(dto.getUserName());
-		entity.setEmail(dto.getEmail());
-		
+	public void modify(String userId, UserDTO dto , MultipartFile profilePhoto) {
+		UserEntity entity = repository.findById(userId).get();
+
+	
 		// 이미지 파일 처리 (업로드 디렉토리 설정)
 		// 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
         String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();
@@ -135,9 +132,6 @@ public class UserService {
         if (!uploadDirectory.exists()) {
             uploadDirectory.mkdirs(); // 디렉토리 생성
         }
-		
-		
-		
 		if (profilePhoto != null && !profilePhoto.isEmpty()) {
         	// 파일 이름을 현재 시간 기반으로 고유하게 생성
             String fileName = System.currentTimeMillis() + "_" + profilePhoto.getOriginalFilename();
@@ -154,7 +148,9 @@ public class UserService {
             dto.setProfilePhoto(profilePhotoPath);
         }
 		
-		
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+		entity.setUserName(dto.getUserName());
+		entity.setEmail(dto.getEmail());
 		entity.setProfilePhoto(dto.getProfilePhoto());
 		repository.save(entity);
 
@@ -185,6 +181,7 @@ public class UserService {
 				.userName(dto.getUserName())
 				.email(dto.getEmail())
 				.profilePhoto(dto.getProfilePhoto())
+				.authProvider(null)
 				.build();
 
 	}
@@ -198,6 +195,7 @@ public class UserService {
 				.email(entity.getEmail())
 				.signupDate(entity.getSignupDate())
 				.profilePhoto(entity.getProfilePhoto())
+				.authProvider(entity.getAuthProvider())
 				.build();
 				
 
