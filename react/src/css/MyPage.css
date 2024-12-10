@@ -28,17 +28,15 @@
 }
 
 #profileFrame div{
-    width:210px;
-    height: 210px;
+    width:150px;
+    height: 150px;
     background-color: #b9b9b9;
     border-radius: 50%;
+    overflow: hidden;
 }
-
-#myInfoFrame{
-    display: flex;
-    align-items: center;
-    margin-left: 30px;
-    
+#profileFrame img {
+    width:100%;
+    object-fit: cover;
 }
 
 #myInfoFrame{

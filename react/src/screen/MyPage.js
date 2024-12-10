@@ -14,8 +14,7 @@ const MyPage = () => {
             <div id="myPage">
                 <div id="profileFrame">
                     <div >
-                    <img src={userInfo.profilePhoto.indexOf('http') !=-1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`}/>
-
+                        <img src={userInfo.profilePhoto.indexOf('http') !=-1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`}/>
                     </div>
                     <button>프로필 변경</button>
                 </div>
