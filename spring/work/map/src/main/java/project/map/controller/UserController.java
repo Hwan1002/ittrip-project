@@ -53,19 +53,20 @@ public class UserController {
 	}
 
 	// 회원가입
-	@PostMapping(value = "/signup", consumes = "multipart/form-data")
-	public ResponseEntity<?> registerUser(@RequestParam("id") String id, 
-										@RequestParam("password") String password,
-										@RequestParam("userName") String userName, 
-										@RequestParam("email") String email,
-										@RequestParam("profilePhoto") MultipartFile profilePhoto) {
-		// DTO 객체 생성
-		UserDTO dto = new UserDTO(id, password, userName, email, profilePhoto);
-		// profilePhoto 처리
-		UserDTO registerUser = service.create(dto, profilePhoto);
-		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
-		return ResponseEntity.ok(response);
-	}
+   @PostMapping(value = "/signup", consumes = "multipart/form-data")
+   public ResponseEntity<?> registerUser(@RequestParam("id") String id, 
+                              @RequestParam("password") String password,
+                              @RequestParam("userName") String userName, 
+                              @RequestParam("email") String email,
+                              @RequestParam("profilePhoto") MultipartFile profilePhoto) {
+      // DTO 객체 생성
+      UserDTO dto = new UserDTO(id, password, userName, email, null);
+      // profilePhoto 처리
+      UserDTO registerUser = service.create(dto, profilePhoto);
+      ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
+      return ResponseEntity.ok(response);
+   }
+
 
 	// 로그인
 	@PostMapping("/signin")
