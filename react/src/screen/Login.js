@@ -14,7 +14,7 @@ import useModal from "../context/useModal";
 const Login = () => {
 
     //useState
-    const { setLoginSuccess } = useContext(ProjectContext);
+    const { setLoginSuccess, setUserData } = useContext(ProjectContext); // setUserData 추가
     const [logData, setLogData] = useState({ id : '', password : ''});
 
     const {
@@ -33,7 +33,7 @@ const Login = () => {
         setLogData({ ...logData, [e.target.name]: e.target.value });
     }
 
-    // 소셜로그인
+   
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -43,6 +43,14 @@ const Login = () => {
             if (response.data && response.data.value.token) {
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
+
+                const userData = response.data.value // 예시로 user 정보를 받아오는 부분
+                console.log(userData)
+
+
+                setUserData(userData);  // 로그인한 사용자 정보를 context에 저장
+
+
                 openModal({
                     title: "로그인 성공",
                     message:"환영합니다.",
@@ -77,6 +85,7 @@ const Login = () => {
         }
     }
 
+    //소셜로그인
     const socialLogin = (e, provider) => {
         e.preventDefault();
         // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.

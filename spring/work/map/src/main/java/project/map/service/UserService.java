@@ -1,12 +1,12 @@
 package project.map.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,10 +57,10 @@ public class UserService {
 			}
 			
 		    // 이미지 파일 처리 (업로드 디렉토리 설정)
-			 // 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
+			// 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
 	        String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();
 
-	     // 업로드 디렉토리가 없다면 생성
+	        // 업로드 디렉토리가 없다면 생성
 	        File uploadDirectory = new File(uploadDir);
 	        if (!uploadDirectory.exists()) {
 	            uploadDirectory.mkdirs(); // 디렉토리 생성
@@ -75,7 +75,7 @@ public class UserService {
                 // 파일 저장
                 profilePhoto.transferTo(file);  
                 // 저장된 파일 이름을 DTO에 반영
-                String profilePhotoPath = uploadDir + File.separator + fileName;  
+                String profilePhotoPath = "/uploads/profilePhotos/" + fileName;  
                 dto.setProfilePhoto(profilePhotoPath);
 	        }
 			
@@ -116,10 +116,42 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 , 주소 ,프로필사진
 	@Transactional
-	public void modify(String id, UserDTO dto) {
+	public void modify(String id, UserDTO dto , MultipartFile profilePhoto) {
 		UserEntity entity = repository.findById(id).get();
 		// 수정 후 password 인코딩 빠져있어서 추가 .
 		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+		entity.setUserName(dto.getUserName());
+		entity.setEmail(dto.getEmail());
+		
+		// 이미지 파일 처리 (업로드 디렉토리 설정)
+		// 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
+        String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();
+
+        // 업로드 디렉토리가 없다면 생성
+        File uploadDirectory = new File(uploadDir);
+        if (!uploadDirectory.exists()) {
+            uploadDirectory.mkdirs(); // 디렉토리 생성
+        }
+		
+		
+		
+		if (profilePhoto != null && !profilePhoto.isEmpty()) {
+        	// 파일 이름을 현재 시간 기반으로 고유하게 생성
+            String fileName = System.currentTimeMillis() + "_" + profilePhoto.getOriginalFilename();
+            // 파일 객체 생성
+            File file = new File(uploadDir + File.separator + fileName);
+            // 파일 저장
+            try {
+				profilePhoto.transferTo(file);
+			}  catch (IOException e) {
+				e.printStackTrace();
+			} 
+            // 저장된 파일 이름을 DTO에 반영
+            String profilePhotoPath = "/uploads/profilePhotos/" + fileName;  
+            dto.setProfilePhoto(profilePhotoPath);
+        }
+		
+		
 		entity.setProfilePhoto(dto.getProfilePhoto());
 		repository.save(entity);
 
