@@ -10,7 +10,9 @@
     justify-content: center;
     align-items: center;
   }
-  
+
+ 
+  /* 모달창 기본 공통 css */
   .modal-content {
     display: flex;   
     flex-direction: column;
@@ -22,9 +24,27 @@
     width: 400px;
     height: auto;
     max-width: 90%;
-    
   }
-  
+
+  .modal-content h2{
+    color:#F6A354;
+    margin:0;
+
+  }
+
+  .modal-default {
+    width: 400px;
+    height: auto;
+    max-width: 90%;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .form-group {
     margin-bottom: 15px;
   }
@@ -65,18 +85,43 @@
     color: white;
   }
 
-  /* Header.js 모달 전용 */
-  .tripPlan_content{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width:30vw;
-  }
 
-  .tripPlan_content input{
-    width:15vw;
-    height:25px;
-    border-radius: 10px;
-  }
+
+
+
   
+  /* Header.js 모달 전용 */
+ /* 날짜 입력 css */
+ .modal-trip-plan {
+  width: 600px; /* 더 넓은 크기 */
+  height: auto; /* 내용에 따라 높이 조정 */
+  max-width: 90%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.modal-trip-plan input{
+  border-radius: 8px;
+}
+.tripPlan_content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+}
+
+.tripDates{
+  display: flex;
+  flex-direction: row;
+}
+.dateContents{
+  text-align: center;
+}
+
+.modal-trip-plan  .modal-actions{
+  margin-top: 20px;
+}

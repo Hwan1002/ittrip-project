@@ -1,20 +1,13 @@
 import React, { useContext,useEffect,useState } from "react";
 import '../css/Header.css'
 import '../css/Reset.css'
-
 import logo from '../img/Logo/logo.svg'
-
-
-
-
-
 import { Link, useNavigate } from "react-router-dom";
-
-import Modal from "./Modal";
-
 import { ProjectContext} from "../context/ProjectContext";
-
-
+import Modal from "./Modal";
+import DatePicker from "react-datepicker"; 
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/locale";
 import useModal from "../context/useModal";
 
 const Header=()=>{
@@ -23,7 +16,7 @@ const Header=()=>{
     const navigate = useNavigate();
 
     const [tripTitle, setTripTitle] = useState("");
-    const [tripDates, setTripDates] = useState({startDate : "" , endDate: ""});
+    const [tripDates, setTripDates] = useState({startDate : null, endDate: null});
     const [isNewPlanModal, setIsNewPlanModal] = useState(false);
 
     
@@ -49,7 +42,7 @@ const Header=()=>{
     const handleLogout = () => {
         setLoginSuccess(false);
         localStorage.removeItem("token");
-        sessionStorage.clear();
+        // sessionStorage.clear();
         alert("로그아웃 성공");
         closeModal();
         navigate("/login");
@@ -60,38 +53,33 @@ const Header=()=>{
         openModal({
             title:"로그아웃",
             message:"로그아웃 하시겠습니까?",
-            actions : [{
-                label : "로그아웃",
-                onClick : handleLogout,
-                className : "logout-button",
-            },
-            {
-                label : "취소",
-                onClick : closeModal,
-                className : "cancel-button",
-            },
-        ]
+            actions : [
+                {label : "로그아웃", onClick : handleLogout, className : "logout-button"},
+                {label : "취소", onClick : closeModal, className : "cancel-button"},
+            ],
         });
     };
 
     //날짜 받는 input handle
-    const handleTripInput = (e) => {
-        const {name, value} = e.target;
-        setTripDates((prev) => ({...prev,[name]:value}));
-    };
+    // const handleTripInput = (e) => {
+    //     const {name, value} = e.target;
+    //     setTripDates((prev) => ({...prev,[name]:value}));
+    // };
     
     const handleNewPlanSubmit = () => {
-        if(!tripDates.startDate || !tripDates.endDate){
+        if(!tripTitle ||!tripDates.startDate || !tripDates.endDate){
             openModal({
                 title: "입력 오류",
-                message:"출발 날짜와 도착 날짜를 모두 입력해주세요.",
+                message:"여행 제목과 출발, 도착 날짜를 모두 입력해주세요.",
                 actions : [{label : "확인", onClick: closeModal}],
             })
             //DB에 저장할 함수 추가 하는 걸로
-            setTripDates(tripDates.startDate, tripDates.endDate);
             return;
         }
-        setTripDates({startDate:"", endDate:""});
+        console.log("Trip saved:", {title: tripTitle, ...tripDates});
+        alert(`여행 계획 요런식으로 저장될거임 : ${tripTitle}\n 출발: ${tripDates.startDate?.toLocaleDateString()}\n 도착: ${tripDates.endDate?.toLocaleDateString()}`);
+        setTripTitle("");
+        setTripDates({startDate: null, endDate:null});
         closeModalWithReset();
     }
 
@@ -141,50 +129,51 @@ const Header=()=>{
                     </>
                 )}
             </div>
-            {/* <Modal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    title="로그아웃"
-                    content={<p>로그아웃 하시겠습니까?</p>}
-                    actions={[
-                        {label: "로그아웃", onClick: handleLogout, className:"logout-button"},
-                        {label: "취소", onClick: closeModal, className:"cancel-button"},
-                    ]}
-            /> */}
             <Modal
                 isOpen={isModalOpen}
                 onClose={closeModalWithReset}
                 title={isNewPlanModal ? "새로운 여행 계획" : "로그아웃"}
+                className={isNewPlanModal? "modal-trip-plan" : "modal-default"}
                 content={
                     isNewPlanModal ? (
                         <div className="tripPlan_content" >
-                            <label>
-                                여행 제목:
-                                <input
-                                    type="text"
-                                    name="tripTitle"
-                                    value={tripTitle}
-                                    onChange={handleTripInput}
-                                />
-                            </label>
-                            <label>
-                                출발 날짜:{" "}
-                                <input
-                                    type="date"
-                                    name="startDate"
-                                    value={tripDates.startDate}
-                                    onChange={handleTripInput}
-                                />
-                            </label>
-                            <label>
-                                도착 날짜:{" "}
-                                <input
-                                    type="date"
-                                    name="endDate"
-                                    value={tripDates.endDate}
-                                    onChange={handleTripInput}
-                                />
-                            </label>
+                            <div className="tripTile">
+                                <label>
+                                    여행 제목:
+                                    <input
+                                        type="text"
+                                        name="tripTitle"
+                                        value={tripTitle}
+                                        onChange={(e) => setTripTitle(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+                            <div className="tripDates">
+                                <div className="dateContents">
+                                    <h3>여행 기간</h3>
+                                    <DatePicker
+                                        selected={tripDates.startDate}
+                                        onChange={(dates) => {
+                                            const [start, end] = dates;
+                                            setTripDates({startDate:start,endDate:end})
+                                        }}
+                                        startDate={tripDates.startDate}
+                                        endDate={tripDates.endDate}
+                                        minDate={new Date()}
+                                        selectsRange
+                                        locale={ko}
+                                        dateFormat={"yyyy-MM-dd"}
+                                        inline                                 
+                                    />
+                                    {tripDates.startDate && tripDates.endDate && (
+                                        <div>
+                                            <p>출발 : {tripDates.startDate.toLocaleDateString()}</p>
+                                            <p>도착 : {tripDates.endDate.toLocaleDateString()}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            
                         </div>
                     ) : (
                         <p>로그아웃 하시겠습니까?</p>
