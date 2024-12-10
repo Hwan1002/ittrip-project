@@ -1,14 +1,11 @@
 package project.map.service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.map.entity.AreaEntity;
-import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
 import project.map.repository.AreaRepository;
 import project.map.repository.CheckListRepository;

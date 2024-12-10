@@ -38,7 +38,7 @@ public class UserEntity {
 	@Column(name = "profile_photo", nullable = false, length = 255)
 	private String profilePhoto; // 프로필사진
 	
-	@Transient //테이블에 매핑 되지 않음
+	@Column
 	private String authProvider ; // 소셜로그인공급자 
 
 	@CreationTimestamp
