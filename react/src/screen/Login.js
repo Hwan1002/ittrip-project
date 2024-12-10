@@ -12,7 +12,7 @@ import Modal from "../components/Modal";
 import useModal from "../context/useModal";
 
 const Login = () => {
-    
+
     //useState
     const { setLoginSuccess } = useContext(ProjectContext);
     const [logData, setLogData] = useState({ id : '', password : ''});
@@ -60,6 +60,7 @@ const Login = () => {
             }
         } catch (error) {
             if (error.response) {
+<<<<<<< Updated upstream
                 openModal({
                     title: "",
                     message: "로그인 실패: 서버에서 올바른 데이터를 못받음2",
@@ -67,6 +68,12 @@ const Login = () => {
                 })
                 return;
             } 
+=======
+                alert("아이디와 비밀번호를 확인하세요.");
+            } else {
+                alert("뭔 오류인지 모름")
+            }
+>>>>>>> Stashed changes
         }
     }
 

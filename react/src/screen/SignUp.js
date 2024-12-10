@@ -142,6 +142,7 @@ const signUp = async(e) => {
         formDataToSend.append('profilePhoto', imageFile);
     }
 
+<<<<<<< Updated upstream
     //보내주는 formData에 빈값 체크
     const emptyValue = Object.keys(formData).find((key) => {
         const value = formData[key];
@@ -174,6 +175,30 @@ const signUp = async(e) => {
             const response = await axios.post(`${API_BASE_URL}/signup`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data' 
+=======
+        if(emptyValue){
+            alert("빈값이 존재합니다. 확인 후 다시 시도하세요.");
+            return;
+        }else if(userPwdConfirm === ''){
+            alert("비밀번호 확인란을 입력해 주세요.")
+        }else if(formData.password !== userPwdConfirm){
+            alert("비밀번호가 일치하지 않습니다.")
+        }else{
+            try{  
+                console.log(formData);
+                const response = await axios.post(`${API_BASE_URL}/signup`,formData,config);
+                console.log(response.data.data);
+                if(response.status === 200){
+                    alert("회원가입 완료");
+                    navigate("/login");
+                }
+            } catch (error) {
+                if(error.response){
+                    const { message, status } = error.response.data;
+                    alert("아이디 중복 확인해라");
+                } else {
+                    alert('회원가입 함수 쪽 에러남 스프링 연결 확인.');
+>>>>>>> Stashed changes
                 }
             });
 

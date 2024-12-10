@@ -28,6 +28,9 @@ html,body{
     background-color: #F6F6F6;
     width:100%;
 }
+body::-webkit-scrollbar {
+    display: none;
+}
 /* 글 태그, 버튼 태그*/
 h2,h3,p,span,a,button, label{
     font-family: 'Pretendard-Regular';

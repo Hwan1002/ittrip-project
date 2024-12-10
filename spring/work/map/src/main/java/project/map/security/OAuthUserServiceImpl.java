@@ -28,8 +28,12 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 	@Autowired
 	private UserRepository repository;
 
+<<<<<<< Updated upstream
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+=======
+	private PasswordEncoder en = new BCryptPasswordEncoder();	
+>>>>>>> Stashed changes
 	public OAuthUserServiceImpl() {
 		super();
 	}
@@ -51,6 +55,38 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		String profilePhoto = null;
 		String userName =null;
 		// 현재 사용자가 어떤 OAuth2 제공자를 통해 로그인했는지 이름을 반환한다.
+<<<<<<< Updated upstream
+=======
+		final String authProvider = userRequest.getClientRegistration().getClientName();
+		
+		if (authProvider.equals("naver")) {
+	          // Naver에서 name을 가져오기 위해 'response' 필드를 찾습니다.
+	           Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("response");
+	           if (response != null) {
+	               userId = (String) response.get("id");  // 'response' 객체에서 'name' 추출
+	               profilePhoto = (String) response.get("profile_image");
+	           }
+	      } else if (authProvider.equals("Kakao")) {
+	         Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
+	         Object id = oAuth2User.getAttributes().get("id");
+	         userId = String.valueOf(id);
+	          if (response != null) {
+	                  profilePhoto = (String) response.get("profile_image");
+	              }
+	      } else {
+	         userId = (String) oAuth2User.getAttributes().get("sub");
+	          profilePhoto = (String) oAuth2User.getAttributes().get("picture");
+	      }
+		
+		   if (!repository.existsById(userId)) {
+	            repository.save(UserEntity.builder()
+	                .id(userId)
+	                .password(en.encode("1234"))
+	                .authProvider(authProvider)
+	                .profilePhoto(profilePhoto)
+	                .build());
+	        }
+>>>>>>> Stashed changes
 
 		final String authProvider = userRequest.getClientRegistration().getClientName();
 

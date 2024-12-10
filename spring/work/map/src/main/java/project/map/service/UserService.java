@@ -102,8 +102,8 @@ public class UserService {
 
 	// signin을 위한 userId , password 검증
 	public UserDTO getByCredentials(String userId, String password) {
-		UserEntity entity = repository.findById(userId).get();
-		if (entity != null && passwordEncoder.matches(password, entity.getPassword())) {
+		UserEntity entity = repository.findById(userId).orElseThrow(() -> new RuntimeException("Value is not present"));
+		if (passwordEncoder.matches(password, entity.getPassword())) {
 			final String token = tokenProvider.create(entity);
 			UserDTO dto = toDTO(entity);
 			dto.setToken(token);
