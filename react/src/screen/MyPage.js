@@ -190,7 +190,11 @@ const MyPage = () => {
                 <div className="myPageContents">
                     <div id="profileFrame">
                         <div className="UserImg">
-                            <img src={String(userData.authProvider).indexOf("http") !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>
+                            {/* .indexOf("http") */}
+                            {userData.authProvider? 
+                                <img src={String(userData.authProvider) !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>:
+                                <img src={String(userData.authProvider).indexOf("http") !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>
+                            }
                         </div>
                         <button type="button" className='profileChangeBtn' onClick={handleProfileClick}>프로필 사진</button>
                         <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>

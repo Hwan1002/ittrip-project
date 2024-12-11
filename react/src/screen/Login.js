@@ -61,7 +61,7 @@ const Login = () => {
             if (error.response) {
                 openModal({
                     title: "",
-                    message: "로그인 실패: 서버에서 올바른 데이터를 못받음2",
+                    message: "회원정보와 일치하지 않습니다.",
                     actions : [{label : "확인", onClick: closeModal}],
                 })
                 return;
