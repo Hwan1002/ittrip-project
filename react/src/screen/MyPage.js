@@ -10,11 +10,12 @@ import { ProjectContext } from "../context/ProjectContext";
 const MyPage = () => {
 
     const token = window.localStorage.getItem("token");
-
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); // 에러 상태
     const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
+    
+    
 
     useEffect(() => {
         // 마운트 시 또는 의존성이 변경될 때 실행되는 함수
@@ -134,14 +135,33 @@ const MyPage = () => {
         }
     }
 
-    const modify = () => {
+    const modify = async(e) => {
         alert("수정버튼 클릭")
-        if(userData.password !== passwordConfirm){
-            openModal({
-                title: "비밀번호 오류",
-                message:"비밀번호 확인란을 입력해주세요.",
-                actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/login"), 500)}}],
-            })
+        if(userData.authProvider){
+            if(userData.password !== passwordConfirm){
+                openModal({
+                    title: "비밀번호 오류",
+                    message:"비밀번호 확인란을 입력해주세요.",
+                    actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/login"), 500)}}],
+                });
+            }
+            return;
+        }
+        try {
+            const formData = new FormData();
+            formData.append("id",userData.id);
+            formData.append("userName", userData.userName);
+            formData.append("email", userData.email);
+            formData.append("password",userData.password);
+            if(userData.profilePhoto instanceof File){
+                formData.append("profilePhoto", userData.profilePhoto);
+            }
+
+            const response = await axios.put(`${API_BASE_URL}`,formData);
+            console.log(response);
+
+        } catch (error) {
+            
         }
     }
 
@@ -168,7 +188,7 @@ const MyPage = () => {
                                     <>
                                         <div className="infoInput">
                                             <label for="pwd">비밀번호 :</label>
-                                            <input name="password" id="pwd" type="password" value={userData.password}/>
+                                            <input name="password" id="pwd" type="password" value={userData.password} />
                                         </div>
                                         <div className="infoInput">
                                             <label for="pwdcf">비밀번호 확인 :</label>
@@ -179,7 +199,7 @@ const MyPage = () => {
                                 )}
                                 <div className="infoInput">
                                     <label for="name">이름 :</label>
-                                    <input name="userName" id="name" value={userData.userName}/>
+                                    <input name="userName" id="name" value={userData.userName} onChange={(e)=> setUserData(userData.name)}/>
                                 </div>
                                 <div className="infoInput">
                                     <label for="userEmail">이메일 :</label>
@@ -191,10 +211,7 @@ const MyPage = () => {
                                 <button type="button" onClick={handleDeleteAccount}>회원 탈퇴</button> 
                             </div>
                         </form>
-
                     </div>
-                    <button>내정보 수정</button>
-                    <button>회원 탈퇴</button> 
                 </div>
                 
                 <Modal

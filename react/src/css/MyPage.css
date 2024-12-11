@@ -21,16 +21,14 @@
 .myPageContents {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     width: 90%;
-    height: 42vh;
+    height: 30vh;
 }
 #profileFrame {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width:150px;
-    height:150px;
     overflow: hidden;
     object-fit: cover;
 }
