@@ -24,6 +24,7 @@ import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
 import project.map.entity.UserEntity;
+import project.map.repository.AreaRepository;
 import project.map.repository.CheckListRepository;
 import project.map.repository.MapRepository;
 import project.map.repository.TripRepository;
@@ -39,13 +40,14 @@ public class TripController {
 	private MapRepository mapRepository;
 	private CheckListRepository checkListRepository;
 	private UserRepository userRepository;
+	private AreaRepository areaRepository;
 	
 	//----------------	메인페이지  -----------------------
 	//areaNm에 대한 signguNm리스트 반환
 	//만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
-	public ResponseEntity<?> getAreaCd(@RequestBody AreaDTO dto){
-		List<AreaEntity> list = tripService.getSignguNms(dto.getAreaNm());
+	public ResponseEntity<?> getAreaCd(@RequestParam String area){
+		List<AreaEntity> list = tripService.getSignguNms(area);
 		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
 		ResponseDTO<AreaDTO> response = ResponseDTO.<AreaDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
@@ -53,12 +55,14 @@ public class TripController {
 	//areaNm과 signguNm으로 cd들 반환
 	//만약 @RequestParam으로 쓰면 (@RequestParam String areaNm,@RequestParam String signguNm)
 	@GetMapping("/2")
-	public ResponseEntity<?> getCds(@RequestBody AreaDTO dto){
-		List<AreaEntity> list = tripService.getCds(dto.getAreaNm(),dto.getSigunguNm());
+	public ResponseEntity<?> getCds(@RequestParam String areaNm,@RequestParam String signguNm ){
+		String areaNmDetail = areaRepository.findAreaCdBySignguNm(signguNm);
+		List<AreaEntity> list = tripService.getCds(areaNmDetail,signguNm);
 		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
 		ResponseDTO<AreaDTO> response = ResponseDTO.<AreaDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
 	} 
+	//
 	//----------------  메인페이지  ----------------------
 	
 	//------------------  GET   -----------------------
