@@ -42,7 +42,6 @@ const Header=()=>{
         navigate("/login");
     };
 
-    
     //로그아웃 전용 모달창
     const openLogoutModal = () => {
         setIsNewPlanModal(false);

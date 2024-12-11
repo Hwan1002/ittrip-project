@@ -121,8 +121,6 @@ public class UserService {
 	@Transactional
 	public void modify(String userId, UserDTO dto , MultipartFile profilePhoto) {
 		UserEntity entity = repository.findById(userId).get();
-
-	
 		// 이미지 파일 처리 (업로드 디렉토리 설정)
 		// 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
         String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();

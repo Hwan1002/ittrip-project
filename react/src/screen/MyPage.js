@@ -8,43 +8,21 @@ import { useNavigate } from "react-router-dom";
 import { ProjectContext } from "../context/ProjectContext";
 
 const MyPage = () => {
-
+    //state
     const token = window.localStorage.getItem("token");
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); // 에러 상태
+    const [passwordConfirm, setPasswordConfirm] = useState(''); //비밀번호 확인 상태만 따로 저장 (비교용도)
+    const [socialImgPreview, setSocialImgPreview] = useState(userData.profilePhoto); //소셜로그인 프로필 사진
+    const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
+    //ref
+    const inputImgRef = useRef(null);
+    //context
     const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
-
-    useEffect(() => {
-        // 마운트 시 또는 의존성이 변경될 때 실행되는 함수
-        const fetchUserInfo = async () => {
-            try {
-                setLoading(true); // 로딩 시작
-                const token = localStorage.getItem("token"); // Authorization 토큰 가져오기
-                const logData = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
-                // API 호출
-                const response = await axios.get(`${API_BASE_URL}/userinfo`, logData);
-
-                console.log(response)
-                // 응답 데이터 상태에 저장
-                setUserData(response.data.value); // ResponseDTO의 value에 담긴 UserDTO 데이터
-            } catch (err) {
-                console.error("Error fetching user info:", err);
-                setError(err); // 에러 상태 업데이트
-            } finally {
-                setLoading(false); // 로딩 종료
-            }
-        };
-        fetchUserInfo();
-    }, [])
-
+    //navigate
     const navigate = useNavigate();
-    const [passwordConfirm, setPasswordConfirm] = useState('');
-
+    //modal 사용
     const {
         isModalOpen,
         modalTitle,
@@ -66,7 +44,6 @@ const MyPage = () => {
                 };
                 const response = await axios.get(`${API_BASE_URL}/mypage`, logData);
                 setUserData(response.data.value);
-                console.log(response); 
                 setSocialImgPreview(response.data.value.profilePhoto);
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
@@ -88,7 +65,6 @@ const MyPage = () => {
                 Authorization: `Bearer ${token}`, 
               },
             });
-            // 성공 메시지 처리
             window.localStorage.removeItem("token");
             setLoginSuccess(false);
             openModal({
@@ -97,18 +73,12 @@ const MyPage = () => {
                 actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/login"), 500)}}],
             })
             
-
           } catch (error) {
             console.error("회원 삭제 실패:", error);
             alert("회원 삭제 중 오류가 발생했습니다.");
           }
         }
     };
-
-    const [socialImgPreview, setSocialImgPreview] = useState(userData.profilePhoto); //소셜로그인 프로필 사진
-    const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
-    const inputImgRef = useRef(null);
-
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -134,52 +104,82 @@ const MyPage = () => {
             }));
             const reader = new FileReader();
             reader.onload = () => {
-            userData.authProvider === null? setImgPreview(reader.result)  : setSocialImgPreview(reader.result);
-                
-                
+                // userData.authProvider === null? (setImgPreview(reader.result)) : (setSocialImgPreview(reader.result));
+                setSocialImgPreview(reader.result);
+                setImgPreview(reader.result);
             };
             reader.readAsDataURL(file);
         }
     }
 
+    //회원 수정
     const modify = async(e) => {
         e.preventDefault();
         debugger;
-        console.log(userData);
-        if(userData.authProvider === null){
-            if(userData.password !== passwordConfirm){
-               openModal({
-                    title: "비밀번호 오류",
-                    message:"비밀번호가 일치하지 않습니다.",
-                    actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/mypage"), 500)}}],
-                });
-                return;
-            }
+        const emptyValue = Object.keys(userData).find((key) => {
+            const value = userData[key];
+            return typeof value === 'string' && value.trim() === '';
+        });
+
+        if(emptyValue){
+            openModal({
+                title:"입력오류",
+                message:"빈값이 존재합니다. 확인 후 다시 시도하세요.",
+                actions:[{label: "확인", onClick:closeModal}],
+            })
+            return;
         }
+        if (userData.authProvider === null && userData.password !== passwordConfirm) {
+            openModal({
+                title: "비밀번호 오류",
+                message: "비밀번호가 일치하지 않습니다.",
+                actions: [{ label: "확인", onClick: () => closeModal() }],
+            });
+            return;
+        }
+        
         try {
             const formData = new FormData();
             formData.append("id",userData.id);
             formData.append("userName", userData.userName);
             formData.append("email", userData.email);
             formData.append("password",userData.password);
+
             if(userData.profilePhoto instanceof File){
                 formData.append("profilePhoto", userData.profilePhoto);
+            }else if(userData.profilePhoto){
+                formData.append("profilePhoto", userData.profilePhoto);
             }
-
-            const response = await axios.put(`${API_BASE_URL}`,formData);
-            console.log(response.data);
-            openModal({
-                title: "수정 성공",
-                message: response.data,
-                actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/"))}}],
-            })
-
+            
+            const response = await axios.put(`${API_BASE_URL}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if(response.status===200){
+                openModal({
+                    title: "수정 성공",
+                    message: "정보가 수정되었습니다.",
+                    actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/"))}}],
+                })
+            }
         } catch (error) {
-            openModal({
-                title: "수정 실패",
-                message: "실패했다",error,
-                actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/mypage"))}}],
-            })
+            if(error.response){
+                const {message, status} = error.response.data;
+                openModal({
+                    title: "수정 실패",
+                    message: `실패함 상태 : ${status} : ${message}`,
+                    actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/mypage"))}}],
+                })
+            }else{
+                openModal({
+                    title:"연결 오류",
+                    message:"스프링 연결 상태를 확인하세요.",
+                    actions:[{label: "확인", onClick:closeModal}],
+                })
+            }
+            
         }
     }
 
@@ -190,7 +190,7 @@ const MyPage = () => {
                 <div className="myPageContents">
                     <div id="profileFrame">
                         <div className="UserImg">
-                            <img src={userData.authProvider === null? ImgPreview : socialImgPreview} alt="프로필 사진"/>
+                            <img src={String(userData.authProvider).indexOf("http") !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>
                         </div>
                         <button type="button" className='profileChangeBtn' onClick={handleProfileClick}>프로필 사진</button>
                         <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
