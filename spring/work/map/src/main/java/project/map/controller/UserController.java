@@ -78,7 +78,7 @@ public class UserController {
 	// 회원정보 수정
 	@PutMapping
 	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, 
-										@RequestParam("password") String password,
+										@RequestParam(value = "password" , required = false) String password,
 										@RequestParam("userName") String userName, 
 										@RequestParam("email") String email,
 										@RequestParam(value ="profilePhoto" , required = false) MultipartFile profilePhoto) {
@@ -92,8 +92,9 @@ public class UserController {
 	// 회원정보 삭제
 	@DeleteMapping
 	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId) {
-		service.delete(userId);
-		return ResponseEntity.ok("회원삭제완료");
+		String message = service.delete(userId);
+		ResponseDTO response = ResponseDTO.builder().value(message).build() ;
+		return ResponseEntity.ok(response);
 
 	}
 

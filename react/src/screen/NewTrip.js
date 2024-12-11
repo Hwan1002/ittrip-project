@@ -14,8 +14,6 @@ const NewTrip = () => {
     return (
         <div className="newTrip">
 
-
-
                 <h2 className="title">새로운 여행 하기</h2>
 
                 {/* input 3개 나란히 */}

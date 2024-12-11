@@ -14,7 +14,7 @@ const MyPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); // 에러 상태
     const [passwordConfirm, setPasswordConfirm] = useState(''); //비밀번호 확인 상태만 따로 저장 (비교용도)
-    const [socialImgPreview, setSocialImgPreview] = useState(userData.profilePhoto); //소셜로그인 프로필 사진
+
     const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
     //ref
     const inputImgRef = useRef(null);
@@ -46,7 +46,7 @@ const MyPage = () => {
                 debugger;
                 console.log(response.data.value)
                 setUserData(response.data.value);
-                setSocialImgPreview(response.data.value.profilePhoto);
+
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
                 console.error("Error fetching user info:", error);
@@ -106,7 +106,7 @@ const MyPage = () => {
             }));
             const reader = new FileReader();
             reader.onload = () => {
-                setSocialImgPreview(reader.result)
+
                 setImgPreview(reader.result)
             };
             reader.readAsDataURL(file);
@@ -144,10 +144,12 @@ const MyPage = () => {
             formData.append("userName", userData.userName);
             formData.append("email", userData.email);
             formData.append("password", userData.password);
-
-            if (userData.profilePhoto instanceof File) {
+            if (userData.profilePhoto instanceof File ) {
                 formData.append("profilePhoto", userData.profilePhoto);
+            }else if(userData.profilePhoto){
+                formData.append("profilePhoto", null);
             }
+
             const response = await axios.put(`${API_BASE_URL}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -187,7 +189,8 @@ const MyPage = () => {
                 <div className="myPageContents">
                     <div id="profileFrame">
                         <div className="UserImg">
-                            <img src={String(userData.profilePhoto).indexOf("http") !== -1 ? socialImgPreview : ImgPreview} alt="프로필 사진" />
+
+                            <img src={ImgPreview} alt="프로필 사진" />
                         </div>
                         <button type="button" className='profileChangeBtn' onClick={handleProfileClick}>프로필 사진</button>
                         <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload} />
