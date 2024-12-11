@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext,useState, useEffect, useRef } from "react";
 import '../css/MyPage.css'
 import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { ProjectContext } from "../context/ProjectContext";
+
 const MyPage = () => {
 
     const token = window.localStorage.getItem("token");
@@ -16,9 +16,35 @@ const MyPage = () => {
     const [error, setError] = useState(null); // 에러 상태
     const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
 
+    useEffect(() => {
+        // 마운트 시 또는 의존성이 변경될 때 실행되는 함수
+        const fetchUserInfo = async () => {
+            try {
+                setLoading(true); // 로딩 시작
+                const token = localStorage.getItem("token"); // Authorization 토큰 가져오기
+                const logData = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+                // API 호출
+                const response = await axios.get(`${API_BASE_URL}/userinfo`, logData);
+
+                console.log(response)
+                // 응답 데이터 상태에 저장
+                setUserData(response.data.value); // ResponseDTO의 value에 담긴 UserDTO 데이터
+            } catch (err) {
+                console.error("Error fetching user info:", err);
+                setError(err); // 에러 상태 업데이트
+            } finally {
+                setLoading(false); // 로딩 종료
+            }
+        };
+        fetchUserInfo();
+    }, [])
+
     const navigate = useNavigate();
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    
 
     const {
         isModalOpen,
@@ -53,12 +79,6 @@ const MyPage = () => {
         };
         fetchUserInfo();
     }, [])
-
-    // useEffect(() => {
-    //     if (userData.profilePhoto) {
-            
-    //     }
-    // }, []);
 
     //회원 삭제
     const handleDeleteAccount = async () => {
@@ -171,7 +191,10 @@ const MyPage = () => {
                                 <button type="button" onClick={handleDeleteAccount}>회원 탈퇴</button> 
                             </div>
                         </form>
+
                     </div>
+                    <button>내정보 수정</button>
+                    <button>회원 탈퇴</button> 
                 </div>
                 
                 <Modal

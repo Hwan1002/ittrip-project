@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.map.entity.AreaEntity;
+import project.map.entity.CheckListEntity;
+import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
 import project.map.repository.AreaRepository;
 import project.map.repository.CheckListRepository;
@@ -30,6 +32,7 @@ public class TripService {
 		return wayPoints.split("|");
 	}
 	//경유지 String[] -> String (다시 React에서 배열로 사용해야 하기 때문)
+	//체크리스트 String[] -> String
 	public String mapToString(String[] waypoints) {
 		return String.join("|", waypoints);
 	}
@@ -81,5 +84,14 @@ public class TripService {
 		return tripRepository.updateTitleByIdx(updateTitle,idx);							
 	}
 	
+	//trip의 title을 받아서 MapEntity들 반환하기
+	public List<MapEntity> getMaps(String userId,String title){
+		return mapRepository.getLocationByUserIdAndTitle(userId, title);
+	}
+	
+	//trip의 title을 받아서 CheckListEntity 반환하기
+	public CheckListEntity getCheckLists(String userId,String title){
+		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
+	}
 	
 }

@@ -29,6 +29,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width:150px;
+    height:150px;
+    overflow: hidden;
+    object-fit: cover;
 }
 #profileFrame input{
     display: none;
@@ -73,4 +77,12 @@
 
 .UserImg img{
     width: 100%;
+
+}
+#myInfoFrame{
+    display: flex;
+    flex-direction: column; /* 버튼과 myInfo를 세로로 정렬 */
+    align-items: flex-start;
+    justify-content: center; /* 수직 방향 정렬 */
+    color: #575756;
 }

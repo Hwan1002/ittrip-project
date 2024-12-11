@@ -117,6 +117,7 @@ const Header=()=>{
                             <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
                             <Link className="mypage" to={'/mypage'}>MYPAGE</Link>
                         </div>
+
                     </>
                 ):(
                     <>
