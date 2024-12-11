@@ -111,6 +111,15 @@ const MyPage = () => {
     const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
     const inputImgRef = useRef(null);
 
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+    };
+
     const handleProfileClick = () => {
         if (inputImgRef.current) {
             inputImgRef.current.click();
@@ -136,16 +145,18 @@ const MyPage = () => {
     }
 
     const modify = async(e) => {
-        alert("수정버튼 클릭")
-        if(userData.authProvider){
+        e.preventDefault();
+        debugger;
+        console.log(userData);
+        if(userData.authProvider === null){
             if(userData.password !== passwordConfirm){
-                openModal({
+               openModal({
                     title: "비밀번호 오류",
-                    message:"비밀번호 확인란을 입력해주세요.",
-                    actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/login"), 500)}}],
+                    message:"비밀번호가 일치하지 않습니다.",
+                    actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/mypage"), 500)}}],
                 });
+                return;
             }
-            return;
         }
         try {
             const formData = new FormData();
@@ -158,10 +169,19 @@ const MyPage = () => {
             }
 
             const response = await axios.put(`${API_BASE_URL}`,formData);
-            console.log(response);
+            console.log(response.data);
+            openModal({
+                title: "수정 성공",
+                message: response.data,
+                actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/"))}}],
+            })
 
         } catch (error) {
-            
+            openModal({
+                title: "수정 실패",
+                message: "실패했다",error,
+                actions : [{label : "확인", onClick: () => {closeModal(); setTimeout(() => navigate("/mypage"))}}],
+            })
         }
     }
 
@@ -188,7 +208,7 @@ const MyPage = () => {
                                     <>
                                         <div className="infoInput">
                                             <label for="pwd">비밀번호 :</label>
-                                            <input name="password" id="pwd" type="password" value={userData.password} />
+                                            <input name="password" id="pwd" type="password" value={userData.password} onChange={handleInputChange} />
                                         </div>
                                         <div className="infoInput">
                                             <label for="pwdcf">비밀번호 확인 :</label>
@@ -199,11 +219,11 @@ const MyPage = () => {
                                 )}
                                 <div className="infoInput">
                                     <label for="name">이름 :</label>
-                                    <input name="userName" id="name" value={userData.userName} onChange={(e)=> setUserData(userData.name)}/>
+                                    <input name="userName" id="name" value={userData.userName} onChange={handleInputChange}/>
                                 </div>
                                 <div className="infoInput">
                                     <label for="userEmail">이메일 :</label>
-                                    <input name="email" id="userEmail" value={userData.email}/>
+                                    <input name="email" id="userEmail" value={userData.email} onChange={handleInputChange}/>
                                 </div>
                             </div>
                             <div className="myPageBtns">
