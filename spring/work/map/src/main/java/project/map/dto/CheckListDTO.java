@@ -18,15 +18,15 @@ public class CheckListDTO {
 	private Integer idx;		//체크리스트 식별자
 	private String checkListString;	//체크리스트 배열을 직렬화해놓은 것
 	private String[] checkListArray;
-	private UserEntity user;		//UserEntity의 id
-	private TripEntity trip;	//TripEntity의 title
+	private String userId;		//UserEntity의 id
+	private String tripTitle;	//TripEntity의 title
 	
 	
 	public CheckListDTO(CheckListEntity entity) {
 		this.idx = entity.getIdx();
 		this.checkListString = entity.getCheckList();
-		this.user = entity.getUser();
-		this.trip = entity.getTrip();
+		this.userId = entity.getUser().getId();
+		this.tripTitle = entity.getTrip().getTitle();
 	}
 	
 //	public static CheckListDTO fromEntity(CheckListEntity entity) {

@@ -20,15 +20,15 @@ public class TripDTO {
 	private String title;
 	private Date startDate;
 	private Date lastDate;
-	private UserEntity user;
+	private String userId;
 	
 	
 	public TripDTO(TripEntity entity){
-		this.idx = entity.getIdx() ;
-		this.title = entity.getTitle() ;
-		this.startDate = entity.getStartDate() ;
+		this.idx = entity.getIdx();
+		this.title = entity.getTitle();
+		this.startDate = entity.getStartDate();
 		this.lastDate = entity.getLastDate();
-		this.user = entity.getUser(); 
+		this.userId = entity.getUser().getId(); 
 	}
 	
 //	public static TripDTO fromEntity(TripEntity entity) {

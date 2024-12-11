@@ -23,9 +23,11 @@ import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
+import project.map.entity.UserEntity;
 import project.map.repository.CheckListRepository;
 import project.map.repository.MapRepository;
 import project.map.repository.TripRepository;
+import project.map.repository.UserRepository;
 import project.map.service.TripService;
 
 @RestController
@@ -36,6 +38,7 @@ public class TripController {
 	private TripRepository tripRepository;
 	private MapRepository mapRepository;
 	private CheckListRepository checkListRepository;
+	private UserRepository userRepository;
 	
 	//----------------	메인페이지  -----------------------
 	//areaNm에 대한 signguNm리스트 반환
@@ -73,7 +76,7 @@ public class TripController {
 	//만약 @RequestParam으로 쓰면 (@RequestParam String userId,@RequestParam String title)
 	@GetMapping("/4")
 	public ResponseEntity<?> getMaps(@RequestBody TripDTO dto){
-		List<MapEntity> list = tripService.getMaps(dto.getUser().getId(), dto.getTitle());
+		List<MapEntity> list = tripService.getMaps(dto.getUserId(), dto.getTitle());
 		List<MapDTO> dtos = list.stream().map(MapDTO::new).toList();
 		ResponseDTO<MapDTO> response = ResponseDTO.<MapDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
@@ -82,7 +85,7 @@ public class TripController {
 	//만약 @RequestParam으로 쓰면 (@RequestParam String userId, String title)
 	@GetMapping("/5")						
 	public ResponseEntity<?> getCheckList(@RequestBody CheckListDTO dto){
-		CheckListEntity entity = tripService.getCheckLists(dto.getUser().getId(), dto.getTrip().getTitle());
+		CheckListEntity entity = tripService.getCheckLists(dto.getUserId(), dto.getTripTitle());
 		String[] response = tripService.stringToMap(entity.getCheckList());
 		return ResponseEntity.ok(response);
 	}
@@ -93,13 +96,14 @@ public class TripController {
 	//trip객체 : 제목,출발일,도착일 db저장
 	@PostMapping("/1")
 	public void postTrips(@RequestBody TripDTO dto){
-		 String titleToCheck = tripService.titleToDB(dto.getTitle(), dto.getUser().getId());
+		UserEntity user = userRepository.findById(dto.getUserId()).get();
+		 String titleToCheck = tripService.titleToDB(dto.getTitle(), dto.getUserId());
 		 String confirmedTitle = tripService.titleConfirm(titleToCheck);
 		 TripEntity entity = TripEntity.builder()
 			        .title(confirmedTitle)
 			        .startDate(dto.getStartDate())
 			        .lastDate(dto.getLastDate())
-			        .user(dto.getUser())
+			        .user(user)
 			        .build();
 		 tripRepository.save(entity);
 	}
@@ -107,6 +111,8 @@ public class TripController {
 	//map객체 저장
 	@PostMapping("/2")
 	public void postMaps(@RequestBody MapDTO dto) {
+		UserEntity user = userRepository.findById(dto.getUserId()).get();
+		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
 		MapEntity entity = MapEntity.builder().
 				startPoint(dto.getStartPoint()).
 				startPlace(dto.getStartPlace()).
@@ -118,19 +124,23 @@ public class TripController {
 				waypointsPlace(dto.getWaypointsPlace()).
 				waypointsAddress(dto.getWaypointsAddress()).
 				days(dto.getDays()).
-				trip(dto.getTrip()).
-				user(dto.getUser()).build();	
+				user(user).
+				trip(trip).
+				build();
+					
 		mapRepository.save(entity);
 	}
 	
 	//checkList객체 저장
 	@PostMapping("/3")
 	public void postCheckList(@RequestBody CheckListDTO dto) {
+		UserEntity user = userRepository.findById(dto.getUserId()).get();
+		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
 		String checkList = tripService.mapToString(dto.getCheckListArray());
 		CheckListEntity entity = CheckListEntity.builder().
 												checkList(checkList).
-												trip(dto.getTrip()).
-												user(dto.getUser()).
+												trip(trip).
+												user(user).
 												build();
 		checkListRepository.save(entity);
 	}
@@ -140,20 +150,23 @@ public class TripController {
 	
 	@PutMapping("/1")
 	public void putTrip(@RequestBody TripDTO dto) {
-		String titleToCheck = tripService.titleToDB(dto.getTitle(), dto.getUser().getId());
+		UserEntity user = userRepository.findById(dto.getUserId()).get();
+		String titleToCheck = tripService.titleToDB(dto.getTitle(), dto.getUserId());
 		 String confirmedTitle = tripService.titleConfirm(titleToCheck);
 		 TripEntity entity = TripEntity.builder()
 				 	.idx(dto.getIdx())		//post와 다른 점은 이거뿐
 			        .title(confirmedTitle)
 			        .startDate(dto.getStartDate())
 			        .lastDate(dto.getLastDate())
-			        .user(dto.getUser())
+			        .user(user)
 			        .build();
 		 tripRepository.save(entity);
 	}
 	
 	@PutMapping("/2")
 	public void putMap(@RequestBody MapDTO dto) {
+		UserEntity user = userRepository.findById(dto.getUserId()).get();
+		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
 		MapEntity entity = MapEntity.builder().
 				idx(dto.getIdx()).
 				startPoint(dto.getStartPoint()).
@@ -166,8 +179,8 @@ public class TripController {
 				waypointsPlace(dto.getWaypointsPlace()).
 				waypointsAddress(dto.getWaypointsAddress()).
 				days(dto.getDays()).
-				trip(dto.getTrip()).
-				user(dto.getUser()).
+				trip(trip).
+				user(user).
 				build();	
 		
 		mapRepository.save(entity);
@@ -175,12 +188,14 @@ public class TripController {
 	
 	@PutMapping("/3")
 	public void putCheckList(@RequestBody CheckListDTO dto) {
+		UserEntity user = userRepository.findById(dto.getUserId()).get();
+		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
 		String checkList = tripService.mapToString(dto.getCheckListArray());
 		CheckListEntity entity = CheckListEntity.builder().
 												idx(dto.getIdx()).
 												checkList(checkList).
-												trip(dto.getTrip()).
-												user(dto.getUser()).
+												trip(trip).
+												user(user).
 												build();
 		checkListRepository.save(entity);
 	}
