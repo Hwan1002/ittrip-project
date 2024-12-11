@@ -24,11 +24,11 @@ public class TripDTO {
 	
 	
 	public TripDTO(TripEntity entity){
-		this.idx = entity.getIdx() ;
-		this.title = entity.getTitle() ;
-		this.startDate = entity.getStartDate() ;
+		this.idx = entity.getIdx();
+		this.title = entity.getTitle();
+		this.startDate = entity.getStartDate();
 		this.lastDate = entity.getLastDate();
-		this .userId = entity.getUser().getId(); 
+		this.userId = entity.getUser().getId(); 
 	}
 	
 //	public static TripDTO fromEntity(TripEntity entity) {
