@@ -28,10 +28,7 @@ public class UserDTO {
 	private String authProvider ; // 소셜로그인 공급자
 	
 	
-	
-
-	
-	public  UserDTO(UserEntity entity) {
+	public UserDTO(UserEntity entity) {
 		this.id = entity.getId() ;
 		this.userName = entity.getUserName() ;
 		this.email = entity.getEmail() ;
