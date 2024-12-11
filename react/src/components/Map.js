@@ -3,7 +3,6 @@ import React from "react";
 const Map = () => {
     // 임시 배열
     const dayChacks = ['일정1', '일정2', '일정3'];
-
     return (
         <div id="mapPlan" style={{
             width: "100%", 
