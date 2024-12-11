@@ -123,6 +123,7 @@ const MyPage = () => {
                 actions: [{ label: "확인", onClick: closeModal }],
             })
             return;
+
         }
         if (userData.authProvider === null && userData.password !== passwordConfirm) {
             openModal({
@@ -132,6 +133,7 @@ const MyPage = () => {
             });
             return;
         }
+
         try {
             const formData = new FormData();
             formData.append("id", userData.id);
@@ -139,14 +141,12 @@ const MyPage = () => {
             formData.append("email", userData.email);
             formData.append("password", userData.password);
 
-    
-          
-            if(userData.profilePhoto instanceof File){
+            formData.append("profilePhoto", userData.profilePhoto)
+            if (userData.profilePhoto instanceof File ) {
                 formData.append("profilePhoto", userData.profilePhoto);
             }else if(userData.profilePhoto){
                 formData.append("profilePhoto", null);
             }
-
 
             const response = await axios.put(`${API_BASE_URL}`, formData, {
                 headers: {
