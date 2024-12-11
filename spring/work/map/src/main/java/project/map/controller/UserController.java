@@ -1,5 +1,7 @@
 package project.map.controller;
 
+import java.security.AuthProvider;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,28 +29,28 @@ public class UserController {
 	private UserService service;
 
 
-
-	// 마이페이지에서 정보확인을위한 조회.
-	@GetMapping("/userinfo")
-
-	   public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
-	      UserDTO user = service.getById(userId);
-	      ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
-	      return ResponseEntity.ok(response);
-	   }
+	@GetMapping("/mypage")
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
+        UserDTO user = service.getById(userId);
+        ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
+        return ResponseEntity.ok(response);
+     }
 
 	// 회원가입
-	@PostMapping(value = "/signup", consumes = "multipart/form-data")
-	public ResponseEntity<?> registerUser(@RequestParam("id") String id, @RequestParam("password") String password,
-			@RequestParam("userName") String userName, @RequestParam("email") String email,
-			@RequestParam("profilePhoto") MultipartFile profilePhoto) {
-		// DTO 객체 생성
-		UserDTO dto = new UserDTO(id, password, userName, email, null);
-		// profilePhoto 처리
-		UserDTO registerUser = service.create(dto, profilePhoto);
-		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
-		return ResponseEntity.ok(response);
-	}
+   @PostMapping(value = "/signup", consumes = "multipart/form-data")
+   public ResponseEntity<?> registerUser(@RequestParam("id") String id, 
+                              @RequestParam("password") String password,
+                              @RequestParam("userName") String userName, 
+                              @RequestParam("email") String email,
+                              @RequestParam("profilePhoto") MultipartFile profilePhoto) {
+      // DTO 객체 생성
+      UserDTO dto = new UserDTO(id, password, userName, email, null);
+      // profilePhoto 처리
+      UserDTO registerUser = service.create(dto, profilePhoto);
+      ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
+      return ResponseEntity.ok(response);
+   }
+
 
 	// 로그인
 	@PostMapping("/signin")

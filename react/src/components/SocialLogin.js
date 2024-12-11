@@ -32,10 +32,10 @@ const SocialLogin = () => {
 
     const UserInfo = async (token) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/userinfo`,
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`  // Authorization 헤더에 토큰 삽입
+
+            const response = await axios.get(`${API_BASE_URL}/mypage`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`  // Authorization 헤더에 토큰 삽입
                     }
                 }
             );
