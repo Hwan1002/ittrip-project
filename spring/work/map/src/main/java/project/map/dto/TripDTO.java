@@ -20,7 +20,7 @@ public class TripDTO {
 	private String title;
 	private Date startDate;
 	private Date lastDate;
-	private String userId;
+	private UserEntity user;
 	
 	
 	public TripDTO(TripEntity entity){
@@ -28,7 +28,7 @@ public class TripDTO {
 		this.title = entity.getTitle() ;
 		this.startDate = entity.getStartDate() ;
 		this.lastDate = entity.getLastDate();
-		this .userId = entity.getUser().getId(); 
+		this.user = entity.getUser(); 
 	}
 	
 //	public static TripDTO fromEntity(TripEntity entity) {

@@ -16,16 +16,17 @@ import project.map.entity.UserEntity;
 public class CheckListDTO {
 	
 	private Integer idx;		//체크리스트 식별자
-	private String checkList;	//체크리스트 배열을 직렬화해놓은 것
-	private String userId;		//UserEntity의 id
-	private String tripTitle;	//TripEntity의 title
+	private String checkListString;	//체크리스트 배열을 직렬화해놓은 것
+	private String[] checkListArray;
+	private UserEntity user;		//UserEntity의 id
+	private TripEntity trip;	//TripEntity의 title
 	
 	
 	public CheckListDTO(CheckListEntity entity) {
 		this.idx = entity.getIdx();
-		this.checkList = entity.getCheckList();
-		this.userId = entity.getUser().getId();
-		this.tripTitle = entity.getTrip().getTitle();
+		this.checkListString = entity.getCheckList();
+		this.user = entity.getUser();
+		this.trip = entity.getTrip();
 	}
 	
 //	public static CheckListDTO fromEntity(CheckListEntity entity) {
@@ -40,7 +41,7 @@ public class CheckListDTO {
 	public CheckListEntity toEntity(UserEntity user, TripEntity trip) {
         return CheckListEntity.builder()
                 .idx(this.idx)
-                .checkList(this.checkList)
+                .checkList(this.checkListString)
                 .user(user) // UserEntity 설정
                 .trip(trip) // TripEntity 설정
                 .build();
