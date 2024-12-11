@@ -14,8 +14,6 @@ const MyPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); // 에러 상태
     const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
-    
-    
 
     useEffect(() => {
         // 마운트 시 또는 의존성이 변경될 때 실행되는 함수
