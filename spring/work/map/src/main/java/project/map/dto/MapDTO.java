@@ -25,8 +25,8 @@ public class MapDTO {
 	private String goalPlace;		//목적지 장소
 	private String goalAddress;		//목적지 지번주소
 	private int days;				//일자
-	private String userId;			//UserEntity의 id
-	private String tripTitle;		//TripEntity의 title
+	private UserEntity user;			//UserEntity의 id
+	private TripEntity trip;		//TripEntity의 title
 	
 	public MapDTO(MapEntity entity) {
 	    this.idx = entity.getIdx(); // 맵 식별자
@@ -40,8 +40,8 @@ public class MapDTO {
 	    this.goalPlace = entity.getGoalPlace(); // 목적지 장소
 	    this.goalAddress = entity.getGoalAddress(); // 목적지 지번주소
 	    this.days = entity.getDays(); // 일자
-	    this.userId = entity.getUser().getId(); // UserEntity의 id
-	    this.tripTitle = entity.getTrip().getTitle(); // TripEntity의 title
+	    this.user = entity.getUser(); // UserEntity의 id
+	    this.trip = entity.getTrip(); // TripEntity의 title
 	}
 	
 //	public static MapDTO fromEntity(MapEntity entity) {

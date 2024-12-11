@@ -28,6 +28,9 @@ public class DirectionsResponseDTO {
 	public static class Summary{
 		private Integer distance;
 		private Integer duration;
+		private Integer tollFare;
+		private Integer fuelPrice;
+		
 	}
 	 
 	

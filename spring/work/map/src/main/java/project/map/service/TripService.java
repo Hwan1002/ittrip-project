@@ -61,7 +61,7 @@ public class TripService {
 	
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
-	public List<AreaEntity> getAreaCd(String areaNm){
+	public List<AreaEntity> getSignguNms(String areaNm){
 		return areaRepository.findSignguNmByAreaNm(areaNm);
 	}
 	
@@ -76,13 +76,14 @@ public class TripService {
 		return tripRepository.getTripsByUserId(userId);
 	}
 	
-	//user_Id를 기반으로 가져온 trip에서 title 변경하기 (dto.gettitle=title,dto.getUserId()=userId,updatedTitle=사용자가 입력한 title)
-	public TripEntity updateTitle(String title,String updateTitle,String userId) {
-		String tempTitle = titleToDB(title,userId);		//DB에 저장된 title과 비교하기위해 가공
-		Integer idx = tripRepository.getidxByTitle(tempTitle);	//가공된 title로 idx 반환
-		TripEntity entity = tripRepository.findAllByIdx(idx);	//idx로 Trip객체 찾아서 반환
-		return tripRepository.updateTitleByIdx(updateTitle,idx);							
-	}
+//  지우지 마세요
+//	//user_Id를 기반으로 가져온 trip에서 title 변경하기 (dto.gettitle=title,dto.getUserId()=userId,updatedTitle=사용자가 입력한 title)
+//	public TripEntity updateTitle(String title,String updateTitle,String userId) {
+//		String tempTitle = titleToDB(title,userId);		//DB에 저장된 title과 비교하기위해 가공
+//		Integer idx = tripRepository.getidxByTitle(tempTitle);	//가공된 title로 idx 반환
+//		TripEntity entity = tripRepository.findAllByIdx(idx);	//idx로 Trip객체 찾아서 반환
+//		return tripRepository.updateTitleByIdx(updateTitle,idx);							
+//	}
 	
 	//trip의 title을 받아서 MapEntity들 반환하기
 	public List<MapEntity> getMaps(String userId,String title){
