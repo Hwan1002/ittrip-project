@@ -185,7 +185,6 @@ const signUp = async(e) => {
             }
         } catch (error) {
             if(error.response){
-                const { message, status } = error.response.data;
                 openModal({
                     title:"",
                     message:"프로필 사진을 설정해주세요.",

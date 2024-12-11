@@ -44,6 +44,7 @@ const MyPage = () => {
                 };
                 const response = await axios.get(`${API_BASE_URL}/mypage`, logData);
                 setUserData(response.data.value);
+                console.log("useEffect 초기 상태 :", response.data.value);
                 setSocialImgPreview(response.data.value.profilePhoto);
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
@@ -115,7 +116,6 @@ const MyPage = () => {
     //회원 수정
     const modify = async(e) => {
         e.preventDefault();
-        debugger;
         const emptyValue = Object.keys(userData).find((key) => {
             const value = userData[key];
             return typeof value === 'string' && value.trim() === '';
@@ -144,7 +144,7 @@ const MyPage = () => {
             formData.append("userName", userData.userName);
             formData.append("email", userData.email);
             formData.append("password",userData.password);
-
+          
             if(userData.profilePhoto instanceof File){
                 formData.append("profilePhoto", userData.profilePhoto);
             }else if(userData.profilePhoto){
@@ -190,10 +190,9 @@ const MyPage = () => {
                 <div className="myPageContents">
                     <div id="profileFrame">
                         <div className="UserImg">
-                            {/* .indexOf("http") */}
                             {userData.authProvider? 
                                 <img src={String(userData.authProvider) !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>:
-                                <img src={String(userData.authProvider).indexOf("http") !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>
+                                <img src={String(userData.profilePhoto).indexOf("http") !== -1? socialImgPreview : ImgPreview} alt="프로필 사진"/>
                             }
                         </div>
                         <button type="button" className='profileChangeBtn' onClick={handleProfileClick}>프로필 사진</button>
