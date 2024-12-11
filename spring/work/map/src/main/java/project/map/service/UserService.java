@@ -120,7 +120,8 @@ public class UserService {
 	// 회원정보 수정 ////비밀번호 ,프로필사진
 	@Transactional
 	public void modify(String userId, UserDTO dto , MultipartFile profilePhoto) {
-		UserEntity entity = repository.findById(userId).get();
+		UserEntity entity = repository.findById(userId)
+				.orElseThrow(() -> new RuntimeException("해당 ID를 가진 유저가 존재하지 않습니다."));
 
 	
 		// 이미지 파일 처리 (업로드 디렉토리 설정)
