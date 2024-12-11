@@ -32,9 +32,13 @@ body::-webkit-scrollbar {
     display: none;
 }
 /* 글 태그, 버튼 태그*/
+h1,h2,h3{
+    color:#F6A354;
+}
 h2,h3,p,span,a,button, label{
     font-family: 'Pretendard-Regular';
     text-decoration: none;
+    
 }
 /*h2같은 타이틀 스타일*/
 html,body{

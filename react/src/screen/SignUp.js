@@ -15,9 +15,7 @@ import { ProjectContext } from '../context/ProjectContext';
 
 const SignUp = () => {
 
-    let config =new Headers({
-        "Content-Type":"application/json"
-    })
+   
     const [formData, setFormData] = useState({
         id : '',
         password : '',
@@ -211,7 +209,6 @@ const signUp = async(e) => {
             </div>
             <div className="signUp_container container">
                 <div className="signUp_contents">
-                
                     <h2 className="title">회원가입</h2>
                     <form className='sigup_formData' onSubmit={(e) => signUp(e)}>
                         <div className='profilePhoto'>

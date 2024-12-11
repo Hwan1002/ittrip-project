@@ -37,27 +37,18 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
             setLoginSuccess(true);
-            if (response.data && response.data.value.token) {
+            if (response.data && response.data.value.token){
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
-
                 const userData = response.data.value // 예시로 user 정보를 받아오는 부분
-                console.log(userData)
-
-
                 setUserData(userData);  // 로그인한 사용자 정보를 context에 저장
-
-
                 openModal({
                     title: "로그인 성공",
                     message:"환영합니다.",
                     actions : [{label : "확인", onClick: () => {closeModal(); navigate("/")} }],
                 })
-                
-
             } else {
                 openModal({
                     title: "",

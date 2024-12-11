@@ -198,6 +198,7 @@ public class UserService {
 				.email(entity.getEmail())
 				.signupDate(entity.getSignupDate())
 				.profilePhoto(entity.getProfilePhoto())
+				.authProvider(entity.getAuthProvider())
 				.build();
 				
 
