@@ -7,7 +7,7 @@ const MyPage =()=>{
             <Image style={styles.image} source={require('../../assets/profile.jpeg')}/>
             <Pressable style={styles.button}>
                 <Text style={styles.buttonText}>프로필 변경</Text>
-                <Image style={{width:20,height:27,}} source={require('../../assets/update.png')}/>
+                <Image style={{width:19,height:27,}} source={require('../../assets/update.png')}/>
             </Pressable>
             <Text style={styles.infoText}>
                 아이디  |  asdf1234 {'\n'}
@@ -40,8 +40,8 @@ const styles=StyleSheet.create({
         borderRadius:100
     },
     button:{
-        width:180, 
-        height:45, 
+        width:150, 
+        height:40, 
         backgroundColor:'#F6A354',
         justifyContent:'center',
         alignItems:'center',
@@ -50,12 +50,12 @@ const styles=StyleSheet.create({
         flexDirection:'row',
     },
     buttonText:{
-        fontSize:20, 
+        fontSize:17, 
         color:'#fff', 
         fontWeight:600,
         textAlign:"center",
         marginLeft:15,
-        marginRight:15
+        marginRight:11
     },
     infoText: {
         height:145,
