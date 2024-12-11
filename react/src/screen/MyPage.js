@@ -177,7 +177,6 @@ const MyPage = () => {
             }
         }
     }
-
     return (
         <div className="container">
             <div id="myPage">
