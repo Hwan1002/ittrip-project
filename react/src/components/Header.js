@@ -12,19 +12,15 @@ import useModal from "../context/useModal";
 
 const Header=()=>{
     
-    const { loginSuccess, setLoginSuccess, userInfo, setUserInfo } = useContext(ProjectContext);
+    const { loginSuccess, setLoginSuccess} = useContext(ProjectContext);
     const navigate = useNavigate();
     const [tripTitle, setTripTitle] = useState("");
     const [tripDates, setTripDates] = useState({startDate : null, endDate: null});
     const [isNewPlanModal, setIsNewPlanModal] = useState(false);
     
-    
     //modal창 상태
     const {
         isModalOpen,
-        modalTitle,
-        modalMessage,
-        modalActions,
         openModal,
         closeModal,
     } = useModal();
@@ -42,7 +38,6 @@ const Header=()=>{
     const handleLogout = () => {
         setLoginSuccess(false);
         localStorage.removeItem("token");
-        alert("로그아웃 성공");
         closeModal();
         navigate("/login");
     };

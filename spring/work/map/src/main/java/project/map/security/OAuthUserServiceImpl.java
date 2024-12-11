@@ -1,5 +1,10 @@
 package project.map.security;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,12 +92,33 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		if (!repository.existsById(userId)) {
 			// 비밀번호를 인코딩하여 저장
 			String encodedPassword = passwordEncoder.encode("1234"); // 기본 비밀번호 "1234"
+			
+			// 사진 파일의 path 추출
+			String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();
+            File uploadDirectory = new File(uploadDir);
+            if (!uploadDirectory.exists()) {
+                uploadDirectory.mkdirs(); // 디렉토리 생성
+            }
+
+            String localProfilePhotoPath = null;
+            if (profilePhoto != null && !profilePhoto.isEmpty()) {
+                try {
+                    localProfilePhotoPath = downloadImage(profilePhoto, uploadDir); // 프로필 사진 다운로드 및 저장
+                } catch (Exception e) {
+                    log.error("Error downloading profile photo: {}", e.getMessage());
+                }
+            }
+			
+			
+			
+			
+			
 			repository.save(UserEntity.builder()
 					.id(userId)
 					.email(email)
 					.password(encodedPassword) // 인코딩된 비밀번호 저장
 					.authProvider(authProvider)
-					.profilePhoto(profilePhoto)
+					.profilePhoto(localProfilePhotoPath)
 					.userName(userName)
 					.build());
 		}
@@ -101,4 +127,34 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 				profilePhoto);
 		return new ApplicationOAuth2User(userId, oAuth2User.getAttributes());
 	}
+	/**
+     * 소셜 로그인에서 받은 이미지 URL을 로컬 디렉토리에 저장하는 메서드.
+     *
+     * param imageUrl  이미지 URL
+     * param uploadDir 로컬 저장 디렉토리 경로
+     * return 저장된 파일의 로컬 경로
+     * throws Exception 파일 다운로드 또는 저장 오류 발생 시 예외 처리
+     */
+    private String downloadImage(String imageUrl, String uploadDir) throws Exception {
+        // 파일 이름 생성 (현재 시간 기반)
+        String fileName = System.currentTimeMillis() + "_" + imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        String filePath = Paths.get(uploadDir, fileName).toString();
+
+        // URL에서 이미지 다운로드 및 로컬 저장
+        URL url = new URL(imageUrl);
+        try (InputStream inputStream = url.openStream();
+             FileOutputStream outputStream = new FileOutputStream(filePath)) {
+
+            byte[] buffer = new byte[2048];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return "/uploads/profilePhotos/" + fileName; // 로컬 경로 반환
+    }
 }
+	
+	
+	
