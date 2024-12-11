@@ -1,7 +1,6 @@
 package project.map.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,7 +14,7 @@ import project.map.entity.TripEntity;
 public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 
 		//user_Id를 기반으로 trip 정보 가져오기 
-		@Query("select t from TripEntity t where t.user_id = ?1 orderby idx")
+		@Query("select t from TripEntity t where t.user.id = ?1 order by t.idx")
 		List<TripEntity> getTripsByUserId(String userId);
 
 		//user_Id를 기반으로 가져온 trip에서 title 변경하기

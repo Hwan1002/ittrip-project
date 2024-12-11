@@ -19,6 +19,17 @@
     align-items: center;
     flex-direction: column;
 }
+.profileChangeBtn{
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    border:none;
+    color: #fff;
+    font-size: 18px;
+
+    background-color: #F6A354;
+
+}
 
 .photoImg {
     width:90px;
@@ -60,20 +71,34 @@
 }
 
 .signUp_id button{
-    position:absolute;
-    top:50%;
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%);
-    right:25px;
-    width:80px;
+    right: 25px;
+    width: 80px;
+    border: none;
+    background-color: #F6A354;
+    color: white;
+    border-radius: 8px;
+    height: 40px;
 }
 
 /*회원가기, 돌아가기 버튼*/
 .sigUp_Btns button{
     margin: 20px 0;
+    width: 120px;
+    height: 40px;
+    border-radius: 20px;
+    border:none;
+    background-color: #878787;
+    color: #fff;
+    font-size: 18px;
+    
 }
 
 .sigUp_Btns button:first-child{
     margin-right:10px;
+    background-color: #F6A354;
 }
 
 /* 생년월일 */

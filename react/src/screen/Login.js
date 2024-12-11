@@ -8,12 +8,23 @@ import kakao from "../img/kakaotalk.png";
 import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
 import { API_BASE_URL } from "../service/api-config";
+import Modal from "../components/Modal";
+import useModal from "../context/useModal";
 
 const Login = () => {
     
     //useState
-    const { setLoginSuccess } = useContext(ProjectContext);
+    const { setLoginSuccess, setUserData } = useContext(ProjectContext); // setUserData 추가
     const [logData, setLogData] = useState({ id : '', password : ''});
+
+    const {
+        isModalOpen,
+        modalTitle,
+        modalMessage,
+        modalActions,
+        openModal,
+        closeModal,
+    } = useModal();
 
     //navigate
     const navigate = useNavigate();
@@ -22,41 +33,58 @@ const Login = () => {
         setLogData({ ...logData, [e.target.name]: e.target.value });
     }
 
-    // 소셜로그인
-
+   
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
 
             const response = await axios.post(`${API_BASE_URL}/signin`, logData);
+            setLoginSuccess(true);
             if (response.data && response.data.value.token) {
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
-                setLoginSuccess(true);
 
-                alert("로그인 성공");
-                navigate("/");
+                const userData = response.data.value // 예시로 user 정보를 받아오는 부분
+                console.log(userData)
+
+
+                setUserData(userData);  // 로그인한 사용자 정보를 context에 저장
+
+
+                openModal({
+                    title: "로그인 성공",
+                    message:"환영합니다.",
+                    actions : [{label : "확인", onClick: () => {closeModal(); navigate("/")} }],
+                })
+                
+
             } else {
-                alert("로그인 실패: 서버에서 올바른 데이터를 못받음");
+                openModal({
+                    title: "",
+                    message: "로그인 실패: 서버에서 올바른 데이터를 못받음",
+                    actions : [{label : "확인", onClick: closeModal}],
+                })
+                return;
             }
         } catch (error) {
             if (error.response) {
-                alert("로그인 실패");
-            } else {
-                alert("뭔 오류인지 모름")
-            }
+                openModal({
+                    title: "",
+                    message: "로그인 실패: 서버에서 올바른 데이터를 못받음2",
+                    actions : [{label : "확인", onClick: closeModal}],
+                })
+                return;
+            } 
         }
     }
 
+    //소셜로그인
     const socialLogin = (e, provider) => {
         e.preventDefault();
         // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
         window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
 
     }
-
-
-
     return (
         <div id="login">
             <div className="logoImg">
@@ -84,6 +112,13 @@ const Login = () => {
                     </div>
 
                 </form>
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    title={modalTitle}
+                    content={<p>{modalMessage}</p>}
+                    actions={modalActions}
+                />
             </div>
         </div>
     )

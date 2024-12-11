@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -34,6 +33,8 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		TokenProvider tokenProvider =new TokenProvider();
 		String token = tokenProvider.create(authentication);
+		
+		 
 		
 		response.getWriter().write(token);
 		log.info("token {}",token);
