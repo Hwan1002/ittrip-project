@@ -52,7 +52,6 @@ public class TripEntity {
     private String title;    // 여행 제목
     
    
-    // 복합키의 userId 필드와 UserEntity를 매핑
     @ManyToOne
     @JoinColumn(name = "user_id",nullable=false) // 외래키: user_id
     private UserEntity user;

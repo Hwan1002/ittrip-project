@@ -27,9 +27,13 @@ public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		//타이틀 중복여부 확인
 		boolean existsByTitle(String title);
 		
+		TripEntity findByTitle(String title);
+		
 		//updateTitle에서 idx로 구분하여 타이틀을 수정하기 위해
 		@Query("select t.idx from TripEntity t where t.title = ?1")
 		Integer getidxByTitle(String title);
+		
+		String getTitleById(Integer idx);
 		
 		//idx를 통해 TripEntity반환
 		TripEntity findAllByIdx(Integer idx);
