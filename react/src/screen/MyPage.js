@@ -43,18 +43,12 @@ const MyPage = () => {
     }, [])
 
 
-
-    useEffect(()=>{
-        const response = axios.get(`${API_BASE_URL}/userinfo`)
-        userInfo =  response.data.value
-    },[])
-
     return (
         <div className="container">
             <div id="myPage">
                 <div id="profileFrame">
                     <div className="UserImg">
-                        <img src={ `http://localhost:8080${userData.profilePhoto}`} />
+                        <img src={userData.authProvider !==null? userData.profilePhoto: `http://localhost:8080${userData.profilePhoto}`} />
                     </div>
                     <button>프로필 변경</button>
                 </div>
