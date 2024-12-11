@@ -54,9 +54,9 @@ public class UserService {
 		try {
 			// 필수 필드 검증
 
+
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
 					|| dto.getEmail() == null) {
-
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
 			}
 			
@@ -177,7 +177,6 @@ public class UserService {
 
 	// dto -> entity
 	public UserEntity toEntity(UserDTO dto) {
-
 		return UserEntity.builder()
 				.id(dto.getId())
 				.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화

@@ -15,9 +15,7 @@ import { ProjectContext } from '../context/ProjectContext';
 
 const SignUp = () => {
 
-    let config =new Headers({
-        "Content-Type":"application/json"
-    })
+   
     const [formData, setFormData] = useState({
         id : '',
         password : '',
@@ -129,7 +127,6 @@ const SignUp = () => {
     // 회원가입 버튼
 const signUp = async(e) => {
     e.preventDefault();
-    debugger
     // FormData 객체를 생성하여 formData와 이미지 파일을 함께 서버로 전송
     const formDataToSend = new FormData();
     for (let key in formData) {
@@ -174,6 +171,7 @@ const signUp = async(e) => {
             const response = await axios.post(`${API_BASE_URL}/signup`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data' 
+
                 }
             });
 
@@ -211,7 +209,6 @@ const signUp = async(e) => {
             </div>
             <div className="signUp_container container">
                 <div className="signUp_contents">
-                
                     <h2 className="title">회원가입</h2>
                     <form className='sigup_formData' onSubmit={(e) => signUp(e)}>
                         <div className='profilePhoto'>
@@ -253,7 +250,7 @@ const signUp = async(e) => {
                     />
                 </div>
             </div>
-            
+
         </div>
     )
 }
