@@ -46,7 +46,7 @@ public class UserController {
                               @RequestParam("email") String email,
                               @RequestParam("profilePhoto") MultipartFile profilePhoto) {
       // DTO 객체 생성
-      UserDTO dto = new UserDTO(id, password, userName, email, null);
+      UserDTO dto = new UserDTO(id, password, userName, email);
       // profilePhoto 처리
       UserDTO registerUser = service.create(dto, profilePhoto);
       ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
@@ -80,12 +80,12 @@ public class UserController {
 	// 회원정보 수정
 	@PutMapping
 	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, 
-										@RequestParam("password") String password,
+										@RequestParam(value = "password" , required = false) String password,
 										@RequestParam("userName") String userName, 
 										@RequestParam("email") String email,
 										@RequestParam(value ="profilePhoto" , required = false) MultipartFile profilePhoto) {
 		// DTO 객체 생성
-		UserDTO dto = new UserDTO(userId, password, userName, email, null);
+		UserDTO dto = new UserDTO(userId, password, userName, email);
 		service.modify(userId, dto, profilePhoto);
 		return ResponseEntity.ok("회원정보 수정완료");
 
