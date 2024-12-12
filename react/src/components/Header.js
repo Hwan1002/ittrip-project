@@ -13,14 +13,8 @@ import { API_BASE_URL } from "../service/api-config";
 import axios from 'axios';
 
 const Header=()=>{
-    const token = window.localStorage.getItem("token");
-    const logData = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-
-    const { loginSuccess, setLoginSuccess} = useContext(ProjectContext);
+   
+    const { loginSuccess, setLoginSuccess, token, logData} = useContext(ProjectContext);
     const navigate = useNavigate();
     const [tripTitle, setTripTitle] = useState("");
     const [tripDates, setTripDates] = useState({startDate : null, endDate: null});
@@ -35,11 +29,9 @@ const Header=()=>{
 
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
         if (token && !loginSuccess) {
             setLoginSuccess(true);
         }
-        // fetchUserInfo();
     }, [loginSuccess, setLoginSuccess]);
 
     //로그아웃 버튼 클릭시 함수
@@ -79,7 +71,7 @@ const Header=()=>{
             const response = await axios.post(`${API_BASE_URL}/1`,{title:tripDates, startDate:tripDates.startDate, lastDate:tripDates.endDate},logData);
             console.log(response.data.value);
         } catch (error) {
-            
+            console.log(error);
         }
         console.log("Trip saved:", {title: tripTitle, ...tripDates});
         
