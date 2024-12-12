@@ -28,7 +28,6 @@ const Login = () => {
 
     //navigate
     const navigate = useNavigate();
-
     const handleChange = (e) => {
         setLogData({ ...logData, [e.target.name]: e.target.value });
     }
@@ -95,10 +94,10 @@ const Login = () => {
                             <button className="loginBt" type="submit">로그인</button>
                             <button className="kakaoBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"kakao")}>
                                 <img src={kakao} alt="kakao" style={{width:"20px"}} />
-                                카카오로 로그인
+                                카카오 로그인
                             </button>
-                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}>네이버로 로그인</button>
-                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")}>구글로 로그인</button>
+                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}>네이버 로그인</button>
+                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")}>구글 로그인</button>
                         </div>
                     </div>
 

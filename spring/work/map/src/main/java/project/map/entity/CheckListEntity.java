@@ -26,9 +26,9 @@ public class CheckListEntity {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idx", nullable = false)
     private Integer idx; // Primary Key
-	
 	@Column(name = "checklist",length = 255)
 	private String checkList;	//체크리스트 배열을 db저장을 위해 스트링으로 변환해서 받을 것
+	
 	
 	
 	@OneToOne

@@ -51,6 +51,7 @@ public class TripService {
 			while(tripRepository.existsByTitle(title)) {
 				if(title.contains("(")) {
 					++count;
+					return title;
 				}else {
 					title = title + "(" + count +")";
 				}

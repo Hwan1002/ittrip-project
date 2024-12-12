@@ -80,7 +80,7 @@ public class TripController {
 	// TripEntity 객체들 반환(여행목록에 여행리스트)
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String userId)
 	@GetMapping("/3")
-	public ResponseEntity<?> getTrips(@RequestParam String userId) {
+	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) {
 		List<TripEntity> list = tripService.getTrips(userId);
 		List<TripDTO> dtos = list.stream().map(TripDTO::new).toList();
 		ResponseDTO<TripDTO> response = ResponseDTO.<TripDTO>builder().data(dtos).build();
@@ -112,15 +112,16 @@ public class TripController {
 
 	// trip객체 : 제목,출발일,도착일 db저장
 	@PostMapping("/1")
-	public void postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
+	   public ResponseEntity<?> postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
+	      UserEntity user = userRepository.findById(userId).get();
 
-		String titleToCheck = tripService.titleToDB(dto.getTitle(), userId);
-		String confirmedTitle = tripService.titleConfirm(titleToCheck);
-		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
-				.lastDate(dto.getLastDate()).user(user).build();
-		tripRepository.save(entity);
-	}
+	      String titleToCheck = tripService.titleToDB(dto.getTitle(), userId);
+	      String confirmedTitle = tripService.titleConfirm(titleToCheck);
+	      TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
+	            .lastDate(dto.getLastDate()).user(user).build();
+	      ResponseDTO response = ResponseDTO.builder().value(tripRepository.save(entity)).build();
+	      return ResponseEntity.ok(response) ;
+	   }
 
 	// map객체 저장
 	@PostMapping("/2")
@@ -138,7 +139,7 @@ public class TripController {
 
 	// checkList객체 저장
 	@PostMapping("/3")
-
+  
 	public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());

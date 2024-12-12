@@ -23,8 +23,20 @@ export const ProjectProvider = ({ children }) => {
       setLoginSuccess(true);
   };
 
+  const value = {
+    loginSuccess,
+    setLoginSuccess,
+    imagePreview,
+    setImagePreview,
+    userInfo,
+    setUserInfo,
+    setUserData,
+    token,
+    logData,
+  }
+
   return (
-    <ProjectContext.Provider value={{ loginSuccess, setLoginSuccess, imagePreview, setImagePreview,userInfo,setUserData,token,logData}}>
+    <ProjectContext.Provider value={value}>
       {children}
     </ProjectContext.Provider>
   );

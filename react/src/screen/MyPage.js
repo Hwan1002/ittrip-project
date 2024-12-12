@@ -11,8 +11,6 @@ const MyPage = () => {
     
     //state
     const [userData, setUserData] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null); // 에러 상태
     const [passwordConfirm, setPasswordConfirm] = useState(''); //비밀번호 확인 상태만 따로 저장 (비교용도)
     const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
     //ref
@@ -34,16 +32,12 @@ const MyPage = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                setLoading(true); // 로딩 시작
                 const response = await axios.get(`${API_BASE_URL}/mypage`, logData);
                 setUserData(response.data.value);
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
                 console.error("Error fetching user info:", error);
-                setError(error);
-            } finally {
-                setLoading(false); // 로딩 종료
-            }
+            } 
         };
         fetchUserInfo();
     }, [])

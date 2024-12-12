@@ -22,11 +22,14 @@ function CheckList2() {
   const addItem = async() => {
     if (input.trim()) {
       setItems([...items, {id: Date.now(), text: input, checked: false}]);
-      // try {
-      //     const response = await axios.post(`${API_BASE_URL}/3`,{id: Date.now(), text: input, checked: false},logData);
-      // } catch (error) {
-      //   console.log("에러 메시지 : ",error);
-      // }
+      try {
+          debugger;
+          const response = await axios.post(`${API_BASE_URL}/3`,{checkList:input,},logData);
+          console.log(response.data.value);
+
+      } catch (error) {
+        console.log("에러 메시지 : ",error);
+      }
       setInput('');
     }
   };
