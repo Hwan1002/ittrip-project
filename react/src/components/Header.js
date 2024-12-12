@@ -12,17 +12,31 @@ import useModal from "../context/useModal";
 import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import { format } from "date-fns";
+import NewTrip from "../screen/NewTrip";
 
 const Header = () => {
-  const { loginSuccess, setLoginSuccess, token, logData } =
-    useContext(ProjectContext);
+  const {
+    loginSuccess,
+    setLoginSuccess,
+    token,
+    logData,
+    tripTitle,
+    setTripTitle,
+    tripDates,
+    setTripDates,
+  } = useContext(ProjectContext);
   const navigate = useNavigate();
-  const [tripTitle, setTripTitle] = useState("");
-  const [tripDates, setTripDates] = useState({
-    startDate: null,
-    endDate: null,
-  });
+  //   const [tripTitle, setTripTitle] = useState("");
+  //   const [tripDates, setTripDates] = useState({
+  //     startDate: null,
+  //     endDate: null,
+  //   });
   const [isNewPlanModal, setIsNewPlanModal] = useState(false);
+  const [tripInfo, setTripInfo] = useState({
+    title: "",
+    startDate: "",
+    lastDate: "",
+  });
   // const token = window.localStorage.getItem("token")
   // const logData = {
   //     headers: {
@@ -74,18 +88,15 @@ const Header = () => {
       return;
     }
     try {
-      const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
-      const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-      const response = await axios.post(
-        `${API_BASE_URL}/1`,
-        {
-          title: tripTitle,
-          startDate: formattedStartDate,
-          lastDate: formattedEndDate,
-        },
-        logData
-      );
-      console.log("axios후 결과 : ", response.data);
+      //   const response = await axios.post(
+      //     `${API_BASE_URL}/1`,
+      //     {
+      //       title: tripTitle,
+      //       startDate: formattedStartDate,
+      //       lastDate: formattedEndDate,
+      //     },
+      //     logData
+      //   );
     } catch (error) {
       console.log("에러결과 : ", error);
     }
@@ -137,7 +148,7 @@ const Header = () => {
             {/* <div className="headerProfileImg">
                             <img src={userInfo.profilePhoto.indexOf('http') !== -1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`} alt="profileImg"/>
                             <p>{`Welcome, ${userInfo.userName}`}</p>
-                        </div> */}
+                </div> */}
             <div>
               <Link className="logout" onClick={openLogoutModal}>
                 LOGOUT

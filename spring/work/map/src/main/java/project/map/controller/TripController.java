@@ -150,7 +150,7 @@ public class TripController {
 	@PostMapping("/3")
 	public ResponseEntity<?> postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
+		TripEntity trip = tripRepository.findByTitle(userId+ "/" +dto.getTripTitle());
 		//String checkList = tripService.mapToString(dto.getCheckListArray());
 		CheckListEntity entity = CheckListEntity.builder().checkList(dto.getCheckList()).trip(trip).user(user).build();
 		checkListRepository.save(entity) ;
