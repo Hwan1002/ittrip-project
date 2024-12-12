@@ -9,14 +9,23 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import useModal from "../context/useModal";
+import { API_BASE_URL } from "../service/api-config";
+import axios from 'axios';
+import { format } from "date-fns";
 
 const Header=()=>{
-    
+   
     const { loginSuccess, setLoginSuccess} = useContext(ProjectContext);
     const navigate = useNavigate();
     const [tripTitle, setTripTitle] = useState("");
     const [tripDates, setTripDates] = useState({startDate : null, endDate: null});
     const [isNewPlanModal, setIsNewPlanModal] = useState(false);
+    const token = window.localStorage.getItem("token")
+    const logData = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
     
     //modal창 상태
     const {
@@ -27,11 +36,9 @@ const Header=()=>{
 
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
         if (token && !loginSuccess) {
             setLoginSuccess(true);
         }
-        // fetchUserInfo();
     }, [loginSuccess, setLoginSuccess]);
 
     //로그아웃 버튼 클릭시 함수
@@ -42,7 +49,6 @@ const Header=()=>{
         navigate("/login");
     };
 
-    
     //로그아웃 전용 모달창
     const openLogoutModal = () => {
         setIsNewPlanModal(false);
@@ -56,20 +62,34 @@ const Header=()=>{
         });
     };
     
-    const handleNewPlanSubmit = () => {
+    const handleNewPlanSubmit = async() => {
         if(!tripTitle ||!tripDates.startDate || !tripDates.endDate){
             openModal({
                 title: "입력 오류",
                 message:"여행 제목과 출발, 도착 날짜를 모두 입력해주세요.",
                 actions : [{label : "확인", onClick: closeModal}],
             })
-
             //DB에 저장할 함수 추가 하는 걸로
             
             return;
         }
+        try {
+            const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
+            const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
 
-        console.log("Trip saved:", {title: tripTitle, ...tripDates});
+            const response = await axios.post(`${API_BASE_URL}/1`,
+                {
+                    title:tripTitle,
+                    startDate:formattedStartDate,
+                    lastDate: formattedEndDate,
+                },
+                logData
+            );
+            // const response = await axios.get(`${API_BASE_URL}/3`,logData);
+        } catch (error) {
+            console.log("에러결과 : ",error);
+        }
+        
         setTripTitle("");
         setTripDates({startDate: null, endDate:null});
         closeModalWithReset();
@@ -96,9 +116,8 @@ const Header=()=>{
                 <img className="headerLogo" src={logo} alt="Logo"/>
             </Link>
             <nav className="menuBar">
-                <Link className="menu" to={'/'}>Main</Link>
+                <Link className="menu" to={'/checklist'}>CheckList</Link>
                 <Link className="menu" to={'/entireplan'}>My Plan</Link>
-                <Link className="menu" to={'/mypage'}>Main page</Link>
                 <Link className="menu" to={'/newtrip'} onClick={openNewPlanModal}>New Plan</Link>
 
 
@@ -149,21 +168,24 @@ const Header=()=>{
                                         selected={tripDates.startDate}
                                         onChange={(dates) => {
                                             const [start, end] = dates;
-                                            setTripDates({startDate:start,endDate:end})
+                                            setTripDates({
+                                                startDate: start,
+                                                endDate: end ,
+                                            });
                                         }}
                                         startDate={tripDates.startDate}
                                         endDate={tripDates.endDate}
                                         minDate={new Date()}
                                         selectsRange
+                                        dateFormat= "yyyy-MM-dd"
                                         locale={ko}
-                                        dateFormat={"yyyy-MM-dd"}
-                                        inline                                 
+                                        inline
                                     />
                                     {tripDates.startDate && tripDates.endDate && (
                                         <div>
                                             <p>여행 이름 : {tripTitle}</p>
-                                            <p>출발 : {tripDates.startDate.toLocaleDateString()}</p>
-                                            <p>도착 : {tripDates.endDate.toLocaleDateString()}</p>
+                                            <p>출발 : {tripDates.startDate.toLocaleDateString("ko-KR")}</p>
+                                            <p>도착 : {tripDates.endDate.toLocaleDateString("ko-KR")}</p>
                                         </div>
                                     )}
                                 </div>
