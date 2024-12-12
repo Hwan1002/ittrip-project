@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { ProjectContext } from "../context/ProjectContext";
 
 const MyPage = () => {
+    
     //state
-    const token = window.localStorage.getItem("token");
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); // 에러 상태
@@ -18,7 +18,7 @@ const MyPage = () => {
     //ref
     const inputImgRef = useRef(null);
     //context
-    const { loginSuccess, setLoginSuccess } = useContext(ProjectContext);
+    const { setLoginSuccess, token, logData } = useContext(ProjectContext);
     //navigate
     const navigate = useNavigate();
     //modal 사용
@@ -35,12 +35,6 @@ const MyPage = () => {
         const fetchUserInfo = async () => {
             try {
                 setLoading(true); // 로딩 시작
-                const token = localStorage.getItem("token"); // Authorization 토큰 가져오기
-                const logData = {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                };
                 const response = await axios.get(`${API_BASE_URL}/mypage`, logData);
                 setUserData(response.data.value);
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);

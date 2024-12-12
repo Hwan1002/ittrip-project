@@ -10,14 +10,11 @@ import SignUp from './screen/SignUp';
 import AddData from './components/AddData';
 import AddRoot from './components/AddRoot';
 import { ProjectProvider } from './context/ProjectContext';
-
 import MyPage from './screen/MyPage';
 import NewTrip from './screen/NewTrip'
 import MainLocal from './components/MainLocal';
-
-
 import SocialLogin from './components/SocialLogin';
-
+import CheckList from './components/CheckList';
 
 function App() {
   return (
@@ -37,6 +34,7 @@ function App() {
           <Route path="/mypage" element={<MyPage/>}/>
           <Route path="/mainlocal" element={<MainLocal/>}/>
           <Route path="/socialLogin" element={<SocialLogin/>}/>
+          <Route path="/checklist" element={<CheckList/>}/>
         </Routes>
       </ProjectProvider>
     </BrowserRouter>

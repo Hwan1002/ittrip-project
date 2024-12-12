@@ -3,6 +3,7 @@ package project.map.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -137,8 +138,8 @@ public class TripController {
 	
 	//checkList객체 저장
 	@PostMapping("/3")
-	public void postCheckList(@RequestBody CheckListDTO dto) {
-		UserEntity user = userRepository.findById(dto.getUserId()).get();
+	public void postCheckList(@AuthenticationPrincipal String userId,@RequestBody CheckListDTO dto) {
+		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
 		String checkList = tripService.mapToString(dto.getCheckListArray());
 		CheckListEntity entity = CheckListEntity.builder().

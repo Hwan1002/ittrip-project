@@ -9,9 +9,17 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import useModal from "../context/useModal";
+import { API_BASE_URL } from "../service/api-config";
+import axios from 'axios';
 
 const Header=()=>{
-    
+    const token = window.localStorage.getItem("token");
+    const logData = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
     const { loginSuccess, setLoginSuccess} = useContext(ProjectContext);
     const navigate = useNavigate();
     const [tripTitle, setTripTitle] = useState("");
@@ -55,7 +63,7 @@ const Header=()=>{
         });
     };
     
-    const handleNewPlanSubmit = () => {
+    const handleNewPlanSubmit = async() => {
         if(!tripTitle ||!tripDates.startDate || !tripDates.endDate){
             openModal({
                 title: "입력 오류",
@@ -65,8 +73,14 @@ const Header=()=>{
             //DB에 저장할 함수 추가 하는 걸로
             return;
         }
-
+        try {
+            const response = await axios.post(`${API_BASE_URL}/1`,{title:tripDates, startDate:tripDates.startDate, lastDate:tripDates.endDate},logData);
+            console.log(response.data.value);
+        } catch (error) {
+            
+        }
         console.log("Trip saved:", {title: tripTitle, ...tripDates});
+        
         setTripTitle("");
         setTripDates({startDate: null, endDate:null});
         closeModalWithReset();
@@ -93,9 +107,8 @@ const Header=()=>{
                 <img className="headerLogo" src={logo} alt="Logo"/>
             </Link>
             <nav className="menuBar">
-                <Link className="menu" to={'/'}>Main</Link>
+                <Link className="menu" to={'/checklist'}>CheckList</Link>
                 <Link className="menu" to={'/entireplan'}>My Plan</Link>
-                <Link className="menu" to={'/mypage'}>Main page</Link>
                 <Link className="menu" to={'/newtrip'} onClick={openNewPlanModal}>New Plan</Link>
 
 
