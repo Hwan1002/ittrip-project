@@ -26,6 +26,7 @@ const Header=()=>{
     //         Authorization: `Bearer ${token}`,
     //     },
     // };
+
     
     //modal창 상태
     const {
@@ -40,6 +41,7 @@ const Header=()=>{
             setLoginSuccess(true);
         }
     }, [token]);
+
 
     //로그아웃 버튼 클릭시 함수
     const handleLogout = () => {
@@ -74,10 +76,8 @@ const Header=()=>{
             return;
         }
         try {
-            debugger;
             const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
             const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-
             const response = await axios.post(`${API_BASE_URL}/1`,
                 {
                     title:tripTitle,

@@ -1,5 +1,6 @@
 package project.map.controller;
 
+import java.io.Console;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
 import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO;
 import project.map.dto.MapDTO;
@@ -35,6 +37,7 @@ import project.map.service.TripService;
 
 @RestController
 @RequestMapping
+@Slf4j
 public class TripController {
 
 	@Autowired
@@ -54,7 +57,7 @@ public class TripController {
 	// areaNm에 대한 signguNm리스트 반환
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
-	public ResponseEntity<?> getAreaCd(@RequestParam String area) {
+	public ResponseEntity<?> getAreaCd(@AuthenticationPrincipal String userId ,@RequestParam String area) {
 		List<AreaEntity> list = tripService.getSignguNms(area);
 		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
 		ResponseDTO<AreaDTO> response = ResponseDTO.<AreaDTO>builder().data(dtos).build();
@@ -80,7 +83,8 @@ public class TripController {
 	// TripEntity 객체들 반환(여행목록에 여행리스트)
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String userId)
 	@GetMapping("/3")
-	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) {
+
+	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) { // requestParam 으로 userId를 받지않고 
 		List<TripEntity> list = tripService.getTrips(userId);
 		List<TripDTO> dtos = list.stream().map(TripDTO::new).toList();
 		ResponseDTO<TripDTO> response = ResponseDTO.<TripDTO>builder().data(dtos).build();
@@ -112,16 +116,21 @@ public class TripController {
 
 	// trip객체 : 제목,출발일,도착일 db저장
 	@PostMapping("/1")
-	   public ResponseEntity<?> postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
-	      UserEntity user = userRepository.findById(userId).get();
+	public ResponseEntity<?> postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
+		UserEntity user = userRepository.findById(userId).get();
+		System.out.println("첫번째 console 조회 : " +dto.getStartDate());
 
-	      String titleToCheck = tripService.titleToDB(dto.getTitle(), userId);
-	      String confirmedTitle = tripService.titleConfirm(titleToCheck);
-	      TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
-	            .lastDate(dto.getLastDate()).user(user).build();
-	      ResponseDTO response = ResponseDTO.builder().value(tripRepository.save(entity)).build();
-	      return ResponseEntity.ok(response) ;
-	   }
+		String titleToCheck = tripService.titleToDB(dto.getTitle(), userId);
+		String confirmedTitle = tripService.titleConfirm(titleToCheck);
+		System.out.println("두번쨰 console 조회  " +dto.getStartDate());
+		
+		
+		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
+				.lastDate(dto.getLastDate()).user(user).build();
+		ResponseDTO response = ResponseDTO.builder().value(tripRepository.save(entity)).build();
+		System.out.println(response.getValue());
+		return ResponseEntity.ok(response) ;
+	}
 
 	// map객체 저장
 	@PostMapping("/2")
@@ -139,13 +148,14 @@ public class TripController {
 
 	// checkList객체 저장
 	@PostMapping("/3")
-  
-	public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
+	public ResponseEntity<?> postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
-		String checkList = tripService.mapToString(dto.getCheckListArray());
-		CheckListEntity entity = CheckListEntity.builder().checkList(checkList).trip(trip).user(user).build();
-		checkListRepository.save(entity);
+		//String checkList = tripService.mapToString(dto.getCheckListArray());
+		CheckListEntity entity = CheckListEntity.builder().checkList(dto.getCheckList()).trip(trip).user(user).build();
+		checkListRepository.save(entity) ;
+		ResponseDTO response = ResponseDTO.builder().value(entity).build() ;
+		return ResponseEntity.ok(response);
 	}
 
 	// ----------------- POST ---------------------------
@@ -187,7 +197,7 @@ public class TripController {
 	// ----------------- PUT ---------------------------
 	// ----------------- DELETE -------------------------
 	@DeleteMapping("/1/{idx}")
-	public void deleteTrip(@PathVariable Integer idx) {
+	public void deleteTrip(@PathVariable("idx") Integer idx) { // pathVariable 어노테이션 사용시 { } 안에들어간 값과 idx 매개변수를 인식하기위해서는 어노테이션 뒤 같은 이름을 명시해야 한다 . 
 		tripRepository.deleteById(idx);
 	}
 

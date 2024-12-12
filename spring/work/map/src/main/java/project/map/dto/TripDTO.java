@@ -1,7 +1,8 @@
 package project.map.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -20,9 +21,9 @@ public class TripDTO {
 	
 	private Integer idx;
 	private String title;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate lastDate;
 	private String userId;
 	
@@ -55,4 +56,16 @@ public class TripDTO {
                 .user(user) // UserEntity 설정
                 .build();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
