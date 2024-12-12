@@ -63,7 +63,9 @@ const Header=()=>{
                 message:"여행 제목과 출발, 도착 날짜를 모두 입력해주세요.",
                 actions : [{label : "확인", onClick: closeModal}],
             })
+
             //DB에 저장할 함수 추가 하는 걸로
+            
             return;
         }
 

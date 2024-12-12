@@ -140,8 +140,7 @@ const MyPage = () => {
             formData.append("userName", userData.userName);
             formData.append("email", userData.email);
             formData.append("password", userData.password);
-
-            formData.append("profilePhoto", userData.profilePhoto)
+            
             if (userData.profilePhoto instanceof File ) {
                 formData.append("profilePhoto", userData.profilePhoto);
             }else if(userData.profilePhoto){
