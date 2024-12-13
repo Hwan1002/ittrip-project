@@ -11,13 +11,15 @@ export const ProjectProvider = ({ children }) => {
 
   const [imagePreview, setImagePreview] = useState(null); //프로필 이미지 url 상태
 
+  const [address,setAddress] =useState(null);
+
     const setUserData = (data) => {
         setUserInfo(data);
         setLoginSuccess(true);
     };
   
   return (
-    <ProjectContext.Provider value={{ loginSuccess, setLoginSuccess, imagePreview, setImagePreview,userInfo,setUserData}}>
+    <ProjectContext.Provider value={{ loginSuccess, setLoginSuccess, imagePreview, setImagePreview,userInfo,setUserData,address,setAddress}}>
       {children}
     </ProjectContext.Provider>
   );

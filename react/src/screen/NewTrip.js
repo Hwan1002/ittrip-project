@@ -3,6 +3,7 @@ import '../css/NewTrip.css'
 import Plus2 from "../img/plus2.svg"
 import AddData from "../components/AddData.js";
 import Map from "../components/Map.js";
+import MapWithData from "../components/MapWithData.js";
 
 
 const NewTrip = () => {
@@ -44,10 +45,11 @@ const NewTrip = () => {
                     {/* 지도, 경로추가부분 */}
                     <div id="locationFrame">
                         <div id="newMap">
-                            <Map/>
+                            {/* <Map/>
                         </div>
                         <div id="addDirectionFrame">
-                            <AddData width="200px"/>
+                            <AddData width="200px"/> */}
+                        <MapWithData/>
                         </div>
                     </div >
                     <div id="checkAndEnd">

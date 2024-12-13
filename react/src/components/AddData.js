@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useContext  } from "react";
+import { API_BASE_URL } from "../service/api-config";
+import { ProjectContext } from "../context/ProjectContext";
 
 const AddData = ({width}) => {
   const [data, setData] = useState([]);  // 입력된 데이터를 저장할 배열
   const [inputs, setInputs] = useState([{ value: "" }]);  // 여러 개의 input을 관리하는 배열
+  const [res, setRes] = useState([]);
+
+  const { setAddress } = useContext(ProjectContext);
+
+
+  const handleCheck=(item)=>{
+    setAddress(item)
+  }
 
   // input 값이 변경되었을 때
   const handleInputChange = (index, event) => {
@@ -12,9 +23,21 @@ const AddData = ({width}) => {
   };
 
   // bt1 버튼 클릭 시
-  const handleBt1Click = (index) => {
+  const handleBt1Click = async (index) => {
     // 현재 input 값(data)에 추가
     const newData = [...data, inputs[index].value];
+
+
+    const response = await axios.get(`${API_BASE_URL}/local`, {
+      params: {
+        query: inputs[index].value,  // 현재 input의 값을 query 파라미터로 전송
+      },
+    });
+
+
+    setRes(response.data.items)
+
+
     setData(newData);
 
     // 새로운 input과 bt1을 추가
@@ -113,8 +136,17 @@ const AddData = ({width}) => {
           )}
         </div>
       ))}
-
-     
+      <ul>
+            {
+                res.map(item => 
+                    <li key={item.title}>
+                        <p>{item.title}</p>
+                        <button onClick={() => handleCheck(item.address)}>{item.address}</button>
+                        <p>{item.roadAddress}</p>
+                    </li>    
+                )
+            }
+        </ul>
     </div>
   );
 };
