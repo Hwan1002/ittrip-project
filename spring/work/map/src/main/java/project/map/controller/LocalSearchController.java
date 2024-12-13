@@ -1,5 +1,8 @@
 package project.map.controller;
 
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -16,7 +19,7 @@ public class LocalSearchController {
 	private final WebClient webClient;
 	
 	private String requestUrl = "https://openapi.naver.com/v1/search/local.json";
-	
+
 	private String clientId = "W6CdC7Ve_M1MNfFS59NB";
 	
 	private String clientSecret = "mBOfqeLoh3";
@@ -32,6 +35,7 @@ public class LocalSearchController {
 					.queryParam("query", query)
 					.queryParam("display", 5)
 					.queryParam("start", 1)
+
 					.queryParam("sort", "random")
 					.build())
 					.header("X-Naver-Client-Id", clientId)
@@ -46,3 +50,4 @@ public class LocalSearchController {
 		}
 	}
 }
+

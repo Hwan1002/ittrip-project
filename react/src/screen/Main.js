@@ -13,9 +13,6 @@ import local6 from "../img/MainPage/local6.gif";
 import local7 from "../img/MainPage/local7.gif";
 import local8 from "../img/MainPage/local8.png";
 import "../css/Main.css";
-
-import Modal from "../components/Modal";
-import useModal from "../context/useModal";
 import MainLocal from "../components/MainLocal";
 
 
@@ -28,14 +25,6 @@ const Main = () => {
     const [content, setContent] = useState({}); // 표출할 내용을 저장하는 state
     
     const navigate = useNavigate()
-    const {
-        isModalOpen,
-        modalTitle,
-        modalMessage,
-        modalActions,
-        openModal,
-        closeModal,
-    } = useModal();
 
     // select가 변경될 때마다 content를 업데이트
     useEffect(() => {
@@ -194,13 +183,6 @@ const Main = () => {
 
                 </div>
             </div>
-            <Modal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    title={modalTitle}
-                    content={<p>{modalMessage}</p>}
-                    actions={modalActions}
-            />
             {/* 클릭시 팝업 페이지 */}
             {whiteBox && (
                 <div className="overlay">

@@ -33,7 +33,7 @@ public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		@Query("select t.idx from TripEntity t where t.title = ?1")
 		Integer getidxByTitle(String title);
 		
-		String getTitleByIdx(Integer idx);
+		String getTitleByIdx (Integer idx);
 		
 		//idx를 통해 TripEntity반환
 		TripEntity findAllByIdx(Integer idx);

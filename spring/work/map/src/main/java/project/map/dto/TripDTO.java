@@ -1,12 +1,15 @@
 package project.map.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import project.map.entity.CheckListEntity;
 import project.map.entity.TripEntity;
 import project.map.entity.UserEntity;
 
@@ -18,8 +21,10 @@ public class TripDTO {
 	
 	private Integer idx;
 	private String title;
-	private Date startDate;
-	private Date lastDate;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate startDate;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate lastDate;
 	private String userId;
 	
 	
@@ -51,4 +56,16 @@ public class TripDTO {
                 .user(user) // UserEntity 설정
                 .build();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

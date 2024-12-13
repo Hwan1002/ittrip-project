@@ -1,0 +1,35 @@
+.checklistAll{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    max-height: 700px;
+    overflow: auto;
+    border:2px solid red;
+}
+.checkInput input{
+    border-radius: 8px;
+    width:200px;
+    height: 30px;
+    padding-left: 10px;
+    
+}
+.checkContents{
+    width:70%;
+}
+
+.checkLi{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border:1px solid blue
+}
+
+.checkLi span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex:1;
+    padding:0 5px;
+}

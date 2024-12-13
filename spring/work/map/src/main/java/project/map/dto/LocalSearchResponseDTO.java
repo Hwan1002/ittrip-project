@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 public class LocalSearchResponseDTO {
 
 	private List<Items> items;
-	
+
 	@Data
-	public static class Items{
+	public static class Items {
 		private String title;
 		private String address;
 		private String roadAddress;
