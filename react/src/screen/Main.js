@@ -38,6 +38,7 @@ const Main = () => {
     } = useModal();
 
     // select가 변경될 때마다 content를 업데이트
+    // 서울특별시,인천광역시,경기도,강원도,충청도,전라도,경상도,제주도,울산광역시,대전광역시,광주광역시,대구광역시,부산광역시 총 12개
     useEffect(() => {
         const contentEvent = () => {
             switch (select) {

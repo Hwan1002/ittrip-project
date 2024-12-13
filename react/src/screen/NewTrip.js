@@ -38,6 +38,7 @@ const NewTrip = () => {
                         }} />
                 </div>
                  */}
+                 
                 {/* 경로설정 부분 */}
                 <div id="rootSet">
                     <h2 style={{ color: "#706F6F", marginTop:"25px"}}>경로 설정</h2>
@@ -50,6 +51,8 @@ const NewTrip = () => {
                             <AddData width="200px"/>
                         </div>
                     </div >
+
+                    {/* 체크리스트 */}
                     <div id="checkAndEnd">
                         <div id="checkListFrame">
                             <h2 style={{ color: "#706F6F", marginTop:"30px"}}>체크리스트</h2>
@@ -57,6 +60,8 @@ const NewTrip = () => {
                                 <AddData width="300px"/>
                             </div>
                         </div>
+
+                        {/* 새로운 여행추가 버튼 */}
                         <div id="endBtFrame">
                             <button  id="newEnd"><p style={{marginLeft:"40px"}} onClick={()=>{alert("새로운 여행이 추가되었습니다")}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"25px"}}/></button>
                     </div>
