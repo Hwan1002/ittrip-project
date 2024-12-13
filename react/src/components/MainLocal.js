@@ -21,7 +21,7 @@ const MainLocal = ({select,content}) => {
                         {content.explan}
                     </p>
                 </div>
-                <div id="siGunImg"><img src={local1} style={{ width: '355px', height: '355px' }} /></div>
+                <div id="siGunImg"><img src={local1} style={{ width: '355px', height: '355px' }} alt="이미지"/></div>
             </div>
 
             <div id="tripSelect">{/* 여행할곳을 선택해주세요 */}

@@ -185,10 +185,9 @@ const signUp = async(e) => {
             }
         } catch (error) {
             if(error.response){
-                const { message, status } = error.response.data;
                 openModal({
-                    title:"서버 오류",
-                    message:`Error 상태 ${status}: ${message}`,
+                    title:"",
+                    message:"프로필 사진을 설정해주세요.",
                     actions:[{label: "확인", onClick:closeModal}],
                 })
             } else {
