@@ -3,7 +3,6 @@ import "../css/NewTrip.css";
 import Plus2 from "../img/plus2.svg";
 import AddData from "../components/AddData.js";
 import Map from "../components/Map.js";
-import MapWithData from "../components/MapWithData.js";
 import { ProjectContext } from "../context/ProjectContext.js";
 import CheckList2 from "../components/CheckList.js";
 import { API_BASE_URL } from "../service/api-config.js";
@@ -83,11 +82,11 @@ const NewTrip = () => {
         {/* 지도, 경로추가부분 */}
         <div id="locationFrame">
           <div id="newMap">
-            {/* <Map/>
+            <Map/>
                         </div>
                         <div id="addDirectionFrame">
-                            <AddData width="200px"/> */}
-            <MapWithData />
+                            <AddData width="200px"/>
+            {/* <MapWithData /> */}
           </div>
 
 

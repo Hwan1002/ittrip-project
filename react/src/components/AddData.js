@@ -1,17 +1,17 @@
 import axios from "axios";
-import React, { useState, useContext  } from "react";
+import React, { useState, useContext } from "react";
 import { API_BASE_URL } from "../service/api-config";
 import { ProjectContext } from "../context/ProjectContext";
 
-const AddData = ({width}) => {
+const AddData = ({ width }) => {
   const [data, setData] = useState([]);  // 입력된 데이터를 저장할 배열
   const [inputs, setInputs] = useState([{ value: "" }]);  // 여러 개의 input을 관리하는 배열
   const [res, setRes] = useState([]);
 
-  const { setAddress } = useContext(ProjectContext);
+  const { setAddress , lat1, lng1, lat2,  lng2, setPath} = useContext(ProjectContext);
 
 
-  const handleCheck=(item)=>{
+  const handleCheck = (item) => {
     setAddress(item)
   }
 
@@ -66,6 +66,23 @@ const AddData = ({width}) => {
     setData(updatedData);
   };
 
+  //좌표저장
+    const handlecoordinate = async() =>{
+      console.log(lng1,lat1,lng2,lat2)
+          const response = await axios.get(`${API_BASE_URL}/1234`,{
+              params:{
+                  start:`${lng1},${lat1}`,
+                  goal:`${lng2},${lat2}`
+              }
+          })
+          console.log(response.data.route.traoptimal[0].path)
+          setPath(response.data.route.traoptimal[0].path)
+    }
+  
+
+
+
+
   return (
     <div >
       {inputs.map((input, index) => (
@@ -93,8 +110,8 @@ const AddData = ({width}) => {
                 borderRadius: "20px",
                 backgroundColor: "#F6A354",
                 border: "none",
-                fontSize:"15px",
-                color:"#fff"
+                fontSize: "15px",
+                color: "#fff"
               }}
             >
               추가
@@ -110,9 +127,9 @@ const AddData = ({width}) => {
                   borderRadius: "20px",
                   backgroundColor: "#878787",
                   border: "none",
-                  fontSize:"15px",
-                  marginRight:"7px",
-                  color:"#fff"
+                  fontSize: "15px",
+                  marginRight: "7px",
+                  color: "#fff"
                 }}
               >
                 삭제
@@ -126,8 +143,8 @@ const AddData = ({width}) => {
                   borderRadius: "20px",
                   backgroundColor: "#F6A354",
                   border: "none",
-                  fontSize:"15px",
-                  color:"#fff"
+                  fontSize: "15px",
+                  color: "#fff"
                 }}
               >
                 수정
@@ -136,17 +153,35 @@ const AddData = ({width}) => {
           )}
         </div>
       ))}
+
+      <button
+        onClick={() => handlecoordinate()}
+        style={{
+          width: "55px",
+          height: "40px",
+          borderColor: "#DADADA",
+          borderRadius: "20px",
+          backgroundColor: "#F6A354",
+          border: "none",
+          fontSize: "15px",
+          color: "#fff",
+        }}
+      >
+        저장
+      </button>
+
+
       <ul>
-            {
-                res.map(item => 
-                    <li key={item.title}>
-                        <p>{item.title}</p>
-                        <button onClick={() => handleCheck(item.address)}>{item.address}</button>
-                        <p>{item.roadAddress}</p>
-                    </li>    
-                )
-            }
-        </ul>
+        {
+          res.map(item =>
+            <li key={item.title}>
+              <p>{item.title}</p>
+              <button onClick={() => handleCheck(item.address)}>{item.address}</button>
+              <p>{item.roadAddress}</p>
+            </li>
+          )
+        }
+      </ul>
     </div>
   );
 };
