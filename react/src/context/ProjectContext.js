@@ -51,8 +51,14 @@ export const ProjectProvider = ({ children }) => {
     endDate: null,
   });
   //체크리스트 input 값
+<<<<<<< HEAD
+  const [input, setInput] = useState("");
+  //체크리스트 배열
+  const [items,setItems] = useState([]);
+=======
   const [input, setInput] = useState([]);
 
+>>>>>>> test
 
   const value = {
     loginSuccess,
@@ -70,6 +76,10 @@ export const ProjectProvider = ({ children }) => {
     setTripDates,
     input,
     setInput,
+<<<<<<< HEAD
+    items,
+    setItems
+=======
     address, 
     setAddress,
     startPoint,
@@ -79,6 +89,7 @@ export const ProjectProvider = ({ children }) => {
     wayPoints,
     setWaypoints,
     path, setPath,
+>>>>>>> test
   };
 
   return (

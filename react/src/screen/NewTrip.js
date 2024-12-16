@@ -15,8 +15,10 @@ const NewTrip = () => {
   const [setTripName] = useState(""); // 여행이름 저장
   const [setTripLocal] = useState(""); // 여행 지역 저장
   const [setTripDays] = useState(0); // 여행일정 저장
-  const { tripTitle, tripDates, input, token, logData } =
+  const { tripTitle, tripDates, input, token, logData,items } =
     useContext(ProjectContext);
+
+  const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
     debugger;
@@ -41,12 +43,13 @@ const NewTrip = () => {
         `${API_BASE_URL}/3`,
         {
           tripTitle: tripTitle,
-          checkList: input,
+          checkListArray: list
         },
         logData
       );
     } catch (error) {
       alert("post3 에러");
+      console.log(items);
     }
   };
 

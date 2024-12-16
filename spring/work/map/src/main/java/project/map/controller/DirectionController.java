@@ -31,8 +31,8 @@ public class DirectionController {
         this.webClient = webClientBuilder.baseUrl(apiUrl).build();		//baseurl 요청 서버 location으로 정해놓기
     }
     
-    @GetMapping("/1234")				//baseurl에 포함시키려했으나 권장하지 않는대서 여기에 넣음
-    public ResponseEntity<?> getDirections(
+    @GetMapping("/1234")				
+    public ResponseEntity<?> getDirectionsWithWayPoints(
             @RequestParam(name = "start") String start,		//127.74645%2C37.64424 형태로 보내야함
 //            @RequestParam(name = "waypoints") String wayPoints,
             @RequestParam(name = "goal") String goal
@@ -71,6 +71,31 @@ public class DirectionController {
                 .uri(uriBuilder -> uriBuilder		//uri를 빌드(파라미터들,헤더)
                         .queryParam("start", start)
                         .queryParam("waypoints", wayPoints)
+                        .queryParam("goal", goal)
+                        .build())
+                .header("x-ncp-apigw-api-key-id", apiKeyId)
+                .header("x-ncp-apigw-api-key", apiKeySecret)
+                .retrieve()
+                .bodyToMono(DirectionsResponseDTO.class)			//mono (0개 또는 1개) 로 반환
+                .block();							//block -> ResponseEntity로 반환하기 위해 씀
+
+        return ResponseEntity.ok(response);
+    }catch(Exception e) {
+        return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+    }
+}
+    
+    @GetMapping("/12345")				
+    public ResponseEntity<?> getDirectionsNoWayPoints(
+            @RequestParam(name = "start") String start,		
+            @RequestParam(name = "goal") String goal
+            		//기본값 trafast
+    ){
+    	try{
+    
+    		DirectionsResponseDTO response = webClient.get()
+                .uri(uriBuilder -> uriBuilder		
+                        .queryParam("start", start)
                         .queryParam("goal", goal)
                         .build())
                 .header("x-ncp-apigw-api-key-id", apiKeyId)
