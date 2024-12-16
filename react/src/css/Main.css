@@ -7,7 +7,7 @@
 }
 
 #bigbanner {
-    width: 200vw;
+    width: inherit;
     height: 500px;
     overflow: hidden;
     background-color: #C6C6C6;

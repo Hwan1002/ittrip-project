@@ -98,24 +98,6 @@ const AddData = ({ width }) => {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <div >
       {inputs.map((input, index) => (

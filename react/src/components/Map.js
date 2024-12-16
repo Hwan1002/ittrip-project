@@ -1,22 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 
-
 const Map = () => {
-<<<<<<< HEAD
-    
-    const dayChacks = ['일정1', '일정2', '일정3'];
-    return (
-        <div id="mapPlan" style={{
-            width: "100%", 
-            height: "100%", 
-            position: "relative", 
-            display: "flex", 
-=======
   // 임시 배열
   const dayChacks = ['일정1', '일정2', '일정3'];
   const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints, wayPoints } = useContext(ProjectContext);
->>>>>>> test
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -60,7 +48,7 @@ const Map = () => {
                 map: map
               });
             } else if (startPoint && goalPoint ) {
-              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
+              setWaypoints(latlng);
               new window.naver.maps.Marker({
                 position: latlng,
                 map: map
