@@ -11,19 +11,17 @@ import { format } from "date-fns";
 
 const NewTrip = () => {
   // useState
-  const [setTripName] = useState(""); // 여행이름 저장
-  const [setTripLocal] = useState(""); // 여행 지역 저장
-  const [setTripDays] = useState(0); // 여행일정 저장
-  const { tripTitle, tripDates, input, token, logData } =
-    useContext(ProjectContext);
+  // const [setTripName] = useState(""); // 여행이름 저장
+  // const [setTripLocal] = useState(""); // 여행 지역 저장
+  // const [setTripDays] = useState(0); // 여행일정 저장
+  const { tripTitle, tripDates, input, token, logData } = useContext(ProjectContext);
 
   const buttonClicked = async () => {
-    debugger;
     try {
+      debugger;
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
       const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-      const response = await axios.post(
-        `${API_BASE_URL}/1`,
+      const response = await axios.post(`${API_BASE_URL}/1`,
         {
           title: tripTitle,
           startDate: formattedStartDate,
@@ -31,19 +29,20 @@ const NewTrip = () => {
         },
         logData
       );
+      console.log(response.data.value);
     } catch (error) {
       alert("에러 내용:", error);
     }
     ///axios 추가 예정
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/3`,
+      const response = await axios.post(`${API_BASE_URL}/3`,
         {
           tripTitle: tripTitle,
           checkList: input,
         },
         logData
       );
+      console.log(response.data.value);
     } catch (error) {
       alert("post3 에러");
     }
