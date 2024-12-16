@@ -55,8 +55,6 @@ const Map = () => {
                 position: latlng,
                 map: map
               });
-            } else if (lat1 && lng1 && lat2 && lng2){
-              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
             }
 
 
