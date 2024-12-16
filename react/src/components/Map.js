@@ -1,11 +1,11 @@
-import React, { useEffect, useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 
 
 const Map = () => {
   // 임시 배열
   const dayChacks = ['일정1', '일정2', '일정3'];
-  const { address, lat1, setLat1 ,lng1, setLng1, lat2, setLat2, lng2, setLng2, path } = useContext(ProjectContext);
+  const { address, lat1, setLat1, lng1, setLng1, lat2, setLat2, lng2, setLng2, path } = useContext(ProjectContext);
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -21,57 +21,59 @@ const Map = () => {
           zoom: 15
         });
 
-        window.naver.maps.Service.geocode({
-          query: (!address? '인천광역시 남동구 구월동 1138' : address)
-        }, (status, response) => {
-          if (status === window.naver.maps.Service.Status.ERROR) {
-            alert('주소를 찾을 수 없습니다.');
-            return;
-          }
+        if (address) {
+          window.naver.maps.Service.geocode({
+            query: address
+          }, (status, response) => {
+            if (status === window.naver.maps.Service.Status.ERROR) {
+              alert('주소를 찾을 수 없습니다.');
+              return;
+            }
 
-          // 변환된 좌표 가져오기
-          const result = response.v2;
-          const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
-          console.log(latlng)
+            // 변환된 좌표 가져오기
+            const result = response.v2;
+            const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
+            console.log(latlng)
 
-          // 첫 번째 좌표 저장
-          if (!lat1 && !lng1) {
-            setLat1(result.addresses[0].y);
-            setLng1(result.addresses[0].x);
-            new window.naver.maps.Marker({
-              position: latlng,
-              map: map
-            });
-          } else if (lat1 && lng1 && !lat2 && !lng2) {
-            setLat2(result.addresses[0].y);
-            setLng2(result.addresses[0].x);
-            new window.naver.maps.Marker({
-              position: latlng,
-              map: map
-            });
-          }
+            // 첫 번째 좌표 저장
+            if (!lat1 && !lng1) {
+              setLat1(result.addresses[0].y);
+              setLng1(result.addresses[0].x);
+              new window.naver.maps.Marker({
+                position: latlng,
+                map: map
+              });
+            } else if (lat1 && lng1 && !lat2 && !lng2) {
+              setLat2(result.addresses[0].y);
+              setLng2(result.addresses[0].x);
+              new window.naver.maps.Marker({
+                position: latlng,
+                map: map
+              });
+            }
 
-          // 지도 위치를 마커로 이동
-          map.setCenter(latlng);
+            // 지도 위치를 마커로 이동
+            map.setCenter(latlng);
 
 
             // 두 번째 좌표가 설정되면 폴리라인을 그리기
-            if (path) { 
+            if (path) {
               console.log(path)
               const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude))
-            
-  
+
+
               const polyline = new window.naver.maps.Polyline({
                 path: pathCoordinates,  // 경로를 정의
                 strokeColor: '#FF0000',  // 선 색
                 strokeOpacity: 1,        // 선의 투명도
                 strokeWeight: 3          // 선의 두께
               });
-  
+
               polyline.setMap(map);  // 지도에 폴리라인을 표시
             }
 
-        });
+          });
+        }
       }
     };
 
@@ -83,7 +85,7 @@ const Map = () => {
     return () => {
       document.body.removeChild(script);
     };
-  }, [address,path]);
+  }, [address, path]);
 
 
   return (
