@@ -25,7 +25,12 @@ const AddData = ({ width }) => {
   //모달끝
 
 
-  const { setAddress , lat1, lng1, lat2,  lng2, setPath} = useContext(ProjectContext);
+
+  const { setAddress, setPath, wayPoints,startPoint,goalPoint  } = useContext(ProjectContext);
+
+
+  // const wayPointsString =  .join("|");
+
 
   const handleCheck = (item) => {
     setAddress(item)
@@ -51,6 +56,7 @@ const AddData = ({ width }) => {
     // 현재 input 값(data)에 추가
     const newData = [...data, inputs[index].value];
 
+    // 입력받은 주소값을 지역검색 API에 요청후 response에 반환받은 객체 저장
     const response = await axios.get(`${API_BASE_URL}/local`, {
       params: {
         query: inputs[index].value,  // 현재 input의 값을 query 파라미터로 전송
@@ -86,16 +92,27 @@ const AddData = ({ width }) => {
   };
 
   //좌표저장
-    const handlecoordinate = async() =>{
-      console.log(lng1,lat1,lng2,lat2)
-          const response = await axios.get(`${API_BASE_URL}/1234`,{
-              params:{
-                  start:`${lng1},${lat1}`,
-                  goal:`${lng2},${lat2}`
-              }
-          })
-          console.log(response.data.route.traoptimal[0].path)
-          setPath(response.data.route.traoptimal[0].path)
+  const handlecoordinate = async () => {
+    console.log(startPoint , goalPoint, wayPoints)
+    if (wayPoints) {
+      console.log("waypoint 있음" ,wayPoints)
+      const response = await axios.get(`${API_BASE_URL}/12345`, { 
+        params: {
+          start: `${startPoint._lng},${startPoint._lat}`,
+          goal: `${goalPoint._lng},${goalPoint._lat}`,
+          waypoints : `${wayPoints._lng},${wayPoints._lat}`
+        }
+    });
+    setPath(response.data.route.traoptimal[0].path);
+    }else{
+      console.log("waypoint 없음" ,wayPoints)
+      const response = await axios.get(`${API_BASE_URL}/1234`, {
+        params: {
+          start:`${startPoint._lng},${startPoint._lat}`,
+          goal: `${goalPoint._lng},${goalPoint._lat}`
+        }
+      })
+      setPath(response.data.route.traoptimal[0].path)
     }
     ////모달창 함수
     const openDepartureModal = () => {
@@ -106,6 +123,7 @@ const AddData = ({ width }) => {
         actions : [{label : "확인", onClick: closeModal}],
       });
     };
+  
 
     const openDestinateModal = () => {
       setIsNewPlanModal(true);
@@ -247,7 +265,7 @@ const AddData = ({ width }) => {
         }
       </ul> */}
     </div>
-  );
-};
-
+    );
+  };
+}
 export default AddData;

@@ -12,11 +12,11 @@ function CheckList() {
       Authorization: `Bearer ${token}`,
     },
   };
-  const [items, setItems] = useState([]);
   // const [input, setInput] = useState('');
   // const token = window.localStorage.getItem("token");
   // const [userData, setUserData] = useState({});
   const { input, setInput } = useContext(ProjectContext);
+  const { items, setItems} = useContext(ProjectContext);
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
@@ -55,7 +55,7 @@ function CheckList() {
       <div className="checkInput">
         <input
           type="text"
-          autocomplete="off"
+          autoComplete="off"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="체크 해야할 것이 있나요?"
@@ -65,7 +65,10 @@ function CheckList() {
       <div className="checkContents">
         <ul className="checkUl" style={{ padding: 0 }}>
           {items.map((item) => (
-            <li className="checkLi" key={item.id}>
+
+            <li className="checkLi"
+                key={item.id}
+            >
               <input
                 type="checkbox"
                 checked={item.checked}

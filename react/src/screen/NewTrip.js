@@ -12,7 +12,13 @@ import { format } from "date-fns";
 
 const NewTrip = () => {
   //context에서 필요한 상태값들 가져오기
-  const { tripTitle, tripDates, input, logData } = useContext(ProjectContext);
+  // useState
+  // const [setTripName] = useState(""); // 여행이름 저장
+  // const [setTripLocal] = useState(""); // 여행 지역 저장
+  // const [setTripDays] = useState(0); // 여행일정 저장
+  const { tripTitle, tripDates, input, token, logData,items } = useContext(ProjectContext);
+
+  const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
     try {
@@ -36,23 +42,26 @@ const NewTrip = () => {
       const response = await axios.post(`${API_BASE_URL}/3`,
         {
           tripTitle: tripTitle,
-          checkList: input,
+          checkListArray: list
         },
         logData
       );
       console.log(response.data.value);
     } catch (error) {
       alert("post3 에러");
+      console.log(items);
     }
   };
 
   return (
     <div className="newTrip">
       <h2 className="title">새로운 여행 하기</h2>
+
       {/* 경로설정 부분 */}
       <div id="rootSet">
         <h2 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h2>
         {/* 지도, 경로추가부분 */}
+
         <div id="locationFrame">
           <div id="newMap">
             <Map/>
@@ -61,8 +70,6 @@ const NewTrip = () => {
             <AddData width="200px"/>
             {/* <MapWithData /> */}
           </div>
-
-
         </div>
         <div id="checkAndEnd">
           <CheckList/>

@@ -19,13 +19,25 @@ export const ProjectProvider = ({ children }) => {
 
   const [address , setAddress] = useState();
 
-  const [lat1, setLat1] = useState();
-  const [lng1, setLng1] = useState();
 
-  const [lat2, setLat2] = useState();
-  const [lng2, setLng2] = useState();
+  // startPoint 출발지
+  const [startPoint,setStartPoint] = useState();
+
+  // goalPoint 도착지 
+  const [goalPoint, setGoalPoint] = useState();
+
+  
+  // wayPoints  경유지
+  const [wayPoints , setWaypoints ] = useState([]);
 
   const [path, setPath] = useState();
+
+
+
+
+
+
+
 
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
@@ -44,9 +56,11 @@ export const ProjectProvider = ({ children }) => {
   });
 
   //체크리스트 input 값
+  //체크리스트 배열
+  const [items,setItems] = useState([]);
   const [input, setInput] = useState([]);
 
-  //객체에 모아서 한번에 전달
+
   const value = {
     loginSuccess,
     setLoginSuccess,
@@ -63,15 +77,17 @@ export const ProjectProvider = ({ children }) => {
     setTripDates,
     input,
     setInput,
+    items,
+    setItems,
     address, 
     setAddress,
-
-    lat1, setLat1,
-    lng1, setLng1,
-    lat2, setLat2,
-    lng2, setLng2,
-
-    path, setPath
+    startPoint,
+    setStartPoint,
+    goalPoint,
+    setGoalPoint,
+    wayPoints,
+    setWaypoints,
+    path, setPath,
   };
 
   return (
