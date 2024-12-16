@@ -5,8 +5,8 @@ import { ProjectContext } from "../context/ProjectContext";
 const Map = () => {
   // 임시 배열
   const dayChacks = ['일정1', '일정2', '일정3'];
-  const { address, setStart, setGoal , setWaypoints, path } = useContext(ProjectContext);
-  
+
+  const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints, wayPoints } = useContext(ProjectContext);
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -34,19 +34,23 @@ const Map = () => {
             // 변환된 좌표 가져오기
             const result = response.v2;
             const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
-            console.log(latlng)
+            // console.log(latlng)
 
             // 첫 번째 좌표 저장
-            if (!lat1 && !lng1) {
-              setLat1(result.addresses[0].y);
-              setLng1(result.addresses[0].x);
+            if (!startPoint) {
+              setStartPoint(latlng)
               new window.naver.maps.Marker({
                 position: latlng,
                 map: map
               });
-            } else if (lat1 && lng1 && !lat2 && !lng2) {
-              setLat2(result.addresses[0].y);
-              setLng2(result.addresses[0].x);
+            } else if (startPoint && !goalPoint) {
+              setGoalPoint(latlng)
+              new window.naver.maps.Marker({
+                position: latlng,
+                map: map
+              });
+            } else if (startPoint && goalPoint ) {
+              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
               new window.naver.maps.Marker({
                 position: latlng,
                 map: map

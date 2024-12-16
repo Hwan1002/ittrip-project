@@ -18,14 +18,20 @@ export const ProjectProvider = ({ children }) => {
 
   const [address , setAddress] = useState();
 
-  const [start, setStart] = useState();
 
-  const [goal, setGoal] = useState(); 
 
-  const [waypoints, setWaypoints] = useState([])
+  // startPoint 출발지
+  const [startPoint,setStartPoint] = useState();
+
+  // goalPoint 도착지 
+  const [goalPoint, setGoalPoint] = useState();
+
+  
+  // wayPoints  경유지
+  const [wayPoints , setWaypoints ] = useState([]);
+
 
   const [path, setPath] = useState();
-
 
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
@@ -40,7 +46,8 @@ export const ProjectProvider = ({ children }) => {
     endDate: null,
   });
   //체크리스트 input 값
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState([]);
+
 
   const value = {
     loginSuccess,
@@ -60,13 +67,14 @@ export const ProjectProvider = ({ children }) => {
     setInput,
     address, 
     setAddress,
-    
-    start, setStart,
-    goal, setGoal,
 
-    waypoints, setWaypoints,
-
-    path, setPath
+    startPoint,
+    setStartPoint,
+    goalPoint,
+    setGoalPoint,
+    wayPoints,
+    setWaypoints,
+    path, setPath,
   };
 
   return (
