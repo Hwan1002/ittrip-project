@@ -23,6 +23,7 @@ const Main = () => {
     const [whiteBox, setWhiteBox] = useState(false);  // 흰 배경 박스를 띄우는 것을 조절하는 state
     const [select, setSelect] = useState(''); // 어떤 지역을 선택했는지 알려주는 state
     const [content, setContent] = useState({}); // 표출할 내용을 저장하는 state
+        
     
     const navigate = useNavigate()
 

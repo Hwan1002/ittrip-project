@@ -8,6 +8,9 @@ const Map = () => {
 
   const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints, wayPoints } = useContext(ProjectContext);
 
+
+
+
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
     const script = document.createElement('script');
@@ -21,6 +24,11 @@ const Map = () => {
           center: new window.naver.maps.LatLng(37.5665, 126.9780), // 서울의 중심 좌표
           zoom: 15
         });
+
+
+         // LatLngBounds 객체 생성: 모든 마커를 포함할 범위 계산
+         const bounds = new window.naver.maps.LatLngBounds();
+
 
         if (address) {
           window.naver.maps.Service.geocode({
@@ -39,30 +47,73 @@ const Map = () => {
             // 첫 번째 좌표 저장
             if (!startPoint) {
               setStartPoint(latlng)
-              new window.naver.maps.Marker({
-                position: latlng,
-                map: map
-              });
             } else if (startPoint && !goalPoint) {
               setGoalPoint(latlng)
-              new window.naver.maps.Marker({
-                position: latlng,
-                map: map
-              });
             } else if (startPoint && goalPoint ) {
               setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
-              new window.naver.maps.Marker({
-                position: latlng,
-                map: map
-              });
             }
-
 
             // 지도 위치를 마커로 이동
             map.setCenter(latlng);
 
 
-            // 두 번째 좌표가 설정되면 폴리라인을 그리기
+             // 마커를 모두 추가하기
+             const markers = [];
+
+              //마커모양 교체
+              const createMarkerIcon = (text) => {
+                return {
+                  content: `
+                    <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
+                      ${text}
+                      <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
+                    </div>
+                  `,
+                  size: new window.naver.maps.Size(30, 30),
+                  anchor: new window.naver.maps.Point(15, 15),
+                };
+              };
+              
+
+
+
+             // 시작 지점 마커 추가
+             if (startPoint) {
+              const startMarker = new window.naver.maps.Marker({
+                position: startPoint,
+                map: map,
+                icon: createMarkerIcon('S')
+              });
+              markers.push(startMarker);
+              bounds.extend(startMarker.getPosition()); // 시작 지점 위치 추가
+            }
+
+            // 목표 지점 마커 추가
+            if (goalPoint) {
+              const goalMarker = new window.naver.maps.Marker({
+                position: goalPoint,
+                map: map,
+                icon: createMarkerIcon('G')
+              });
+              markers.push(goalMarker);
+              bounds.extend(goalMarker.getPosition()); // 목표 지점 위치 추가
+            }
+
+            // 경유지 마커 추가
+            if (wayPoints && wayPoints.length > 0) {
+              wayPoints.forEach((point, index) => {
+                const waypointMarker = new window.naver.maps.Marker({
+                  position: point,
+                  map: map,
+                  icon: createMarkerIcon(`${index+1}`)
+                });
+                markers.push(waypointMarker);
+                bounds.extend(waypointMarker.getPosition()); // 경유지 위치 추가
+              });
+            }
+
+
+            // 경로 표시하기 
             if (path) {
               console.log(path)
               const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude))
@@ -76,8 +127,11 @@ const Map = () => {
               });
 
               polyline.setMap(map);  // 지도에 폴리라인을 표시
+              pathCoordinates.forEach(coord => bounds.extend(coord));// 경로 좌표도 범위에 추가
             }
-
+           // 모든 마커와 경로를 포함하는 범위로 지도를 자동으로 조정
+           map.fitBounds(bounds)
+           map.setZoom(map.getZoom() - 1); // 한 단계 더 줌 아웃해서 여유를 줍니다.
           });
         }
       }

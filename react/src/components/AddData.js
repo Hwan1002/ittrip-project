@@ -12,8 +12,8 @@ const AddData = ({ width }) => {
 
   const { setAddress, setPath, wayPoints,startPoint,goalPoint  } = useContext(ProjectContext);
 
-
-  // const wayPointsString =  .join("|");
+  const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
+  const lnglatString = lnglatArray.join("|");
 
 
   const handleCheck = (item) => {
@@ -81,7 +81,7 @@ const AddData = ({ width }) => {
         params: {
           start: `${startPoint._lng},${startPoint._lat}`,
           goal: `${goalPoint._lng},${goalPoint._lat}`,
-          waypoints : `${wayPoints._lng},${wayPoints._lat}`
+          waypoints : lnglatString 
         }
     });
     setPath(response.data.route.traoptimal[0].path);
@@ -96,20 +96,6 @@ const AddData = ({ width }) => {
       setPath(response.data.route.traoptimal[0].path)
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
