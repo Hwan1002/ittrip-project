@@ -4,7 +4,8 @@ import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
 
-function CheckList2() {
+function CheckList() {
+
   const token = window.localStorage.getItem("token");
   const logData = {
     headers: {
@@ -19,15 +20,16 @@ function CheckList2() {
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
+    debugger;
     if (input.trim()) {
       setItems([...items, { id: Date.now(), text: input, checked: false }]);
       try {
-        // const response = await axios.post(
-        //   `${API_BASE_URL}/3`,
-        //   { checkList: input },
-        //   logData
-        // );
-        // console.log(response.data.value);
+        const response = await axios.post(
+          `${API_BASE_URL}/3`,
+          { checkList: items },
+          logData
+        );
+        console.log(response.data.value);
       } catch (error) {
         console.log("에러 메시지 : ", error);
       }
@@ -63,6 +65,7 @@ function CheckList2() {
       <div className="checkContents">
         <ul className="checkUl" style={{ padding: 0 }}>
           {items.map((item) => (
+
             <li className="checkLi"
                 key={item.id}
             >
@@ -89,4 +92,4 @@ function CheckList2() {
   );
 }
 
-export default CheckList2;
+export default CheckList;

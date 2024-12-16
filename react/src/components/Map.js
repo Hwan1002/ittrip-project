@@ -4,7 +4,7 @@ import { ProjectContext } from "../context/ProjectContext";
 const Map = () => {
   // 임시 배열
   const dayChacks = ['일정1', '일정2', '일정3'];
-  const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints, wayPoints } = useContext(ProjectContext);
+  const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints,wayPoints, markers,setMarkers } = useContext(ProjectContext);
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -37,23 +37,31 @@ const Map = () => {
             // 첫 번째 좌표 저장
             if (!startPoint) {
               setStartPoint(latlng)
-              new window.naver.maps.Marker({
+             const newMarker = new window.naver.maps.Marker({
                 position: latlng,
-                map: map
+                map: map,
+                title: "출발지"
               });
+              setMarkers(prev => [...prev,newMarker]);
             } else if (startPoint && !goalPoint) {
               setGoalPoint(latlng)
-              new window.naver.maps.Marker({
+             const newMarker =  new window.naver.maps.Marker({
                 position: latlng,
-                map: map
+                map: map,
+                title: "목적지"
               });
-            } else if (startPoint && goalPoint ) {
-              setWaypoints(latlng);
-              new window.naver.maps.Marker({
-                position: latlng,
-                map: map
-              });
-            }
+              setMarkers(prev => [...prev,newMarker]);
+            } 
+            // else if (startPoint && goalPoint ) {
+            //   setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
+            //  const newMarker =  new window.naver.maps.Marker({
+            //     position: latlng,
+            //     map: map,
+            //     title: `경유지${wayPoints.length+1}`
+            //   });
+            //   setMarkers(prev => [...prev,newMarker]);
+            // }
+            
 
             // 지도 위치를 마커로 이동
             map.setCenter(latlng);
