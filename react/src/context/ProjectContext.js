@@ -29,7 +29,8 @@ export const ProjectProvider = ({ children }) => {
     endDate: null,
   });
   //체크리스트 input 값
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState([]);
+
 
   const value = {
     loginSuccess,

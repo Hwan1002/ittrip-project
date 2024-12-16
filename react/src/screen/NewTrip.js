@@ -22,7 +22,7 @@ const NewTrip = () => {
     try {
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
       const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-      const response = await axios.post(
+      await axios.post(
         `${API_BASE_URL}/1`,
         {
           title: tripTitle,
@@ -36,7 +36,7 @@ const NewTrip = () => {
     }
     ///axios 추가 예정
     try {
-      const response = await axios.post(
+       await axios.post(
         `${API_BASE_URL}/3`,
         {
           tripTitle: tripTitle,

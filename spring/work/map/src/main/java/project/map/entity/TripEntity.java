@@ -36,6 +36,7 @@ public class TripEntity {
     @Column(name = "idx", nullable = false)
     private Integer idx; 	 //식별자
     
+    
     @Column(name = "start_date", nullable = false)
     private LocalDate  startDate;  // 계획 첫날 	// 타입 Date 를 localDateTime으로 변경했음 
     

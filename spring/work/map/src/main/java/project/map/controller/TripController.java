@@ -116,20 +116,14 @@ public class TripController {
 
 	// trip객체 : 제목,출발일,도착일 db저장
 	@PostMapping("/1")
-	public ResponseEntity<?> postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
+	public void postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		System.out.println("첫번째 console 조회 : " +dto.getStartDate());
-
 		String titleToCheck = tripService.titleToDB(dto.getTitle(), userId);
 		String confirmedTitle = tripService.titleConfirm(titleToCheck);
-		System.out.println("두번쨰 console 조회  " +dto.getStartDate());
-		
-		
 		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
-		ResponseDTO response = ResponseDTO.builder().value(tripRepository.save(entity)).build();
-		System.out.println(response.getValue());
-		return ResponseEntity.ok(response) ;
+		tripRepository.save(entity);
+		
 	}
 
 	// map객체 저장
@@ -148,14 +142,12 @@ public class TripController {
 
 	// checkList객체 저장
 	@PostMapping("/3")
-	public ResponseEntity<?> postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
+	public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.findByTitle(userId+ "/" +dto.getTripTitle());
-		//String checkList = tripService.mapToString(dto.getCheckListArray());
-		CheckListEntity entity = CheckListEntity.builder().checkList(dto.getCheckList()).trip(trip).user(user).build();
+		String checkList = tripService.mapToString(dto.getCheckListArray());
+		CheckListEntity entity = CheckListEntity.builder().checkList(checkList).trip(trip).user(user).build();
 		checkListRepository.save(entity) ;
-		ResponseDTO response = ResponseDTO.builder().value(entity).build() ;
-		return ResponseEntity.ok(response);
 	}
 
 	// ----------------- POST ---------------------------
