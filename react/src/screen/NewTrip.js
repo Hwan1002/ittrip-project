@@ -16,7 +16,6 @@ const NewTrip = () => {
 
   const buttonClicked = async () => {
     try {
-      debugger;
       //모달에서 기입했던 날짜를 가져와서 형태 포맷
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
       const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
