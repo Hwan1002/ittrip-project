@@ -49,9 +49,11 @@ export const ProjectProvider = ({ children }) => {
   });
 
   //체크리스트 input 값
+  const [input, setInput] = useState("");
   //체크리스트 배열
   const [items,setItems] = useState([]);
-  const [input, setInput] = useState([]);
+
+  const [markers,setMarkers] = useState([]);
 
 
   const value = {
@@ -81,6 +83,7 @@ export const ProjectProvider = ({ children }) => {
     wayPoints,
     setWaypoints,
     path, setPath,
+    markers,setMarkers
   };
 
   return (
