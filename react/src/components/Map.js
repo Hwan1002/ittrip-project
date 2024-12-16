@@ -5,7 +5,8 @@ import { ProjectContext } from "../context/ProjectContext";
 const Map = () => {
   // 임시 배열
   const dayChacks = ['일정1', '일정2', '일정3'];
-  const { address, lat1, setLat1, lng1, setLng1, lat2, setLat2, lng2, setLng2, path } = useContext(ProjectContext);
+  const { address, setStart, setGoal , setWaypoints, path } = useContext(ProjectContext);
+  
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -50,7 +51,10 @@ const Map = () => {
                 position: latlng,
                 map: map
               });
+            } else if (lat1 && lng1 && lat2 && lng2){
+              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
             }
+
 
             // 지도 위치를 마커로 이동
             map.setCenter(latlng);

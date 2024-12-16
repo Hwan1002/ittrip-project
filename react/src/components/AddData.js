@@ -8,8 +8,7 @@ const AddData = ({ width }) => {
   const [inputs, setInputs] = useState([{ value: "" }]);  // 여러 개의 input을 관리하는 배열
   const [res, setRes] = useState([]);
 
-  const { setAddress , lat1, lng1, lat2,  lng2, setPath} = useContext(ProjectContext);
-
+  const { setAddress , start, goal, setPath} = useContext(ProjectContext);
 
   const handleCheck = (item) => {
     setAddress(item)
@@ -67,6 +66,7 @@ const AddData = ({ width }) => {
   };
 
   //좌표저장
+  
     const handlecoordinate = async() =>{
       console.log(lng1,lat1,lng2,lat2)
           const response = await axios.get(`${API_BASE_URL}/1234`,{
