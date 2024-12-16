@@ -16,6 +16,16 @@ export const ProjectProvider = ({ children }) => {
 
   const [imagePreview, setImagePreview] = useState(null); //프로필 이미지 url 상태
 
+  const [address , setAddress] = useState();
+
+  const [lat1, setLat1] = useState();
+  const [lng1, setLng1] = useState();
+
+  const [lat2, setLat2] = useState();
+  const [lng2, setLng2] = useState();
+
+  const [path, setPath] = useState();
+
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
   const setUserData = (data) => {
@@ -48,6 +58,15 @@ export const ProjectProvider = ({ children }) => {
     setTripDates,
     input,
     setInput,
+    address, 
+    setAddress,
+
+    lat1, setLat1,
+    lng1, setLng1,
+    lat2, setLat2,
+    lng2, setLng2,
+
+    path, setPath
   };
 
   return (

@@ -12,6 +12,7 @@ const MyPage = () => {
     //state
     const [userData, setUserData] = useState({});
     const [passwordConfirm, setPasswordConfirm] = useState(''); //비밀번호 확인 상태만 따로 저장 (비교용도)
+
     const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
     //ref
     const inputImgRef = useRef(null);
@@ -33,7 +34,10 @@ const MyPage = () => {
         const fetchUserInfo = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/mypage`, logData);
+                debugger;
+                console.log(response.data.value)
                 setUserData(response.data.value);
+
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
                 console.error("Error fetching user info:", error);
@@ -90,6 +94,7 @@ const MyPage = () => {
             }));
             const reader = new FileReader();
             reader.onload = () => {
+
                 setImgPreview(reader.result)
             };
             reader.readAsDataURL(file);
@@ -128,7 +133,7 @@ const MyPage = () => {
             formData.append("userName", userData.userName);
             formData.append("email", userData.email);
             formData.append("password", userData.password);
-            
+
             if (userData.profilePhoto instanceof File ) {
                 formData.append("profilePhoto", userData.profilePhoto);
             }else if(userData.profilePhoto){
@@ -172,6 +177,7 @@ const MyPage = () => {
                 <div className="myPageContents">
                     <div id="profileFrame">
                         <div className="UserImg">
+
                             <img src={ImgPreview} alt="프로필 사진" />
                         </div>
                         <button type="button" className='profileChangeBtn' onClick={handleProfileClick}>프로필 사진</button>
