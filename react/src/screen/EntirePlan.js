@@ -15,6 +15,7 @@ const EntirePlan = () => {
             <div id="mapFrame">
                 <Map />
             </div>
+            
             <div id="planFrame">
                 <Link to="/newTrip"><div id="newTripBt"><p style={{marginLeft:"15px"}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"15px"}}/></div></Link>
                 

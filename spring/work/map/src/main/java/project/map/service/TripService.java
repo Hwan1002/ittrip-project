@@ -61,6 +61,7 @@ public class TripService {
 	    }
 	    return newTitle;
 	}
+
 	//---------------------------------------------------------
 	
 	//-------------------------메인페이지 기능---------------------
@@ -102,8 +103,8 @@ public class TripService {
 //	}
 	
 	//trip의 title을 받아서 MapEntity들 반환하기
-	public List<MapEntity> getMaps(String userId,String title){
-		return mapRepository.getLocationByUserIdAndTitle(userId, title);
+	public List<MapEntity> getMaps(String userId,String title,Integer days){
+		return mapRepository.getLocation(userId, title,days);
 	}
 	
 	//trip의 title을 받아서 CheckListEntity 반환하기

@@ -93,8 +93,8 @@ public class TripController {
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String userId,@RequestParam String
 	// title)
 	@GetMapping("/4")
-	public ResponseEntity<?> getMaps(@RequestParam String userId, @RequestParam String tripTitle) {
-		List<MapEntity> list = tripService.getMaps(userId, tripTitle);
+	public ResponseEntity<?> getMaps(@RequestParam String userId, @RequestParam String tripTitle,@RequestParam Integer days) {
+		List<MapEntity> list = tripService.getMaps(userId, tripTitle,days);
 		List<MapDTO> dtos = list.stream().map(MapDTO::new).toList();
 		ResponseDTO<MapDTO> response = ResponseDTO.<MapDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
@@ -137,14 +137,18 @@ public class TripController {
 	}
 
 	// checkList객체 저장
-	@PostMapping("/3")
-	public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.findByTitle(userId+ "/" +dto.getTripTitle());
-		String checkList = tripService.mapToString(dto.getCheckListArray());
-		CheckListEntity entity = CheckListEntity.builder().checkList(checkList).trip(trip).user(user).build();
-		checkListRepository.save(entity) ;
-	}
+		@PostMapping("/3")
+		public ResponseEntity<?> postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
+			System.out.println(dto);
+			UserEntity user = userRepository.findById(userId).get();
+			String title = tripService.titleToDB(userId, dto.getTripTitle());
+			TripEntity trip = tripRepository.findByTitle(title);
+			String checkList = tripService.mapToString(dto.getCheckListArray());
+			CheckListEntity entity = CheckListEntity.builder().checkList(checkList).trip(trip).user(user).build();
+			checkListRepository.save(entity) ;
+			ResponseDTO response = ResponseDTO.builder().value(entity).build() ;
+			return ResponseEntity.ok(response);
+		}
 
 	// ----------------- POST ---------------------------
 	// ----------------- PUT ---------------------------
@@ -199,4 +203,5 @@ public class TripController {
 		checkListRepository.deleteById(idx);
 	}
 	// ----------------- DELETE -------------------------
+
 }

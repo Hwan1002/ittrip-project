@@ -11,6 +11,7 @@ const Map = () => {
 
 
 
+
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
     const script = document.createElement('script');
@@ -47,6 +48,7 @@ const Map = () => {
             // 첫 번째 좌표 저장
             if (!startPoint) {
               setStartPoint(latlng)
+
             } else if (startPoint && !goalPoint) {
               setGoalPoint(latlng)
             } else if (startPoint && goalPoint ) {
