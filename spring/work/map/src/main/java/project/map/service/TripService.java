@@ -46,18 +46,21 @@ public class TripService {
 		return arr[1];
 	}
 	//타이틀이 중복이면 (2),(3) 하나씩 증가(DB에 여행 하나를 저장하기 전에 중복을 확인해서 title값을 변경해주는 역할)
-		public String titleConfirm(String title) {
-			int count = 2;
-			while(tripRepository.existsByTitle(title)) {
-				if(title.contains("(")) {
-					++count;
-					return title ;		// 테스트 이름이 같을때 무한루프 걸려서 return 추가 
-				}else {
-					title = title + "(" + count +")";
-				}
-			}
-			return title;
-		}
+	public String titleConfirm(String title) {
+	    int count = 2;
+	    String newTitle = title;
+	    while (tripRepository.existsByTitle(newTitle)) {
+	        if (newTitle.matches(".*\\(\\d+\\)$")) {
+	            // 이미 (숫자) 형식이 포함된 경우, 숫자를 증가시킴
+	            newTitle = newTitle.replaceAll("\\(\\d+\\)$", "(" + count + ")");
+	        } else {
+	            // 처음으로 (2)를 추가
+	            newTitle = title + "(" + count + ")";
+	        }
+	        count++;
+	    }
+	    return newTitle;
+	}
 	//---------------------------------------------------------
 	
 	//-------------------------메인페이지 기능---------------------

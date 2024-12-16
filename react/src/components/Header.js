@@ -145,10 +145,6 @@ const Header = () => {
       <div className="headerBtn">
         {loginSuccess ? (
           <>
-            {/* <div className="headerProfileImg">
-                            <img src={userInfo.profilePhoto.indexOf('http') !== -1 ? `${userInfo.profilePhoto}`:`http://localhost:8080${userInfo.profilePhoto}`} alt="profileImg"/>
-                            <p>{`Welcome, ${userInfo.userName}`}</p>
-                </div> */}
             <div>
               <Link className="logout" onClick={openLogoutModal}>
                 LOGOUT

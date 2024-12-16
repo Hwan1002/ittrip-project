@@ -9,6 +9,7 @@ import { API_BASE_URL } from "../service/api-config.js";
 import axios from "axios";
 import { format } from "date-fns";
 
+
 const NewTrip = () => {
   //context에서 필요한 상태값들 가져오기
   const { tripTitle, tripDates, input, logData } = useContext(ProjectContext);
@@ -55,11 +56,14 @@ const NewTrip = () => {
         {/* 지도, 경로추가부분 */}
         <div id="locationFrame">
           <div id="newMap">
-            <Map />
+            <Map/>
           </div>
           <div id="addDirectionFrame">
-            <AddData width="200px" />
+            <AddData width="200px"/>
+            {/* <MapWithData /> */}
           </div>
+
+
         </div>
         <div id="checkAndEnd">
           <CheckList/>

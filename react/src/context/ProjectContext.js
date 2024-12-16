@@ -11,13 +11,23 @@ export const ProjectProvider = ({ children }) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  
+
   //로그인 상태
   const [loginSuccess, setLoginSuccess] = useState(false); 
   //프로필 이미지 url 상태
   const [imagePreview, setImagePreview] = useState(null); 
 
-  //로그인한 사용자 정보
+  const [address , setAddress] = useState();
+
+  const [lat1, setLat1] = useState();
+  const [lng1, setLng1] = useState();
+
+  const [lat2, setLat2] = useState();
+  const [lng2, setLng2] = useState();
+
+  const [path, setPath] = useState();
+
+  // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
   
   //로그인하게 되면 상태값 전환
@@ -34,8 +44,7 @@ export const ProjectProvider = ({ children }) => {
   });
 
   //체크리스트 input 값
-  const [input, setInput] = useState("");
-
+  const [input, setInput] = useState([]);
 
   //객체에 모아서 한번에 전달
   const value = {
@@ -54,6 +63,15 @@ export const ProjectProvider = ({ children }) => {
     setTripDates,
     input,
     setInput,
+    address, 
+    setAddress,
+
+    lat1, setLat1,
+    lng1, setLng1,
+    lat2, setLat2,
+    lng2, setLng2,
+
+    path, setPath
   };
 
   return (
