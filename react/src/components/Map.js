@@ -53,15 +53,16 @@ const Map = () => {
                 title: "목적지"
               });
               setMarkers(prev => [...prev,newMarker]);
-            } else if (startPoint && goalPoint ) {
-              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
-             const newMarker =  new window.naver.maps.Marker({
-                position: latlng,
-                map: map,
-                title: `경유지${wayPoints.length+1}`
-              });
-              setMarkers(prev => [...prev,newMarker]);
-            }
+            } 
+            // else if (startPoint && goalPoint ) {
+            //   setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
+            //  const newMarker =  new window.naver.maps.Marker({
+            //     position: latlng,
+            //     map: map,
+            //     title: `경유지${wayPoints.length+1}`
+            //   });
+            //   setMarkers(prev => [...prev,newMarker]);
+            // }
             
 
             // 지도 위치를 마커로 이동
