@@ -7,35 +7,34 @@ import useModal from "../context/useModal";
 import '../css/AddData.css';
 
 const AddData = ({width}) => {
-    const [data, setData] = useState([]); // 입력된 데이터를 저장할 배열
-    const [inputs, setInputs] = useState([
-        {
-            value: ""
-        }
-    ]); // 여러 개의 input을 관리하는 배열
+    //입력된 데이터를 저장할 배열
+    const [data, setData] = useState([]); 
+    //여러 개의 input을 관리하는 배열
+    const [inputs, setInputs] = useState([{value: ""}]); 
     const [res, setRes] = useState([]);
-    const [departure, setDeparture] = useState(false);
-    
+    const [ btn, setBtn] = useState(false); 
+    const [departure, setDeparture] = useState("");
+    const [destinate, setDestinate] = useState("")
     //모달창 사용
     const {
         isModalOpen,
         modalTitle,
-        modalMessage,
         modalActions,
         openModal,
         closeModal
     } = useModal();
-    const [isNewPlanModal, setIsNewPlanModal] = useState(false);
     //모달끝
 
-    const {setAddress, setPath, wayPoints, startPoint, goalPoint} = useContext(
-        ProjectContext
-    );
+    const {setAddress, setPath, wayPoints, startPoint, goalPoint} = useContext(ProjectContext);
 
     // const wayPointsString =  .join("|");
 
+
+
+    //handler 모음
     const handleCheck = (item) => {
         setAddress(item)
+        alert("추가 되었습니다.")
     }
 
     // input 값이 변경되었을 때
@@ -45,10 +44,7 @@ const AddData = ({width}) => {
         setInputs(newInputs);
     };
     const handleBtnClicked = async () => {
-        const newData = [
-            ...data,
-            departure
-        ];
+        const newData = [...data,departure];
         const response = await axios.get(`${API_BASE_URL}/local`, {
             params: {
                 query: departure
@@ -57,15 +53,14 @@ const AddData = ({width}) => {
         setRes(response.data.items)
         setData(newData);
     }
+
     // bt1 버튼 클릭 시
     const handleBt1Click = async (index) => {
-        debugger;
         // 현재 input 값(data)에 추가
         const newData = [
             ...data,
             inputs[index].value
         ];
-
         // 입력받은 주소값을 지역검색 API에 요청후 response에 반환받은 객체 저장
         const response = await axios.get(`${API_BASE_URL}/local`, {
             params: {
@@ -80,7 +75,6 @@ const AddData = ({width}) => {
         newInputs.push({value: ""}); // 새로운 빈 input을 추가
         setInputs(newInputs);
     };
-
     // bt2 버튼 클릭 시
     const handleBt2Click = (index) => {
         // 해당 input과 bt2를 삭제
@@ -125,33 +119,35 @@ const AddData = ({width}) => {
             setPath(response.data.route.traoptimal[0].path)
         }
     }
-    ////모달창 함수
-    const openDepartureModal = () => {
-        setIsNewPlanModal(true);
-        openModal({
-            title: "출발지 설정",
-            message: "시발",
-            actions: [
-                {
-                    label: "확인",
-                    onClick: closeModal
-                }
-            ]
-        });
-    };
 
+    ////모달창 함수
+    //출발지
+    const openDepartureModal = () => {
+      setBtn(true);
+      openModal({
+          title: "출발지 설정",
+          message: "",
+          actions: [
+              {
+                  label: "확인",
+                  onClick: closeModal
+              }
+          ]
+      });
+    };
+    //도착지
     const openDestinateModal = () => {
-        setIsNewPlanModal(true);
-        openModal({
-            title: "도착지 설정",
-            message: "시발",
-            actions: [
-                {
-                    label: "확인",
-                    onClick: closeModal
-                }
-            ]
-        });
+      setBtn(false);
+      openModal({
+          title: "도착지 설정",
+          message: "",
+          actions: [
+              {
+                  label: "확인",
+                  onClick: closeModal
+              }
+          ]
+      });
     };
 
     return (
@@ -163,28 +159,26 @@ const AddData = ({width}) => {
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 title={modalTitle}
-                content={<div className = "ntModalContents" > <input
-                    type="text"
-                    onChange={(e) => setDeparture(e.target.value)}
-                    value={departure}/>
-                <button onClick={handleBtnClicked}>검색</button>
-                <div className="searchList">
-                    <ul>
-                        {
-                          res.map((item, index) => 
-                              <li key={item.title}>
-                                  <span className="listNumber">
-                                    {index + 1}
-                                  </span>
-                                  <p className="listTitle">{item.title.replace(/<\/?[^>]+(>|$)/g, "")}</p>
-                                  <button className="addressBtn" onClick={() => handleCheck(item.address)}>{item.address}</button>
-                                  {/* <p className="roadAddress">{item.roadAddress}</p> */}
-                              </li>
-                          )
-                        }
-                    </ul>
+                content={
+                <div className = "ntModalContents" >
+                  {departure? <input type="text" onChange={(e) => setDeparture(e.target.value)} value={departure}/> : <input type="text" onChange={(e) => setDestinate(e.target.value)} value={destinate}/>}
+                  <button onClick={handleBtnClicked}>검색</button>
+                  <div className="searchList">
+                      <ul>
+                          {res.map((item, index) => 
+                            <li key={item.title}>
+                                <span className="listNumber">
+                                  {index + 1}
+                                </span>
+                                <p className="listTitle">{item.title.replace(/<\/?[^>]+(>|$)/g, "")}</p>
+                                <button className="addressBtn" onClick={() => handleCheck(item.address)}>{item.address}</button>
+                                {/* <p className="roadAddress">{item.roadAddress}</p> */}
+                            </li>
+                          )}
+                      </ul>
+                  </div>
                 </div>
-            </div>}
+                }
                 actions={modalActions}/>
         </div>
     );
