@@ -30,6 +30,8 @@ export const ProjectProvider = ({ children }) => {
   });
   //체크리스트 input 값
   const [input, setInput] = useState("");
+  //체크리스트 배열
+  const [items,setItems] = useState([]);
 
   const value = {
     loginSuccess,
@@ -47,6 +49,8 @@ export const ProjectProvider = ({ children }) => {
     setTripDates,
     input,
     setInput,
+    items,
+    setItems
   };
 
   return (

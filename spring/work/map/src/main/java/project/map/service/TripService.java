@@ -50,10 +50,9 @@ public class TripService {
 			int count = 2;
 			while(tripRepository.existsByTitle(title)) {
 				if(title.contains("(")) {
-					++count;
-					return title ;		// 테스트 이름이 같을때 무한루프 걸려서 return 추가 
+					++count; 
 				}else {
-					title = title + "(" + count +")";
+					title = title + "(" + count +")";			//title(2)
 				}
 			}
 			return title;

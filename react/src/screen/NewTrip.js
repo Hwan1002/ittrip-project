@@ -14,8 +14,10 @@ const NewTrip = () => {
   const [setTripName] = useState(""); // 여행이름 저장
   const [setTripLocal] = useState(""); // 여행 지역 저장
   const [setTripDays] = useState(0); // 여행일정 저장
-  const { tripTitle, tripDates, input, token, logData } =
+  const { tripTitle, tripDates, input, token, logData,items } =
     useContext(ProjectContext);
+
+  const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
     debugger;
@@ -40,12 +42,13 @@ const NewTrip = () => {
         `${API_BASE_URL}/3`,
         {
           tripTitle: tripTitle,
-          checkList: input,
+          checkListArray: list
         },
         logData
       );
     } catch (error) {
       alert("post3 에러");
+      console.log(items);
     }
   };
 
@@ -75,37 +78,6 @@ const NewTrip = () => {
                         }} />
                 </div>
                  */}
-<<<<<<< HEAD
-                 
-                {/* 경로설정 부분 */}
-                <div id="rootSet">
-                    <h2 style={{ color: "#706F6F", marginTop:"25px"}}>경로 설정</h2>
-                    {/* 지도, 경로추가부분 */}
-                    <div id="locationFrame">
-                        <div id="newMap">
-                            <Map/>
-                        </div>
-                        <div id="addDirectionFrame">
-                            <AddData width="200px"/>
-                        </div>
-                    </div >
-
-                    {/* 체크리스트 */}
-                    <div id="checkAndEnd">
-                        <div id="checkListFrame">
-                            <h2 style={{ color: "#706F6F", marginTop:"30px"}}>체크리스트</h2>
-                            <div id="checkList" >
-                                <AddData width="300px"/>
-                            </div>
-                        </div>
-
-                        {/* 새로운 여행추가 버튼 */}
-                        <div id="endBtFrame">
-                            <button  id="newEnd"><p style={{marginLeft:"40px"}} onClick={()=>{alert("새로운 여행이 추가되었습니다")}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"25px"}}/></button>
-                    </div>
-                </div>
-            </div>
-=======
       {/* 경로설정 부분 */}
       <div id="rootSet">
         <h2 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h2>
@@ -117,7 +89,6 @@ const NewTrip = () => {
           <div id="addDirectionFrame">
             <AddData width="200px" />
           </div>
->>>>>>> test
         </div>
         <div id="checkAndEnd">
           <CheckList2 />

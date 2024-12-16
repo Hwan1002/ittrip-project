@@ -56,7 +56,7 @@ public class TripController {
 	//----------------	메인페이지  -----------------------
 	//areaNm에 대한 signguNm리스트 반환
 	@GetMapping("/1")
-	public ResponseEntity<?> getAreaCd(@AuthenticationPrincipal String userId ,@RequestParam String area) {
+	public ResponseEntity<?> getAreaCd(@RequestParam String area) {
 		List<AreaEntity> list = tripService.getSignguNms(area);
 		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
 		ResponseDTO<AreaDTO> response = ResponseDTO.<AreaDTO>builder().data(dtos).build();
@@ -79,7 +79,6 @@ public class TripController {
 	//TripEntity 객체들 반환(여행목록에 여행리스트)
 
 	@GetMapping("/3")
-
 	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) { // requestParam 으로 userId를 받지않고 
 		List<TripEntity> list = tripService.getTrips(userId);
 		List<TripDTO> dtos = list.stream().map(TripDTO::new).toList();
@@ -141,10 +140,11 @@ public class TripController {
 	// checkList객체 저장
 	@PostMapping("/3")
 	public ResponseEntity<?> postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.findByTitle(userId+ "/" +dto.getTripTitle());
-		//String checkList = tripService.mapToString(dto.getCheckListArray());
-		CheckListEntity entity = CheckListEntity.builder().checkList(dto.getCheckList()).trip(trip).user(user).build();
+		System.out.println(dto);
+		UserEntity user = userRepository.findById(userId).get();		String title = tripService.titleToDB(userId, dto.getTripTitle());
+		TripEntity trip = tripRepository.findByTitle(title);
+		String checkList = tripService.mapToString(dto.getCheckListArray());
+		CheckListEntity entity = CheckListEntity.builder().checkList(checkList).trip(trip).user(user).build();
 		checkListRepository.save(entity) ;
 		ResponseDTO response = ResponseDTO.builder().value(entity).build() ;
 		return ResponseEntity.ok(response);
@@ -194,12 +194,12 @@ public class TripController {
 	}
 
 	@DeleteMapping("/2/{idx}")
-	public void deleteMap(@PathVariable Integer idx) {
+	public void deleteMap(@PathVariable("idx") Integer idx) {
 		mapRepository.deleteById(idx);
 	}
 
 	@DeleteMapping("/3/{idx}")
-	public void deleteCheckList(@PathVariable Integer idx) {
+	public void deleteCheckList(@PathVariable("idx") Integer idx) {
 		checkListRepository.deleteById(idx);
 	}
 	// ----------------- DELETE -------------------------
