@@ -56,6 +56,7 @@ export const ProjectProvider = ({ children }) => {
   //체크리스트 배열
   const [items,setItems] = useState([]);
 
+  const [markers,setMarkers] = useState([]);
 
   const value = {
     loginSuccess,
@@ -84,6 +85,7 @@ export const ProjectProvider = ({ children }) => {
     wayPoints,
     setWaypoints,
     path, setPath,
+    markers,setMarkers
   };
 
   return (
