@@ -18,13 +18,25 @@ export const ProjectProvider = ({ children }) => {
 
   const [address , setAddress] = useState();
 
-  const [lat1, setLat1] = useState();
-  const [lng1, setLng1] = useState();
 
-  const [lat2, setLat2] = useState();
-  const [lng2, setLng2] = useState();
+  // startPoint 출발지
+  const [startPoint,setStartPoint] = useState();
+
+  // goalPoint 도착지 
+  const [goalPoint, setGoalPoint] = useState();
+
+  
+  // wayPoints  경유지
+  const [wayPoints , setWaypoints ] = useState([]);
 
   const [path, setPath] = useState();
+
+
+
+
+
+
+
 
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
@@ -60,13 +72,13 @@ export const ProjectProvider = ({ children }) => {
     setInput,
     address, 
     setAddress,
-
-    lat1, setLat1,
-    lng1, setLng1,
-    lat2, setLat2,
-    lng2, setLng2,
-
-    path, setPath
+    startPoint,
+    setStartPoint,
+    goalPoint,
+    setGoalPoint,
+    wayPoints,
+    setWaypoints,
+    path, setPath,
   };
 
   return (

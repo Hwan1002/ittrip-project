@@ -76,10 +76,12 @@ const NewTrip = () => {
                         }} />
                 </div>
                  */}
+                 
       {/* 경로설정 부분 */}
       <div id="rootSet">
         <h2 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h2>
         {/* 지도, 경로추가부분 */}
+
         <div id="locationFrame">
           <div id="newMap">
             <Map/>
