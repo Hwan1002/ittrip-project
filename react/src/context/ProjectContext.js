@@ -28,16 +28,9 @@ export const ProjectProvider = ({ children }) => {
 
   
   // wayPoints  경유지
-  const [wayPoints , setWaypoints ] = useState([]);
+  const [wayPoints , setWaypoints ] = useState();
 
   const [path, setPath] = useState();
-
-
-
-
-
-
-
 
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
