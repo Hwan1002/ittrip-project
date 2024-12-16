@@ -16,6 +16,28 @@ export const ProjectProvider = ({ children }) => {
 
   const [imagePreview, setImagePreview] = useState(null); //프로필 이미지 url 상태
 
+  const [address , setAddress] = useState();
+
+
+  // startPoint 출발지
+  const [startPoint,setStartPoint] = useState();
+
+  // goalPoint 도착지 
+  const [goalPoint, setGoalPoint] = useState();
+
+  
+  // wayPoints  경유지
+  const [wayPoints , setWaypoints ] = useState([]);
+
+  const [path, setPath] = useState();
+
+
+
+
+
+
+
+
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);
   const setUserData = (data) => {
@@ -29,9 +51,14 @@ export const ProjectProvider = ({ children }) => {
     endDate: null,
   });
   //체크리스트 input 값
+<<<<<<< HEAD
   const [input, setInput] = useState("");
   //체크리스트 배열
   const [items,setItems] = useState([]);
+=======
+  const [input, setInput] = useState([]);
+
+>>>>>>> test
 
   const value = {
     loginSuccess,
@@ -49,8 +76,20 @@ export const ProjectProvider = ({ children }) => {
     setTripDates,
     input,
     setInput,
+<<<<<<< HEAD
     items,
     setItems
+=======
+    address, 
+    setAddress,
+    startPoint,
+    setStartPoint,
+    goalPoint,
+    setGoalPoint,
+    wayPoints,
+    setWaypoints,
+    path, setPath,
+>>>>>>> test
   };
 
   return (
