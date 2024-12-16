@@ -4,7 +4,8 @@ import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
 
-function CheckList2() {
+function CheckList() {
+
   const token = window.localStorage.getItem("token");
   const logData = {
     headers: {
@@ -87,4 +88,4 @@ function CheckList2() {
   );
 }
 
-export default CheckList2;
+export default CheckList;
