@@ -132,7 +132,9 @@
 .newTripModal input{
   padding-left: 10px;
 }
-
+.newTripModal .modal-actions{
+  display: none;
+}
 .searchList{
   max-height: 200px;
   overflow: scroll;

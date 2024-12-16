@@ -3,11 +3,11 @@ import { ProjectContext } from "../context/ProjectContext";
 
 
 const Map = () => {
+
   // 임시 배열
   const dayChacks = ['일정1', '일정2', '일정3'];
 
   const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints, wayPoints } = useContext(ProjectContext);
-
 
 
 
@@ -17,7 +17,6 @@ const Map = () => {
     const script = document.createElement('script');
     script.src = "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wz3pjcepky&submodules=geocoder"; // YOUR_CLIENT_ID를 실제 클라이언트 ID로 교체
     script.async = true;
-
     script.onload = () => {
       // Naver 지도 API가 로드된 후 실행되는 코드
       if (window.naver && window.naver.maps) {
@@ -138,8 +137,6 @@ const Map = () => {
         }
       }
     };
-
-
     // 스크립트 로드를 DOM에 추가
     document.body.appendChild(script);
 

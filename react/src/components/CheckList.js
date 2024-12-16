@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "../css/CheckList.css";
 import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
@@ -6,17 +6,7 @@ import { API_BASE_URL } from "../service/api-config";
 
 function CheckList() {
 
-  const token = window.localStorage.getItem("token");
-  const logData = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  // const [input, setInput] = useState('');
-  // const token = window.localStorage.getItem("token");
-  // const [userData, setUserData] = useState({});
-  const { input, setInput } = useContext(ProjectContext);
-  const { items, setItems} = useContext(ProjectContext);
+  const { input, setInput, items, setItems, logData } = useContext(ProjectContext);
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
@@ -65,20 +55,9 @@ function CheckList() {
       <div className="checkContents">
         <ul className="checkUl" style={{ padding: 0 }}>
           {items.map((item) => (
-
-            <li className="checkLi"
-                key={item.id}
-            >
-              <input
-                type="checkbox"
-                checked={item.checked}
-                onChange={() => toggleItem(item.id)}
-              />
-              <span
-                style={{
-                  textDecoration: item.checked ? "line-through" : "none",
-                }}
-              >
+            <li className="checkLi"key={item.id}>
+              <input type="checkbox" checked={item.checked} onChange={() => toggleItem(item.id)}/>
+              <span style={{textDecoration: item.checked ? "line-through" : "none",}}>
                 {item.text}
               </span>
               <button type="button" onClick={() => deleteItem(item.id)}>
