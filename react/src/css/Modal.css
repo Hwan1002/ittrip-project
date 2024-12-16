@@ -84,11 +84,6 @@
     background-color: #F6A354;
     color: white;
   }
-
-
-
-
-
   
   /* Header.js 모달 전용 */
  /* 날짜 입력 css */
@@ -124,4 +119,29 @@
 
 .modal-trip-plan  .modal-actions{
   margin-top: 20px;
+}
+
+/* newTrip 모달 */
+.newTripModal{
+  width:600px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.newTripModal input{
+  padding-left: 10px;
+}
+
+.searchList{
+  max-height: 200px;
+  overflow: scroll;
+}
+.searchList::-webkit-scrollbar {
+  display: none;
+}
+.searchList li{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

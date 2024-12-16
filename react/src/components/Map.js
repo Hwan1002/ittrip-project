@@ -7,6 +7,7 @@ const Map = () => {
   const dayChacks = ['일정1', '일정2', '일정3'];
   const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints,wayPoints, markers,setMarkers } = useContext(ProjectContext);
 
+
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
     const script = document.createElement('script');

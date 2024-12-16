@@ -1,0 +1,39 @@
+.addDataBtns{
+    width:200px;
+    height:50px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FFA551;
+    margin: 20px 0;
+    color: aliceblue;
+}
+
+.addData input{
+    border-radius: 8px;
+    border:2px solid #dadada;
+    height:20px;
+}
+
+.addressBtn{
+    background-color: #FFA551;
+    color:#fff;
+    border: none;
+    height: 20px;
+    border-radius: 8px;
+}
+
+.listNumber{
+    font-size:16px;
+    font-weight:bold;
+    color:#FFA551;
+    margin-right: 10px;
+
+}
+
+.listTitle{
+    margin-right: 10px;
+}
+
+.roadAddress{
+    font-size:12px;
+}

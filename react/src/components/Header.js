@@ -26,23 +26,13 @@ const Header = () => {
     setTripDates,
   } = useContext(ProjectContext);
   const navigate = useNavigate();
-  //   const [tripTitle, setTripTitle] = useState("");
-  //   const [tripDates, setTripDates] = useState({
-  //     startDate: null,
-  //     endDate: null,
-  //   });
+
   const [isNewPlanModal, setIsNewPlanModal] = useState(false);
-  const [tripInfo, setTripInfo] = useState({
-    title: "",
-    startDate: "",
-    lastDate: "",
-  });
-  // const token = window.localStorage.getItem("token")
-  // const logData = {
-  //     headers: {
-  //         Authorization: `Bearer ${token}`,
-  //     },
-  // };
+  // const [tripInfo, setTripInfo] = useState({
+  //   title: "",
+  //   startDate: "",
+  //   lastDate: "",
+  // });
 
   //modal창 상태
   const { isModalOpen, openModal, closeModal } = useModal();
