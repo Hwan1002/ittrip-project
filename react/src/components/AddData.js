@@ -10,9 +10,12 @@ const AddData = ({width}) => {
     //입력된 데이터를 저장할 배열
     const [data, setData] = useState([]); 
     //여러 개의 input을 관리하는 배열
-    const [inputs, setInputs] = useState([{value: ""}]); 
     const [res, setRes] = useState([]);
-    const [departure, setDeparture] = useState();
+    const [searchInput1, setSearchInput1] = useState("");
+    const [searchInput2, setSearchInput2] = useState("");
+    const [departure, setDeparture] = useState("");
+    const [destination, setDestination] = useState("")
+    const [test, setTest] = useState(false);
 
     //모달창 사용
     const {
@@ -28,29 +31,36 @@ const AddData = ({width}) => {
 
     //handler 모음
     const handleCheck = (item) => {
-        setAddress(item)
+        debugger;
+        setAddress(item.address);
+
+        if(test){
+          setDestination(item.title)
+        }else{
+          setDeparture(item.title);
+        }
         closeModal();
         alert("추가 되었습니다.")
     }
 
-    // input 값이 변경되었을 때
-    const handleInputChange = (index, event) => {
-        const newInputs = [...inputs];
-        newInputs[index].value = event.target.value; // 해당 인덱스의 input 값 업데이트
-        setInputs(newInputs);
-    };
 
-    const handleBtnClicked = async () => {
-      const newData = [
-        ...data,
-        departure
-      ];
+    const departureBtnClicked = async () => {
+      const newData = [...data,searchInput1];
       const response = await axios.get(`${API_BASE_URL}/local`, {
-        params: {
-          query: departure
-        }
+        params: {query: searchInput1}
       });
       setRes(response.data.items)
+      console.log(res);
+      setData(newData);
+    }
+
+    const destinateBtnClicked = async () => {
+      const newData = [...data,searchInput2];
+      const response = await axios.get(`${API_BASE_URL}/local`, {
+        params: {query: searchInput2}
+      });
+      setRes(response.data.items)
+      console.log(res);
       setData(newData);
     }
 
@@ -83,46 +93,49 @@ const AddData = ({width}) => {
     ////모달창 함수
     //출발지
     const openDepartureModal = () => {
+      departureBtnClicked();
       openModal({
           title: "출발지 설정",
           message: "",
-          actions: [
-              {
-                  label: "확인",
-                  onClick: closeModal
-              }
-          ]
+          action:""
       });
     };
     //도착지
     const openDestinateModal = () => {
+      setTest(true);
+      destinateBtnClicked();
       openModal({
-          title: "도착지 설정",
-          message: "",
-          actions: [
-              {
-                  label: "확인",
-                  onClick: closeModal
-              }
-          ]
+        title: "도착지 설정",
+        message: "",
+        action:"",
       });
     };
 
     return (
         <div className="addData">
-            <button className="addDataBtns" onClick={openDepartureModal}>출발지 설정</button>
-            <button className="addDataBtns" onClick={openDestinateModal}>도착지 설정</button>
-            <button className="addDataBtns" onClick={handlecoordinate}>저장</button>
+          <div className="departSearch">
+          {/* <input
+            type="text"
+            placeholder="출발지를 검색하세요."
+            value={test || (departure ? departure.replace(/<\/?[^>]+(>|$)/g, "") : "")}
+            onChange={(e) => setTest(e.target.value)}
+          /> */}
+            {departure?<input type="text" value={departure.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=> setDeparture(e.target.value)}/> : <input type="text" placeholder="출발지를 검색하세요." onChange={(e) => setSearchInput1(e.target.value)}/>}
+            <button className="addDataBtns" type="button" onClick={openDepartureModal}>출발지 검색</button>
+          </div>
+          <div>
+             {destination?<input type="text" value={destination.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=> setDestination(e.target.value)}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>}
+            <button className="addDataBtns" type="button" onClick={openDestinateModal}>도착지 설정</button>
+          </div>
+            <button className="addDataBtns" type="button" onClick={handlecoordinate}>저장</button>
             <Modal
                 className="newTripModal"
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 title={modalTitle}
                 content={
-                <div className = "ntModalContents" >
-                  <input type="text" onChange={(e) => setDeparture(e.target.value)} value={departure}/>
-                  <button onClick={handleBtnClicked}>검색</button>
                   <div className="searchList">
+                    {res.length > 0 ? (
                       <ul>
                           {res.map((item, index) => 
                             <li key={item.title}>
@@ -130,13 +143,15 @@ const AddData = ({width}) => {
                                   {index + 1}
                                 </span>
                                 <p className="listTitle">{item.title.replace(/<\/?[^>]+(>|$)/g, "")}</p>
-                                <button className="addressBtn" onClick={() => handleCheck(item.address)}>{item.address}</button>
+                                <button className="addressBtn" onClick={() => handleCheck(item)}>{item.address}</button>
                                 {/* <p className="roadAddress">{item.roadAddress}</p> */}
                             </li>
                           )}
                       </ul>
+                    ) : (
+                      <p>검색 결과가 없습니다.</p>
+                    )}
                   </div>
-                </div>
                 }
                 actions={modalActions}
             />
