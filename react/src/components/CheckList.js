@@ -10,7 +10,6 @@ function CheckList() {
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
-    debugger;
     if (input.trim()) {
       setItems([...items, { id: Date.now(), text: input, checked: false }]);
       try {
