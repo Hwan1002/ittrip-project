@@ -1,5 +1,6 @@
 package project.map.controller;
 
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -20,32 +21,33 @@ public class LocalSearchController {
 	private String requestUrl = "https://openapi.naver.com/v1/search/local.json";
 
 	private String clientId = "W6CdC7Ve_M1MNfFS59NB";
-
 	
 	private String clientSecret = "mBOfqeLoh3";
-
+	
 	public LocalSearchController(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.baseUrl(requestUrl).build();
 	}
-
+	
 	@GetMapping("/local")
-	public ResponseEntity<?> getLocalData(@RequestParam(name = "query") String query) {
+	public ResponseEntity<?> getLocalData(@RequestParam(name="query") String query){
 		try {
-
-			LocalSearchResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
+			LocalSearchResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder //uri를 빌드
 					.queryParam("query", query)
 					.queryParam("display", 5)
+					.queryParam("start", 1)
+
 					.queryParam("sort", "random")
 					.build())
 					.header("X-Naver-Client-Id", clientId)
 					.header("X-Naver-Client-Secret", clientSecret).retrieve()
-					.bodyToMono(LocalSearchResponseDTO.class) // mono (0개 또는 1개) 로 반환
+					.bodyToMono(LocalSearchResponseDTO.class) //mono(0개 또는 1개)로 반환
 					.block();
-
 			return ResponseEntity.ok(response);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+			return ResponseEntity.status(500).body(Map.of("error",e.getMessage()));
 		}
 	}
 }
+

@@ -113,6 +113,7 @@ public class UserService {
 
 	// 회원정보 수정 ////비밀번호 ,프로필사진
 	@Transactional
+
 	public void modify(String userId, UserDTO dto, MultipartFile profilePhoto) {
 		UserEntity entity = repository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
@@ -120,6 +121,7 @@ public class UserService {
 		// 이미지 파일 처리 (업로드 디렉토리 설정)
 		// 현재 작업 디렉토리 기반으로 업로드 디렉토리 설정
 		String uploadDir = Paths.get(System.getProperty("user.dir"), "uploads", "profilePhotos").toString();
+
 
 		// 업로드 디렉토리가 없다면 생성
 		File uploadDirectory = new File(uploadDir);

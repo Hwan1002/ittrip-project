@@ -32,11 +32,13 @@ const SocialLogin = () => {
 
     const UserInfo = async (token) => {
         try {
+
             const response = await axios.get(`${API_BASE_URL}/mypage`, {
                 headers: {
                     "Authorization": `Bearer ${token}`  // Authorization 헤더에 토큰 삽입
+                    }
                 }
-            });
+            );
             console.log("서버 응답:", response.data);
             if (response.data && response.data.value) {
                 setUserData(response.data.value); // 사용자 정보가 성공적으로 반환되면 context에 저장

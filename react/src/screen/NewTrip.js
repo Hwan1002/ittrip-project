@@ -9,6 +9,7 @@ import { API_BASE_URL } from "../service/api-config.js";
 import axios from "axios";
 import { format } from "date-fns";
 
+
 const NewTrip = () => {
   // useState
   const [setTripName] = useState(""); // 여행이름 저장
@@ -81,11 +82,14 @@ const NewTrip = () => {
         {/* 지도, 경로추가부분 */}
         <div id="locationFrame">
           <div id="newMap">
-            <Map />
+            <Map/>
+                        </div>
+                        <div id="addDirectionFrame">
+                            <AddData width="200px"/>
+            {/* <MapWithData /> */}
           </div>
-          <div id="addDirectionFrame">
-            <AddData width="200px" />
-          </div>
+
+
         </div>
         <div id="checkAndEnd">
           <CheckList2 />
