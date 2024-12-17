@@ -1,7 +1,6 @@
 const AddData = ({width}) => {
     const [data, setData] = useState([]); // 입력된 데이터를 저장할 배열
     const [inputs, setInputs] = useState([
->>>>>>> test
         {
             value: ""
         }

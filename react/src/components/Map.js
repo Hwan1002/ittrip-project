@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 
-
 const Map = () => {
 
   const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints } = useContext(ProjectContext);
