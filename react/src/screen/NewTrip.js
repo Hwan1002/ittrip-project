@@ -16,7 +16,7 @@ const NewTrip = () => {
   // const [setTripName] = useState(""); // 여행이름 저장
   // const [setTripLocal] = useState(""); // 여행 지역 저장
   // const [setTripDays] = useState(0); // 여행일정 저장
-  const { tripTitle, tripDates, input, token, logData,items } = useContext(ProjectContext);
+  const { tripTitle, tripDates, logData,items } = useContext(ProjectContext);
 
   const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 

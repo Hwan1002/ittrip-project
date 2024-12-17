@@ -200,57 +200,61 @@ const signUp = async(e) => {
         }
     }
 };
+const returnToMain = () => {
+    navigate("/");
+    window.location.reload();
+}
 
-    return(
-        <div className="signUp">
-            <div className="logoImg">
-                <Logo/>
-            </div>
-            <div className="signUp_container container">
-                <div className="signUp_contents">
-                    <h2 className="title">회원가입</h2>
-                    <form className='sigup_formData' onSubmit={(e) => signUp(e)}>
-                        <div className='profilePhoto'>
-                            {imagePreview !== null? (
-                                <div className='photoImg'>
-                                    <img src={imagePreview} alt="preview"/>
-                                </div>    
-                            ) : ''}
-                            <button type="button" className='profileChangeBtn'  onClick={handleProfileClick}>프로필 사진</button>
-                            <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
-                        </div>
-                        <div className='signUp_id'>
-                            <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.id}/>
-                            <button type="button" onClick={idCheck}>중복체크</button>
-                        </div>
-                        <div>
-                            <input name="password" type="password" placeholder='비밀번호를 입력하세요.' onChange={handleInputChange} value={formData.password}/>
-                        </div>
-                        <div>
-                            <input type="password" placeholder='비밀번호 확인.' onChange={(e)=>setUserPwdConfirm(e.target.value)}/>
-                        </div>
-                        <div>
-                            <input name="userName" type="text" placeholder='이름을 입력하세요.' onChange={handleInputChange} value={formData.userName}/>
-                        </div>
-                        <div>
-                            <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
-                        </div>
-                        <div className="sigUp_Btns">
-                            <button className="sigupBtn" type="submit">회원가입</button>
-                            <button className="backBtn" type="button" onClick={()=>navigate("/")}>돌아가기</button>
-                        </div>
-                    </form>
-                    <Modal
-                        isOpen={isModalOpen}
-                        onClose={closeModal}
-                        title={modalTitle}
-                        content={<p>{modalMessage}</p>}
-                        actions={modalActions}
-                    />
-                </div>
-            </div>
 
+return(
+    <div className="signUp">
+        <div className="logoImg">
+            <Logo/>
         </div>
+        <div className="signUp_container container">
+            <div className="signUp_contents">
+                <h2 className="title">회원가입</h2>
+                <form className='sigup_formData' onSubmit={(e) => signUp(e)}>
+                    <div className='profilePhoto'>
+                        {imagePreview !== null? (
+                            <div className='photoImg'>
+                                <img src={imagePreview} alt="preview"/>
+                            </div>    
+                        ) : ''}
+                        <button type="button" className='profileChangeBtn'  onClick={handleProfileClick}>프로필 사진</button>
+                        <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
+                    </div>
+                    <div className='signUp_id'>
+                        <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.id}/>
+                        <button type="button" onClick={idCheck}>중복체크</button>
+                    </div>
+                    <div>
+                        <input name="password" type="password" placeholder='비밀번호를 입력하세요.' onChange={handleInputChange} value={formData.password}/>
+                    </div>
+                    <div>
+                        <input type="password" placeholder='비밀번호 확인.' onChange={(e)=>setUserPwdConfirm(e.target.value)}/>
+                    </div>
+                    <div>
+                        <input name="userName" type="text" placeholder='이름을 입력하세요.' onChange={handleInputChange} value={formData.userName}/>
+                    </div>
+                    <div>
+                        <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
+                    </div>
+                    <div className="sigUp_Btns">
+                        <button className="sigupBtn" type="submit">회원가입</button>
+                        <button className="backBtn" type="button" onClick={returnToMain}>돌아가기</button>
+                    </div>
+                </form>
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    title={modalTitle}
+                    content={<p>{modalMessage}</p>}
+                    actions={modalActions}
+                />
+            </div>
+        </div>
+    </div>
     )
 }
 export default SignUp;
