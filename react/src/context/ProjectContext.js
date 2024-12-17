@@ -29,7 +29,7 @@ export const ProjectProvider = ({ children }) => {
 
   
   // wayPoints  경유지
-  const [wayPoints , setWaypoints ] = useState();
+  const [wayPoints , setWaypoints ] = useState([]);
 
 
   const [path, setPath] = useState();

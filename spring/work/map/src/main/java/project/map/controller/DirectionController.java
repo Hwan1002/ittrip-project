@@ -85,28 +85,5 @@ public class DirectionController {
     }
 }
     
-    @GetMapping("/12345")				
-    public ResponseEntity<?> getDirectionsNoWayPoints(
-            @RequestParam(name = "start") String start,		
-            @RequestParam(name = "goal") String goal
-            		//기본값 trafast
-    ){
-    	try{
-    
-    		DirectionsResponseDTO response = webClient.get()
-                .uri(uriBuilder -> uriBuilder		
-                        .queryParam("start", start)
-                        .queryParam("goal", goal)
-                        .build())
-                .header("x-ncp-apigw-api-key-id", apiKeyId)
-                .header("x-ncp-apigw-api-key", apiKeySecret)
-                .retrieve()
-                .bodyToMono(DirectionsResponseDTO.class)			//mono (0개 또는 1개) 로 반환
-                .block();							//block -> ResponseEntity로 반환하기 위해 씀
 
-        return ResponseEntity.ok(response);
-    }catch(Exception e) {
-        return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
-    }
-}
 }

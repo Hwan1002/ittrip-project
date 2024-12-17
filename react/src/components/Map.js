@@ -1,15 +1,29 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 
 
 const Map = () => {
 
-  // 임시 배열
-  const dayChacks = ['일정1', '일정2', '일정3'];
+  const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints } = useContext(ProjectContext);
 
-  const { address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, setWaypoints, wayPoints } = useContext(ProjectContext);
+  const [dayChecks, setDayChecks] = useState([])
 
+  useEffect(() => {
+    if (tripDates && tripDates.startDate && tripDates.endDate) {
+      const startDate = new Date(tripDates.startDate);
+      const endDate = new Date(tripDates.endDate);
 
+      // 출발일자와 도착일자 간의 차이를 계산 (밀리초 단위)
+      const diffTime = endDate - startDate;
+
+      // 차이를 일수로 변환
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1일은 시작일도 포함
+
+      // dayChacks 배열 업데이트
+      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
+      setDayChecks(daysArray);
+    }
+  }, [tripDates]);
 
 
   useEffect(() => {
@@ -26,8 +40,8 @@ const Map = () => {
         });
 
 
-         // LatLngBounds 객체 생성: 모든 마커를 포함할 범위 계산
-         const bounds = new window.naver.maps.LatLngBounds();
+        // LatLngBounds 객체 생성: 모든 마커를 포함할 범위 계산
+        const bounds = new window.naver.maps.LatLngBounds();
 
 
         if (address) {
@@ -42,15 +56,14 @@ const Map = () => {
             // 변환된 좌표 가져오기
             const result = response.v2;
             const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
-            // console.log(latlng)
 
-            // 첫 번째 좌표 저장
+
             if (!startPoint) {
               setStartPoint(latlng)
 
             } else if (startPoint && !goalPoint) {
               setGoalPoint(latlng)
-            } else if (startPoint && goalPoint ) {
+            } else if (!wayPoints.some(point => point.equals(latlng)) && !goalPoint.equals(latlng)) {
               setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
             }
 
@@ -58,28 +71,28 @@ const Map = () => {
             map.setCenter(latlng);
 
 
-             // 마커를 모두 추가하기
-             const markers = [];
+            // 마커를 모두 추가하기
+            const markers = [];
 
-              //마커모양 교체
-              const createMarkerIcon = (text) => {
-                return {
-                  content: `
+            //마커모양 교체
+            const createMarkerIcon = (text) => {
+              return {
+                content: `
                     <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
                       ${text}
                       <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
                     </div>
                   `,
-                  size: new window.naver.maps.Size(30, 30),
-                  anchor: new window.naver.maps.Point(15, 15),
-                };
+                size: new window.naver.maps.Size(30, 30),
+                anchor: new window.naver.maps.Point(15, 15),
               };
-              
+            };
 
 
 
-             // 시작 지점 마커 추가
-             if (startPoint) {
+
+            // 시작 지점 마커 추가
+            if (startPoint) {
               const startMarker = new window.naver.maps.Marker({
                 position: startPoint,
                 map: map,
@@ -106,7 +119,7 @@ const Map = () => {
                 const waypointMarker = new window.naver.maps.Marker({
                   position: point,
                   map: map,
-                  icon: createMarkerIcon(`${index+1}`)
+                  icon: createMarkerIcon(`${index + 1}`)
                 });
                 markers.push(waypointMarker);
                 bounds.extend(waypointMarker.getPosition()); // 경유지 위치 추가
@@ -116,7 +129,6 @@ const Map = () => {
 
             // 경로 표시하기 
             if (path) {
-              console.log(path)
               const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude))
 
 
@@ -130,9 +142,9 @@ const Map = () => {
               polyline.setMap(map);  // 지도에 폴리라인을 표시
               pathCoordinates.forEach(coord => bounds.extend(coord));// 경로 좌표도 범위에 추가
             }
-           // 모든 마커와 경로를 포함하는 범위로 지도를 자동으로 조정
-           map.fitBounds(bounds)
-           map.setZoom(map.getZoom() - 1); // 한 단계 더 줌 아웃해서 여유를 줍니다.
+            // 모든 마커와 경로를 포함하는 범위로 지도를 자동으로 조정
+            map.fitBounds(bounds)
+            map.setZoom(map.getZoom() - 1); // 한 단계 더 줌 아웃해서 여유를 줍니다.
           });
         }
       }
@@ -171,8 +183,8 @@ const Map = () => {
         top: '10px',   // 부모 div의 위에서 20px 떨어지게 설정
         left: "14px",
       }}>
-        {/* dayChacks 배열의 항목에 따라 DayN 요소 생성 */}
-        {dayChacks.map((day, index) => (
+        {/* dayChecks 배열의 항목에 따라 DayN 요소 생성 */}
+        {dayChecks.map((index) => (
           <div style={{
             textAlign: "center",
             width: 62,   // 각 Day 요소의 너비
@@ -182,7 +194,7 @@ const Map = () => {
             borderRadius: 18,
             padding: "4px 6px 2px 4px",
             margin: "20px 10px", // 요소들 사이의 여백
-          }} key={index}>Day {index + 1}</div>
+          }} key={index}>{index}</div>
         ))}
       </div>
     </div>

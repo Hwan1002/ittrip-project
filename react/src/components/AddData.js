@@ -30,7 +30,7 @@ const AddData = ({width}) => {
     const {setAddress, setPath, wayPoints, startPoint, goalPoint} = useContext(ProjectContext);
     //handler 모음
     const handleCheck = (item) => {
-        debugger;
+      
         setAddress(item.address);
 
         if(test){
