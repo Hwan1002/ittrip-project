@@ -58,8 +58,10 @@ public class TripController {
 	// areaNm에 대한 signguNm리스트 반환
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
-	public ResponseEntity<?> getAreaCd(@RequestParam String areaNm) {
+	public ResponseEntity<?> getSignguNms(@RequestParam String areaNm) {
 		List<AreaEntity> list = tripService.getSignguNms(areaNm);
+		System.out.println("areaNm :"+areaNm);
+		System.out.println("list :"+list);
 		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
 		ResponseDTO<AreaDTO> response = ResponseDTO.<AreaDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);

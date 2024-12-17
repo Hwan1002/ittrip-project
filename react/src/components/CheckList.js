@@ -10,7 +10,6 @@ function CheckList() {
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
-    debugger;
     if (input.trim()) {
       const maxId = items.length > 0 
       ? Math.max(...items.map((item) => item.id || 0)) 
@@ -25,17 +24,7 @@ function CheckList() {
     // 기존 items 배열에 새 항목 추가
     const updatedItems = [...items, newItem];
     setItems(updatedItems);
-      try {
-        const response = await axios.post(
-          `${API_BASE_URL}/3`,
-          { checkList: items },
-          logData
-        );
-        console.log(response.data.value);
-      } catch (error) {
-        console.log("에러 메시지 : ", error);
-      }
-      // setInput("");
+      
     }
   };
 

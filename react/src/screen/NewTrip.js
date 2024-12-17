@@ -38,6 +38,7 @@ const NewTrip = () => {
       alert("에러 내용:", error);
     }
     //axios 추가
+    debugger;
     try {
       const response = await axios.post(`${API_BASE_URL}/3`,
         {
@@ -46,7 +47,7 @@ const NewTrip = () => {
         },
         logData
       );
-      console.log(response.data.value);
+       console.log(response.data);
     } catch (error) {
       console.log(items);
       alert("post3 에러");
