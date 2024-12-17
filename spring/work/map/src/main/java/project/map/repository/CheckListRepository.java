@@ -13,8 +13,8 @@ import project.map.entity.CheckListEntity;
 public interface CheckListRepository extends JpaRepository<CheckListEntity, Integer>{
 
 		//userId와 tripTitle을 기반으로 checklist 가져오기
-		@Query("select t from CheckListEntity t where t.user.id = ?1 and t.trip.title = ?2")
-		CheckListEntity getCheckListByUserIdAndTitle(String id , String title);
+		@Query("select t.items from CheckListEntity t where t.user.id = ?1 and t.trip.title = ?2")
+		String getCheckListByUserIdAndTitle(String id , String title);
 
 		//지우지 마세요>
 		

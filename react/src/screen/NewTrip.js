@@ -18,7 +18,7 @@ const NewTrip = () => {
   // const [setTripDays] = useState(0); // 여행일정 저장
   const { tripTitle, tripDates, logData,items } = useContext(ProjectContext);
 
-  const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
+  //const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
     try {
@@ -42,14 +42,15 @@ const NewTrip = () => {
       const response = await axios.post(`${API_BASE_URL}/3`,
         {
           tripTitle: tripTitle,
-          checkListArray: list
+          items : items
         },
         logData
       );
       console.log(response.data.value);
     } catch (error) {
-      alert("post3 에러");
       console.log(items);
+      alert("post3 에러");
+      
     }
   };
 

@@ -2,6 +2,7 @@ package project.map.controller;
 
 import java.io.Console;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO;
+import project.map.dto.CheckListDTO.Items;
 import project.map.dto.MapDTO;
 import project.map.dto.ResponseDTO;
 import project.map.dto.TripDTO;
@@ -56,8 +58,8 @@ public class TripController {
 	// areaNm에 대한 signguNm리스트 반환
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
-	public ResponseEntity<?> getAreaCd(@AuthenticationPrincipal String userId ,@RequestParam String area) {
-		List<AreaEntity> list = tripService.getSignguNms(area);
+	public ResponseEntity<?> getAreaCd(@RequestParam String areaNm) {
+		List<AreaEntity> list = tripService.getSignguNms(areaNm);
 		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
 		ResponseDTO<AreaDTO> response = ResponseDTO.<AreaDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
@@ -102,8 +104,9 @@ public class TripController {
 
 	@GetMapping("/5")
 	public ResponseEntity<?> getCheckList(@RequestParam String userId, @RequestParam String tripTitle) {
-		CheckListEntity entity = tripService.getCheckLists(userId, tripTitle);
-		String[] response = tripService.stringToMap(entity.getCheckList());
+		String items = tripService.getCheckLists(userId, tripTitle);
+		List<Items> list = tripService.parseItems(items);
+		ResponseDTO<Items> response = ResponseDTO.<Items>builder().data(list).build();
 		return ResponseEntity.ok(response);
 	}
 	// ----------------- GET ----------------------------
@@ -114,7 +117,7 @@ public class TripController {
 	@PostMapping("/1")
 	public void postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		String titleToCheck = tripService.titleToDB(dto.getTitle(), userId);
+		String titleToCheck = tripService.titleToDB(userId,dto.getTitle());
 		String confirmedTitle = tripService.titleConfirm(titleToCheck);
 		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
@@ -126,7 +129,7 @@ public class TripController {
 	@PostMapping("/2")
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
+		TripEntity trip = tripRepository.getByTitle(dto.getTripTitle());
 		MapEntity entity = MapEntity.builder().startPoint(dto.getStartPoint()).startPlace(dto.getStartPlace())
 				.startAddress(dto.getStartAddress()).goalPoint(dto.getGoalPoint()).goalPlace(dto.getGoalPlace())
 				.goalAddress(dto.getGoalAddress()).waypointsPoint(dto.getWaypointsPoint())
@@ -139,15 +142,16 @@ public class TripController {
 	// checkList객체 저장
 		@PostMapping("/3")
 		public ResponseEntity<?> postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
-			System.out.println(dto);
 			UserEntity user = userRepository.findById(userId).get();
 			String title = tripService.titleToDB(userId, dto.getTripTitle());
-			TripEntity trip = tripRepository.findByTitle(title);
-			String checkList = tripService.mapToString(dto.getCheckListArray());
-			CheckListEntity entity = CheckListEntity.builder().checkList(checkList).trip(trip).user(user).build();
+			TripEntity trip = tripRepository.getByTitle(title);
+			CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
+					items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
+                    .collect(Collectors.joining(","))) // 리스트 -> 문자열 합치기
+            .build();
 			checkListRepository.save(entity) ;
-			ResponseDTO response = ResponseDTO.builder().value(entity).build() ;
-			return ResponseEntity.ok(response);
+//			ResponseDTO response = ResponseDTO.builder().value(entity).build() ;
+			return ResponseEntity.ok("저장 성공");
 		}
 
 	// ----------------- POST ---------------------------
@@ -166,7 +170,7 @@ public class TripController {
 	@PutMapping("/2")
 	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
+		TripEntity trip = tripRepository.getByTitle(dto.getTripTitle());
 		MapEntity entity = MapEntity.builder().idx(dto.getIdx()).startPoint(dto.getStartPoint())
 				.startPlace(dto.getStartPlace()).startAddress(dto.getStartAddress()).goalPoint(dto.getGoalPoint())
 				.goalPlace(dto.getGoalPlace()).goalAddress(dto.getGoalAddress()).waypointsPoint(dto.getWaypointsPoint())
@@ -177,13 +181,16 @@ public class TripController {
 	}
 
 	@PutMapping("/3")
-	public void putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
+	public ResponseEntity<?> putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.findByTitle(dto.getTripTitle());
-		String checkList = tripService.mapToString(dto.getCheckListArray());
-		CheckListEntity entity = CheckListEntity.builder().idx(dto.getIdx()).checkList(checkList).trip(trip).user(user)
-				.build();
-		checkListRepository.save(entity);
+		String title = tripService.titleToDB(userId, dto.getTripTitle());
+		TripEntity trip = tripRepository.getByTitle(title);
+		CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
+				items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
+                .collect(Collectors.joining(","))) // 리스트 -> 문자열 합치기
+        .build();
+		checkListRepository.save(entity) ;
+		return ResponseEntity.ok("수정 성공");
 	}
 
 	// ----------------- PUT ---------------------------

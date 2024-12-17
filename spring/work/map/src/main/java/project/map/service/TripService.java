@@ -1,10 +1,12 @@
 package project.map.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.map.dto.CheckListDTO.Items;
 import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
@@ -37,7 +39,7 @@ public class TripService {
 		return String.join("|", waypoints);
 	}
 	//DB에 title 넣을 때 ID/Title 형태로 가공하는 로직
-	public String titleToDB(String title,String userId) {
+	public String titleToDB(String userId,String title) {
 		return userId+"/"+title;
 	}
 	//DB에서 title 가져올 때 ID/를 제거하는 로직
@@ -66,20 +68,9 @@ public class TripService {
 	
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
-	public List<AreaEntity> getSignguNms(String area){
-		if(area.equals("전라도")) {
-			List<AreaEntity> list = areaRepository.getTwoAreaList("전라북도","전라남도");
+	public List<AreaEntity> getSignguNms(String areaNm){
+			List<AreaEntity> list = areaRepository.getAreaList(areaNm);
 			return list;
-		}else if(area.equals("충청도")) {
-			List<AreaEntity> list = areaRepository.getThreeAreaList("충청북도","충청남도","세종시");
-			return list;
-		}else if(area.equals("경상도")) {
-			List<AreaEntity> list = areaRepository.getTwoAreaList("경상북도","경상남도");
-			return list;
-		}else {
-			List<AreaEntity> list = areaRepository.getOneAreaList(area);
-			return list;
-		}
 	}
 	
 	//ex)이후 부평구를 누르면 인천광역시 부평구에 대한 areaCd,signguCd 반환 - 반환된 값으로 바로 공공데이터 요청을 할 것임
@@ -108,8 +99,40 @@ public class TripService {
 	}
 	
 	//trip의 title을 받아서 CheckListEntity 반환하기
-	public CheckListEntity getCheckLists(String userId,String title){
+	public String getCheckLists(String userId,String title){
 		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
 	}
 	
+	public List<Items> parseItems(String itemsString) {
+	    List<Items> itemList = new ArrayList<>();
+	    
+	    // itemsString이 null 또는 빈 문자열이면 바로 반환
+	    if (itemsString == null || itemsString.trim().isEmpty()) {
+	        return itemList;
+	    }
+
+	    // ','를 기준으로 각 항목을 나눔
+	    String[] itemArray = itemsString.split(",");
+	    
+	    for (String item : itemArray) {
+	        // ':'로 구분하여 id, text, checked 값을 추출
+	        String[] itemDetails = item.split(":");
+	        if (itemDetails.length == 3) {
+	            try {
+	                Integer id = Integer.parseInt(itemDetails[0]);
+	                String text = itemDetails[1];
+	                boolean checked = Boolean.parseBoolean(itemDetails[2]);
+
+	                // Items 객체 생성 후 리스트에 추가
+	                itemList.add(new Items(id, text, checked));
+	            } catch (NumberFormatException e) {
+	                // id가 정수로 변환 불가한 경우 처리 (예외처리)
+	                System.err.println("Invalid data format: " + item);
+	            }
+	        }
+	    }
+	    
+	    return itemList;
+	}
+
 }
