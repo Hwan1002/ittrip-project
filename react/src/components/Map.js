@@ -49,12 +49,11 @@ const Map = () => {
   
   useEffect(() => {
     debugger;
-    console.log("mapObject updated:", mapObject);
+    console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
   
 
   const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-    debugger;
     const updatedDayBoolean = [...dayBoolean];
     updatedDayBoolean[selectedDay] = true;
     setDayBoolean([...updatedDayBoolean]);

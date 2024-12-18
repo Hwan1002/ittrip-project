@@ -49,14 +49,7 @@ export const ProjectProvider = ({ children }) => {
     endDate: null,
   });
   // const [mapObject, setMapObject] = useState([]);
-  const [mapObject, setMapObject] = useState([{
-    days:0,
-    startPlace:"",
-    startAddress:"",
-    goalPlace:"",
-    goalAddress:"",
-    wayPoints:[],  
-  }]);
+  const [mapObject, setMapObject] = useState([]);
 
   //addData (newTrip 페이지)
   //출발지 객체 상태 관리
