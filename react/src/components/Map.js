@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 
-
 const Map = () => {
 
   // 임시 배열
