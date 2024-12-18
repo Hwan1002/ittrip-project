@@ -1,13 +1,13 @@
 import React from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
-const PlanView =()=>{
+const PlanView =({navigation})=>{
     return(
         <ScrollView>
             <View style={styles.container}> 
 
                 {/* 버튼 */}
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={()=>navigation.navigate('일정만들기')}>
                     <Text style={styles.buttonText}>새로운 여행 추가</Text>
                     <Image style={styles.icon} source={require('../../assets/plus2.png')}/>
                 </Pressable>
@@ -78,7 +78,6 @@ const styles=StyleSheet.create({
         width:'100%',
         height:430, 
         backgroundColor:'#DADADA',
-        marginBottom:18
     },
     
 })

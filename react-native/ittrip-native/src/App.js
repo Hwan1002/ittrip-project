@@ -47,10 +47,42 @@ const App = () => {
         }}
       >
         {/* Tab에서 AppStack을 사용하여 화면 이동 */}
-        <Tab.Screen name="메인" component={AppStack} />
-        <Tab.Screen name="일정만들기" component={NewPlan} />
-        <Tab.Screen name="일정보기" component={PlanView} />
-        <Tab.Screen name="마이페이지" component={MyPage} />
+        <Tab.Screen 
+          name="메인" 
+          component={AppStack} 
+          options={{
+            tabBarIcon:({focused})=>(<Image source={focused ? require('../assets/navi_icon/homeClick.png'):require('../assets/navi_icon/home.png')} style={{width:20, height:20}}/>),
+            tabBarActiveTintColor:'#F6A356',
+            tabBarInactiveTintColor:'#878787'
+          }}
+        />
+        <Tab.Screen 
+          name="일정만들기" 
+          component={NewPlan}
+          options={{
+            tabBarIcon:({focused})=>(<Image source={focused ? require('../assets/navi_icon/plusClick.png'):require('../assets/navi_icon/plus.png')} style={{width:22, height:22}}/>),
+            tabBarActiveTintColor:'#F6A356',
+            tabBarInactiveTintColor:'#878787',
+          }}
+        />
+        <Tab.Screen 
+          name="일정보기" 
+          component={PlanView} 
+          options={{
+            tabBarIcon:({focused})=>(<Image source={focused ? require('../assets/navi_icon/planClick.png'):require('../assets/navi_icon/plan.png')} style={{width:17, height:22}}/>),
+            tabBarActiveTintColor:'#F6A356',
+            tabBarInactiveTintColor:'#878787'
+          }}
+        />
+        <Tab.Screen 
+          name="마이페이지" 
+          component={MyPage} 
+          options={{
+            tabBarIcon:({focused})=>(<Image source={focused ? require('../assets/navi_icon/myClick.png'):require('../assets/navi_icon/my.png')} style={{width:23, height:20}}/>),
+            tabBarActiveTintColor:'#F6A356',
+            tabBarInactiveTintColor:'#878787'
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
