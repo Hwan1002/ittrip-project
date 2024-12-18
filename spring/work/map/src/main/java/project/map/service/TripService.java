@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.map.dto.AreaDTO;
 import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
@@ -66,20 +67,9 @@ public class TripService {
 	
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
-	public List<AreaEntity> getSignguNms(String area){
-		if(area.equals("전라도")) {
-			List<AreaEntity> list = areaRepository.getTwoAreaList("전라북도","전라남도");
-			return list;
-		}else if(area.equals("충청도")) {
-			List<AreaEntity> list = areaRepository.getThreeAreaList("충청북도","충청남도","세종시");
-			return list;
-		}else if(area.equals("경상도")) {
-			List<AreaEntity> list = areaRepository.getTwoAreaList("경상북도","경상남도");
-			return list;
-		}else {
-			List<AreaEntity> list = areaRepository.getOneAreaList(area);
-			return list;
-		}
+	public List<String> getSignguNms(String areaCd){
+		List<String> signguNm = areaRepository.findBySignguNm(areaCd) ;
+		return signguNm;
 	}
 	
 	//ex)이후 부평구를 누르면 인천광역시 부평구에 대한 areaCd,signguCd 반환 - 반환된 값으로 바로 공공데이터 요청을 할 것임

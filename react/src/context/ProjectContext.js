@@ -28,7 +28,7 @@ export const ProjectProvider = ({ children }) => {
 
   
   // wayPoints  경유지
-  const [wayPoints , setWaypoints ] = useState();
+  const [wayPoints , setWaypoints ] = useState([]);
 
   const [path, setPath] = useState();
 
@@ -54,6 +54,12 @@ export const ProjectProvider = ({ children }) => {
   const [items,setItems] = useState([]);
 
   const [markers,setMarkers] = useState([]);
+
+
+  const [signguNm , setSignguNm]  =useState([]) ;
+
+
+
 
 
   const value = {
@@ -83,7 +89,8 @@ export const ProjectProvider = ({ children }) => {
     wayPoints,
     setWaypoints,
     path, setPath,
-    markers,setMarkers
+    markers,setMarkers,
+    signguNm , setSignguNm,
   };
 
   return (

@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import useModal from "../context/useModal";
+import { addDays } from "date-fns";
 // import { API_BASE_URL } from "../service/api-config";
 // import axios from "axios";
 // import { format } from "date-fns";
@@ -188,6 +189,7 @@ const Header = () => {
                     startDate={tripDates.startDate}
                     endDate={tripDates.endDate}
                     minDate={new Date()}
+                    maxDate={tripDates.startDate ? addDays(tripDates.startDate, 9) : null}
                     selectsRange
                     dateFormat="yyyy-MM-dd"
                     locale={ko}

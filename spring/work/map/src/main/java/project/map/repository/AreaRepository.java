@@ -11,6 +11,13 @@ import project.map.entity.AreaEntity;
 @Repository
 public interface AreaRepository extends JpaRepository<AreaEntity, String>{
 	
+	
+		@Query("select t.signguNm from AreaEntity t where t.areaCd = ?1")
+		List<String> findBySignguNm(String areaCd);
+		
+	
+	
+	
 		//메인페이지에 서울특별시 누르면 서울의 시군구 배열에 담음
 		@Query("select t.signguNm from AreaEntity t where t.areaNm = ?1")	
 		List<AreaEntity> getOneAreaList(String areaNM);
