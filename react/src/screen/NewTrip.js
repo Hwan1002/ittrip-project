@@ -22,7 +22,7 @@ const NewTrip = () => {
 
   const buttonClicked = async () => {
     try {
-      //모달에서 기입했던 날짜를 가져와서 형태 포맷
+      //여행제목, 출발일,도착일 받아서 db 저장 axios 
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
       const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
       const response = await axios.post(`${API_BASE_URL}/1`,
@@ -38,6 +38,9 @@ const NewTrip = () => {
       alert("에러 내용:", error);
     }
     //axios 추가
+    
+
+    //체크리스트 db저장 axios
     try {
       const response = await axios.post(`${API_BASE_URL}/3`,
         {

@@ -33,7 +33,6 @@ public class LocalSearchController {
 					.queryParam("query", query)
 					.queryParam("display", 5)
 					.queryParam("start", 1)
-
 					.queryParam("sort", "random")
 					.build())
 					.header("X-Naver-Client-Id", clientId)

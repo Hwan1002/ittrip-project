@@ -34,7 +34,6 @@ const Main = () => {
         const contentEvent = async() => {
             switch (select) {
                 case "서울":
-                    debugger;
                     setContent({
                         english: "SEOUL",
                         explan: "서울은 현대적이고 전통적인 매력을 모두 갖춘 도시로, 고궁과 전통 시장, 쇼핑과 음식이 풍성한 명소, 북촌 한옥마을, 경복궁, 남산타워 등 " +
@@ -43,7 +42,8 @@ const Main = () => {
                     try {
                         const response = await axios.get(`${API_BASE_URL}/1`, { params: { areaCd } });
                         setSignguNm(response.data);
-                        alert(JSON.stringify(response.data));
+                        const arr = JSON.stringify(response.data.data)
+                        alert(arr);
                     } catch (error) {
                         alert("API 호출 에러:", error);
                     }

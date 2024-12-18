@@ -3,7 +3,16 @@ import { ProjectContext } from "../context/ProjectContext";
 
 const Map = () => {
 
-  const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints } = useContext(ProjectContext);
+  const { 
+    tripDates,
+    address, 
+    path, 
+    startPoint, setStartPoint, 
+    goalPoint, setGoalPoint,
+    wayPoints, setWaypoints, 
+    departure,setDeparture, 
+    stopOverList, setStopOverList, 
+    destination, setDestination } = useContext(ProjectContext);
 
   const [dayChecks, setDayChecks] = useState([])
 
