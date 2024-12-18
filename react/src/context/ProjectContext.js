@@ -55,6 +55,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [markers,setMarkers] = useState([]);
 
+  const [areaCd,setAreaCd] = useState('');
 
   const value = {
     loginSuccess,
@@ -83,7 +84,8 @@ export const ProjectProvider = ({ children }) => {
     wayPoints,
     setWaypoints,
     path, setPath,
-    markers,setMarkers
+    markers,setMarkers,
+    areaCd,setAreaCd
   };
 
   return (

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
 import '../css/MainLocal.css';
 import local1 from '../img/MainPage/local1.gif';
+import { ProjectContext } from "../context/ProjectContext";
 
 const MainLocal = ({ select, content}) => {
     // 임시 구 정보 (API로 대체 예정)
     const [guData, setGuData] = useState([]);
-    const [area, setArea] = useState("");
+    
+    const {areaCd} = useContext(ProjectContext);
 
     // // 초기 렌더링 시 area 설정
     // useEffect(() => {
@@ -17,21 +19,24 @@ const MainLocal = ({ select, content}) => {
     // }, [locals, select]);
 
     // area가 변경될 때마다 fetchGuData 호출
-    useEffect(() => {
+    
         const fetchGuData = async () => {
+            
             try {
                 const response = await axios.get(`${API_BASE_URL}/1`, {
-                    params: { areaNm: select },
+                    params: { areaCd: areaCd },
                 });
+                
+                console.log("result" + response);
+                console.log("resultdata" + response.data);
                 setGuData(response.data);
-                console.log("result" + response.data);
             } catch (error) {
                 console.error("에러 내용:", error);
             }
         };
-            fetchGuData();
+           
         
-    }, []); 
+     
 
     // // 지역 변경 핸들러
     // const changeArea = (e) => {
@@ -58,6 +63,7 @@ const MainLocal = ({ select, content}) => {
 
             <div id="tripSelect">
                 <p>여행할 곳을 선택해 주세요</p>
+                <button value="클릭" onClick={fetchGuData}/>
                 <div id="guSelect">
                     {/* 구 데이터 버튼 */}
                     {guData.map((gu, index) => (

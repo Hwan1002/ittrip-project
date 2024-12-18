@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Main.css";
 
@@ -17,6 +17,7 @@ import "../css/Main.css";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
 import MainLocal from "../components/MainLocal";
+import { ProjectContext } from "../context/ProjectContext";
 
 
 
@@ -26,7 +27,7 @@ const Main = () => {
     const [whiteBox, setWhiteBox] = useState(false);  // 흰 배경 박스를 띄우는 것을 조절하는 state
     const [select, setSelect] = useState(''); // 어떤 지역을 선택했는지 알려주는 state
     const [content, setContent] = useState({}); // 표출할 내용을 저장하는 state
-    //const [locals, setLocals] = useState([]);   
+    const {areaCd, setAreaCd} = useContext(ProjectContext);   
     
     const navigate = useNavigate()
     const {
@@ -44,7 +45,6 @@ const Main = () => {
             switch (select) {
                 case "서울특별시":
                     setContent({english:"SEOUL",explan:"서울은 현대적이고 전통적인 매력을 모두 갖춘 도시로, 고궁과 전통 시장, 쇼핑과 음식이 풍성한 명소, 북촌 한옥마을, 경복궁, 남산타워 등 다양한 명소가 방문객을 맞이합니다."});
-                    //setLocals(null);
                     break;
                 case "경기도":
                     setContent({english:"GYEONGGI",explan:"경기도는 아름다운 자연과 풍성한 문화유산을 자랑하는 여행지로, 서울 근교에서 쉽게 접근할 수 있습니다. 인기 있는 명소로는 수원 화성, 가평의 북한강, 파주의 DMZ가 있습니다."});
@@ -93,6 +93,7 @@ const Main = () => {
             <div className="localSet">
                 <div className="localtrip" onClick={() => {
                     setWhiteBox(true);
+                    setAreaCd('11');
                     setSelect("서울");
                 }}>
                     <div className="localName">
@@ -214,7 +215,7 @@ const Main = () => {
             {whiteBox && (
                 <div className="overlay">
                     <div className="boxContent">
-                        <MainLocal select={select} content={content}/>
+                        <MainLocal select={select} content={content} areaCd={areaCd}/>
                         <div id="mainbtFrame">
                         <button id="mainBackBt" onClick={() => setWhiteBox(false)}>돌아가기</button>
                         <button id="mainNewBt" onClick={()=>{navigate("/newtrip")}}>일정 만들기</button>

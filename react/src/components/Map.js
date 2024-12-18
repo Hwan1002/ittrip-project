@@ -23,21 +23,22 @@ const Map = () => {
   //day를 옮길 때 기본으로 dayData에 값을 넘겨야함(만약 dayData에 selectedDay의 day가 있으면 해당 day의 객체 덮어씌우기)
   //만약 selectedDay의 day가 dayData에 존재하는 day인 경우 해당 day에 맞는 day객체를 불러와서 경로상태에 set을 해야함
 
-  if(dayBoolean[parseInt(selectedDay.substring(3,4))-1]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
-    const foundData = dayData.find(data => data.days == selectedDay.substring(3,4));    //  선택한 day에 대한 객체를 가져옴
-    //foundData는 눌렀던 Day에 해당하는 map객체가 들어있으니 객체의 내부 값으로 경로 등의 상태를 set해주세요.
-  }else if(!(dayBoolean[parseInt(selectedDay.substring(3,4))-1])){      //dayBoolean[2] 가 false라면 =>(해당 Day에 객체가 없다면)
-    // 상태들과 map을 초기화 해주세요.
-  }      
+  
+  // if(dayBoolean[parseInt(selectedDay.substring(3,4))-1]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
+  //   const foundData = dayData.find(data => data.days == selectedDay.substring(3,4));    //  선택한 day에 대한 객체를 가져옴
+  //   //foundData는 눌렀던 Day에 해당하는 map객체가 들어있으니 객체의 내부 값으로 경로 등의 상태를 set해주세요.
+  // }else if(!(dayBoolean[parseInt(selectedDay.substring(3,4))-1])){      //dayBoolean[2] 가 false라면 =>(해당 Day에 객체가 없다면)
+  //   // 상태들과 map을 초기화 해주세요.
+  // }      
 
-  const 객체넣기 = (selectedDay) => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동) 
-    const updatedDayBoolean = dayBoolean;
-    updatedDayBoolean[parseInt(selectedDay.substring(3,4))-1] = true;
-    setDayBoolean(updatedDayBoolean);
-    setDayData([...dayData,{
-      // days: ~~, startPlace: ~~ 등등 객체 넣기
-    }])
-  }
+  // const 객체넣기 = (selectedDay) => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동) 
+  //   const updatedDayBoolean = dayBoolean;
+  //   updatedDayBoolean[parseInt(selectedDay.substring(3,4))-1] = true;
+  //   setDayBoolean(updatedDayBoolean);
+  //   setDayData([...dayData,{
+  //     // days: ~~, startPlace: ~~ 등등 객체 넣기
+  //   }])
+  // }
 
   useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
@@ -54,7 +55,7 @@ const Map = () => {
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
       setDayChecks(daysArray);
 
-      setDayBoolean(new Boolean[dayChecks.length]);
+      //setDayBoolean(new Boolean[dayChecks.length]);
     }
   }, [tripDates]);
 
@@ -96,9 +97,10 @@ const Map = () => {
 
             } else if (startPoint && !goalPoint) {
               setGoalPoint(latlng)
-            } else if (!wayPoints.some(point => point.equals(latlng)) && !goalPoint.equals(latlng)) {
-              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
-            }
+            } 
+            // else if (!wayPoints.some(point => point.equals(latlng)) && !goalPoint.equals(latlng)) {
+            //   setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
+            // }
 
             // 지도 위치를 마커로 이동
             map.setCenter(latlng);
@@ -195,6 +197,10 @@ const Map = () => {
     setSelectedDay(day);
     // selectedDay를 기반으로 지도에 표시할 경로 또는 다른 로직 추가
   };
+
+
+  
+
 
 
   return (

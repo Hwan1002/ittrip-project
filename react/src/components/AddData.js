@@ -50,7 +50,7 @@ const AddData = ({width}) => {
         params: {query: searchInput1}
       });
       setRes(response.data.items)
-      console.log(res);
+      console.log("departure:"+res);
       setData(newData);
     }
 
@@ -60,7 +60,7 @@ const AddData = ({width}) => {
         params: {query: searchInput2}
       });
       setRes(response.data.items)
-      console.log(res);
+      console.log("destination:"+res);
       setData(newData);
     }
 

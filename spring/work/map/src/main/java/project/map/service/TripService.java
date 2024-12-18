@@ -68,8 +68,8 @@ public class TripService {
 	
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
-	public List<AreaEntity> getSignguNms(String areaNm){
-			List<AreaEntity> list = areaRepository.getAreaList(areaNm);
+	public List<AreaEntity> getSignguNms(String areaCd){
+			List<AreaEntity> list = areaRepository.getAreaList(areaCd);
 			return list;
 	}
 	
