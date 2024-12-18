@@ -10,10 +10,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import useModal from "../context/useModal";
 import { addDays } from "date-fns";
-// import { API_BASE_URL } from "../service/api-config";
-// import axios from "axios";
-// import { format } from "date-fns";
-// import NewTrip from "../screen/NewTrip";
 
 const Header = () => {
   const {
@@ -28,11 +24,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [isNewPlanModal, setIsNewPlanModal] = useState(false);
-  // const [tripInfo, setTripInfo] = useState({
-  //   title: "",
-  //   startDate: "",
-  //   lastDate: "",
-  // });
 
   //modal창 상태
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -42,6 +33,7 @@ const Header = () => {
       setLoginSuccess(true);
     }
   }, [token]);
+
 
   //로그아웃 버튼 클릭시 함수
   const handleLogout = () => {
@@ -70,12 +62,17 @@ const Header = () => {
 
   const handleNewPlanSubmit = async () => {
     if (!tripTitle || !tripDates.startDate || !tripDates.endDate) {
+      setIsNewPlanModal(false);
       openModal({
-        title: "입력 오류",
-        message: "여행 제목과 출발, 도착 날짜를 모두 입력해주세요.",
-        actions: [{ label: "확인", onClick: closeModal }],
-      });
-      return;
+        className:"modal-default",
+        title:"로그아웃",
+        content:<p>값좀 적자</p>,
+        actions:
+          {
+            label:"확인",
+            onClick: navigate("/"),
+          }
+      })
     }
     try {
       //   const response = await axios.post(
@@ -90,24 +87,12 @@ const Header = () => {
     } catch (error) {
       console.log("에러결과 : ", error);
     }
-    console.log("Trip saved:", {
-      title: tripTitle,
-      startDate: tripDates.startDate,
-      lastDate: tripDates.endDate,
-    });
-
-    // setTripTitle("");
-    // setTripDates({ startDate: null, endDate: null });
     closeModalWithReset();
   };
 
   const openNewPlanModal = () => {
     setIsNewPlanModal(true);
-    openModal({
-      title: "새로운 여행 계획",
-      message: "",
-      actions: [],
-    });
+    openModal({});
   };
 
   const closeModalWithReset = () => {
@@ -158,7 +143,7 @@ const Header = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModalWithReset}
-        title={isNewPlanModal ? "새로운 여행 계획" : "로그아웃"}
+        title={isNewPlanModal ? "새로운 여행 계획" : "로그아웃" }
         className={isNewPlanModal ? "modal-trip-plan" : "modal-default"}
         content={
           isNewPlanModal ? (
