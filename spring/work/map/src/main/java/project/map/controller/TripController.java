@@ -59,10 +59,9 @@ public class TripController {
 	// areaNm에 대한 signguNm리스트 반환
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
-	public ResponseEntity<?> getSignguNm(@AuthenticationPrincipal String userId, @RequestParam (name = "areaCd") String areaCd) {
+	public ResponseEntity<?> getSignguNm( @RequestParam (name = "areaCd") String areaCd) {
 
 		try {
-			System.out.println("userId: " + userId);
 			System.out.println("areaCd: " + areaCd);
 			List<String> dtos = tripService.getSignguNms(areaCd);
 			ResponseDTO<String> response = ResponseDTO.<String>builder().data(dtos).build();

@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.map.entity.CheckListEntity;
+import project.map.entity.TripEntity;
+import project.map.entity.UserEntity;
 
 @Builder
 @AllArgsConstructor
