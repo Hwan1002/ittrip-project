@@ -57,9 +57,19 @@ export const ProjectProvider = ({ children }) => {
 
   const [signguNm , setSignguNm]  =useState([]) ;
 
+  const [stopOverList, setStopOverList] = useState([]);
 
+  const [mapObject,setMapObject] = useState([]);
 
+  const [departure,setDeparture] = useState({
+    title:'',
+    address:''
+  })
 
+  const [destination,setDestination] = useState({
+    title:'',
+    address:''
+  })
 
   const value = {
     loginSuccess,
@@ -90,6 +100,10 @@ export const ProjectProvider = ({ children }) => {
     path, setPath,
     markers,setMarkers,
     signguNm , setSignguNm,
+    stopOverList,setStopOverList,
+    mapObject,setMapObject,
+    departure,setDeparture,
+    destination,setDestination
   };
 
   return (

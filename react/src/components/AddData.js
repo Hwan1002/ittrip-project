@@ -15,9 +15,9 @@ const AddData = ({width}) => {
     //입력값을 각각 따로 저장하기 위해 만든 state
     const [departure, setDeparture] = useState("");
     const [destination, setDestination] = useState("")
-    const [stopOverList, setStopOverList] = useState([]);
+    
     //context 활용
-    const {setAddress, setPath, wayPoints, startPoint, goalPoint} = useContext(ProjectContext);
+    const {setAddress, setPath, wayPoints, startPoint, goalPoint, stopOverList,setStopOverList} = useContext(ProjectContext);
     //모달창 사용
     const {
         isModalOpen,
@@ -26,7 +26,10 @@ const AddData = ({width}) => {
         openModal,
         closeModal
     } = useModal();
-
+    
+    useEffect(()=>{
+      console.log("list변경"+JSON.stringify(stopOverList));
+    },[stopOverList])
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
@@ -42,19 +45,16 @@ const AddData = ({width}) => {
         case "stopOver": 
         debugger;
         setStopOverList((prevList) => [
-          ...prevList, // 기존의 stopOverList에 추가
-          { id: Date.now(), value: item.title } // 새로운 아이템 강제로 추가
+          ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
+          { id: Date.now(), value: item.title , address:item.address } // 새로운 아이템 강제로 추가
         ]);
-          // setStopOverList((prevList) =>
-          // prevList.map((stopOver) =>
-          // stopOver.id === item.id? { ...stopOver, value: item.title}: stopOver)
-          // );
         break;
         default: 
           console.log("handleCheck switch 케이스 쪽 오류");
       }
       closeModal();
       alert(`${type === "stopOver"? "경유지가" : type === "departure"? "출발지가" : "도착지가"} 추가되었습니다.`)
+     
     }
 
     //좌표저장 (효용)
@@ -104,9 +104,12 @@ const AddData = ({width}) => {
       }
     }
     
+    
+
     //경유지 추가 버튼
     const plusBtnClicked = () => {
-      setStopOverList([...stopOverList, {id:Date.now(), value:""}]);
+      setStopOverList([...stopOverList, {id:Date.now(),value:""}]);
+      
     }
 
     const handleStopOverChange = (id, value) => {
@@ -117,6 +120,7 @@ const AddData = ({width}) => {
 
     //경유지 삭제 버튼
     const removeStopOver = (id) => {
+      console.log(id);
       setStopOverList(stopOverList.filter((stopOver)=>stopOver.id!==id))
     }
 
@@ -140,7 +144,7 @@ const AddData = ({width}) => {
               >
                 경유지 검색
               </button>
-              <button button className="removeBtn" type="button" onClick={()=> removeStopOver(stopOver.id)}>삭제</button>
+              <button button className="removeBtn" type="button" onClick={()=>removeStopOver(stopOver.id)}>삭제</button>
             </div>
             ))
           }

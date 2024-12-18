@@ -29,7 +29,7 @@ const MainLocal = ({select,content,signguNm}) => {
 
             <div id="tripSelect">
                 <p>여행할 곳을 선택해 주세요</p>
-                <button value="클릭" onClick={fetchGuData}/>
+                <button value="클릭" />
                 <div id="guSelect">
                     {/* {signguNm.map((gu, index)=>(<button key={index} className="guBt">{gu}</button>))} */}
                 </div>
