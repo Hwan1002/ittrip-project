@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,13 +59,16 @@ public class TripController {
 	// areaNm에 대한 signguNm리스트 반환
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
-	public ResponseEntity<?> getSignguNms(@RequestParam String areaCd) {
-		List<AreaEntity> list = tripService.getSignguNms(areaCd);
-		System.out.println("areaCd :"+areaCd);
-		System.out.println("list :"+list);
-		List<AreaDTO> dtos = list.stream().map(AreaDTO::new).toList();
-		System.out.println("dtos : "+dtos);
-		return ResponseEntity.ok(dtos);
+	public ResponseEntity<?> getSignguNm( @RequestParam (name = "areaCd") String areaCd) {
+		try {
+			System.out.println("areaCd: " + areaCd);
+			List<String> dtos = tripService.getSignguNms(areaCd);
+			ResponseDTO<String> response = ResponseDTO.<String>builder().data(dtos).build();
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace(); // 에러 로그 출력
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+		}
 	}
 
 	// areaNm과 signguNm으로 cd들 반환
@@ -86,7 +90,7 @@ public class TripController {
 	// TripEntity 객체들 반환(여행목록에 여행리스트)
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String userId)
 	@GetMapping("/3")
-	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) { // requestParam 으로 userId를 받지않고 
+	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) { // requestParam 으로 userId를 받지않고
 		List<TripEntity> list = tripService.getTrips(userId);
 		List<TripDTO> dtos = list.stream().map(TripDTO::new).toList();
 		ResponseDTO<TripDTO> response = ResponseDTO.<TripDTO>builder().data(dtos).build();
@@ -97,8 +101,9 @@ public class TripController {
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String userId,@RequestParam String
 	// title)
 	@GetMapping("/4")
-	public ResponseEntity<?> getMaps(@RequestParam String userId, @RequestParam String tripTitle,@RequestParam Integer days) {
-		List<MapEntity> list = tripService.getMaps(userId, tripTitle,days);
+	public ResponseEntity<?> getMaps(@RequestParam String userId, @RequestParam String tripTitle,
+			@RequestParam Integer days) {
+		List<MapEntity> list = tripService.getMaps(userId, tripTitle, days);
 		List<MapDTO> dtos = list.stream().map(MapDTO::new).toList();
 		ResponseDTO<MapDTO> response = ResponseDTO.<MapDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
@@ -124,7 +129,7 @@ public class TripController {
 		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
 		tripRepository.save(entity);
-		
+
 	}
 
 	// map객체 저장
@@ -198,7 +203,8 @@ public class TripController {
 	// ----------------- PUT ---------------------------
 	// ----------------- DELETE -------------------------
 	@DeleteMapping("/1/{idx}")
-	public void deleteTrip(@PathVariable("idx") Integer idx) { // pathVariable 어노테이션 사용시 { } 안에들어간 값과 idx 매개변수를 인식하기위해서는 어노테이션 뒤 같은 이름을 명시해야 한다 . 
+	public void deleteTrip(@PathVariable("idx") Integer idx) { // pathVariable 어노테이션 사용시 { } 안에들어간 값과 idx 매개변수를 인식하기위해서는
+																// 어노테이션 뒤 같은 이름을 명시해야 한다 .
 		tripRepository.deleteById(idx);
 	}
 

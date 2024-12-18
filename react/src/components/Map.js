@@ -203,6 +203,10 @@ const Map = () => {
 
 
 
+
+  
+
+
   return (
     <div id="mapPlan" style={{
       width: "100%",
@@ -238,11 +242,7 @@ const Map = () => {
             borderRadius: 18,
             padding: "4px 6px 2px 4px",
             margin: "20px 10px", // 요소들 사이의 여백
-          }} key={index}
-            onClick={() => handleDayClick(index)}
-          >
-            {index}
-          </div>
+          }} key={index}>{index}</div>
         ))}
       </div>
     </div>

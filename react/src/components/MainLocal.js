@@ -1,48 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { API_BASE_URL } from "../service/api-config";
-import '../css/MainLocal.css';
-import local1 from '../img/MainPage/local1.gif';
+import React, { useContext } from "react";
+import '../css/MainLocal.css'
+import local1 from '../img/MainPage/local1.gif'
 import { ProjectContext } from "../context/ProjectContext";
 
-const MainLocal = ({ select, content}) => {
-    // 임시 구 정보 (API로 대체 예정)
-    const [guData, setGuData] = useState([]);
+const MainLocal = ({select,content,signguNm}) => {
+    // const {signguNm , setSignguNm} = useContext(ProjectContext);
     
-    const {areaCd} = useContext(ProjectContext);
-
-    // // 초기 렌더링 시 area 설정
-    // useEffect(() => {
-    //     if (!locals) {
-    //         setArea(select);
-    //     }
-    // }, [locals, select]);
-
-    // area가 변경될 때마다 fetchGuData 호출
+    console.log(signguNm)
+    //임시 구 정보 (API로 대체 예정)
     
-        const fetchGuData = async () => {
-            
-            try {
-                const response = await axios.get(`${API_BASE_URL}/1`, {
-                    params: { areaCd: areaCd },
-                });
-                
-                console.log("result" + response);
-                console.log("resultdata" + response.data);
-                setGuData(response.data);
-            } catch (error) {
-                console.error("에러 내용:", error);
-            }
-        };
-           
-        
-     
-
-    // // 지역 변경 핸들러
-    // const changeArea = (e) => {
-    //     console.log(e);
-    //     setArea(e.target.textContent); // 버튼의 텍스트를 area로 설정
-    // };
 
     return (
         <div id="mainLocal">
@@ -65,12 +31,7 @@ const MainLocal = ({ select, content}) => {
                 <p>여행할 곳을 선택해 주세요</p>
                 <button value="클릭" onClick={fetchGuData}/>
                 <div id="guSelect">
-                    {/* 구 데이터 버튼 */}
-                    {guData.map((gu, index) => (
-                        <button className="guBt" key={index}>
-                            {gu}
-                        </button>
-                    ))}
+                    {/* {signguNm.map((gu, index)=>(<button key={index} className="guBt">{gu}</button>))} */}
                 </div>
             </div>
         </div>

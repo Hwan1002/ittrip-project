@@ -14,9 +14,6 @@
 
 }
 
-
-
-
 .bigPlan{
     width:260px;
     height: 45px;
@@ -42,6 +39,7 @@
     border-left: none;
     width: 875px;
     height: 550px;
+    
 
 }
 
@@ -52,8 +50,7 @@
 
 #addDirectionFrame{
     height: 100%;
-    overflow-y: scroll;
-
+    border: 2px solid red;
 }
 
 #checkAndEnd{
