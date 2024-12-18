@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -27,13 +27,16 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	
 	private static final String LOCAL_REDIRECT_URL = "http://localhost:3000";
 	
+	@Autowired
+	TokenProvider tokenProvider ;
 	
 	//토큰을 생성하고, 반환하는 기능
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		TokenProvider tokenProvider =new TokenProvider();
 		String token = tokenProvider.create(authentication);
+		
+		 
 		
 		response.getWriter().write(token);
 		log.info("token {}",token);

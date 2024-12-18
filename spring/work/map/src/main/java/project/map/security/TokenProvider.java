@@ -1,18 +1,18 @@
 package project.map.security;
 
+import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.security.Key;
 import java.util.Base64;
+import java.util.Date;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import project.map.entity.UserEntity;
 
@@ -34,8 +34,14 @@ public class TokenProvider {
 	public String create(UserEntity entity) {
 		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 
-		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(entity.getId())
-				.setIssuer("map").setIssuedAt(new Date()).setExpiration(expiryDate).compact();
+		String token = Jwts.builder()
+				.signWith(key, SignatureAlgorithm.HS512)
+				.setSubject(entity.getId())
+				.setIssuer("map")
+				.setIssuedAt(new Date())
+				.setExpiration(expiryDate)
+				.compact();
+		
 		log.info("Token created for user: {}", entity.getId());
 
 		return token;
@@ -46,7 +52,9 @@ public class TokenProvider {
 		ApplicationOAuth2User userPrincipal = (ApplicationOAuth2User) authentication.getPrincipal();
 		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 
-		String token = Jwts.builder().signWith(key, SignatureAlgorithm.HS512).setSubject(userPrincipal.getName()) // id가																									// 반환됨
+		String token = Jwts.builder()
+				.signWith(key, SignatureAlgorithm.HS512)
+				.setSubject(userPrincipal.getName()) // id가 반환됨
 				.setIssuer("map") // 토큰 발행 주체
 				.setIssuedAt(new Date()) // 토큰 발행 날짜
 				.setExpiration(expiryDate) // exp

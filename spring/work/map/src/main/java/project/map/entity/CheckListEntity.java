@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -14,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Builder
 @AllArgsConstructor
@@ -24,13 +24,12 @@ import lombok.NoArgsConstructor;
 public class CheckListEntity {
 	
 	@Id
+	@Column(name = "idx")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "idx", nullable = false)
     private Integer idx; // Primary Key
-	
-	@Column(name = "checklist",length = 255)
-	private String checkList;	//체크리스트 배열을 db저장을 위해 스트링으로 변환해서 받을 것
-	
+
+	@Column(name="items")
+	private String items; 
 	
 	@OneToOne
    	 @JoinColumn(name = "trip_title", referencedColumnName = "title") // TripEntity의 만 매핑

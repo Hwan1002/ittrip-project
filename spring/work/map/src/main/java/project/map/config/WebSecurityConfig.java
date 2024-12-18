@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.codec.xml.Jaxb2XmlDecoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,6 +16,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import project.map.security.JwtAuthenticationFilter;
 import project.map.security.OAuthSuccessHandler;
@@ -27,7 +34,7 @@ import project.map.security.RedirectUrlCookieFilter;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
    
    @Autowired
    private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -93,4 +100,22 @@ public class WebSecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
+   
+   
+
+   @Override
+   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+      registry.addResourceHandler("/uploads/**")
+              .addResourceLocations("file:uploads/"); // 파일 시스템에서 'uploads' 디렉토리의 파일을 서빙
+   }
+
+   // . WebClient에서 XML 데이터 처리 설정 //JAXB 디코더 추가
+   @Bean
+   public WebClient webClient(WebClient.Builder builder) {
+       return builder.exchangeStrategies(ExchangeStrategies.builder()
+               .codecs(configurer -> configurer.defaultCodecs().jaxb2Decoder(new Jaxb2XmlDecoder())) // JAXB 디코더 추가
+               .build())
+               .build();
+   }
+   
 }

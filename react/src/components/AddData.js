@@ -1,122 +1,222 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useContext, useEffect } from "react";
+import { API_BASE_URL } from "../service/api-config";
+import { ProjectContext } from "../context/ProjectContext";
+import Modal from "./Modal";
+import useModal from "../context/useModal";
+import '../css/AddData.css';
+
 
 const AddData = ({width}) => {
-  const [data, setData] = useState([]);  // 입력된 데이터를 저장할 배열
-  const [inputs, setInputs] = useState([{ value: "" }]);  // 여러 개의 input을 관리하는 배열
+    //입력된 데이터를 저장할 배열
+    const [data, setData] = useState([]); 
+    //여러 개의 input을 관리하는 배열
+    const [res, setRes] = useState([]);
+    //입력값을 각각 따로 저장하기 위해 만든 state
+    
+    //context 활용
+    //출발지 주소, 출발지 상호명 departure
+    //경유지 주소, 상호명 (address 주소 까지) stopOverList, case 안에 address 까지 set 완료
+    //목적지 주소 , 상호명
+    const {
+      setAddress,
+      setPath,
+      wayPoints, 
+      startPoint, 
+      goalPoint,
+      departure, setDeparture,
+      stopOverList, setStopOverList,
+      destination, setDestination
+    } = useContext(ProjectContext);
 
-  // input 값이 변경되었을 때
-  const handleInputChange = (index, event) => {
-    const newInputs = [...inputs];
-    newInputs[index].value = event.target.value;  // 해당 인덱스의 input 값 업데이트
-    setInputs(newInputs);
-  };
 
-  // bt1 버튼 클릭 시
-  const handleBt1Click = (index) => {
-    // 현재 input 값(data)에 추가
-    const newData = [...data, inputs[index].value];
-    setData(newData);
+    //모달창 사용
+    const {
+        isModalOpen,
+        modalTitle,
+        modalActions,
+        openModal,
+        closeModal
+    } = useModal();
+    
+    useEffect(()=>{
+      console.log("list변경"+JSON.stringify(stopOverList));
+    },[stopOverList])
 
-    // 새로운 input과 bt1을 추가
-    const newInputs = [...inputs];
-    newInputs.push({ value: "" });  // 새로운 빈 input을 추가
-    setInputs(newInputs);
-  };
-
-  // bt2 버튼 클릭 시
-  const handleBt2Click = (index) => {
-    // 해당 input과 bt2를 삭제
-    const newInputs = [...inputs];
-    newInputs.splice(index, 1);
-    setInputs(newInputs);
-
-    // 해당 input의 값을 data에서 제거
-    const newData = data.filter((item, idx) => idx !== index);
-    setData(newData);
-  };
-
-  // bt3 버튼 클릭 시
-  const handleBt3Click = (index) => {
-    // 해당 줄의 input 값을 수정 (data에서 해당 인덱스의 값을 수정)
-    const updatedData = [...data];
-    updatedData[index] = inputs[index].value;  // 해당 index의 값을 input의 값으로 수정
-    setData(updatedData);
-  };
-
-  return (
-    <div >
-      {inputs.map((input, index) => (
-        <div key={index} style={{ display: "flex", alignItems: "center", }}>
-          <input
-            type="text"
-            value={input.value}
-            onChange={(event) => handleInputChange(index, event)}  // input 값 변경 처리
-            style={{
-              width: width,
-              height: "34px",
-              borderRadius: "18px",
-              textAlign: "center",
-              fontSize: "17px",
-            }}
-          />
-          {index === inputs.length - 1 ? (
-            // 마지막 input에만 bt1 버튼을 표시
-            <button
-              onClick={() => handleBt1Click(index)}  // bt1 클릭 시 동작
-              style={{
-                width: "55px",
-                height: "40px",
-                borderColor: "#DADADA",
-                borderRadius: "20px",
-                backgroundColor: "#F6A354",
-                border: "none",
-                fontSize:"15px",
-                color:"#fff"
-              }}
-            >
-              추가
-            </button>
-          ) : (
-            // bt2는 bt1이 없는 곳에만 표시
-            <>
-              <button
-                onClick={() => handleBt2Click(index)}  // bt2 클릭 시 동작
-                style={{
-                  width: "55px",
-                  height: "40px",
-                  borderRadius: "20px",
-                  backgroundColor: "#878787",
-                  border: "none",
-                  fontSize:"15px",
-                  marginRight:"7px",
-                  color:"#fff"
-                }}
-              >
-                삭제
-              </button>
-              <button
-                onClick={() => handleBt3Click(index)}  // bt3 클릭 시 동작
-                style={{
-                  width: "55px",
-                  height: "40px",
-                  borderColor: "#DADADA",
-                  borderRadius: "20px",
-                  backgroundColor: "#F6A354",
-                  border: "none",
-                  fontSize:"15px",
-                  color:"#fff"
-                }}
-              >
-                수정
-              </button>
-            </>
-          )}
-        </div>
-      ))}
-
+    //출발,도착,경유 타입에 따라서 저장 방식 달라짐
+    const handleCheck = (item,type) => {
+      console.log("핸들체크 item : ",item,"타입 : ",type);
+      setAddress(item.address);
+      switch(type) {
+        case "departure":
+          setDeparture({title: item.title, address: item.address});
+          console.log(departure);
+          break;
+        case "destination": 
+          setDestination({title:item.title, address:item.address});
+          break; 
+        case "stopOver": 
+        setStopOverList((prevList) => [
+          ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
+          { id: Date.now(), value: item.title, address : item.address } // 새로운 아이템 강제로 추가
+        ]);
+        break;
+        default: 
+          console.log("handleCheck switch 케이스 쪽 오류");
+      }
+      closeModal();
+      alert(`${type === "stopOver"? "경유지가" : type === "departure"? "출발지가" : "도착지가"} 추가되었습니다.`)
      
-    </div>
-  );
-};
+    }
 
+    //좌표저장 (효용)
+    const handlecoordinate = async () => {
+      if (wayPoints) {
+        const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
+        const lnglatString = lnglatArray.join("|");
+        console.log("waypoint 있음", wayPoints)
+        const response = await axios.get(`${API_BASE_URL}/12345`, {
+          params: {
+            start: `${startPoint._lng},${startPoint._lat}`,
+            goal: `${goalPoint._lng},${goalPoint._lat}`,
+            waypoints: lnglatString
+          }
+        });
+       
+        setPath(response.data.route.traoptimal[0].path);
+      } else {
+        console.log("waypoint 없음", wayPoints)
+        const response = await axios.get(`${API_BASE_URL}/1234`, {
+          params: {
+            start: `${startPoint._lng},${startPoint._lat}`,
+            goal: `${goalPoint._lng},${goalPoint._lat}`
+          }
+        })
+        setPath(response.data.route.traoptimal[0].path)
+      }
+    }
+    
+    const handleSearch = async(value, updateState, modalTitle) => {
+      if(!value){
+        alert(`${modalTitle}를 입력해주세요.`);
+        return;
+      }
+      try {
+        const newData = [...data,value];
+        const response = await axios.get(`${API_BASE_URL}/local`,{
+          params:{query : value}
+        });
+        setRes(response.data.items);
+        setData(newData)
+        updateState(value);
+        openModal({title:modalTitle});
+        
+      } catch (error) {
+        console.error(`검색 handleSearch 쪽 오류 : ${error}`);
+        alert("handleSearch 검색 오류");
+      }
+    }
+
+    //경유지 추가 버튼
+    const plusBtnClicked = () => {
+      setStopOverList([...stopOverList, {id:Date.now(),value:""}]);
+      
+    }
+
+    const handleStopOverChange = (id, value) => {
+      setStopOverList(
+        stopOverList.map((stopOver) => stopOver.id === id? {...stopOver, value} : stopOver)
+      )
+    }
+
+    //경유지 삭제 버튼
+    const removeStopOver = (id) => {
+      console.log(id);
+      setStopOverList(stopOverList.filter((stopOver)=>stopOver.id!==id))
+    }
+
+    return (
+        <div className="addData">
+          {/* 출발지 input */}
+          <div className="departSearch">
+              <input type="text" placeholder="출발지를 검색하세요." value={departure.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDeparture((prev) => ({ ...prev, title: e.target.value}))}/>
+              <button className="addDataBtns" type="button" onClick={()=>handleSearch(departure.title,setDeparture,"출발지")}>출발지 검색</button>
+          </div>
+          {/* 경유지 input */}
+          {stopOverList.map((stopOver) => (
+            <div className="stopOverSearch" key={stopOver.id}>
+              <input type="text" placeholder="경유지를 입력하세요." value={stopOver.value.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=>handleStopOverChange(stopOver.id,e.target.value)}/>
+              <button className="addDataBtns" type="button"
+                onClick={() => handleSearch(stopOver.value,
+                  (value) =>setStopOverList((prevList) =>
+                    prevList.map((item) =>
+                      item.id === stopOver.id ? { ...item, value } : item)), "경유지")
+                }
+              >
+                경유지 검색
+              </button>
+              <button button className="removeBtn" type="button" onClick={()=>removeStopOver(stopOver.id)}>삭제</button>
+            </div>
+            ))
+          }
+          {/* plus 경유지 추가 버튼  */}
+          {departure.title && destination.title && (
+            <div className="plusBtn">
+              <button type="button" onClick={plusBtnClicked}>+</button>
+            </div>
+          )}
+          {/* 도착지 input */}
+          <div className="destinateSearch">
+            {/* {destination?
+              <input type="text" onChange={(e)=> setDestination(e.target.value)} value={destination.replace(/<\/?[^>]+(>|$)/g, "")}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>
+            } */}
+              <input type="text" placeholder="도착지를 검색하세요." value={destination.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDestination((prev) => ({...prev, title: e.target.value}))}/>
+              <button className="addDataBtns" type="button" onClick={()=>handleSearch(destination.title,setDestination,"도착지")}>도착지 검색</button>
+          </div>
+          <button className="addDataBtns" type="button" onClick={handlecoordinate}>저장</button>
+          <Modal
+              className="newTripModal"
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              title={modalTitle}
+              content={
+                <div className="searchList">
+                  {res.length > 0 ? (
+                    <ul>
+                        {res.map((item, index) => 
+                          <li key={item.title}>
+                              <span className="listNumber">{index + 1}</span>
+                              <p className="listTitle">{item.title.replace(/<\/?[^>]+(>|$)/g, "")}</p>
+                              {/* <button className="addressBtn" onClick={() => handleCheck(item)}>{item.address}</button> */}
+                              {modalTitle === "출발지" &&(
+                                  <button className="addressBtn" onClick={() => handleCheck(item, "departure")}>
+                                    {item.address}
+                                  </button>
+                                )
+                              }
+                              {modalTitle === "도착지" && (
+                                  <button className="addressBtn" onClick={() => handleCheck(item, "destination")}>
+                                    {item.address}
+                                  </button>
+                                )
+                              }
+                              {modalTitle === "경유지" && (
+                                <button className="addressBtn" onClick={() => handleCheck(item, "stopOver")}>
+                                  {item.address}
+                                </button>
+                              )}
+                          </li>
+                        )}
+                    </ul>
+                  ) : (
+                    <p>검색 결과가 없습니다.</p>
+                  )}
+                </div>
+              }
+              actions={modalActions}
+          />
+        </div>
+    );
+}
 export default AddData;
+

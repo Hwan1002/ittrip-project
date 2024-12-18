@@ -10,7 +10,9 @@
     justify-content: center;
     align-items: center;
   }
-  
+
+ 
+  /* 모달창 기본 공통 css */
   .modal-content {
     display: flex;   
     flex-direction: column;
@@ -22,9 +24,27 @@
     width: 400px;
     height: auto;
     max-width: 90%;
-    
   }
-  
+
+  .modal-content h2{
+    color:#F6A354;
+    margin:0;
+
+  }
+
+  .modal-default {
+    width: 400px;
+    height: auto;
+    max-width: 90%;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .form-group {
     margin-bottom: 15px;
   }
@@ -65,20 +85,76 @@
     background-color: #F6A354;
     color: white;
   }
-
+  
   /* Header.js 모달 전용 */
-  .tripPlan_content{
+ /* 날짜 입력 css */
+ .modal-trip-plan {
+  width: 600px; /* 더 넓은 크기 */
+  height: auto; /* 내용에 따라 높이 조정 */
+  max-width: 90%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.modal-trip-plan input{
+  border-radius: 8px;
+}
+.tripPlan_content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+}
+
+.tripDates{
+  display: flex;
+  flex-direction: row;
+}
+.dateContents{
+  text-align: center;
+}
+
+.modal-trip-plan  .modal-actions{
+  margin-top: 20px;
+}
+
+/* newTrip 모달 */
+.newTripModal{
+  width:750px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.newTripModal input{
+  padding-left: 10px;
+}
+.newTripModal .modal-actions{
+  display: none;
+}
+.searchList{
+  max-height: 200px;
+  overflow: scroll;
+}
+.searchList::-webkit-scrollbar {
+  display: none;
+}
+.searchList li{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.listNumber{
+  width: 20px;
+    height: 20px;
+    border: 2px solid #ffa551;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width:30vw;
-  }
-
-  .tripPlan_content input{
-    width:15vw;
-    height:25px;
-    border-radius: 20px;
-    padding: 0 7px 0 7px;
-  }
-  
+}

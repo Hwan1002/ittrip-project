@@ -1,46 +1,82 @@
 #myPage{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width:100%;
-    height: 500px;
 }
 
 #myPage button{
-    width: 120px;
-    height: 40px;
+    width: 110px;
+    height: 38px;
     border-radius: 20px;
     border:none;
     color: #fff;
-    font-size: 18px;
-
+    font-size: 15px;
     background-color: #F6A354;
 }
+#myPage button:hover{
+    background-color: #f78b26;
+}
 
+.myPageContents {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    height: 30vh;
+}
 #profileFrame {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    overflow: hidden;
+    object-fit: cover;
 }
-
+#profileFrame input{
+    display: none;
+}
 #profileFrame div{
     margin-bottom : 20px;
 }
 
 #profileFrame div{
-    width:210px;
-    height: 210px;
+    width:150px;
+    height: 150px;
     background-color: #b9b9b9;
     border-radius: 50%;
+    overflow: hidden;
+}
+#profileFrame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
+#myInfo{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+#myInfo input{
+    border-radius: 8px;
+    height:20px;
+}
 #myInfoFrame{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-left: 30px;
-    
+    justify-content: center;
+}
+#myInfoFrame button:first-child{
+    margin-right: 20px;
 }
 
+.UserImg img{
+    width: 100%;
+
+}
 #myInfoFrame{
     display: flex;
     flex-direction: column; /* 버튼과 myInfo를 세로로 정렬 */
