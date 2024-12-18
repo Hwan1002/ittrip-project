@@ -14,27 +14,27 @@ const MainLocal = ({select,content}) => {
         <div id="mainLocal">
             <div id="siGun">
                 <div id="siGunText">
-                    <div >
+                    <div>
                         <div>
                             <p id="seoulKo">{select}</p>
                             <p id="seoulEn">{content.english}</p>
                         </div>
                     </div>
-                    <p >
-                        {content.explan}
-                    </p>
+                    <p>{content.explan}</p>
                 </div>
-                <div id="siGunImg"><img src={local1} style={{ width: '355px', height: '355px' }} alt="이미지"/></div>
+                <div id="siGunImg">
+                    <img src={local1} style={{ width: '355px', height: '355px' }} alt="이미지" />
+                </div>
             </div>
 
-            <div id="tripSelect">{/* 여행할곳을 선택해주세요 */}
+            <div id="tripSelect">
                 <p>여행할 곳을 선택해 주세요</p>
                 <div id="guSelect">
                     {signguNm.map((gu, index)=>(<button key={index} className="guBt">{gu}</button>))}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default MainLocal
+export default MainLocal;

@@ -10,9 +10,20 @@ function CheckList() {
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
-    debugger;
     if (input.trim()) {
-      setItems([...items, { id: Date.now(), text: input, checked: false }]);
+      const maxId = items.length > 0 
+      ? Math.max(...items.map((item) => item.id || 0)) 
+      : 0;
+
+    const newItem = { 
+      id: maxId + 1, // 가장 큰 id에 1을 더함
+      text: input, 
+      checked: false 
+    };
+
+    // 기존 items 배열에 새 항목 추가
+    const updatedItems = [...items, newItem];
+    setItems(updatedItems);
       try {
         const response = await axios.post(
           `${API_BASE_URL}/3`,

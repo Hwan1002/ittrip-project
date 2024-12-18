@@ -1,3 +1,14 @@
+/* .addDirectionFrame::-webkit-scrollbar {
+    display: none;
+} */
+.addData{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .addDataBtns{
     width: 100px;
     height: 45px;
@@ -37,3 +48,34 @@
 .roadAddress{
     font-size:12px;
 }
+
+/* 경유지 버튼 */
+
+.plusBtn{
+    display: flex;
+    justify-content: center;
+}
+
+.plusBtn button{
+    width:45px;
+    height:45px;
+    background-color: #fff;
+    border: 2px solid #FFA551;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#FFA551;
+    font-size: 30px;
+    cursor: pointer;
+    transition:background-color 0.3s ease, color 0.3s ease;
+}
+
+.plusBtn button:hover{
+    background-color: #FFA551;
+    color:#fff;
+}
+/* 
+.plusSearch img{
+    width:100%;
+} */
