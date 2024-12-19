@@ -37,17 +37,16 @@ const AddData = ({width}) => {
     } = useModal();
     
     useEffect(()=>{
-      console.log("list변경"+JSON.stringify(stopOverList));
-    },[stopOverList])
+      console.log("검색 결과 업데이트 됨 :" , res);
+    },[res])
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
-      console.log("핸들체크 item : ",item,"타입 : ",type);
+      debugger;
       setAddress(item.address);
       switch(type) {
         case "departure":
           setDeparture({title: item.title, address: item.address});
-          console.log(departure);
           break;
         case "destination": 
           setDestination({title:item.title, address:item.address});
@@ -62,6 +61,7 @@ const AddData = ({width}) => {
           console.log("handleCheck switch 케이스 쪽 오류");
       }
       closeModal();
+      
       alert(`${type === "stopOver"? "경유지가" : type === "departure"? "출발지가" : "도착지가"} 추가되었습니다.`)
      
     }
@@ -95,27 +95,33 @@ const AddData = ({width}) => {
     
     const handleSearch = async(value, updateState, modalTitle) => {
       if(!value){
-        // alert(`${modalTitle}를 입력해주세요.`);
+        setRes([]);
         openModal({
           message:`${modalTitle}를 입력해주세요.`,
           actions: [{ label:"확인", onClick:closeModal, className:"cancel-button"}],
         })
         return;
+      }else{
+        try {
+          debugger
+          const newData = [...data,value];
+          const response = await axios.get(`${API_BASE_URL}/local`,{
+            params:{query : value}
+          });
+          setRes(response.data.items);
+          setData(newData)
+          updateState(value);
+          openModal({
+            title:modalTitle,
+            message:"재검색 해주세요."
+          });
+          
+        } catch (error) {
+          console.error(`검색 handleSearch 쪽 오류 : ${error}`);
+          alert("handleSearch 검색 오류");
+        }
       }
-      try {
-        const newData = [...data,value];
-        const response = await axios.get(`${API_BASE_URL}/local`,{
-          params:{query : value}
-        });
-        setRes(response.data.items);
-        setData(newData)
-        updateState(value);
-        openModal({title:modalTitle});
-        
-      } catch (error) {
-        console.error(`검색 handleSearch 쪽 오류 : ${error}`);
-        alert("handleSearch 검색 오류");
-      }
+      
     }
 
     //경유지 추가 버튼
@@ -156,7 +162,7 @@ const AddData = ({width}) => {
               >
                 경유
               </button>
-              <button button className="removeBtn" type="button" onClick={()=>removeStopOver(stopOver.id)}>삭제</button>
+              <button className="removeBtn" type="button" onClick={()=>removeStopOver(stopOver.id)}>삭제</button>
             </div>
             ))
           }
@@ -210,10 +216,7 @@ const AddData = ({width}) => {
                         )}
                     </ul>
                   ) : (
-                    <div>
-                      <p>검색 결과가 없습니다.</p>
-                      <button className='modalBackBtn' onClick={()=>{closeModal();}}>돌아가기</button>
-                    </div>
+                    modalMessage
                   )}
                 </div>
               }

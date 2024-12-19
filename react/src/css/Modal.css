@@ -27,6 +27,7 @@
 
 .modal-content h2 {
     color: #F6A354;
+    margin:0;
 
 }
 
@@ -67,11 +68,14 @@
 }
 
 .modal-actions button {
+    min-width:80px;
     padding: 8px 12px;
     border: none;
     border-radius: 20px;
     padding: 10px 15px;
     cursor: pointer;
+    background-color: #F6A354;
+    color: white;
 }
 
 .modal-actions button[type="submit"] {
@@ -152,9 +156,9 @@
 .newTripModal input {
     padding-left: 10px;
 }
-.newTripModal .modal-actions {
-    display: none;
-}
+/* .newTripModal .modal-actions {
+  margin-top: 20px;
+} */
 .searchList {
     max-height: 300px;
     overflow: scroll;
