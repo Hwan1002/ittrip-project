@@ -120,6 +120,11 @@
 .modal-trip-plan  .modal-actions{
   margin-top: 20px;
 }
+.react-datepicker__day:hover{
+  background-color: #F6A354;
+}
+
+
 
 /* newTrip 모달 */
 .newTripModal{

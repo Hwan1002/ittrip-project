@@ -5,17 +5,20 @@ import logo from "../img/Logo/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
-import "react-datepicker/dist/react-datepicker.css";
 import useModal from "../context/useModal";
 import DateCheck from "./DateCheck";
+//하단 날짜 입력받는 모달 컴포넌트 대체되면 지울 예정
+import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/locale";
 import { addDays } from "date-fns";
+
 const Header = () => {
   const {
     loginSuccess,
     setLoginSuccess,
     token,
+    setSavedBtnClicked,
     tripTitle,
     tripDates,
     setTripDates,
@@ -26,14 +29,13 @@ const Header = () => {
   const [isNewPlanModal, setIsNewPlanModal] = useState(false);
 
   //modal창 상태
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
   useEffect(() => {
     if (token && !loginSuccess) {
       setLoginSuccess(true);
     }
   }, [token]);
-
 
   //로그아웃 버튼 클릭시 함수
   const handleLogout = () => {
@@ -49,35 +51,44 @@ const Header = () => {
     openModal({
       title: "로그아웃",
       message: "로그아웃 하시겠습니까?",
-      actions: [
-        {
-          label: "로그아웃",
-          onClick: handleLogout,
-          className: "logout-button",
-        },
-        { label: "취소", onClick: closeModal, className: "cancel-button" },
+      actions: [ 
+        { label: "로그아웃", onClick: handleLogout, className: "logout-button"},
+        { label: "취소", onClick: closeModal, className: "cancle-button" },
       ],
     });
   };
 
-  const handleNewPlanSubmit = async () => {
-    if (!tripTitle || !tripDates.startDate || !tripDates.endDate) {
-      setIsNewPlanModal(false);
+  const handleNewPlanSubmit = (e) => {
+    setIsNewPlanModal(false);
+    e.preventDefault();
+    debugger;
+    // setSavedBtnClicked(true);
+    if (!tripTitle || !tripDates.startDate || !tripDates.endDate){
       openModal({
-        className:"modal-default",
-        title:"로그아웃",
-        content:<p>값좀 적자</p>,
-        actions:
-          {
-            label:"확인",
-            onClick: navigate("/"),
-          }
+        title:"입력 오류",
+        message:"여행 일정을 입력해주세요.",
+        actions:[{ label:"확인", onClick:closeModal, className:"cancle-button"}],
       })
+      return;
+    }else{
+      openModal({
+        title: "저장 완료",
+        message: "여행 일정이 저장되었습니다.",
+        actions: [
+          {
+            label: "확인",
+            onClick: () => {
+              closeModal();
+              navigate("/newTrip"); // 상태를 닫고 이동
+            },
+            className: "confirm-button",
+          },
+        ],})
     }
-    closeModalWithReset();
   };
 
-  const openNewPlanModal = () => {
+  const openNewPlanModal = (e) => {
+    e.preventDefault();
     setIsNewPlanModal(true);
     openModal({});
   };
@@ -100,7 +111,7 @@ const Header = () => {
         <Link className="menu" to={"/entireplan"}>
           My Plan
         </Link>
-        <Link className="menu" to={"/newtrip"} onClick={openNewPlanModal}>
+        <Link className="menu" onClick={openNewPlanModal}>
           New Plan
         </Link>
       </nav>
@@ -122,61 +133,13 @@ const Header = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModalWithReset}
-        title={isNewPlanModal ? "새로운 여행 계획" : "로그아웃" }
+        title={isNewPlanModal ? "새로운 여행 계획" : modalTitle }
         className={isNewPlanModal ? "modal-trip-plan" : "modal-default"}
         content={
           isNewPlanModal ? (
             <DateCheck/>
-            //컴포넌트로 저장할 예정
-            // <div className="tripPlan_content">
-            //   <div className="tripTile">
-            //     <label>
-            //       여행 제목:
-            //       <input
-            //         type="text"
-            //         name="tripTitle"
-            //         value={tripTitle}
-            //         onChange={(e) => setTripTitle(e.target.value)}
-            //       />
-            //     </label>
-            //   </div>
-            //   <div className="tripDates">
-            //     <div className="dateContents">
-            //       <h3>여행 기간</h3>
-            //       <DatePicker
-            //         selected={tripDates.startDate}
-            //         onChange={(dates) => {
-            //           const [start, end] = dates;
-            //           setTripDates({
-            //             startDate: start,
-            //             endDate: end,
-            //           });
-            //         }}
-            //         startDate={tripDates.startDate}
-            //         endDate={tripDates.endDate}
-            //         minDate={new Date()}
-            //         maxDate={tripDates.startDate ? addDays(tripDates.startDate, 9) : null}
-            //         selectsRange
-            //         dateFormat="yyyy-MM-dd"
-            //         locale={ko}
-            //         inline
-            //       />
-            //       {tripDates.startDate && tripDates.endDate && (
-            //         <div>
-            //           <p>여행 이름 : {tripTitle}</p>
-            //           <p>
-            //             출발 : {tripDates.startDate.toLocaleDateString("ko-KR")}
-            //           </p>
-            //           <p>
-            //             도착 : {tripDates.endDate.toLocaleDateString("ko-KR")}
-            //           </p>
-            //         </div>
-            //       )}
-            //     </div>
-            //   </div>
-            // </div>
           ) : (
-            <p>로그아웃 하시겠습니까?</p>
+            modalMessage
           )
         }
         actions={
@@ -193,18 +156,7 @@ const Header = () => {
                   className: "cancel-button",
                 },
               ]
-            : [
-                {
-                  label: "로그아웃",
-                  onClick: handleLogout,
-                  className: "logout-button",
-                },
-                {
-                  label: "취소",
-                  onClick: closeModal,
-                  className: "cancel-button",
-                },
-              ]
+            : modalActions
         }
       />
     </div>

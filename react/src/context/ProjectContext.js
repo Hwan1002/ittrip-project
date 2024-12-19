@@ -42,21 +42,23 @@ export const ProjectProvider = ({ children }) => {
     setLoginSuccess(true);
   };
 
-  //여행 제목,날짜 값
+  //여행 제목,날짜, 저장값 눌렀을때 상태 값들
   const [tripTitle, setTripTitle] = useState("");
   const [tripDates, setTripDates] = useState({
     startDate: null,
     endDate: null,
   });
+  const [savedBtnClicked , setSavedBtnClicked] = useState(false);
+
   // const [mapObject, setMapObject] = useState([]);
   const [mapObject, setMapObject] = useState([]);
 
   //addData (newTrip 페이지)
   //출발지 객체 상태 관리
   const [departure, setDeparture] = useState({
-        title: '',
-        address :'',
-      });
+    title: '',
+    address :'',
+  });
   //경유지 배열 상태 관리
   const [stopOverList, setStopOverList] = useState([]);
   //도착지 객체 상태 관리
@@ -85,6 +87,7 @@ export const ProjectProvider = ({ children }) => {
     token,logData,
     tripTitle,setTripTitle,
     tripDates,setTripDates,
+    savedBtnClicked , setSavedBtnClicked,
     input,setInput,
     items,setItems,
     address,setAddress,

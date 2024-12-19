@@ -48,7 +48,6 @@ const Map = () => {
 
   
   useEffect(() => {
-    debugger;
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
   
