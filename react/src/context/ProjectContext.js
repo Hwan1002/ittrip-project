@@ -56,7 +56,6 @@ export const ProjectProvider = ({ children }) => {
 
   const [markers,setMarkers] = useState([]);
 
-
   const [signguNm , setSignguNm]  =useState([]) ;
 
   const [stopOverList, setStopOverList] = useState([]);
