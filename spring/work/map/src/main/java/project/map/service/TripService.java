@@ -69,9 +69,11 @@ public class TripService {
 	
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
+
 	public List<String> getSignguNms(String areaCd){
 		List<String> signguNm = areaRepository.findByAreaCd(areaCd) ;
 		return signguNm;
+
 	}
 	
 	// 시군구 이름으로 엔티티반환메서드 .

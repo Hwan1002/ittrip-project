@@ -92,7 +92,7 @@ const Login = () => {
                         <div>
                             <input name="password" type="password" onChange={handleChange} placeholder="비밀번호" />
                         </div>
-                        <div>
+                        <div className="loginBtns">
                             <button className="loginBt" type="submit">로그인</button>
                             <button className="kakaoBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"kakao")}>
                                 <img src={Kakao} alt="kakao" style={{width:"20px",marginRight:'3px'}} />

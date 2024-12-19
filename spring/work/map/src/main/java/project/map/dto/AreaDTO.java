@@ -1,5 +1,7 @@
 package project.map.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +18,8 @@ public class AreaDTO {
 	private String areaCd;
 	private String areaNm;
 	private String signguNm;
+	
+	private List<AreaDTO> list; 
 	
 	public AreaDTO(final AreaEntity entity) {
 		this.signguCd = entity.getSignguCd();
