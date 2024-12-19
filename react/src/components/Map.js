@@ -239,8 +239,6 @@ const Map = () => {
   const handleDayClick = (day) => {  
     //3333
     putObject();
-    setDeparture("");
-    setDestination(""); 
     setSelectedDay(day);
     if(dayBoolean[day]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
       const foundData = mapObject.find(data => data.days == day+1);    //  선택한 day에 대한 객체를 가져옴
