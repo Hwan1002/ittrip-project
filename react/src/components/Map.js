@@ -103,6 +103,22 @@ const Map = () => {
     }
   }, [tripDates]);
 
+  useEffect(()=>{
+    if(dayBoolean[selectedDay]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
+      const foundData = mapObject.find(data => data.days === selectedDay+1);    //  선택한 day에 대한 객체를 가져옴
+      //foundData는 눌렀던 Day에 해당하는 map객체가 들어있으니 객체의 내부 값으로 경로 등의 상태를 set해주세요.
+      setDeparture({title:foundData.startPlace, address:foundData.startAddress})
+      setStopOverList([...foundData.wayPoints])
+      setDestination({title:foundData.goalPlace, address:foundData.goalAddress})
+      if(foundData.StartAddress!== departure.address || JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) || foundData.goalAddress !== destination.address){
+        const newArr = mapObject.filter(data => data.days !== selectedDay+1);
+        const updatedDayBoolean = [...dayBoolean];
+        updatedDayBoolean[selectedDay] = false;
+        setDayBoolean([...updatedDayBoolean]);
+        setMapObject([...newArr])
+      }
+    }
+  },[selectedDay])
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -237,20 +253,13 @@ const Map = () => {
 
   // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
   const handleDayClick = (day) => {  
+    debugger;
     if(!dayBoolean[selectedDay]){
       putObject();
     }
+    
     setSelectedDay(day);
-    if(dayBoolean[selectedDay]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
-      const foundData = mapObject.find(data => data.days == day+1);    //  선택한 day에 대한 객체를 가져옴
-      //foundData는 눌렀던 Day에 해당하는 map객체가 들어있으니 객체의 내부 값으로 경로 등의 상태를 set해주세요.
-      setDeparture({title:foundData.startPlace, address:foundData.startAddress})
-      setStopOverList([...foundData.wayPoints])
-      setDestination({title:foundData.goalPlace, address:foundData.goalAddress})
-    }else if(!(dayBoolean[day])){      //dayBoolean[2] 가 false라면 =>(해당 Day에 객체가 없다면)
-      // 상태들과 map을 초기화 해주세요.
-      initObject();
-    }      
+    
     // selectedDay를 기반으로 지도에 표시할 경로 또는 다른 로직 추가
   };
 
