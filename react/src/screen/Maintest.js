@@ -59,10 +59,24 @@ const Maintest = () => {
 
 
 
-    
+    const regionClick = (region) => {
+        setSelectedRegion(region); // 선택된 상위 지역 설정
+        setSubRegions(regionData[region]); // 하위 지역 데이터 설정
+        setIsModalOpen(true);
+        setSelect(region)
+    };
+
+
+
+    // 하위지역데이터에 값이 들어왔을때 axios요청을 보낼 함수 
+    if (subRegions) {
+
+    }
+
+
 
     useEffect(() => {
-        debugger;
+
         if (areaCd) {
             const requestAreaNm = async () => {
                 try {
@@ -109,14 +123,9 @@ const Maintest = () => {
     };
 
 
-    // 충청, 전라 ,경상 클릭시 반환되는 배열의 name 키를통해 버튼을 매핑..
-    const regionClick = (region) => {
-        setSelectedRegion(region); // 선택된 상위 지역 설정
-        setSubRegions(regionData[region]); // 하위 지역 데이터 설정
-        console.log(regionData[region]); // 충청도에 해당하는 데이터 출력
-    };
 
-    
+
+
 
 
 
@@ -243,13 +252,15 @@ const Maintest = () => {
                 </div>
             </div>
 
-        
+
             <Modal
                 className="mainModal"
                 isOpen={isModalOpen} // 모달 열림 여부
                 onClose={() => {
                     setIsModalOpen(false)
                     setAreaCd("")
+                    setSignguNm("")
+                    console.log(areaCd , signguNm)
                 }} // 닫기 함수
                 title={select} // 제목
 
@@ -261,9 +272,19 @@ const Maintest = () => {
                                 onClick={() => requestData(item)}
                             >{item}</button>
                         ))
-                    ) : (
-                        "데이터가 없습니다."
-                    )
+                    ) :
+                        subRegions.map((item, index) => (
+                            <button className="guBt"
+                                key={index}
+                                onClick={() => {
+                                    setSelect(item.name);
+                                    setAreaCd(item.areaCd);
+                                }}>{item.name}</button>
+                        ))
+
+
+
+
                 } // 내용 (데이터 기반 버튼 생성)
                 actions={[
                     {
@@ -271,6 +292,7 @@ const Maintest = () => {
                         onClick: () => {
                             setIsModalOpen(false);
                             setAreaCd("");
+                            setSignguNm("")
                         },
                         className: "close-button",
 
