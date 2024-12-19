@@ -8,9 +8,9 @@ const DateCheck = () => {
     const {tripDates,setTripDates,tripTitle,setTripTitle} = useContext(ProjectContext);
     return(
         <div className="tripPlan_content">
-                      <div className="tripTile">
+                      <div className="tripTitle">
                         <label>
-                          여행 제목:
+                          여행 제목
                           <input
                             type="text"
                             name="tripTitle"

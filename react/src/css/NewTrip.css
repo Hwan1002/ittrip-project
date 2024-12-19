@@ -43,7 +43,7 @@
     border-left: none;
     width: 875px;
     height: 500px;
-    
+    margin-bottom: 20px;
 
 }
 
@@ -75,7 +75,7 @@
     border : 3px solid #DADADA;
     border-right: none;
     border-left: none;
-    width: 490px;
+    width: 525px;
     height: 300px;
 }
 
