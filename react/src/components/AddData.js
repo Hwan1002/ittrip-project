@@ -23,7 +23,9 @@ const AddData = ({width}) => {
       goalPoint,
       departure, setDeparture,
       stopOverList, setStopOverList,
-      destination, setDestination
+      destination, setDestination,
+      selectedDay,setSelectedDay,
+      mapObject,setMapObject
     } = useContext(ProjectContext);
 
     //모달창 사용
@@ -36,6 +38,37 @@ const AddData = ({width}) => {
         closeModal
     } = useModal();
     
+
+    const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
+      debugger;
+      const foundData = mapObject.find(data=> data.days === selectedDay+1);
+      if(foundData){
+      if(foundData.StartAddress!== departure.address || JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) || foundData.goalAddress !== destination.address){
+        const newArr = mapObject.filter(data => data.days !== selectedDay+1);
+        setMapObject([...newArr]);
+      }
+    }
+      setMapObject((prevMapObject) => [
+        ...prevMapObject,
+        {
+          days: selectedDay + 1,
+          startPlace: departure?.title || "", // 방어적으로 title 확인
+          startAddress: departure?.address || "",
+          goalPlace: destination?.title || "",
+          goalAddress: destination?.address || "",
+          wayPoints: stopOverList || [],
+        },
+      ]);
+
+      alert(`Day${selectedDay+1} 저장 완료`);
+    }
+
+    // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
+    //   setDeparture({title:'',address:''});
+    //   setStopOverList([]);
+    //   setDestination({title:'',address:''});
+    // }
+
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
     },[res])
@@ -91,6 +124,7 @@ const AddData = ({width}) => {
         })
         setPath(response.data.route.traoptimal[0].path)
       }
+      putObject();
     }
     
     const handleSearch = async(value, updateState, modalTitle) => {

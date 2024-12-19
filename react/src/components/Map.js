@@ -2,84 +2,20 @@ import "../css/Map.css";
 import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 
+
 const Map = () => {
 
   const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints,
-    stopOverList,setStopOverList,mapObject,setMapObject,departure,setDeparture,destination,setDestination
-    } = useContext(ProjectContext);
-
-    // days: selectedDay.substring(3,4),
-    // startPlace: startPlace,
-    // startAddress: startAddress,
-    // goalPlace: goalPlace,
-    // goalAddress: goalAddress,
-    // wayPointsPlace: wayPointsPlace,
-    // wayPointsAddress: wayPointsAddress,
-
-  const [dayChecks, setDayChecks] = useState([])
-  const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
-  const [dayBoolean,setDayBoolean] = useState([]);
-  
-  const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
-    setDeparture({title:'',address:''});
-    setStopOverList([]);
-    setDestination({title:'',address:''});
-    console.log("출발지: "+JSON.stringify(departure))
-    console.log("경유지: "+JSON.stringify(stopOverList))
-    console.log("목적지: "+JSON.stringify(destination))
-  }
-
-  // useEffect(()=>{
-  //   console.log("tripDates:", JSON.stringify(tripDates, null, 2));
-  //   console.log("address:", JSON.stringify(address, null, 2));
-  //   console.log("startPoint:", JSON.stringify(startPoint, null, 2));
-  //   console.log("goalPoint:", JSON.stringify(goalPoint, null, 2));
-  //   console.log("wayPoints:", JSON.stringify(wayPoints, null, 2));
-  //   console.log("startPlace:", JSON.stringify(startPlace, null, 2));
-  //   console.log("startAddress:", JSON.stringify(startAddress, null, 2));
-  //   console.log("goalPlace:", JSON.stringify(goalPlace, null, 2));
-  //   console.log("goalAddress:", JSON.stringify(goalAddress, null, 2));
-  //   console.log("wayPointsPlace:", JSON.stringify(wayPointsPlace, null, 2));
-  //   console.log("wayPointsAddress:", JSON.stringify(wayPointsAddress, null, 2));
-  // },[])
-  //day 눌렀을 때 axios로 경로데이터 받아오는 거랑 day마다 selectedDay dayChecks day있으면 없으면 따로따로 동작 로직구현
-  //day를 옮길 때 기본으로 dayData에 값을 넘겨야함(만약 dayData에 selectedDay의 day가 있으면 해당 day의 객체 덮어씌우기)
-  //만약 selectedDay의 day가 dayData에 존재하는 day인 경우 해당 day에 맞는 day객체를 불러와서 경로상태에 set을 해야함
+    stopOverList,setStopOverList,mapObject,setMapObject,departure,setDeparture,destination,setDestination,selectedDay,setSelectedDay,
+    dayChecks,setDayChecks} = useContext(ProjectContext);
 
   
+  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
+   
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
   
-
-  const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-    const updatedDayBoolean = [...dayBoolean];
-    updatedDayBoolean[selectedDay] = true;
-    setDayBoolean([...updatedDayBoolean]);
-    setMapObject((prevMapObject) => [
-      ...prevMapObject,
-      {
-        days: selectedDay + 1,
-        startPlace: departure?.title || "", // 방어적으로 title 확인
-        startAddress: departure?.address || "",
-        goalPlace: destination?.title || "",
-        goalAddress: destination?.address || "",
-        wayPoints: stopOverList || [],
-      },
-    ]);
-    // setMapObject([...mapObject,{
-    //   // days: ~~, startPlace: ~~ 등등 객체 넣기
-    //   days:selectedDay+1,
-    //   startPlace:departure.title,
-    //   startAddress:departure.address,
-    //   goalPlace:destination.title,
-    //   goalAddress:destination.address,
-    //   wayPoints:stopOverList  
-    // }])
-    initObject();
-    console.log("mapObject : "+JSON.stringify(mapObject));
-  }
-
   useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {                //1111
       const startDate = new Date(tripDates.startDate);
@@ -94,14 +30,20 @@ const Map = () => {
       // dayChecks 배열 업데이트
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
       setDayChecks([...daysArray]);
-      const arr = daysArray.map((_,index)=>`${index+1}`);   //3일 여행이면 ['1','2','3']
-      
-      const booleanArray = new Array(daysArray.length).fill(false);
-      setDayBoolean([...booleanArray]);
-      
     }
   }, [tripDates]);
 
+ 
+  useEffect(()=>{
+    const foundData = mapObject.find(data => data.days === selectedDay+1);
+    if(foundData){
+      setDeparture({title:foundData.startPlace, address:foundData.startAddress})
+      setStopOverList([...foundData.wayPoints])
+      setDestination({title:foundData.goalPlace, address:foundData.goalAddress})
+    }
+      
+    
+  },[selectedDay])
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -236,20 +178,24 @@ const Map = () => {
 
   // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
   const handleDayClick = (day) => {  
-    //3333
-    putObject();
-    setSelectedDay(day);
-    if(dayBoolean[day]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
-      const foundData = mapObject.find(data => data.days == day+1);    //  선택한 day에 대한 객체를 가져옴
-      //foundData는 눌렀던 Day에 해당하는 map객체가 들어있으니 객체의 내부 값으로 경로 등의 상태를 set해주세요.
-      setDeparture({title:foundData.startPlace, address:foundData.startAddress})
-      setStopOverList([...foundData.wayPoints])
-      setDestination({title:foundData.goalPlace, address:foundData.goalAddress})
-    }else if(!(dayBoolean[day])){      //dayBoolean[2] 가 false라면 =>(해당 Day에 객체가 없다면)
-      // 상태들과 map을 초기화 해주세요.
-      initObject();
-    }      
-    // selectedDay를 기반으로 지도에 표시할 경로 또는 다른 로직 추가
+    if(!mapObject.find(data=>data.days === selectedDay+1)){
+      const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
+    if (userConfirm) {
+      alert("넘어갈게");
+      setDeparture({title:'',address:''});
+      setStopOverList([]);
+      setDestination({title:'',address:''});
+      setSelectedDay(day);
+    } else {
+      alert("그래 저장해");
+    }
+    }else{
+      setDeparture({title:'',address:''});
+      setStopOverList([]);
+      setDestination({title:'',address:''});
+      setSelectedDay(day);
+    }
+    
   };
 
 

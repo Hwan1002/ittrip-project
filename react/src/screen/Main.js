@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "../css/Main.css";
 import {ProjectContext} from "../context/ProjectContext";
-
 import banner2 from "../img/MainPage/banner/banner2.jpg";
 import local1 from "../img/MainPage/local1.gif";
 import local2 from "../img/MainPage/local2.gif";
@@ -14,7 +13,6 @@ import local7 from "../img/MainPage/local7.gif";
 import local8 from "../img/MainPage/local8.png";
 import "../css/Main.css";
 import MainLocal from "../components/MainLocal";
-
 import {API_BASE_URL} from "../service/api-config";
 import axios from "axios";
 

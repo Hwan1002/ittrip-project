@@ -48,26 +48,7 @@ export const ProjectProvider = ({ children }) => {
     startDate: null,
     endDate: null,
   });
-
-  // const [mapObject, setMapObject] = useState([]);
-  const [mapObject, setMapObject] = useState([]);
-
-  //addData (newTrip 페이지)
-  //출발지 객체 상태 관리
-  const [departure, setDeparture] = useState({
-    title: '',
-    address :'',
-  });
-  //경유지 배열 상태 관리
-  const [stopOverList, setStopOverList] = useState([]);
-  //도착지 객체 상태 관리
-  const [destination, setDestination] = useState({
-    title:'',
-    address:'',
-  })
-
-
-
+ 
   //체크리스트 input 값
   const [input, setInput] = useState("");
   //체크리스트 배열
@@ -77,6 +58,29 @@ export const ProjectProvider = ({ children }) => {
 
   const [signguNm , setSignguNm]  =useState([]) ;
 
+  const [stopOverList, setStopOverList] = useState([]);
+
+  const [mapObject,setMapObject] = useState([]);
+
+  const [departure,setDeparture] = useState({
+    title:'',
+    address:''
+  })
+
+  const [destination,setDestination] = useState({
+    title:'',
+    address:''
+  })
+
+  const [selectedDay,setSelectedDay] = useState(0);
+
+  const [dayChecks,setDayChecks] = useState([]);
+
+  const initObject=()=>{
+    setDeparture({title:'',address:''});
+    setStopOverList([]);
+    setDestination({title:'',address:''});
+  }
 
   const value = {
     loginSuccess,setLoginSuccess,
@@ -95,10 +99,13 @@ export const ProjectProvider = ({ children }) => {
     path, setPath,
     markers,setMarkers,
     signguNm , setSignguNm,
+    stopOverList,setStopOverList,
     mapObject,setMapObject,
-    departure, setDeparture,
-    stopOverList, setStopOverList,
-    destination, setDestination
+    departure,setDeparture,
+    destination,setDestination,
+    selectedDay,setSelectedDay,
+    initObject,dayChecks,
+    setDayChecks
   };
 
   return (

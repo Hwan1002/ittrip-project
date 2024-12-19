@@ -1,6 +1,7 @@
 package project.map.controller;
 
 import java.io.Console;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO;
 import project.map.dto.CheckListDTO.Items;
 import project.map.dto.MapDTO;
+import project.map.dto.MapDTO.MapObject;
 import project.map.dto.ResponseDTO;
 import project.map.dto.TripDTO;
 import project.map.entity.AreaEntity;
@@ -60,7 +62,6 @@ public class TripController {
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
 	@GetMapping("/1")
 	public ResponseEntity<?> getSignguNm( @RequestParam (name = "areaCd") String areaCd) {
-
 		try {
 			System.out.println("areaCd: " + areaCd);
 			List<String> dtos = tripService.getSignguNms(areaCd);
@@ -138,13 +139,40 @@ public class TripController {
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.getByTitle(dto.getTripTitle());
-		MapEntity entity = MapEntity.builder().startPoint(dto.getStartPoint()).startPlace(dto.getStartPlace())
-				.startAddress(dto.getStartAddress()).goalPoint(dto.getGoalPoint()).goalPlace(dto.getGoalPlace())
-				.goalAddress(dto.getGoalAddress()).waypointsPoint(dto.getWaypointsPoint())
-				.waypointsPlace(dto.getWaypointsPlace()).waypointsAddress(dto.getWaypointsAddress()).days(dto.getDays())
-				.user(user).trip(trip).build();
+		System.out.println("Received MapDTO:");
+        
+		StringBuilder waypointsBuilder;
+        for (MapDTO.MapObject mapObject : dto.getMapObject()){
+        	waypointsBuilder = new StringBuilder();
+            int days = mapObject.getDays();
+            String startPlace = mapObject.getStartPlace().replaceAll("</?[^>]+>", "");
+            String startAddress = mapObject.getStartAddress();
+            String goalPlace = mapObject.getGoalPlace().replaceAll("</?[^>]+>", "");
+            String goalAddress = mapObject.getGoalAddress();
+            
+            for (MapDTO.WayPointDTO wayPoint : mapObject.getWayPoints()) {
+            	waypointsBuilder
+                .append(wayPoint.getId())
+                .append(":")
+                .append(wayPoint.getValue().replaceAll("</?[^>]+>", ""))
+                .append(":")
+                .append(wayPoint.getAddress())
+                .append(",");
+            }
+            if (waypointsBuilder.length() > 0) {
+                waypointsBuilder.setLength(waypointsBuilder.length() - 1);
+            }
+            String waypoints = waypointsBuilder.toString();
+            
+            MapEntity entity = MapEntity.builder().user(user).trip(trip).days(days).startPlace(startPlace).startAddress(startAddress)
+            				.goalPlace(goalPlace).goalAddress(goalAddress).waypoint(waypoints).build();
+            System.out.println(entity);
+            mapRepository.save(entity);
+            
+        }
+		
 
-		mapRepository.save(entity);
+		
 	}
 
 	// checkList객체 저장
@@ -175,18 +203,13 @@ public class TripController {
 		tripRepository.save(entity);
 	}
 
-	@PutMapping("/2")
-	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.getByTitle(dto.getTripTitle());
-		MapEntity entity = MapEntity.builder().idx(dto.getIdx()).startPoint(dto.getStartPoint())
-				.startPlace(dto.getStartPlace()).startAddress(dto.getStartAddress()).goalPoint(dto.getGoalPoint())
-				.goalPlace(dto.getGoalPlace()).goalAddress(dto.getGoalAddress()).waypointsPoint(dto.getWaypointsPoint())
-				.waypointsPlace(dto.getWaypointsPlace()).waypointsAddress(dto.getWaypointsAddress()).days(dto.getDays())
-				.trip(trip).user(user).build();
-
-		mapRepository.save(entity);
-	}
+//	@PutMapping("/2")
+//	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
+//		UserEntity user = userRepository.findById(userId).get();
+//		TripEntity trip = tripRepository.getByTitle(dto.getTripTitle());
+//		List<MapObject> dtos = dto.getMapObject();
+//		System.out.println(dtos);
+//	}
 
 	@PutMapping("/3")
 	public ResponseEntity<?> putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {

@@ -19,8 +19,8 @@ public interface AreaRepository extends JpaRepository<AreaEntity, String>{
 	
 	
 		//메인페이지에 서울특별시 누르면 서울의 시군구 배열에 담음
-		@Query("select t.signguNm from AreaEntity t where t.areaNm = ?1")	
-		List<AreaEntity> getAreaList(String areaNM);
+		@Query("select t from AreaEntity t where t.areaCd = ?1")	
+		List<AreaEntity> getAreaList(String areaCd);
 		
 		
 		//지역명(서울특별시), 시군구명(종로구)를 code로 매치시켜 가져오기
