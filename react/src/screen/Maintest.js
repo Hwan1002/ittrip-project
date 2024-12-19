@@ -26,12 +26,7 @@ const Maintest = () => {
     // 모달표시여부 state
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-
-
-
     useEffect(() => {
-        debugger;
         if (areaCd) {
             const requestAreaNm = async () => {
                 try {

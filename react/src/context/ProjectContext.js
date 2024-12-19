@@ -48,7 +48,7 @@ export const ProjectProvider = ({ children }) => {
     startDate: null,
     endDate: null,
   });
-
+  // const [mapObject, setMapObject] = useState([]);
   const [mapObject, setMapObject] = useState([]);
 
   //addData (newTrip 페이지)
