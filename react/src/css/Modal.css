@@ -25,12 +25,13 @@
     height: auto;
     max-width: 90%;
   }
-
+  
   .modal-content h2{
     color:#F6A354;
-    margin:0;
 
   }
+
+
 
   .modal-default {
     width: 400px;
@@ -137,7 +138,7 @@
   display: none;
 }
 .searchList{
-  max-height: 200px;
+  max-height: 300px;
   overflow: scroll;
 }
 .searchList::-webkit-scrollbar {

@@ -77,8 +77,6 @@
     border-left: none;
     width: 490px;
     height: 300px;
-    overflow-y:scroll;
-    padding-left: 30px;
 }
 
 #newEnd,#newNoBack{
