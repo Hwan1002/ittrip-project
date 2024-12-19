@@ -95,11 +95,11 @@ const Login = () => {
                         <div>
                             <button className="loginBt" type="submit">로그인</button>
                             <button className="kakaoBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"kakao")}>
-                                <img src={Kakao} alt="kakao" style={{width:"20px"}} />
+                                <img src={Kakao} alt="kakao" style={{width:"20px",marginRight:'3px'}} />
                                 카카오 로그인
                             </button>
-                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}>네이버 로그인</button>
-                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")}>구글 로그인</button>
+                            <button className="naverBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"naver")}><img src={Naver} style={{width:"15px",marginRight:'7px'}}/>네이버 로그인</button>
+                            <button className="googleBt socialBtn" type="button" onClick={ (e) => socialLogin(e,"google")} ><img src={Google} style={{width:"17px",marginRight:'16px'}}/>구글 로그인</button>
                         </div>
                     </div>
 
