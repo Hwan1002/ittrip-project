@@ -18,8 +18,6 @@ const NewTrip = () => {
   // const [setTripDays] = useState(0); // 여행일정 저장
   const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
 
-  //const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
-
   const buttonClicked = async () => {
     if(mapObject.length!==dayChecks.length){
       const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");

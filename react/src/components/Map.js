@@ -13,7 +13,6 @@ const Map = () => {
   // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
    
   useEffect(() => {
-    debugger;
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
   

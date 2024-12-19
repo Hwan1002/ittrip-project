@@ -1,16 +1,20 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import DatePicker from "react-datepicker";
-import { ProjectContext } from "../context/ProjectContext";
-import { addDays } from "date-fns";
-import { ko } from "date-fns/locale";
+import {ProjectContext} from "../context/ProjectContext";
+import {addDays} from "date-fns";
+import {ko} from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DateCheck = () => {
-    const {tripDates,setTripDates,tripTitle,setTripTitle} = useContext(ProjectContext);
-    return(
+
+    //전역상태 관리
+    const {tripDates, setTripDates, tripTitle, setTripTitle, savedBtnClicked} = useContext(ProjectContext);
+   
+    return (
         <div className="tripPlan_content">
-                      <div className="tripTile">
+                      <div className="tripTitle">
                         <label>
-                          여행 제목:
+                          여행 제목
                           <input
                             type="text"
                             name="tripTitle"
@@ -45,15 +49,16 @@ const DateCheck = () => {
                               <p>여행 이름 : {tripTitle}</p>
                               <p>
                                 출발 : {tripDates.startDate.toLocaleDateString("ko-KR")}
-                              </p>
-                              <p>
+                            </p>
+                            <p>
                                 도착 : {tripDates.endDate.toLocaleDateString("ko-KR")}
-                              </p>
-                            </div>
-                          )}
+                            </p>
                         </div>
-                      </div>
-                    </div>
+                        )
+                    }
+                </div>
+            </div>
+        </div>
     )
 }
 

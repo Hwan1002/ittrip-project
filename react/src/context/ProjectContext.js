@@ -42,7 +42,7 @@ export const ProjectProvider = ({ children }) => {
     setLoginSuccess(true);
   };
 
-  //여행 제목,날짜 값
+  //여행 제목,날짜, 저장값 눌렀을때 상태 값들
   const [tripTitle, setTripTitle] = useState("");
   const [tripDates, setTripDates] = useState({
     startDate: null,

@@ -1,6 +1,7 @@
 /* .addDirectionFrame::-webkit-scrollbar {
     display: none;
 } */
+
 .addData{
     display: flex;
     justify-content: center;
@@ -32,8 +33,9 @@
     background-color: #FFA551;
     color:#fff;
     border: none;
-    height: 20px;
-    border-radius: 8px;
+    height: 25px;
+    border-radius: 20px;
+    padding:2px 12px 2px 12px;
 }
 
 .listNumber{
@@ -103,3 +105,15 @@
 .plusSearch img{
     width:100%;
 } */
+
+/* 모달창 */
+
+
+.modalBackBtn{
+    width: 230px;
+    height:38px;
+    border-radius: 20px;
+    border: none;
+    background-color: #FFA551;
+    color: #fff;
+}
