@@ -140,7 +140,7 @@ const AddData = ({width}) => {
           {/* 출발지 input */}
           <div className="departSearch">
               <input type="text" placeholder="출발지를 검색하세요." value={departure.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDeparture((prev) => ({ ...prev, title: e.target.value}))}/>
-              <button className="addDataBtns" type="button" onClick={()=>handleSearch(departure.title,setDeparture,"출발지")}>출발지 검색</button>
+              <button className="addDataBtns" type="button" onClick={()=>handleSearch(departure.title,setDeparture,"출발지")}>출발</button>
           </div>
           {/* 경유지 input */}
           {stopOverList.map((stopOver) => (
@@ -153,7 +153,7 @@ const AddData = ({width}) => {
                       item.id === stopOver.id ? { ...item, value } : item)), "경유지")
                 }
               >
-                경유지 검색
+                경유
               </button>
               <button button className="removeBtn" type="button" onClick={()=>removeStopOver(stopOver.id)}>삭제</button>
             </div>
@@ -162,7 +162,7 @@ const AddData = ({width}) => {
           {/* plus 경유지 추가 버튼  */}
           {departure.title && destination.title && (
             <div className="plusBtn">
-              <button type="button" onClick={plusBtnClicked}>+</button>
+              <button type="button" onClick={plusBtnClicked}>경유지 추가</button>
             </div>
           )}
           {/* 도착지 input */}
@@ -171,9 +171,9 @@ const AddData = ({width}) => {
               <input type="text" onChange={(e)=> setDestination(e.target.value)} value={destination.replace(/<\/?[^>]+(>|$)/g, "")}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>
             } */}
               <input type="text" placeholder="도착지를 검색하세요." value={destination.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDestination((prev) => ({...prev, title: e.target.value}))}/>
-              <button className="addDataBtns" type="button" onClick={()=>handleSearch(destination.title,setDestination,"도착지")}>도착지 검색</button>
+              <button className="addDataBtns" type="button" onClick={()=>handleSearch(destination.title,setDestination,"도착지")}>도착</button>
           </div>
-          <button className="addDataBtns" type="button" onClick={handlecoordinate}>저장</button>
+          <button className="saveBtn" type="button" onClick={handlecoordinate}>경로 저장하기기</button>
           <Modal
               className="newTripModal"
               isOpen={isModalOpen}
