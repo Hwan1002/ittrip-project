@@ -72,6 +72,16 @@ export const ProjectProvider = ({ children }) => {
     address:''
   })
 
+  const [selectedDay,setSelectedDay] = useState(0);
+
+  const [dayChecks,setDayChecks] = useState([]);
+
+  const initObject=()=>{
+    setDeparture({title:'',address:''});
+    setStopOverList([]);
+    setDestination({title:'',address:''});
+  }
+
   const value = {
     loginSuccess,setLoginSuccess,
     imagePreview,setImagePreview,
@@ -92,7 +102,10 @@ export const ProjectProvider = ({ children }) => {
     stopOverList,setStopOverList,
     mapObject,setMapObject,
     departure,setDeparture,
-    destination,setDestination
+    destination,setDestination,
+    selectedDay,setSelectedDay,
+    initObject,dayChecks,
+    setDayChecks
   };
 
   return (

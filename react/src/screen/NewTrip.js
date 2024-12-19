@@ -16,11 +16,17 @@ const NewTrip = () => {
   // const [setTripName] = useState(""); // 여행이름 저장
   // const [setTripLocal] = useState(""); // 여행 지역 저장
   // const [setTripDays] = useState(0); // 여행일정 저장
-  const { tripTitle, tripDates, logData,items } = useContext(ProjectContext);
+  const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
 
   //const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
+    if(mapObject.length!==dayChecks.length){
+      const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
+      if (!mapConfirm) {
+        return;
+      }
+    }
     try {
       //여행제목, 출발일,도착일 받아서 db 저장 axios 
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
@@ -37,7 +43,24 @@ const NewTrip = () => {
     } catch (error) {
       alert("에러 내용:", error);
     }
-    //axios 추가
+    //map db저장 axios
+    
+    try {
+      const response = await axios.post(`${API_BASE_URL}/2`,
+        {
+          tripTitle: tripTitle,
+          mapObject : mapObject
+        },
+        logData
+      );
+       alert("저장 성공");
+       initObject();
+       setSelectedDay(0);
+    } catch (error) {
+      console.log(mapObject);
+      alert("post2 에러");
+      
+    }
     
 
     //체크리스트 db저장 axios

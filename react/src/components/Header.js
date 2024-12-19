@@ -20,6 +20,7 @@ const Header = () => {
     tripDates,
     setTripDates,
     setTripTitle,
+    initObject
   } = useContext(ProjectContext);
   const navigate = useNavigate();
 
@@ -79,6 +80,7 @@ const Header = () => {
 
   const openNewPlanModal = () => {
     setIsNewPlanModal(true);
+    initObject();
     openModal({});
   };
 
