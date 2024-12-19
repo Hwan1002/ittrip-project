@@ -3,7 +3,6 @@ import "../css/Modal.css";
 
 const Modal = ({ isOpen, onClose, title, content,  actions, className}) => {
     if (!isOpen) return null; // isOpen이 false면 Modal을 렌더링하지 않음
-
     return (
         <div className="modal-backdrop">
             {/* <div className="modal-content"> */}

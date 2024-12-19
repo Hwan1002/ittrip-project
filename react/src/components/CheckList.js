@@ -42,7 +42,6 @@ function CheckList() {
 
   return (
     <div className="checklistAll">
-      <h2>체크리스트</h2>
       <div className="checkInput">
         <input
           type="text"
@@ -51,7 +50,7 @@ function CheckList() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="체크 해야할 것이 있나요?"
         />
-        <button onClick={addItem}>추가</button>
+        <button className='addBtn' onClick={addItem}>추가</button>
       </div>
       <div className="checkContents">
         <ul className="checkUl" style={{ padding: 0 }}>
