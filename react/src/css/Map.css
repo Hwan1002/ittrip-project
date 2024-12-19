@@ -24,13 +24,14 @@
 #dayChecks{
     text-align: center;
     /*각 Day 요소의 너비 */
-    width: 62;
+    width: 60px;
     /*각 Day 요소의 높이 */
-    height: 30;  
+    height: 28px;  
     background-color: #F6A354;
     color: #fff;
-    border-radius: 18;
+    border-radius: 18px;
     padding: 4px 6px 2px 4px;
     /* 요소들 사이의 여백 */
     margin: 20px 10px;
+    font-weight: 600;
 }

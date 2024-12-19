@@ -70,7 +70,7 @@ function CheckList() {
               <span style={{textDecoration: item.checked ? "line-through" : "none",}}>
                 {item.text}
               </span>
-              <button type="button" onClick={() => deleteItem(item.id)}>
+              <button className='addBtn' type="button" onClick={() => deleteItem(item.id)}>
                 삭제
               </button>
             </li>

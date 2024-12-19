@@ -209,7 +209,10 @@ const AddData = ({width}) => {
                         )}
                     </ul>
                   ) : (
-                    <p>검색 결과가 없습니다.</p>
+                    <div>
+                      <p>검색 결과가 없습니다.</p>
+                      <button className='modalBackBtn' onClick={()=>{closeModal();}}>돌아가기</button>
+                    </div>
                   )}
                 </div>
               }

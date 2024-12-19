@@ -39,6 +39,7 @@ body, html {
 }
 
 .socialBtn,.loginBt{
+    
     height: 50px;
     width: 525px;
     margin: 10px 0;
@@ -61,13 +62,16 @@ body, html {
 }
 
 .kakaoBt{
+    margin-left: 10px;
     background-color: #FEE500;
 }
 
 .naverBt{
+    margin-left: 10px;
     background-color: #00ff1f;
 }
 
 .googleBt{
+    margin-left: 10px;
     background-color: #00aee1;
 }
