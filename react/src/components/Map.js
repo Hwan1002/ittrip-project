@@ -46,16 +46,14 @@ const Map = () => {
   //day를 옮길 때 기본으로 dayData에 값을 넘겨야함(만약 dayData에 selectedDay의 day가 있으면 해당 day의 객체 덮어씌우기)
   //만약 selectedDay의 day가 dayData에 존재하는 day인 경우 해당 day에 맞는 day객체를 불러와서 경로상태에 set을 해야함
 
-  useEffect(()=>{
-    console.log("dayBoolean : "+JSON.stringify(dayBoolean));
-    if (!Array.isArray(dayBoolean)) {
-      console.error("dayBoolean is not an array:", dayBoolean);
-    }
-  },[dayBoolean])
+  
+  useEffect(() => {
+    debugger;
+    console.log("mapObject updated:", JSON.stringify(mapObject));
+  }, [mapObject]);
   
 
   const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-    debugger;
     const updatedDayBoolean = [...dayBoolean];
     updatedDayBoolean[selectedDay] = true;
     setDayBoolean([...updatedDayBoolean]);
@@ -63,8 +61,8 @@ const Map = () => {
       ...prevMapObject,
       {
         days: selectedDay + 1,
-        startPlace: "2", // 방어적으로 title 확인
-        startAddress: "3",
+        startPlace: departure?.title || "", // 방어적으로 title 확인
+        startAddress: departure?.address || "",
         goalPlace: destination?.title || "",
         goalAddress: destination?.address || "",
         wayPoints: stopOverList || [],
@@ -239,12 +237,11 @@ const Map = () => {
 
   // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
   const handleDayClick = (day) => {  
-    //3333
-    putObject();
-    setDeparture("");
-    setDestination(""); 
+    if(!dayBoolean[selectedDay]){
+      putObject();
+    }
     setSelectedDay(day);
-    if(dayBoolean[day]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
+    if(dayBoolean[selectedDay]){       //선택된 Day가 Day3이라면 dayBoolean[2] 가 true라면 =>(해당 Day에 객체를 넣었다면)
       const foundData = mapObject.find(data => data.days == day+1);    //  선택한 day에 대한 객체를 가져옴
       //foundData는 눌렀던 Day에 해당하는 map객체가 들어있으니 객체의 내부 값으로 경로 등의 상태를 set해주세요.
       setDeparture({title:foundData.startPlace, address:foundData.startAddress})
