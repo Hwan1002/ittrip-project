@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO.Items;
 import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
@@ -69,9 +70,16 @@ public class TripService {
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
 	public List<String> getSignguNms(String areaCd){
-		List<String> signguNm = areaRepository.findBySignguNm(areaCd) ;
+		List<String> signguNm = areaRepository.findByAreaCd(areaCd) ;
 		return signguNm;
 	}
+	
+	// 시군구 이름으로 엔티티반환메서드 .
+	public AreaDTO getCd(String signguNm){
+		AreaEntity entity = areaRepository.findBySignguNm(signguNm);
+		return new AreaDTO(entity);
+	}
+	
 	
 	//ex)이후 부평구를 누르면 인천광역시 부평구에 대한 areaCd,signguCd 반환 - 반환된 값으로 바로 공공데이터 요청을 할 것임
 	public List<AreaEntity> getCds(String areaNm,String signguNm){

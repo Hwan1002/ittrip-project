@@ -13,15 +13,11 @@ public class PublicDataDTO {
 
     @Data
     public static class Response {
-        private Header header;
+ 
         private Body body;
     }
 
-    @Data
-    public static class Header {
-        private String resultCode;
-        private String resultMsg;
-    }
+
 
     @Data
     public static class Body {

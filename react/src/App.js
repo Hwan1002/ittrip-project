@@ -14,6 +14,7 @@ import NewTrip from "./screen/NewTrip";
 import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
+import Maintest from "./screen/Maintest";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
       <ProjectProvider>
         <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Maintest />} />
           <Route path="/addData" element={<AddData />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

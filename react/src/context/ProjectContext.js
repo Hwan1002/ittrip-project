@@ -56,7 +56,7 @@ export const ProjectProvider = ({ children }) => {
   const [markers,setMarkers] = useState([]);
 
 
-  const [signguNm , setSignguNm]  =useState([]) ;
+
 
 
 
@@ -90,7 +90,6 @@ export const ProjectProvider = ({ children }) => {
     setWaypoints,
     path, setPath,
     markers,setMarkers,
-    signguNm , setSignguNm,
   };
 
   return (

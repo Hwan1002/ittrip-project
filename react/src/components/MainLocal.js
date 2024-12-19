@@ -3,8 +3,8 @@ import '../css/MainLocal.css'
 import local1 from '../img/MainPage/local1.gif'
 import { ProjectContext } from "../context/ProjectContext";
 
-const MainLocal = ({select,content}) => {
-    const {signguNm , setSignguNm} = useContext(ProjectContext);
+const MainLocal = ({select,content,signguNm}) => {
+    // const {signguNm , setSignguNm} = useContext(ProjectContext);
     
     console.log(signguNm)
     //임시 구 정보 (API로 대체 예정)
@@ -30,7 +30,7 @@ const MainLocal = ({select,content}) => {
             <div id="tripSelect">
                 <p>여행할 곳을 선택해 주세요</p>
                 <div id="guSelect">
-                    {signguNm.map((gu, index)=>(<button key={index} className="guBt">{gu}</button>))}
+                    {/* {signguNm.map((gu, index)=>(<button key={index} className="guBt">{gu}</button>))} */}
                 </div>
             </div>
         </div>

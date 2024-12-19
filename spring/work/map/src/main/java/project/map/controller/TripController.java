@@ -55,23 +55,27 @@ public class TripController {
 	@Autowired
 	private AreaRepository areaRepository;
 
-	// ---------------- 메인페이지 -----------------------
-	// areaNm에 대한 signguNm리스트 반환
-	// 만약 @RequestParam으로 쓰면 (@RequestParam String AreaNm)
+	
+	
+	
+	// 메인페이지 areaCd를 통해 SignguNm 모달위에 매핑
 	@GetMapping("/1")
-	public ResponseEntity<?> getSignguNm(@AuthenticationPrincipal String userId, @RequestParam (name = "areaCd") String areaCd) {
+	public ResponseEntity<?> getSignguNm(@RequestParam (name = "areaCd") String areaCd) {
 
 		try {
-			System.out.println("userId: " + userId);
 			System.out.println("areaCd: " + areaCd);
 			List<String> dtos = tripService.getSignguNms(areaCd);
 			ResponseDTO<String> response = ResponseDTO.<String>builder().data(dtos).build();
+			System.out.println(response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			e.printStackTrace(); // 에러 로그 출력
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
 		}
 	}
+	
+
+	
 
 	// areaNm과 signguNm으로 cd들 반환
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String areaNm,@RequestParam String
