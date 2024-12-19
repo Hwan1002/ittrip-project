@@ -12,17 +12,11 @@ import { format } from "date-fns";
 
 const NewTrip = () => {
   //context에서 필요한 상태값들 가져오기
-  // useState
-  // const [setTripName] = useState(""); // 여행이름 저장
-  // const [setTripLocal] = useState(""); // 여행 지역 저장
-  // const [setTripDays] = useState(0); // 여행일정 저장
   const { tripTitle, tripDates, logData,items } = useContext(ProjectContext);
-
-  //const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
     try {
-      //모달에서 기입했던 날짜를 가져와서 형태 포맷
+      //여행제목, 출발일,도착일 받아서 db 저장 axios 
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
       const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
       const response = await axios.post(`${API_BASE_URL}/1`,
@@ -38,6 +32,9 @@ const NewTrip = () => {
       alert("에러 내용:", error);
     }
     //axios 추가
+    
+
+    //체크리스트 db저장 axios
     try {
       const response = await axios.post(`${API_BASE_URL}/3`,
         {
@@ -56,11 +53,11 @@ const NewTrip = () => {
 
   return (
     <div className="newTrip">
-      <h2 className="title">새로운 여행 하기</h2>
+      <h2 >새로운 여행 하기</h2>
 
       {/* 경로설정 부분 */}
       <div id="rootSet">
-        <h2 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h2>
+        <h3 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h3>
         {/* 지도, 경로추가부분 */}
 
         <div id="locationFrame">
@@ -73,11 +70,16 @@ const NewTrip = () => {
           </div>
         </div>
         <div id="checkAndEnd">
-          <CheckList/>
+          <div>
+            <h3 style={{ color: "#706F6F", marginTop: "25px" }}>체크리스트</h3>
+            <div id='checkList'>
+              <CheckList />
+            </div>
+          </div>
           <div id="endBtFrame">
             <button id="newEnd" onClick={buttonClicked}>
               새로운 여행 추가
-              <img src={Plus2} width="28px" style={{ marginLeft: "25px" }} alt="새로운 여행"/>
+              <img src={Plus2} width="25px" style={{ marginLeft: "15px" }} alt="새로운 여행"/>
             </button>
           </div>
         </div>

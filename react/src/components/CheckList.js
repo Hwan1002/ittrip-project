@@ -11,14 +11,11 @@ function CheckList() {
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
     if (input.trim()) {
-      const maxId = items.length > 0 
-      ? Math.max(...items.map((item) => item.id || 0)) 
-      : 0;
-
-    const newItem = { 
-      id: maxId + 1, // 가장 큰 id에 1을 더함
-      text: input, 
-      checked: false 
+      const maxId = items.length > 0 ? Math.max(...items.map((item) => item.id || 0)) : 0;
+      const newItem = { 
+        id: maxId + 1, //가장 큰 id에 1을 더함
+        text: input, 
+        checked: false 
     };
 
     // 기존 items 배열에 새 항목 추가
@@ -34,7 +31,7 @@ function CheckList() {
       } catch (error) {
         console.log("에러 메시지 : ", error);
       }
-      // setInput("");
+      setInput("");
     }
   };
 
@@ -52,7 +49,6 @@ function CheckList() {
 
   return (
     <div className="checklistAll">
-      <h2>체크리스트</h2>
       <div className="checkInput">
         <input
           type="text"
@@ -61,7 +57,7 @@ function CheckList() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="체크 해야할 것이 있나요?"
         />
-        <button onClick={addItem}>추가</button>
+        <button className='addBtn' onClick={addItem}>추가</button>
       </div>
       <div className="checkContents">
         <ul className="checkUl" style={{ padding: 0 }}>
@@ -71,7 +67,7 @@ function CheckList() {
               <span style={{textDecoration: item.checked ? "line-through" : "none",}}>
                 {item.text}
               </span>
-              <button type="button" onClick={() => deleteItem(item.id)}>
+              <button className='addBtn' type="button" onClick={() => deleteItem(item.id)}>
                 삭제
               </button>
             </li>

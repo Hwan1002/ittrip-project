@@ -13,20 +13,32 @@ const AddData = ({width}) => {
     //여러 개의 input을 관리하는 배열
     const [res, setRes] = useState([]);
     //입력값을 각각 따로 저장하기 위해 만든 state
-    const [departure, setDeparture] = useState("");
-    const [destination, setDestination] = useState("")
-    const [stopOverList, setStopOverList] = useState([]);
+    
     //context 활용
-    const {setAddress, setPath, wayPoints, startPoint, goalPoint} = useContext(ProjectContext);
+    const {
+      setAddress,
+      setPath,
+      wayPoints, 
+      startPoint, 
+      goalPoint,
+      departure, setDeparture,
+      stopOverList, setStopOverList,
+      destination, setDestination
+    } = useContext(ProjectContext);
+
     //모달창 사용
     const {
         isModalOpen,
         modalTitle,
         modalActions,
+        modalMessage,
         openModal,
         closeModal
     } = useModal();
-
+    
+    useEffect(()=>{
+      console.log("list변경"+JSON.stringify(stopOverList));
+    },[stopOverList])
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
@@ -34,27 +46,24 @@ const AddData = ({width}) => {
       setAddress(item.address);
       switch(type) {
         case "departure":
-          setDeparture(item.title);
+          setDeparture({title: item.title, address: item.address});
+          console.log(departure);
           break;
         case "destination": 
-          setDestination(item.title);
+          setDestination({title:item.title, address:item.address});
           break; 
         case "stopOver": 
-        debugger;
         setStopOverList((prevList) => [
-          ...prevList, // 기존의 stopOverList에 추가
-          { id: Date.now(), value: item.title } // 새로운 아이템 강제로 추가
+          ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
+          { id: Date.now(), value: item.title, address : item.address } // 새로운 아이템 강제로 추가
         ]);
-          // setStopOverList((prevList) =>
-          // prevList.map((stopOver) =>
-          // stopOver.id === item.id? { ...stopOver, value: item.title}: stopOver)
-          // );
         break;
         default: 
           console.log("handleCheck switch 케이스 쪽 오류");
       }
       closeModal();
       alert(`${type === "stopOver"? "경유지가" : type === "departure"? "출발지가" : "도착지가"} 추가되었습니다.`)
+     
     }
 
     //좌표저장 (효용)
@@ -70,6 +79,7 @@ const AddData = ({width}) => {
             waypoints: lnglatString
           }
         });
+       
         setPath(response.data.route.traoptimal[0].path);
       } else {
         console.log("waypoint 없음", wayPoints)
@@ -85,7 +95,11 @@ const AddData = ({width}) => {
     
     const handleSearch = async(value, updateState, modalTitle) => {
       if(!value){
-        alert(`${modalTitle}를 입력해주세요.`);
+        // alert(`${modalTitle}를 입력해주세요.`);
+        openModal({
+          message:`${modalTitle}를 입력해주세요.`,
+          actions: [{ label:"확인", onClick:closeModal, className:"cancel-button"}],
+        })
         return;
       }
       try {
@@ -103,10 +117,11 @@ const AddData = ({width}) => {
         alert("handleSearch 검색 오류");
       }
     }
-    
+
     //경유지 추가 버튼
     const plusBtnClicked = () => {
-      setStopOverList([...stopOverList, {id:Date.now(), value:""}]);
+      setStopOverList([...stopOverList, {id:Date.now(),value:""}]);
+      
     }
 
     const handleStopOverChange = (id, value) => {
@@ -117,6 +132,7 @@ const AddData = ({width}) => {
 
     //경유지 삭제 버튼
     const removeStopOver = (id) => {
+      console.log(id);
       setStopOverList(stopOverList.filter((stopOver)=>stopOver.id!==id))
     }
 
@@ -124,8 +140,8 @@ const AddData = ({width}) => {
         <div className="addData">
           {/* 출발지 input */}
           <div className="departSearch">
-              <input type="text" placeholder="출발지를 검색하세요." value={departure.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e) => setDeparture(e.target.value)}/>
-              <button className="addDataBtns" type="button" onClick={()=>handleSearch(departure,setDeparture,"출발지")}>출발지 검색</button>
+              <input type="text" placeholder="출발지를 검색하세요." value={departure.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDeparture((prev) => ({ ...prev, title: e.target.value}))}/>
+              <button className="addDataBtns" type="button" onClick={()=>handleSearch(departure.title,setDeparture,"출발지")}>출발</button>
           </div>
           {/* 경유지 input */}
           {stopOverList.map((stopOver) => (
@@ -138,16 +154,16 @@ const AddData = ({width}) => {
                       item.id === stopOver.id ? { ...item, value } : item)), "경유지")
                 }
               >
-                경유지 검색
+                경유
               </button>
-              <button button className="removeBtn" type="button" onClick={()=> removeStopOver(stopOver.id)}>삭제</button>
+              <button button className="removeBtn" type="button" onClick={()=>removeStopOver(stopOver.id)}>삭제</button>
             </div>
             ))
           }
           {/* plus 경유지 추가 버튼  */}
-          {departure && destination && (
+          {departure.title && destination.title && (
             <div className="plusBtn">
-              <button type="button" onClick={plusBtnClicked}>+</button>
+              <button type="button" onClick={plusBtnClicked}>경유지 추가</button>
             </div>
           )}
           {/* 도착지 input */}
@@ -155,10 +171,10 @@ const AddData = ({width}) => {
             {/* {destination?
               <input type="text" onChange={(e)=> setDestination(e.target.value)} value={destination.replace(/<\/?[^>]+(>|$)/g, "")}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>
             } */}
-              <input type="text" placeholder="도착지를 검색하세요." value={destination.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e) => setDestination(e.target.value)}/>
-              <button className="addDataBtns" type="button" onClick={()=>handleSearch(destination,setDestination,"도착지")}>도착지 검색</button>
+              <input type="text" placeholder="도착지를 검색하세요." value={destination.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDestination((prev) => ({...prev, title: e.target.value}))}/>
+              <button className="addDataBtns" type="button" onClick={()=>handleSearch(destination.title,setDestination,"도착지")}>도착</button>
           </div>
-          <button className="addDataBtns" type="button" onClick={handlecoordinate}>저장</button>
+          <button className="saveBtn" type="button" onClick={handlecoordinate}>경로 저장하기</button>
           <Modal
               className="newTripModal"
               isOpen={isModalOpen}
@@ -194,7 +210,10 @@ const AddData = ({width}) => {
                         )}
                     </ul>
                   ) : (
-                    <p>검색 결과가 없습니다.</p>
+                    <div>
+                      <p>검색 결과가 없습니다.</p>
+                      <button className='modalBackBtn' onClick={()=>{closeModal();}}>돌아가기</button>
+                    </div>
                   )}
                 </div>
               }

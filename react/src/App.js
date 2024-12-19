@@ -3,7 +3,7 @@ import Login from "./screen/Login";
 import EntirePlan from "./screen/EntirePlan";
 import Header from "./components/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Main from "./screen/Main";
+// import Main from "./screen/Main";
 import Map from "./components/Map";
 import SignUp from "./screen/SignUp";
 import AddData from "./components/AddData";
