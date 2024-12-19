@@ -35,3 +35,7 @@
     margin: 20px 10px;
     font-weight: 600;
 }
+
+#dayChecks:hover {
+    background-color: #f78b26;
+}

@@ -1,6 +1,7 @@
 /* .addDirectionFrame::-webkit-scrollbar {
     display: none;
 } */
+
 .addData{
     display: flex;
     justify-content: center;
@@ -106,9 +107,7 @@
 } */
 
 /* 모달창 */
-.newTripModal{
-    height: 400px;
-}
+
 
 .modalBackBtn{
     width: 230px;

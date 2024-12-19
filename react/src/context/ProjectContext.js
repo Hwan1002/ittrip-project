@@ -48,7 +48,6 @@ export const ProjectProvider = ({ children }) => {
     startDate: null,
     endDate: null,
   });
-  const [savedBtnClicked , setSavedBtnClicked] = useState(false);
 
   // const [mapObject, setMapObject] = useState([]);
   const [mapObject, setMapObject] = useState([]);
@@ -87,7 +86,6 @@ export const ProjectProvider = ({ children }) => {
     token,logData,
     tripTitle,setTripTitle,
     tripDates,setTripDates,
-    savedBtnClicked , setSavedBtnClicked,
     input,setInput,
     items,setItems,
     address,setAddress,

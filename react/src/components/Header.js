@@ -7,22 +7,14 @@ import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 import DateCheck from "./DateCheck";
-//하단 날짜 입력받는 모달 컴포넌트 대체되면 지울 예정
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
-import { ko } from "date-fns/locale";
-import { addDays } from "date-fns";
 
 const Header = () => {
   const {
     loginSuccess,
     setLoginSuccess,
     token,
-    setSavedBtnClicked,
     tripTitle,
     tripDates,
-    setTripDates,
-    setTripTitle,
   } = useContext(ProjectContext);
   const navigate = useNavigate();
 
@@ -105,29 +97,22 @@ const Header = () => {
         <img className="headerLogo" src={logo} alt="Logo" />
       </Link>
       <nav className="menuBar">
-        <Link className="menu" to={"/checklist"}>
-          CheckList
-        </Link>
-        <Link className="menu" to={"/entireplan"}>
-          My Plan
-        </Link>
-        <Link className="menu" onClick={openNewPlanModal}>
-          New Plan
-        </Link>
+        <Link className="menu" to={"/checklist"}>CheckList</Link>
+        <Link className="menu" to={"/entireplan"}>My Plan</Link>
+        <Link className="menu" onClick={openNewPlanModal}> New Plan</Link>
       </nav>
       <div className="headerBtn">
         {loginSuccess ? (
-          <>
             <div>
               <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
               <Link className="mypage" to={"/mypage"}>MYPAGE</Link>
             </div>
-          </>
         ) : (
-          <>
+          <div>
             <Link className="login" to={"/login"}>LOGIN</Link>
             <Link className="signup" to={"/signup"}>SIGNUP</Link>
-          </>
+          </div>
+            
         )}
       </div>
       <Modal

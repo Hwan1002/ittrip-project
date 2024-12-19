@@ -8,6 +8,9 @@
     max-height: 700px;
     overflow: auto;
 }
+.checklistAll::-webkit-scrollbar{
+    display: none;
+ }
 .checkInput input{
     border-radius: 20px;
     width:230px;

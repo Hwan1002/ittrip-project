@@ -12,13 +12,7 @@ import { format } from "date-fns";
 
 const NewTrip = () => {
   //context에서 필요한 상태값들 가져오기
-  // useState
-  // const [setTripName] = useState(""); // 여행이름 저장
-  // const [setTripLocal] = useState(""); // 여행 지역 저장
-  // const [setTripDays] = useState(0); // 여행일정 저장
   const { tripTitle, tripDates, logData,items } = useContext(ProjectContext);
-
-  //const list = items.map((item)=>(item.text));  //items에서 text 부분만 뽑아오기
 
   const buttonClicked = async () => {
     try {

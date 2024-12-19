@@ -15,9 +15,6 @@ const AddData = ({width}) => {
     //입력값을 각각 따로 저장하기 위해 만든 state
     
     //context 활용
-    //출발지 주소, 출발지 상호명 departure
-    //경유지 주소, 상호명 (address 주소 까지) stopOverList, case 안에 address 까지 set 완료
-    //목적지 주소 , 상호명
     const {
       setAddress,
       setPath,
@@ -29,12 +26,12 @@ const AddData = ({width}) => {
       destination, setDestination
     } = useContext(ProjectContext);
 
-
     //모달창 사용
     const {
         isModalOpen,
         modalTitle,
         modalActions,
+        modalMessage,
         openModal,
         closeModal
     } = useModal();
@@ -98,7 +95,11 @@ const AddData = ({width}) => {
     
     const handleSearch = async(value, updateState, modalTitle) => {
       if(!value){
-        alert(`${modalTitle}를 입력해주세요.`);
+        // alert(`${modalTitle}를 입력해주세요.`);
+        openModal({
+          message:`${modalTitle}를 입력해주세요.`,
+          actions: [{ label:"확인", onClick:closeModal, className:"cancel-button"}],
+        })
         return;
       }
       try {
