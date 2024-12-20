@@ -1,6 +1,7 @@
 package project.map.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO.Items;
+import project.map.dto.MapDTO;
 import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
@@ -113,6 +115,10 @@ public class TripService {
 		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
 	}
 	
+	public Integer getIdxByItems(String items) {
+		return checkListRepository.getIdxByItems(items);
+	}
+	
 	public List<Items> parseItems(String itemsString) {
 	    List<Items> itemList = new ArrayList<>();
 	    
@@ -143,5 +149,22 @@ public class TripService {
 	    }
 	    return itemList;
 	}
+	
+	public static List<MapDTO.WayPointDTO> parseWaypoints(String waypoint) {
+        if (waypoint == null || waypoint.isEmpty()) {
+            return List.of();
+        }
+
+        return Arrays.stream(waypoint.split("\\|"))
+            .map(entry -> {
+                String[] parts = entry.split(":");
+                if (parts.length == 3) {
+                    return new MapDTO.WayPointDTO(parts[0], parts[1], parts[2]);
+                } else {
+                    throw new IllegalArgumentException("Invalid waypoint format: " + entry);
+                }
+            })
+            .toList();
+    }
 
 }
