@@ -16,18 +16,12 @@
     margin:20px 0 10px 0;
 }
 
-.tripTitle1,.tripTitle2{
-    font-size: 25px;
-    display: inline-block;
-    margin:0;
-}
 .tripTitle1{
     color: #575756;
     font-weight: 600;
-}
-
-.tripTitle2{
-    color: #828282;
+    font-size: 17px;
+    display: inline-block;
+    margin:0;
 }
 
 .bigPlan{
