@@ -54,7 +54,6 @@ const Header = () => {
   const handleNewPlanSubmit = (e) => {
     setIsNewPlanModal(false);
     e.preventDefault();
-    debugger;
     // setSavedBtnClicked(true);
     if (!tripTitle || !tripDates.startDate || !tripDates.endDate){
       openModal({

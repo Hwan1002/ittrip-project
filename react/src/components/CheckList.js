@@ -10,6 +10,7 @@ function CheckList() {
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
+    setInput("");
     if (input.trim()) {
       const maxId = items.length > 0 ? Math.max(...items.map((item) => item.id || 0)) : 0;
       const newItem = { 
@@ -21,7 +22,6 @@ function CheckList() {
     // 기존 items 배열에 새 항목 추가
     const updatedItems = [...items, newItem];
     setItems(updatedItems);
-    
     }
   };
 

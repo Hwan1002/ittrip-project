@@ -1,9 +1,7 @@
 #entirePlan {
     width: 1200px;
     height: calc(100vh - 101px);
-    /* 100vh에서 header의 높이만큼 빼기 */
     margin-top: 100px;
-    /* 헤더 아래로 밀기 (헤더 높이와 맞춰줘야 함) */
     display: grid;
     grid-template-columns: 2fr 1fr;
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;

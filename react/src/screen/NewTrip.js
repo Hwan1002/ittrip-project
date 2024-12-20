@@ -81,7 +81,7 @@ const NewTrip = () => {
   return (
     <div className="newTrip">
       <h2 >새로운 여행 하기</h2>
-
+      <p className="tripTitle">{tripTitle}의 여행을 계획해봐요!</p>
       {/* 경로설정 부분 */}
       <div id="rootSet">
         <h3 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h3>
