@@ -11,61 +11,32 @@ const EntirePlan = () => {
 
 
     return (
-        <div id="entirePlan">
+        <div id='entirePlan'>
+            <h2 style={{textAlign:'center', marginBottom:0}}>내일정 보기</h2>
+        <div id="mapPlanContain">
             <div id="mapFrame">
                 <Map />
             </div>
             
             <div id="planFrame">
-                <Link to="/newTrip"><div id="newTripBt"><p style={{marginLeft:"15px"}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"15px"}}/></div></Link>
-                
             {/* 여행목록 */}
-            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px"}}>여행목록</p>
-            <div
-                style={{
-                    border: "2px solid #DADADA",
-                    borderRight: "none",
-                    borderLeft: "none",
-                    overflowY: "auto",  // 세로 스크롤을 가능하게 함 
-                    padding: "10px",  // 내부 여백을 추가 (선택 사항)
-                    width:"300px",
-                    height:"160px"
-                }}
-            >
-                여행
+            <p className="entireTitle">여행목록</p>
+            <div className="entireScroll">
+                <Link to="/newTrip"><div id="newTripBt"><p style={{marginLeft:"15px"}}>새로운 여행 추가</p> <img src={Plus2}  width="28px" style={{marginLeft:"15px"}}/></div></Link>
             </div>
 
-            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px"}}>여행경로</p>
-            <div
-                style={{
-                    border: "2px solid #DADADA",
-                    borderRight: "none",
-                    borderLeft: "none",
-                    overflowY: "auto",  // 세로 스크롤을 가능하게 함 
-                    padding: "10px",  // 내부 여백을 추가 (선택 사항)
-                    width:"300px",
-                    height:"160px"
-                }}
-            >
-                여행
+            <p className="entireTitle" >여행경로</p>
+            <div className="entireScroll">
+                
             </div>
 
-            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px", }}>체크리스트</p>
-            <div
-                style={{
-                    border: "2px solid #DADADA",
-                    borderRight: "none",
-                    borderLeft: "none",
-                    overflowY: "auto",  // 세로 스크롤을 가능하게 함 
-                    padding: "10px",  // 내부 여백을 추가 (선택 사항)
-                    width:"300px",
-                    height:"160px"
-                }}
-            >
-                여행
+            <p className="entireTitle">체크리스트</p>
+            <div className="entireScroll">
+                
             </div>
 
             </div>
+        </div>
         </div>
     )
 }
