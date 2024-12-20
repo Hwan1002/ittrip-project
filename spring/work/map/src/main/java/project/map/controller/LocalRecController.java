@@ -28,7 +28,7 @@ public class LocalRecController {
 	private String mobileOs = "WEB";
 	private String mobileApp = "AppTest";
 	private String baseYm = "202407";
-	private String numOfRows = "5";
+	private String numOfRows = "60";
 	private String json = "json";
 
 	public LocalRecController(WebClient webClient) {
