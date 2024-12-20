@@ -104,8 +104,8 @@ public class TripService {
 //	}
 	
 	//trip의 title을 받아서 MapEntity들 반환하기
-	public List<MapEntity> getMaps(String userId,String title,Integer days){
-		return mapRepository.getLocation(userId, title,days);
+	public List<MapEntity> getMaps(String userId,String title){
+		return mapRepository.getLocation(userId, title);
 	}
 	
 	//trip의 title을 받아서 CheckListEntity 반환하기
@@ -122,7 +122,7 @@ public class TripService {
 	    }
 
 	    // ','를 기준으로 각 항목을 나눔
-	    String[] itemArray = itemsString.split(",");
+	    String[] itemArray = itemsString.split("\\|");
 	    
 	    for (String item : itemArray) {
 	        // ':'로 구분하여 id, text, checked 값을 추출
@@ -141,7 +141,6 @@ public class TripService {
 	            }
 	        }
 	    }
-	    
 	    return itemList;
 	}
 

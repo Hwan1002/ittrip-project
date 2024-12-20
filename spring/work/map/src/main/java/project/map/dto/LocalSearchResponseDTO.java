@@ -17,9 +17,6 @@ public class LocalSearchResponseDTO {
 	public static class Items {
 		private String title;
 		private String address;
-		private String roadAddress;
-		private String mapx;
-		private String mapy;
-			
+		private String roadAddress;		
 	}
 }

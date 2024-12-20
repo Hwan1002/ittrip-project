@@ -25,7 +25,13 @@ public class TripDTO {
 	private LocalDate startDate;
 	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate lastDate;
+//	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+//	private LocalDate addDate;
+////	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+////	private LocalDate updateDate;
 	private String userId;
+	
+	
 	
 	
 	public TripDTO(TripEntity entity){
