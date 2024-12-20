@@ -19,55 +19,45 @@ import project.map.service.TripService;
 @RestController
 public class LocalRecController {
 
-    private final WebClient webClient;
-    
-    @Autowired
-    private	TripService service ; 
-    
-    private String serviceKey = "vLo5QchUev0eMI0EfQEAAhaA8KcbKibBBFb7Ypbv1eSPl4kxhJ/g3bBPjmrlTlk8lwphxZUfqR7Ic5zYSwND2g==";
-    private String mobileOs = "WEB";
-    private String mobileApp = "AppTest";
-    private String baseYm = "202407";
-    private String numOfRows = "60";
-    private String json = "json" ;
-    public LocalRecController(WebClient webClient) {
-        this.webClient = webClient;
-    }
+	private final WebClient webClient;
 
-    @GetMapping("/123")
-    public ResponseEntity<?> getPublicData(
-            @RequestParam(name = "signguNm") String signguNm) {
-        AreaDTO dto = service.getCd(signguNm);
-    	try {
-            String uri = UriComponentsBuilder.fromHttpUrl("http://apis.data.go.kr/B551011/TarRlteTarService/areaBasedList")
-                    .queryParam("serviceKey", serviceKey)
-                    .queryParam("MobileOS", mobileOs)
-                    .queryParam("MobileApp", mobileApp)
-                    .queryParam("baseYm", baseYm)
-                    .queryParam("areaCd", dto.getAreaCd())
-                    .queryParam("signguCd",dto.getSignguCd())
-                    .queryParam("numOfRows", numOfRows)
-                    .queryParam("_type",json)
-                    .build(false) // 추가적인 URL 인코딩 방지
-                    .toUriString();
+	@Autowired
+	private TripService service;
 
-            System.out.println("Generated URI: " + uri); // 디버깅용
+	private String serviceKey = "vLo5QchUev0eMI0EfQEAAhaA8KcbKibBBFb7Ypbv1eSPl4kxhJ/g3bBPjmrlTlk8lwphxZUfqR7Ic5zYSwND2g==";
+	private String mobileOs = "WEB";
+	private String mobileApp = "AppTest";
+	private String baseYm = "202407";
+	private String numOfRows = "60";
+	private String json = "json";
 
-            PublicDataDTO response = webClient.get()
-                    .uri(uri)
-                    .accept(MediaType.APPLICATION_JSON) // XML 형식 요청 명시
-                    .retrieve()
-                    .bodyToMono(PublicDataDTO.class) // 응답을 DTO로 매핑
-                    .block();
-            
-            
-            
-            
+	public LocalRecController(WebClient webClient) {
+		this.webClient = webClient;
+	}
 
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
-        }
-    }
+	@GetMapping("/123")
+	public ResponseEntity<?> getPublicData(@RequestParam(name = "signguNm") String signguNm,
+			@RequestParam(name = "areaNm") String areaNm) {
+		AreaDTO dto = service.getCd(areaNm,signguNm);
+		try {
+			String uri = UriComponentsBuilder
+					.fromHttpUrl("http://apis.data.go.kr/B551011/TarRlteTarService/areaBasedList")
+					.queryParam("serviceKey", serviceKey).queryParam("MobileOS", mobileOs)
+					.queryParam("MobileApp", mobileApp).queryParam("baseYm", baseYm)
+					.queryParam("areaCd", dto.getAreaCd()).queryParam("signguCd", dto.getSignguCd())
+					.queryParam("numOfRows", numOfRows).queryParam("_type", json).build(false) // 추가적인 URL 인코딩 방지
+					.toUriString();
+
+			System.out.println("Generated URI: " + uri); // 디버깅용
+
+			PublicDataDTO response = webClient.get().uri(uri).accept(MediaType.APPLICATION_JSON) // XML 형식 요청 명시
+					.retrieve().bodyToMono(PublicDataDTO.class) // 응답을 DTO로 매핑
+					.block();
+
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+		}
+	}
 }

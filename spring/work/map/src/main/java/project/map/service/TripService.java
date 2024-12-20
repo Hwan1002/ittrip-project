@@ -77,8 +77,8 @@ public class TripService {
 	}
 	
 	// 시군구 이름으로 엔티티반환메서드 .
-	public AreaDTO getCd(String signguNm){
-		AreaEntity entity = areaRepository.findBySignguNm(signguNm);
+	public AreaDTO getCd(String areaNm, String signguNm){
+		AreaEntity entity = areaRepository.findByAreaNmSignguNm(areaNm,signguNm);
 		return new AreaDTO(entity);
 	}
 	

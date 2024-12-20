@@ -60,10 +60,11 @@ public class TripController {
 	
 	
 	
+	
+	
 	// 메인페이지 areaCd를 통해 SignguNm 모달위에 매핑
 	@GetMapping("/1")
 	public ResponseEntity<?> getSignguNm(@RequestParam (name = "areaCd") String areaCd) {
-
 		try {
 			System.out.println("areaCd: " + areaCd);
 			List<String> dtos = tripService.getSignguNms(areaCd);

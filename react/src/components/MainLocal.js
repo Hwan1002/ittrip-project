@@ -17,10 +17,8 @@ const MainLocal = ({select,content,signguNm}) => {
             <div id="siGun">
                 <div id="siGunText">
                     <div>
-                        <div>
-                            <p id="seoulKo">{select}</p>
-                            <p id="seoulEn">{content.english}</p>
-                        </div>
+                        <p id="seoulKo">{select}</p>
+                        <p id="seoulEn">{content.english}</p>
                     </div>
                     <p>{content.explan}</p>
                 </div>
@@ -31,7 +29,6 @@ const MainLocal = ({select,content,signguNm}) => {
 
             <div id="tripSelect">
                 <p>여행할 곳을 선택해 주세요</p>
-                <button value="클릭" />
                 <div id="guSelect">
                     {/* {signguNm.map((gu, index)=>(<button key={index} className="guBt">{gu}</button>))} */}
                 </div>
