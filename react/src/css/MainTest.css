@@ -10,7 +10,9 @@
     align-items: center;
     flex-direction: column;
 }
-
+.mainModal .modal-actions {
+    margin-top: 20px;
+}
 .mainLocal{
     display: flex;
     flex-direction: column;
@@ -52,7 +54,7 @@
 .guSelect{
     width: 740px;
     height: auto;
-    /* border: 2px solid #F6A354; */
+    border: 2px solid #F6A354;
     border-radius: 10px;
     padding : 20px;
     text-align: center;

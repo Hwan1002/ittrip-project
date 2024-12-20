@@ -9,7 +9,7 @@ import "../css/DateCheck.css";
 const DateCheck = () => {
 
     //전역상태 관리
-    const {tripDates, setTripDates, tripTitle, setTripTitle, savedBtnClicked} = useContext(ProjectContext);
+    const {tripDates, setTripDates, tripTitle, setTripTitle} = useContext(ProjectContext);
    
     return (
         <div className="tripPlan_content">

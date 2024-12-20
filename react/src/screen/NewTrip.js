@@ -1,23 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/NewTrip.css";
 import Plus2 from "../img/plus2.svg";
-import AddData from "../components/AddData.js";
 import Map from "../components/Map.js";
-import { ProjectContext } from "../context/ProjectContext.js";
+import AddData from "../components/AddData.js";
 import CheckList from "../components/CheckList.js";
-import { API_BASE_URL } from "../service/api-config.js";
 import axios from "axios";
+import Modal from "../components/Modal.js";
+import useModal from "../context/useModal.js";
+import { ProjectContext } from "../context/ProjectContext.js";
+import { API_BASE_URL } from "../service/api-config.js";
 import { format } from "date-fns";
 
-
 const NewTrip = () => {
+  const [firstRender, setFirstRender] = useState(true);
   //context에서 필요한 상태값들 가져오기
-  // useState
-  // const [setTripName] = useState(""); // 여행이름 저장
-  // const [setTripLocal] = useState(""); // 여행 지역 저장
-  // const [setTripDays] = useState(0); // 여행일정 저장
   const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
 
+  const navigate = useNavigate();
+
+  const { 
+    isModalOpen, 
+    openModal, closeModal, 
+    modalTitle, 
+    modalMessage, 
+    modalActions } = useModal();
+  
+  
   const buttonClicked = async () => {
     if(mapObject.length!==dayChecks.length){
       const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
@@ -111,6 +120,13 @@ const NewTrip = () => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={modalActions}
+      />
     </div>
   );
 };

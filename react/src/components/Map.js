@@ -28,7 +28,7 @@ const Map = () => {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1일은 시작일도 포함
 
       // dayChecks 배열 업데이트
-      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
+      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
       setDayChecks([...daysArray]);
     }
   }, [tripDates]);
@@ -204,7 +204,6 @@ const Map = () => {
     <div id="mapPlan">
       {/* 배경색을 넣어주는 div */}
       <div id="map-container"></div>
-
       {/* Day 요소들 배치 */}
       <div id="dayFrame">
         {/* dayChecks 배열의 항목에 따라 DayN 요소 생성 */}

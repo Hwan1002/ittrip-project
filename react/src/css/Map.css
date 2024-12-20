@@ -12,26 +12,23 @@
 }
 
 #dayFrame{
-    /*flexbox로 Day들을 가로로 나열 */
     display: flex;    
-    /*부모 div에 맞게 절대 위치 설정 */
     position: absolute;  
-    /*부모 div의 위에서 20px 떨어지게 설정 */
     top: 10px;
     left: 14px;
+    font-family: 'GmarketSansMedium';
 }
 
 #dayChecks{
     text-align: center;
-    width: 40px;
+    width: 42px;
     height: 20px;
     background-color: #F6A354;
     color: #fff;
     border-radius: 18px;
     padding: 4px 6px 2px 4px;
     margin: 10px 6px;
-    font-weight: 600;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 #dayChecks:hover {

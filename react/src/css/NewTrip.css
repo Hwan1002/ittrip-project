@@ -5,8 +5,6 @@
     margin-top: 400px;
     flex-direction: column; /* 자식 요소들을 세로로 나열 */
     align-items: center; /* 자식 요소들을 가로로 중앙 정렬 */
-
-    height: auto; /* 화면 전체 높이에 맞추기 (선택 사항) */
     padding: 20px; /* 여백 추가 (선택 사항) */
     background-color: rgba(255,255,255,0.7);
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
