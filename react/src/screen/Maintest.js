@@ -38,6 +38,17 @@ const Maintest = () => {
     // 추천지 렌더여부
     const [recommend, setRecommend] = useState(false);
 
+    const [recButton, setRecButton] = useState(
+        {
+            all: [], food: [],
+            lodgment: [], spot: []
+        }
+
+
+    )
+
+    const [currentView, setCurrentView] = useState("all");
+
     // 지역 코드 
     const regionData = {
         충청도: [
@@ -102,20 +113,17 @@ const Maintest = () => {
                     areaNm: select
                 },
             });
-            console.log("Response Data:", response.data.response.body.items.item);
+            // console.log("Response Data:", response.data.response.body.items.item);
+            const items = response.data.response.body.items.item
+            setRecButton((prevState) => ({
+                ...prevState, // 기존 상태 유지
+                all: items,
+                food: items.filter((data) => data.rlteCtgryLclsNm === "음식"),
+                lodgment: items.filter((data) => data.rlteCtgryLclsNm === "숙박"),
+                spot: items.filter((data) => data.rlteCtgryLclsNm === "관광지"),
+            }));
 
-            const items = response.data.response.body.items.item;
 
-            // 'rlteCtgryLclsNm' 값이 '음식'인 항목만 필터링
-            const Button1 = items.filter((data) => data.rlteCtgryLclsNm === "음식");
-            const Button2 = items.filter((data) => data.rlteCtgryLclsNm === "관광지");
-            const Button3 = items.filter((data) => data.rlteCtgryLclsNm === "숙박");
-           
-
-
-            console.log("Filtered Items:", Button1);
-            console.log("Filtered Items:", Button2)
-            console.log("Filtered Items:", Button3)
             // 필요한 추가 작업 수행
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -124,6 +132,11 @@ const Maintest = () => {
     };
 
 
+    useEffect(() => {
+        if (recButton.all.length === 0) return;
+        setRecommend(true);
+        console.log(recButton.all)
+    }, [recButton])
 
 
     return (
@@ -321,8 +334,8 @@ const Maintest = () => {
                     setRecommend(false);
                     console.log(areaCd, signguNm)
                 }} // 닫기 함수
-                content={
-                    <div className="mainLocal">
+                content={!recommend ?
+                    (<div className="mainLocal">
                         <div className="siGun">
                             <div className="siGunText">
                                 <div className="siGunTitle">
@@ -353,12 +366,77 @@ const Maintest = () => {
                                                 setSelect(item.name);
                                                 setAreaCd(item.areaCd);
                                                 setHeader(item.header)
-                                                setRecommend(true);
                                             }}>{item.name}</button>
                                     )))}
                             </div>
                         </div>
-                    </div>
+                    </div>) :
+                    (<div>
+
+                        {/* 버튼 클릭으로 currentView 변경 */}
+                        <button onClick={() => setCurrentView("all")}>전체</button>
+                        <button onClick={() => setCurrentView("lodgment")}>숙박</button>
+                        <button onClick={() => setCurrentView("food")}>음식</button>
+                        <button onClick={() => setCurrentView("spot")}>관광지</button>
+
+                        {/* 조건부 렌더링 */}
+                        <div>
+                            {currentView === "all" && (
+                                <div>
+                                    <h3>전체</h3>
+                                    {recButton.all.map((item, index) => (
+                                          <div key={index}>
+                                          <p>이름 : {item.rlteTatsNm}</p>
+                                          <p>주소 : {item.rlteBsicAdres}</p>
+                                          <p>테마 : {item.rlteCtgrySclsNm}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {currentView === "lodgment" && (
+                                <div>
+                                    <h3>숙박</h3>
+                                    {recButton.lodgment.map((item, index) => (
+                                         <div key={index}>
+                                         <p>이름 : {item.rlteTatsNm}</p>
+                                         <p>주소 : {item.rlteBsicAdres}</p>
+                                         <p>테마 : {item.rlteCtgrySclsNm}</p>
+                                       </div>
+                                    ))}
+                                </div>
+                            )}
+                            {currentView === "food" && (
+                                <div>
+                                    <h3>음식</h3>
+                                    {recButton.food.map((item, index) => (
+                                        <div key={index}>
+                                        <p>이름 : {item.rlteTatsNm}</p>
+                                        <p>주소 : {item.rlteBsicAdres}</p>
+                                        <p>테마 : {item.rlteCtgrySclsNm}</p>
+                                      </div>
+                                    ))}
+                                </div>
+                            )}
+                            {currentView === "spot" && (
+                                <div>
+                                    <h3>관광지</h3>
+                                    {recButton.spot.map((item, index) => (
+                                      <div key={index}>
+                                      <p>이름 : {item.rlteTatsNm}</p>
+                                      <p>주소 : {item.rlteBsicAdres}</p>
+                                      <p>테마 : {item.rlteCtgrySclsNm}</p>
+                                    </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+
+
+
+
+
+                    </div>)
                 } // 내용 (데이터 기반 버튼 생성)
                 actions={[
                     {
@@ -369,6 +447,7 @@ const Maintest = () => {
                             setSignguNm("")
                             setHeader("")
                             setRecommend(false);
+                            setCurrentView("all")
                         },
                         className: "close-button",
 
