@@ -1,0 +1,14 @@
+.tripTitle{
+    font-size: 15px;
+    color:#706F6F;
+}
+
+.dateCheckResult p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #F6A354;
+    border-radius: 10px;
+    height:30px;
+    color:#706F6F;
+}

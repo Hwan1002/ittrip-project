@@ -1,7 +1,7 @@
 .newTrip {
     display: flex; /* Flexbox 활성화 */
     width: 1150px;
-
+    height: 1000px;
     margin-top: 400px;
     flex-direction: column; /* 자식 요소들을 세로로 나열 */
     align-items: center; /* 자식 요소들을 가로로 중앙 정렬 */
@@ -10,8 +10,11 @@
     padding: 20px; /* 여백 추가 (선택 사항) */
     background-color: rgba(255,255,255,0.7);
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
+}
 
-
+.newTrip h2{
+    font-size: 30px;
+    font-family: 'GmarketSansMedium';
 }
 
 .bigPlan{
@@ -41,14 +44,15 @@
     border: 3px solid #DADADA;
     border-right: none;
     border-left: none;
-    width: 875px;
+    width: 1000px;
     height: 500px;
     margin-bottom: 20px;
+    box-shadow: 0 0px 3px #f6a354, 0px 0px 18px #f6a354;
 
 }
 
 #newMap{
-    height: 100%;
+    width: 665px;
     background-color: rgb(190, 190, 190);
 }
 

@@ -4,7 +4,8 @@ import {ProjectContext} from "../context/ProjectContext";
 import {addDays} from "date-fns";
 import {ko} from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
-
+import "../css/Reset.css";
+import "../css/DateCheck.css";
 const DateCheck = () => {
 
     //전역상태 관리
@@ -27,6 +28,7 @@ const DateCheck = () => {
                         <div className="dateContents">
                           <h3>여행 기간</h3>
                           <DatePicker
+                            className="datePicker"
                             selected={tripDates.startDate}
                             onChange={(dates) => {
                               const [start, end] = dates;
@@ -45,13 +47,13 @@ const DateCheck = () => {
                             inline
                           />
                           {tripDates.startDate && tripDates.endDate && (
-                            <div>
+                            <div className="dateCheckResult">
                               <p>여행 이름 : {tripTitle}</p>
                               <p>
-                                출발 : {tripDates.startDate.toLocaleDateString("ko-KR")}
+                                출발 날짜 : {tripDates.startDate.toLocaleDateString("ko-KR")}
                             </p>
                             <p>
-                                도착 : {tripDates.endDate.toLocaleDateString("ko-KR")}
+                                도착 날짜 : {tripDates.endDate.toLocaleDateString("ko-KR")}
                             </p>
                         </div>
                         )
