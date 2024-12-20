@@ -39,5 +39,9 @@ public class PublicDataDTO {
 
         @JsonProperty("rlteCtgryLclsNm")	//관광지,음식,숙박
         private String rlteCtgryLclsNm;
+        
+        @JsonProperty("rlteCtgrySclsNm")	
+        private String rlteCtgrySclsNm;
+        
     }
 }

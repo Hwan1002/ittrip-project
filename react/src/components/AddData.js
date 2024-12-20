@@ -211,7 +211,7 @@ const AddData = ({width}) => {
             {/* {destination?
               <input type="text" onChange={(e)=> setDestination(e.target.value)} value={destination.replace(/<\/?[^>]+(>|$)/g, "")}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>
             } */}
-              <input type="text" placeholder="도착지를 검색하세요." value={destination.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDestination((prev) => ({...prev, title: e.target.value}))}/>
+            <input type="text" placeholder="도착지를 검색하세요." value={destination.title?.replace(/<\/?[^>]+(>|$)/g, "") || ""} onChange={(e) => setDestination((prev) => ({...prev, title: e.target.value}))}/> 
               <button className="addDataBtns" type="button" onClick={()=>handleSearch(destination.title,setDestination,"도착지")}>도착</button>
           </div>
           <button className="saveBtn" type="button" onClick={handlecoordinate}>경로 저장하기</button>
