@@ -1,7 +1,8 @@
 import "../css/Map.css";
 import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
-
+import useModal from "../context/useModal";
+import Modal from "./Modal";
 
 const Map = () => {
 
@@ -9,7 +10,7 @@ const Map = () => {
     stopOverList,setStopOverList,mapObject,setMapObject,departure,setDeparture,destination,setDestination,selectedDay,setSelectedDay,
     dayChecks,setDayChecks} = useContext(ProjectContext);
 
-  
+    const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
   // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
    
   useEffect(() => {
@@ -68,7 +69,11 @@ const Map = () => {
             query: address
           }, (status, response) => {
             if (status === window.naver.maps.Service.Status.ERROR) {
-              alert('주소를 찾을 수 없습니다.');
+              // alert('주소를 찾을 수 없습니다.');
+              openModal({
+                title:"주소 오류",
+                message:"주소를 찾을 수 없습니다.",
+              })
               return;
             }
 
@@ -179,22 +184,35 @@ const Map = () => {
   // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
   const handleDayClick = (day) => {  
     if(!mapObject.find(data=>data.days === selectedDay+1)){
-      const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
-    if (userConfirm) {
-      alert("넘어갈게");
+      // const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
+      openModal({
+        title:"주의",
+        message: "저장 안했는데 넘어갈거야?",
+      })
       setDeparture({title:'',address:''});
       setStopOverList([]);
       setDestination({title:'',address:''});
       setSelectedDay(day);
-    } else {
-      alert("그래 저장해");
+    // if (userConfirm) {
+    //   alert("넘어갈게");
+    //   openModal({
+    //     title:"",
+    //     message:"넘어갈게",
+    //   })
+    //   // setDeparture({title:'',address:''});
+    //   // setStopOverList([]);
+    //   // setDestination({title:'',address:''});
+    //   // setSelectedDay(day);
+    // } else {
+    //   alert("그래 저장해");
+    // }
     }
-    }else{
-      setDeparture({title:'',address:''});
-      setStopOverList([]);
-      setDestination({title:'',address:''});
-      setSelectedDay(day);
-    }
+    // else{
+    //   setDeparture({title:'',address:''});
+    //   setStopOverList([]);
+    //   setDestination({title:'',address:''});
+    //   setSelectedDay(day);
+    // }
     
   };
 
@@ -213,6 +231,16 @@ const Map = () => {
           </div>
         ))}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={[
+          {label: "확인", onClick: closeModal, className: "confirm-button",},
+          {label: "뒤로가기", onClick: closeModal, className: "cancel-button",}
+        ]}
+      />
     </div>
   );
 }
