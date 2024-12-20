@@ -81,10 +81,10 @@ const NewTrip = () => {
   return (
     <div className="newTrip">
       <h2 >새로운 여행 하기</h2>
-      <p className="tripTitle">{tripTitle}의 여행을 계획해봐요!</p>
+      <div><p className="tripTitle1">"{tripTitle}" </p><p className="tripTitle2">을 계획해봐요!</p></div>
       {/* 경로설정 부분 */}
       <div id="rootSet">
-        <h3 style={{ color: "#706F6F", marginTop: "25px" }}>경로 설정</h3>
+        <h3 style={{ color: "#F6A354", marginTop: "25px", fontSize:'22px'}}>경로 설정</h3>
         {/* 지도, 경로추가부분 */}
 
         <div id="locationFrame">
@@ -97,16 +97,18 @@ const NewTrip = () => {
           </div>
         </div>
         <div id="checkAndEnd">
-          <div>
-            <h3 style={{ color: "#706F6F", marginTop: "25px" }}>체크리스트</h3>
+          <div id="checkListFrame">
+            <h3 style={{ color: "#F6A354", marginTop: 0 ,fontSize:'22px' }}>체크리스트</h3>
             <div id='checkList'>
               <CheckList />
             </div>
           </div>
           <div id="endBtFrame">
+            <p style={{color: "#F6A354", fontSize:'25px', marginBottom:'5px'}}>Happy Your Trip!</p>
+            <p style={{color: "#828282", marginBottom:'20px'}}>일정계획이 완료되면 아래 버튼을 눌러주세요</p>
             <button id="newEnd" onClick={buttonClicked}>
               새로운 여행 추가
-              <img src={Plus2} width="25px" style={{ marginLeft: "15px" }} alt="새로운 여행"/>
+              <img src={Plus2} width="25px" style={{ marginLeft: "15px"  }} alt="새로운 여행"/>
             </button>
           </div>
         </div>

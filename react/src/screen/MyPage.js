@@ -173,7 +173,7 @@ const MyPage = () => {
     return (
         <div className="container">
             <div id="myPage">
-                <h2>마이 페이지</h2>
+                <h2 style={{ marginBottom:'20px'}}>마이 페이지</h2>
                 <div className="myPageContents">
                     <div id="profileFrame">
                         <div className="UserImg">
@@ -187,33 +187,33 @@ const MyPage = () => {
                         <form onSubmit={(e) => modify(e)}>
                             <div id="myInfo">
                                 <div className="infoInput">
-                                    <label for="userId">ID :</label>
-                                    <input name="id" id="userId" value={userData.id} readOnly />
+                                    <label for="userId">ID </label>
+                                    <input name="id" id="userId" style={{marginLeft:"82px"}} value={userData.id} readOnly />
                                 </div>
                                 {userData.authProvider !== null ? '' : (
                                     <>
                                         <div className="infoInput">
-                                            <label for="pwd">비밀번호 :</label>
-                                            <input name="password" id="pwd" type="password" value={userData.password} onChange={handleInputChange} />
+                                            <label for="pwd">비밀번호 </label>
+                                            <input name="password" id="pwd" style={{marginLeft:"42px"}} type="password" value={userData.password} onChange={handleInputChange} />
                                         </div>
                                         <div className="infoInput">
-                                            <label for="pwdcf">비밀번호 확인 :</label>
+                                            <label for="pwdcf">비밀번호 확인 </label>
                                             <input id="pwdcf" type="password" onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} />
                                         </div>
                                     </>
 
                                 )}
                                 <div className="infoInput">
-                                    <label for="name">이름 :</label>
-                                    <input name="userName" id="name" value={userData.userName} onChange={handleInputChange} />
+                                    <label for="name">이름 </label>
+                                    <input name="userName" id="name" style={{marginLeft:"70px"}} value={userData.userName} onChange={handleInputChange} />
                                 </div>
                                 <div className="infoInput">
-                                    <label for="userEmail">이메일 :</label>
-                                    <input name="email" id="userEmail" value={userData.email} onChange={handleInputChange} />
+                                    <label for="userEmail">이메일 </label>
+                                    <input name="email" id="userEmail" style={{marginLeft:"55px"}}  value={userData.email} onChange={handleInputChange} />
                                 </div>
                             </div>
                             <div className="myPageBtns">
-                                <button type="submit">내정보 수정</button>
+                                <button type="submit" style={{marginLeft:'20px'}}>내정보 수정</button>
                                 <button type="button" onClick={handleDeleteAccount}>회원 탈퇴</button>
                             </div>
                         </form>
