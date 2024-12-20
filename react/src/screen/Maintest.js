@@ -9,6 +9,10 @@ import local5 from "../img/MainPage/local5.gif";
 import local6 from "../img/MainPage/local6.gif";
 import local7 from "../img/MainPage/local7.gif";
 import local8 from "../img/MainPage/local8.png";
+//icon
+import house from "../img/Icon/house.png"
+import food from "../img/Icon/food.png"
+import spot from "../img/Icon/spot.png"
 import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
@@ -48,7 +52,6 @@ const Maintest = () => {
     )
 
     const [currentView, setCurrentView] = useState("all");
-
     // 지역 코드 
     const regionData = {
         충청도: [
@@ -115,6 +118,7 @@ const Maintest = () => {
             });
             // console.log("Response Data:", response.data.response.body.items.item);
             const items = response.data.response.body.items.item
+
             setRecButton((prevState) => ({
                 ...prevState, // 기존 상태 유지
                 all: items,
@@ -371,71 +375,36 @@ const Maintest = () => {
                             </div>
                         </div>
                     </div>) :
-                    (<div>
-
-                        {/* 버튼 클릭으로 currentView 변경 */}
-                        <button onClick={() => setCurrentView("all")}>전체</button>
-                        <button onClick={() => setCurrentView("lodgment")}>숙박</button>
-                        <button onClick={() => setCurrentView("food")}>음식</button>
-                        <button onClick={() => setCurrentView("spot")}>관광지</button>
-
+                    (
+                    <div className="categoryAll">
+                        <div className="categoryBtns">
+                            {/* 버튼 클릭으로 currentView 변경 */}
+                            <button onClick={() => setCurrentView("all")}>전체</button>
+                            <button onClick={() => setCurrentView("lodgment")}>숙박</button>
+                            <button onClick={() => setCurrentView("food")}>음식</button>
+                            <button onClick={() => setCurrentView("spot")}>관광지</button>
+                        </div>
                         {/* 조건부 렌더링 */}
-                        <div>
-                            {currentView === "all" && (
-                                <div>
-                                    <h3>전체</h3>
-                                    {recButton.all.map((item, index) => (
-                                          <div key={index}>
-                                          <p>이름 : {item.rlteTatsNm}</p>
-                                          <p>주소 : {item.rlteBsicAdres}</p>
-                                          <p>테마 : {item.rlteCtgrySclsNm}</p>
+                        <div  className="categoryList">
+                            {(currentView === "all" || currentView === "lodgment" || currentView ==="food" || currentView === "spot") && (
+                                <>
+                                {/* <h3>전체</h3> */}
+                                    {recButton[currentView].map((item, index) => (
+                                        <div key={index} className="listContents">
+                                            <div className="icon">
+                                                <> {item.rlteCtgryLclsNm ==="관광지" ?  <img src={spot} alt="관광지"/> : item.rlteCtgryLclsNm === "숙박" ? <img src={house} alt="숙박"/> :  <img src={food} alt="음식"/>}</>
+                                            </div>
+                                            <div className="listInfo">
+                                                <p>이름 : {item.rlteTatsNm} </p>
+                                                <p>주소 : {item.rlteBsicAdres} </p>
+                                                <p>테마 :  {item.rlteCtgrySclsNm} </p>
+                                            </div>
+                                            
                                         </div>
                                     ))}
-                                </div>
-                            )}
-                            {currentView === "lodgment" && (
-                                <div>
-                                    <h3>숙박</h3>
-                                    {recButton.lodgment.map((item, index) => (
-                                         <div key={index}>
-                                         <p>이름 : {item.rlteTatsNm}</p>
-                                         <p>주소 : {item.rlteBsicAdres}</p>
-                                         <p>테마 : {item.rlteCtgrySclsNm}</p>
-                                       </div>
-                                    ))}
-                                </div>
-                            )}
-                            {currentView === "food" && (
-                                <div>
-                                    <h3>음식</h3>
-                                    {recButton.food.map((item, index) => (
-                                        <div key={index}>
-                                        <p>이름 : {item.rlteTatsNm}</p>
-                                        <p>주소 : {item.rlteBsicAdres}</p>
-                                        <p>테마 : {item.rlteCtgrySclsNm}</p>
-                                      </div>
-                                    ))}
-                                </div>
-                            )}
-                            {currentView === "spot" && (
-                                <div>
-                                    <h3>관광지</h3>
-                                    {recButton.spot.map((item, index) => (
-                                      <div key={index}>
-                                      <p>이름 : {item.rlteTatsNm}</p>
-                                      <p>주소 : {item.rlteBsicAdres}</p>
-                                      <p>테마 : {item.rlteCtgrySclsNm}</p>
-                                    </div>
-                                    ))}
-                                </div>
+                                </>
                             )}
                         </div>
-
-
-
-
-
-
                     </div>)
                 } // 내용 (데이터 기반 버튼 생성)
                 actions={[

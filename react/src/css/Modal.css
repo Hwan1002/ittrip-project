@@ -91,9 +91,9 @@
 /* Header.js 모달 전용 */
 /* 날짜 입력 css */
 .modal-trip-plan {
-    width: 600px;
+    width: 480px;
     /* 더 넓은 크기 */
-    height: auto;
+    height: 750px;
     /* 내용에 따라 높이 조정 */
     max-width: 90%;
     background: white;

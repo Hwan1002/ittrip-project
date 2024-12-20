@@ -9,24 +9,26 @@ import "../css/DateCheck.css";
 const DateCheck = () => {
 
     //전역상태 관리
-    const {tripDates, setTripDates, tripTitle, setTripTitle, savedBtnClicked} = useContext(ProjectContext);
+    const {tripDates, setTripDates, tripTitle, setTripTitle} = useContext(ProjectContext);
    
     return (
         <div className="tripPlan_content">
                       <div className="tripTitle">
                         <label>
                           여행 제목
-                          <input
+                          <input 
+                            style={{width:'290px', height:'35px', borderRadius:"20px"}}
                             type="text"
                             name="tripTitle"
                             value={tripTitle}
                             onChange={(e) => setTripTitle(e.target.value)}
+                            placeholder="여행 제목을 입력해주세요"
                           />
                         </label>
                       </div>
                       <div className="tripDates">
                         <div className="dateContents">
-                          <h3>여행 기간</h3>
+                          <h3 style={{marginTop:0}}>여행 기간</h3>
                           <DatePicker
                             className="datePicker"
                             selected={tripDates.startDate}

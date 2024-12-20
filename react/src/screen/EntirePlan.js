@@ -50,7 +50,7 @@ const EntirePlan = () => {
                 여행
             </div>
 
-            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px"}}>체크리스트</p>
+            <p style={{ color: "#F6A354",fontSize:"20px", marginBottom: "5px", }}>체크리스트</p>
             <div
                 style={{
                     border: "2px solid #DADADA",

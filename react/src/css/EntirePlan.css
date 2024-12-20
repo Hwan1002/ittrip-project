@@ -34,17 +34,17 @@
 
 
 #newTripBt {
-    display: flex;
-    width: 210px;
+    width :190px;
     height: 40px;
-    background-color: #F6A354;
-    border-radius: 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 17px;
+    display: flex;
     justify-content: center;
-    /* 수직 중앙 정렬 */
     align-items: center;
-    /* 수평 중앙 정렬 */
+    background-color: #F6A354;   
     color: #fff;
-    font-size: 20px;
+    padding-left: 12px;
 }
 
 
