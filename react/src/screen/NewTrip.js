@@ -1,22 +1,71 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/NewTrip.css";
 import Plus2 from "../img/plus2.svg";
-import AddData from "../components/AddData.js";
 import Map from "../components/Map.js";
-import { ProjectContext } from "../context/ProjectContext.js";
+import AddData from "../components/AddData.js";
 import CheckList from "../components/CheckList.js";
-import { API_BASE_URL } from "../service/api-config.js";
 import axios from "axios";
+import Modal from "../components/Modal.js";
+import useModal from "../context/useModal.js";
+import { ProjectContext } from "../context/ProjectContext.js";
+import { API_BASE_URL } from "../service/api-config.js";
 import { format } from "date-fns";
 
-
 const NewTrip = () => {
+  const [firstRender, setFirstRender] = useState(true);
   //context에서 필요한 상태값들 가져오기
-  // useState
-  // const [setTripName] = useState(""); // 여행이름 저장
-  // const [setTripLocal] = useState(""); // 여행 지역 저장
-  // const [setTripDays] = useState(0); // 여행일정 저장
   const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
+
+  const navigate = useNavigate();
+  const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
+
+  useEffect(() => {
+    const handleRefreshAttempt = (e) => {
+      e.preventDefault();
+      openModal({
+        title: "초기화 경고",
+        message: "새로고침하면 데이터가 초기화됩니다. 계속하시겠습니까?",
+        actions: [
+          {
+            label: "확인",
+            onClick: () => {
+              closeModal();
+              window.location.reload();
+              navigate("/")
+            },
+            className: "confirm-btn",
+          },
+          {
+            label: "취소",
+            onClick: closeModal,
+            className: "cancel-btn",
+          },
+        ],
+      });
+    };
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey && e.key === "r") || e.key === "F5") {
+        e.preventDefault();
+        handleRefreshAttempt(e);
+      }
+    };
+    // 뒤로가기 감지
+    const handlePopState = (e) => {
+      e.preventDefault();
+      handleRefreshAttempt(e);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.history.pushState(null, "", window.location.href); // 현재 상태 저장
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [openModal, closeModal]);
+
 
   const buttonClicked = async () => {
     if(mapObject.length!==dayChecks.length){
@@ -81,7 +130,7 @@ const NewTrip = () => {
   return (
     <div className="newTrip">
       <h2 >새로운 여행 하기</h2>
-      <div><p className="tripTitle1">"{tripTitle}" </p><p className="tripTitle2">을 계획해봐요!</p></div>
+      <div><p className="tripTitle1">"{tripTitle}"을 계획해봐요!</p></div>
       {/* 경로설정 부분 */}
       <div id="rootSet">
         <h3 style={{ color: "#F6A354", marginTop: "25px", fontSize:'22px'}}>경로 설정</h3>
@@ -113,6 +162,13 @@ const NewTrip = () => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={modalActions}
+      />
     </div>
   );
 };

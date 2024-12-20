@@ -1,5 +1,6 @@
 package project.map.dto;
 
+import java.util.Arrays;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -19,14 +20,13 @@ import project.map.entity.UserEntity;
 @Data
 public class MapDTO {
 		private Integer idx;			//맵 식별자
-		private String userId;			//UserEntity의 id
 		private String tripTitle;		//TripEntity의 title
-		
+		private String userId;
 		private List<MapObject> mapObject;
 		
+		@Data
 		@NoArgsConstructor
 		@AllArgsConstructor
-		@Data
 		public static class MapObject{
 			private int days;
 		    private String startPlace;
@@ -37,39 +37,47 @@ public class MapDTO {
 
 		}
 		  
+		@Data
+		@NoArgsConstructor
 		@AllArgsConstructor
-	    @NoArgsConstructor
-	    @Data
 	    public static class WayPointDTO {
 	        private String id;
 	        private String value;
 	        private String address;
 	    }
 	    
-//		public MapObject(MapEntity entity) {
-//			 this.startPlace = entity.getStartPlace(); // 출발지 상호명
-//			 this.startAddress = entity.getStartAddress(); // 출발지 지번주소
-//			 this.waypointsPlace = entity.getWaypointsPlace(); // 경유지 상호명들
-//			 this.waypointsAddress = entity.getWaypointsAddress(); // 경유지 지번주소들
-//			 this.goalPlace = entity.getGoalPlace(); // 목적지 장소
-//			 this.goalAddress = entity.getGoalAddress(); // 목적지 지번주소
-//			 this.days = entity.getDays(); // 일자
-//	    }
-	
-	
-	
-	
-	
-	
-	
-	
-	public MapDTO(MapEntity entity) {
-	    this.idx = entity.getIdx(); // 맵 식별자
-	    this.userId = entity.getUser().getId(); // UserEntity의 id
-	    this.tripTitle = entity.getTrip().getTitle(); // TripEntity의 title
-	}
-	
+		public MapDTO(MapEntity entity) {
+			this.idx = entity.getIdx();
+			this.userId = entity.getUser().getId();
+			this.tripTitle = entity.getTrip().getTitle();
+			
+			this.mapObject = List.of(new MapObject(
+			        entity.getDays(),
+			        entity.getStartPlace(),
+			        entity.getStartAddress(),
+			        entity.getGoalPlace(),
+			        entity.getGoalAddress(),
+			        parseWaypoints(entity.getWaypoint())
+					));
+		}	       
+			// waypoints를 String에서 List<WayPointDTO>로 변환하는 메서드
+			private List<WayPointDTO> parseWaypoints(String waypoint) {
+			    if (waypoint == null || waypoint.isEmpty()) {
+			        return List.of(); // waypoint가 없으면 빈 리스트 반환
+			    }
 
-	
+			    // 예: "id1:value1:address1,id2:value2:address2" 형식으로 가정하고 파싱
+			    return Arrays.stream(waypoint.split("\\|"))
+			        .map(entry -> {
+			            String[] parts = entry.split(":"); // "id:value:address" 형식
+			            if (parts.length == 3) {
+			                return new WayPointDTO(parts[0], parts[1], parts[2]);
+			            } else {
+			                throw new IllegalArgumentException("Invalid waypoint format: " + entry);
+			            }
+			        })
+			        .toList();
+			    			 
+	    }
 	
 }
