@@ -113,6 +113,10 @@ public class TripService {
 		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
 	}
 	
+	public Integer getIdxByItems(String items) {
+		return checkListRepository.getIdxByItems(items);
+	}
+	
 	public List<Items> parseItems(String itemsString) {
 	    List<Items> itemList = new ArrayList<>();
 	    
@@ -143,5 +147,7 @@ public class TripService {
 	    }
 	    return itemList;
 	}
+	
+	
 
 }

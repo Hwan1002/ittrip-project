@@ -142,16 +142,18 @@ public class TripController {
 		return ResponseEntity.ok(dtos);
 	}
 
-	//해야함
+	
 //	@GetMapping("/5")
 //	public ResponseEntity<?> getCheckList(@AuthenticationPrincipal String userId, @RequestParam(name="tripTitle") String tripTitle) {
 //		String title = tripService.titleToDB(userId, tripTitle);
 //		String items = tripService.getCheckLists(userId, title);
+//		Integer findedIdx = tripService.getIdxByItems(items);
 //		List<Items> list = tripService.parseItems(items);
-//		List<CheckListDTO> dtos = CheckListEntity.builder().idx()
+//		List<CheckListEntity> entity = CheckListEntity.builder().idx(findedIdx).items(items).build();
 //		ResponseDTO<Items> response = ResponseDTO.<Items>builder().data(list).build();
 //		return ResponseEntity.ok(response);
 //	}
+	
 	// ----------------- GET ----------------------------
 
 	// ----------------- POST ---------------------------
