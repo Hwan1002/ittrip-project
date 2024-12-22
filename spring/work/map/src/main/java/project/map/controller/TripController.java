@@ -1,6 +1,7 @@
 package project.map.controller;
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,19 +102,20 @@ public class TripController {
 	@GetMapping("/3")
 	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) { // requestParam 으로 userId를 받지않고
 		List<TripEntity> list = tripService.getTrips(userId);
-		System.out.println(list);
+		System.out.println("list : "+list);
 		List<TripEntity> updatedList = list.stream()
 			    .map(data -> {
 			        String updatedTitle = tripService.titleFromDB(data.getTitle()); 
 			        return TripEntity.builder()
-			            .idx(data.getIdx())  // 기존 필드값 유지
-			            .startDate(data.getStartDate())  // 기존 필드값 유지
-			            .lastDate(data.getLastDate())  // 기존 필드값 유지			
-			            .title(updatedTitle)  // 변경된 title
+			            .idx(data.getIdx())  
+			            .startDate(data.getStartDate())  
+			            .lastDate(data.getLastDate())  			
+			            .title(updatedTitle)  
 			            .user(data.getUser())  
 			            .build();
 			    })
 			    .collect(Collectors.toList());
+		System.out.println("updatedlist: "+updatedList);
 		List<TripDTO> dtos = updatedList.stream().map(TripDTO::new).toList();
 		ResponseDTO<TripDTO> response = ResponseDTO.<TripDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);
@@ -128,30 +130,29 @@ public class TripController {
 		List<MapEntity> list = tripService.getMaps(userId, title);
 		TripEntity trip = tripRepository.getByTitle(title);
 		trip.setTitle(tripService.titleFromDB(title));
-		List<MapEntity> updatedList = list.stream().map(data -> {
- 
-			        return MapEntity.builder().trip(trip).user(data.getUser())
-			        		.startPlace(data.getStartPlace()).startAddress(data.getStartAddress())
-			        		.goalPlace(data.getGoalPlace()).goalAddress(data.getGoalAddress())
-			        		.waypoint(data.getWaypoint()).days(data.getDays()).build();
-			    }).collect(Collectors.toList());
-			        		
-		System.out.println("trip :"+trip);
-		System.out.println("updatedlist : "+updatedList);
-		List<MapDTO> dtos = updatedList.stream().map(MapDTO::new).toList();
-		return ResponseEntity.ok(dtos);
+		
+		List<MapDTO> updatedList = list.stream()
+		        .map(data -> new MapDTO(data))  // MapEntity를 MapDTO로 변환
+		        .collect(Collectors.toList());
+
+		    return ResponseEntity.ok(updatedList);
 	}
 
-	//해야함
-//	@GetMapping("/5")
-//	public ResponseEntity<?> getCheckList(@AuthenticationPrincipal String userId, @RequestParam(name="tripTitle") String tripTitle) {
-//		String title = tripService.titleToDB(userId, tripTitle);
-//		String items = tripService.getCheckLists(userId, title);
-//		List<Items> list = tripService.parseItems(items);
-//		List<CheckListDTO> dtos = CheckListEntity.builder().idx()
-//		ResponseDTO<Items> response = ResponseDTO.<Items>builder().data(list).build();
-//		return ResponseEntity.ok(response);
+	
+
+	@GetMapping("/5")
+	public ResponseEntity<?> getCheckList(@AuthenticationPrincipal String userId, @RequestParam(name="tripTitle") String tripTitle) {
+		String title = tripService.titleToDB(userId, tripTitle);
+		String items = tripService.getCheckLists(userId, title);
+		Integer foundIdx = tripService.getIdxByItems(items);
+		CheckListEntity entity = CheckListEntity.builder().idx(foundIdx).items(items).build();
+		List<Items> list = tripService.parseItems(entity.getItems());
+		CheckListDTO dto = CheckListDTO.builder().idx(foundIdx).items(list).build();
+		return ResponseEntity.ok(dto);
+	}
+
 //	}
+	
 	// ----------------- GET ----------------------------
 
 	// ----------------- POST ---------------------------
@@ -174,7 +175,6 @@ public class TripController {
 		UserEntity user = userRepository.findById(userId).get();
 		String title = tripService.titleToDB(userId, dto.getTripTitle());
 		TripEntity trip = tripRepository.getByTitle(title);
-		System.out.println("Received MapDTO:");
         
 		StringBuilder waypointsBuilder;
         for (MapDTO.MapObject mapObject : dto.getMapObject()){
@@ -236,21 +236,79 @@ public class TripController {
 	}
 
 	@PutMapping("/2")
-	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
+	public void putMap(@RequestParam(name="userId") String userId, @RequestBody MapDTO dto) {
+		String title = tripService.titleToDB(userId, dto.getTripTitle());
+		TripEntity trip = tripRepository.getByTitle(title);
 		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.getByTitle(dto.getTripTitle());
-		List<MapObject> dtos = dto.getMapObject();
-		System.out.println(dtos);
-	}
+		List<MapEntity> mapList = tripService.getMaps(userId, title);
+		
+		StringBuilder waypointsBuilder;
+		MapEntity entity;
+		List<MapDTO.MapObject> mapObjects = dto.getMapObject();
+		
+		int mapSize = mapList.size();
+		int objectSize = dto.getMapObject().size();
+		
+		if(mapSize==objectSize) {			//days갯수가 수정됨
+			 //그대로 진행
+		}else if(mapSize>objectSize){		//days 갯수 줄어듬 5개->3개면 i=[4],[3] 삭제해야함
+			for(int i=mapSize-1;i>=objectSize;i--) {
+				MapEntity removeEntity = mapList.get(i);
+				mapList.remove(i);
+				mapRepository.delete(removeEntity);
+			}
+		}else {								//days 갯수 늘어남 3->5개면 2개 추가해야함
+			for(int i=objectSize;i<mapSize;i++) {
+				entity = new MapEntity();
+				mapList.add(entity);
+			}
+		}
+		
+        for (int i=0;i<objectSize;i++){
+        	waypointsBuilder = new StringBuilder();
+            int days = mapObjects.get(i).getDays();
+            String startPlace =  mapObjects.get(i).getStartPlace().replaceAll("</?[^>]+>", "");
+            String startAddress =  mapObjects.get(i).getStartAddress();
+            String goalPlace =  mapObjects.get(i).getGoalPlace().replaceAll("</?[^>]+>", "");
+            String goalAddress =  mapObjects.get(i).getGoalAddress();
+            
+            for (MapDTO.WayPointDTO wayPoint :  mapObjects.get(i).getWayPoints()) {
+            	waypointsBuilder
+                .append(wayPoint.getId())
+                .append(":")
+                .append(wayPoint.getValue().replaceAll("</?[^>]+>", ""))
+                .append(":")
+                .append(wayPoint.getAddress())
+                .append("|");
+            }
+            if (waypointsBuilder.length() > 0) {
+                waypointsBuilder.setLength(waypointsBuilder.length() - 1);
+            }
+            String waypoints = waypointsBuilder.toString();
+            
+            MapEntity currentEntity = mapList.get(i);
+            
+            currentEntity.setUser(user);
+            currentEntity.setTrip(trip);
+            currentEntity.setDays(days);
+            currentEntity.setStartPlace(startPlace);
+            currentEntity.setStartAddress(startAddress);
+            currentEntity.setGoalPlace(goalPlace);
+            currentEntity.setGoalAddress(goalAddress);
+            currentEntity.setWaypoint(waypoints);
+
+            mapRepository.save(currentEntity); 
+        }
+        }
 
 	@PutMapping("/3")
-	public ResponseEntity<?> putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
+	public ResponseEntity<?> putCheckList(@RequestParam(name="userId") String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		String title = tripService.titleToDB(userId, dto.getTripTitle());
 		TripEntity trip = tripRepository.getByTitle(title);
 		CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
 				items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
-                .collect(Collectors.joining(","))) // 리스트 -> 문자열 합치기
+                .collect(Collectors.joining("|"))) // 리스트 -> 문자열 합치기
         .build();
 		checkListRepository.save(entity) ;
 		return ResponseEntity.ok("수정 성공");
@@ -264,6 +322,7 @@ public class TripController {
 		tripRepository.deleteById(idx);
 	}
 
+	//trip객체 제외하곤 굳이 삭제할 거 없어보임.
 	@DeleteMapping("/2/{idx}")
 	public void deleteMap(@PathVariable Integer idx) {
 		mapRepository.deleteById(idx);

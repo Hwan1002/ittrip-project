@@ -1,8 +1,8 @@
 package project.map.entity;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +32,7 @@ public class MapEntity {
 	@Column(name = "start_place", nullable = false)
     private String startPlace;   // 출발지 상호명
 	
+	
 	@Column(name = "start_address", nullable = false)
 	private String startAddress;	//출발지 지번주소
 	
@@ -48,12 +49,11 @@ public class MapEntity {
 	@Column(name = "days", nullable = false , length = 10)
     private Integer days;       // 일자
     
-    @ManyToOne()
+	@ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "trip_title", referencedColumnName = "title") // TripEntity의 만 매핑
-    @Cascade(value = {CascadeType.MERGE, CascadeType.REMOVE})
     private TripEntity trip; // 외래 키 매핑
     
-    @ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id",referencedColumnName = "id",nullable=false) // 외래키: user_id
     private UserEntity user;
 	
