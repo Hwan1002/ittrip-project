@@ -102,7 +102,7 @@ public class TripController {
 	@GetMapping("/3")
 	public ResponseEntity<?> getTrips(@AuthenticationPrincipal String userId) { // requestParam 으로 userId를 받지않고
 		List<TripEntity> list = tripService.getTrips(userId);
-		System.out.println(list);
+		System.out.println("list : "+list);
 		List<TripEntity> updatedList = list.stream()
 			    .map(data -> {
 			        String updatedTitle = tripService.titleFromDB(data.getTitle()); 
@@ -115,6 +115,7 @@ public class TripController {
 			            .build();
 			    })
 			    .collect(Collectors.toList());
+		System.out.println("updatedlist: "+updatedList);
 		List<TripDTO> dtos = updatedList.stream().map(TripDTO::new).toList();
 		ResponseDTO<TripDTO> response = ResponseDTO.<TripDTO>builder().data(dtos).build();
 		return ResponseEntity.ok(response);

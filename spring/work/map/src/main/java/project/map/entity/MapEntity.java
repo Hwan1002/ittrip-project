@@ -32,6 +32,7 @@ public class MapEntity {
 	@Column(name = "start_place", nullable = false)
     private String startPlace;   // 출발지 상호명
 	
+	
 	@Column(name = "start_address", nullable = false)
 	private String startAddress;	//출발지 지번주소
 	
