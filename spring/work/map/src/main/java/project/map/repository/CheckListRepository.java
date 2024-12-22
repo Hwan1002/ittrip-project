@@ -16,9 +16,13 @@ public interface CheckListRepository extends JpaRepository<CheckListEntity, Inte
 		@Query("select t.items from CheckListEntity t where t.user.id = ?1 and t.trip.title = ?2")
 		String getCheckListByUserIdAndTitle(String id , String title);
 
-		//items를 기반으로 idx가져오기
-		@Query("select t.idx from CheckListEntity t where t.items =?1")
+
+		//items를 통해 idx가져오기
+		@Query("select t.idx from CheckListEntity t where t.items = ?1")
 		Integer getIdxByItems(String items);
+		
+		
+
 		
 //		//userId와 tripTitle을 기반으로 checklist 수정하기
 //		@Transactional
