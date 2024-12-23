@@ -37,7 +37,6 @@ public class CheckListDTO {
 	}
 	private Integer idx;
 	private List<Items> items;
-	
 	private String userId;		//UserEntity의 id
 	private String tripTitle;	//TripEntity의 title
 	
