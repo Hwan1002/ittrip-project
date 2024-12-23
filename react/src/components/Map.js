@@ -11,7 +11,6 @@ const Map = () => {
     dayChecks,setDayChecks} = useContext(ProjectContext);
 
     const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
-  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
    
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
@@ -92,7 +91,7 @@ const Map = () => {
               setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
             }
 
-            // 지도 위치를 마커로 이동
+            // 지도 좌표로 이동
             map.setCenter(latlng);
 
             // 마커를 모두 추가하기
@@ -166,6 +165,7 @@ const Map = () => {
               pathCoordinates.forEach(coord => bounds.extend(coord));// 경로 좌표도 범위에 추가
             }
             // 모든 마커와 경로를 포함하는 범위로 지도를 자동으로 조정
+
             map.fitBounds(bounds)
             map.setZoom(map.getZoom() - 1); // 한 단계 더 줌 아웃해서 여유를 줍니다.
           });
