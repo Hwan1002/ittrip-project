@@ -101,6 +101,10 @@ const AddData = ({width}) => {
 
     //좌표저장 (효용)
     const handlecoordinate = async () => {
+      if (!startPoint || !goalPoint) {
+        alert("출발지와 목적지를 입력하세요.");
+        return;
+    }
       if (wayPoints) {
         const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
         const lnglatString = lnglatArray.join("|");

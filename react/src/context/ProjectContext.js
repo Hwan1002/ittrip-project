@@ -61,6 +61,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [stopOverList, setStopOverList] = useState([]);
 
+
   const [mapObject,setMapObject] = useState([]);
 
   const [departure,setDeparture] = useState({

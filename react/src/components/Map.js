@@ -183,40 +183,52 @@ const Map = () => {
 
   // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
   const handleDayClick = (day) => {  
+
+    const handleSubmit = () => {
+      setDeparture({title:'',address:''});
+      setStopOverList([]);
+      setDestination({title:'',address:''});
+      closeModal();
+      setSelectedDay(day);
+    }
+    debugger;
+    console.log(mapObject[day]);
+    console.log(selectedDay);
     if(!mapObject.find(data=>data.days === selectedDay+1)){
       // const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
       openModal({
         title:"주의",
         message: "저장 안했는데 넘어갈거야?",
+        actions: [
+          {label: "확인", onClick:handleSubmit, className:"confirm-btn"},
+          {label:"돌아가기", onClick:closeModal, className:"cancel-btn"},
+        ],
       })
+    }else{
       setDeparture({title:'',address:''});
       setStopOverList([]);
       setDestination({title:'',address:''});
       setSelectedDay(day);
-    // if (userConfirm) {
-    //   alert("넘어갈게");
-    //   openModal({
-    //     title:"",
-    //     message:"넘어갈게",
-    //   })
-    //   // setDeparture({title:'',address:''});
-    //   // setStopOverList([]);
-    //   // setDestination({title:'',address:''});
-    //   // setSelectedDay(day);
-    // } else {
-    //   alert("그래 저장해");
-    // }
     }
+    
     // else{
     //   setDeparture({title:'',address:''});
     //   setStopOverList([]);
     //   setDestination({title:'',address:''});
     //   setSelectedDay(day);
     // }
+      // if (userConfirm) {
+      //   alert("넘어갈게");
+      //   setDeparture({title:'',address:''});
+      //   setStopOverList([]);
+      //   setDestination({title:'',address:''});
+      //   setSelectedDay(day);
+      // } else {
+      //   alert("그래 저장해");
+      // }
+    
     
   };
-
-
 
   return (
     <div id="mapPlan">
@@ -236,10 +248,7 @@ const Map = () => {
         onClose={closeModal}
         title={modalTitle}
         content={modalMessage}
-        actions={[
-          {label: "확인", onClick: closeModal, className: "confirm-button",},
-          {label: "뒤로가기", onClick: closeModal, className: "cancel-button",}
-        ]}
+        actions={modalActions}
       />
     </div>
   );
