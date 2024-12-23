@@ -39,6 +39,7 @@ const Map = () => {
 
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
       const booleanArray = new Array(daysArray.length).fill(false);
+      booleanArray[0] = true;
       setDayBoolean([...booleanArray]);
       setDayChecks([...daysArray]);
     }

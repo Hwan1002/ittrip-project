@@ -12,7 +12,9 @@ import axios from "axios";
 
 const EntirePlan = () => {
 
-    const { logData, selectedDay } = useContext(ProjectContext);
+    const { logData, setDeparture, setStopOverList, setDestination, dayChecks, setDayChecks, selectedDay } = useContext(ProjectContext);
+
+
 
     const [trips, setTrips] = useState([]);  //{idx,title,startDate,lastDate} 
     const [maps, setMaps] = useState([]);    //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints} 
@@ -20,12 +22,15 @@ const EntirePlan = () => {
 
     const [isUpdating, setIsUpdating] = useState(true);
 
+    const [currentTitle, setCurrentTitle] = useState(null);
 
-    useEffect(()=>{
-        if(!isUpdating){
+
+
+    useEffect(() => {
+        if (!isUpdating) {
             alert("수정 모드")
         }
-    },[isUpdating])
+    }, [isUpdating])
 
 
     useEffect(() => {
@@ -53,6 +58,7 @@ const EntirePlan = () => {
 
 
     const fetchMapCheck = async (trip) => {
+        setCurrentTitle(trip.title);
         try {
             setMaps([]);
             const response = await axios.get(`${API_BASE_URL}/4`, {
@@ -61,8 +67,24 @@ const EntirePlan = () => {
                     tripTitle: trip.title
                 },
             });
-            console.log("response:", response.data[0].mapObject);
+            const startDate = new Date(trip.startDate);
+            const endDate = new Date(trip.lastDate);
+
+            const diffTime = endDate - startDate;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
+            setDayChecks([...daysArray])
+
+            console.log("response:", JSON.stringify(response.data[0].mapObject[selectedDay]));
             response.data.map((trip) => setMaps((prev) => [...prev, trip.mapObject]));
+            setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress })
+            setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress })
+            setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints])
+
+
+            // setStopOverList({title: ,address:})
+            // setDestination({title: ,address:})
             //   setMaps(response.data.mapObject);
             console.log("maps: " + JSON.stringify(maps))
         } catch (err) {
@@ -81,6 +103,42 @@ const EntirePlan = () => {
         } catch (err) {
             alert("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
         }
+    }
+
+    const putMapCheck = async () => {
+        //maps put
+        debugger;
+        try {
+            const response = await axios.put(
+                `${API_BASE_URL}/2`,
+                {
+                    tripTitle: currentTitle,
+                    mapObject: maps
+                },
+                {
+                    headers: logData.headers
+                }
+            );
+        } catch (err) {
+            alert("put Map 에러");
+        }
+
+        //checkList put
+        try {
+            const response = await axios.put(
+                `${API_BASE_URL}/3`,
+                {
+                    tripTitle: currentTitle,
+                    items: checkList
+                },
+                {
+                    headers: logData.headers
+                }
+            );
+        } catch (err) {
+            alert("put CheckList 에러");
+        }
+        setIsUpdating(() => !isUpdating)
     }
 
     const deleteTrip = async (idx) => {
@@ -108,7 +166,7 @@ const EntirePlan = () => {
             )
         );
     };
-    
+
     const handleCheckListTextChange = (id, value) => {
         setCheckList((prev) =>
             prev.map((item) =>
@@ -117,11 +175,16 @@ const EntirePlan = () => {
         );
     };
 
+    const addCheckList = () => {
+        setCheckList((prev) =>
+            [...prev, { id: Date.now(), text: '', checked: false }])
+    }
+
     const deleteCheckList = (id) => {
         setCheckList((prev) =>
-            prev.filter((item)=>
+            prev.filter((item) =>
                 item.id !== id
-            )    
+            )
         )
     }
 
@@ -133,10 +196,17 @@ const EntirePlan = () => {
 
             <div id="planFrame">
                 <div id="newTripBt">
-                    <p
+                    {isUpdating ? (<p
                         style={{ marginLeft: "10px" }}
                         onClick={() => setIsUpdating(!isUpdating)}
-                    >수정</p></div>
+                    >수정하기
+                    </p>) : <p
+                        style={{ marginLeft: "10px" }}
+                        onClick={() => putMapCheck()}
+                    >수정완료
+                    </p>
+                    }
+                </div>
 
                 {/* 여행목록 */}
                 <p style={{ color: "#F6A354", fontSize: "20px", marginBottom: "5px" }}>여행목록</p>
@@ -190,7 +260,7 @@ const EntirePlan = () => {
                 >
                     {/* map의 경로 출발지와 waypoint들 목적지 띄워주는 곳 */}
                     <div>
-                        {maps && maps.length > 0 &&
+                        {isUpdating ? maps && maps.length > 0 &&
                             <>
                                 <input
                                     readOnly={isUpdating}
@@ -210,8 +280,9 @@ const EntirePlan = () => {
                                     readOnly={isUpdating}
                                     value={maps[0][selectedDay]?.goalPlace}
                                 />
-                            </>
-                        }
+                            </> : <AddData />}
+
+
                     </div>
                 </div>
 
@@ -249,7 +320,13 @@ const EntirePlan = () => {
 
                             </li>
                         ))}
+
                     </ul>
+                    {!isUpdating && <button
+                        onClick={() => addCheckList()}
+                    >추가
+                    </button>
+                    }
                 </div>
 
             </div>
@@ -257,4 +334,4 @@ const EntirePlan = () => {
     )
 }
 
-export default EntirePlan
+export default EntirePlan;
