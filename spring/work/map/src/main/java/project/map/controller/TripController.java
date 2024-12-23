@@ -204,12 +204,14 @@ public class TripController {
 	}
 
 	@PutMapping("/2")
-	public void putMap(@RequestParam(name = "userId") String userId, @RequestBody MapDTO dto) {
+	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		String title = tripService.titleToDB(userId, dto.getTripTitle());
 		TripEntity trip = tripRepository.getByTitle(title);
 		UserEntity user = userRepository.findById(userId).get();
 		List<MapEntity> mapList = tripService.getMaps(userId, title);
 
+		System.out.println("Mapdto : "+dto);
+		System.out.println("mapList"+mapList);
 		StringBuilder waypointsBuilder;
 		MapEntity entity;
 		List<MapDTO.MapObject> mapObjects = dto.getMapObject();
@@ -266,10 +268,11 @@ public class TripController {
 	}
 
 	@PutMapping("/3")
-	public ResponseEntity<?> putCheckList(@RequestParam(name = "userId") String userId, @RequestBody CheckListDTO dto) {
+	public ResponseEntity<?> putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		String title = tripService.titleToDB(userId, dto.getTripTitle());
 		TripEntity trip = tripRepository.getByTitle(title);
+		System.out.println("checkDTO"+dto);
 		CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip)
 				.items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열
 																															// 변환
