@@ -1,7 +1,8 @@
 import "../css/Map.css";
 import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
-
+import useModal from "../context/useModal";
+import Modal from "./Modal";
 
 const Map = () => {
 
@@ -16,6 +17,9 @@ const Map = () => {
     console.log("dayBoolean: "+JSON.stringify(dayBoolean));
   },[dayBoolean])
 
+    const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
+  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
+   
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
@@ -74,7 +78,11 @@ const Map = () => {
             query: address
           }, (status, response) => {
             if (status === window.naver.maps.Service.Status.ERROR) {
-              alert('주소를 찾을 수 없습니다.');
+              // alert('주소를 찾을 수 없습니다.');
+              openModal({
+                title:"주소 오류",
+                message:"주소를 찾을 수 없습니다.",
+              })
               return;
             }
 
@@ -213,6 +221,12 @@ const Map = () => {
         return updatedDayBoolean;
       });
     }
+    // else{
+    //   setDeparture({title:'',address:''});
+    //   setStopOverList([]);
+    //   setDestination({title:'',address:''});
+    //   setSelectedDay(day);
+    // }
     
   };
 
@@ -235,6 +249,16 @@ const Map = () => {
           </div>
         ))}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={[
+          {label: "확인", onClick: closeModal, className: "confirm-button",},
+          {label: "뒤로가기", onClick: closeModal, className: "cancel-button",}
+        ]}
+      />
     </div>
   );
 }
