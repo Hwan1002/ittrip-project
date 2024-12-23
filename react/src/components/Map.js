@@ -212,7 +212,6 @@ const Map = () => {
     }
     
   };
-
   return (
     <div id="mapPlan">
       <div id="map-container"></div>
