@@ -55,7 +55,9 @@ const Map = () => {
 
 
   useEffect(() => {
+    
     const foundData = mapObject.find(data => data.days === selectedDay + 1);
+    console.log(foundData);
     if (foundData) {
       setDeparture({ title: foundData.startPlace, address: foundData.startAddress });
       setStopOverList([...foundData.wayPoints]);
@@ -111,7 +113,8 @@ const Map = () => {
 
             const result = response.v2;
             const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
-
+            debugger;
+            console.log("asdasdasdasda" ,result.addresses[0].y, result.addresses[0].x);
             if (!startPoint) {
               setStartPoint(latlng);
             } else if (startPoint && !goalPoint) {

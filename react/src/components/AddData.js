@@ -34,7 +34,8 @@ const AddData = ({width}) => {
         modalActions,
         modalMessage,
         openModal,
-        closeModal
+        closeModal,
+        currentModal
     } = useModal();
     //putObject 효용
     
@@ -71,7 +72,7 @@ const AddData = ({width}) => {
       setAddress(item.address);
       switch(type) {
         case "departure":
-          setDeparture({title: item.title, address: item.address});
+          setDeparture({title: item.title, address: item.address, type : type});
           break;
         case "destination": 
           setDestination({title:item.title, address:item.address});
