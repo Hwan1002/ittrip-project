@@ -93,7 +93,7 @@ const Maintest = () => {
                     // 응답 데이터 확인
                     console.log(select)
                     console.log("Response Data:", response.data.data);
-                    // context의 상태 업데이트
+                    // state의 상태 업데이트
                     setSignguNm(response.data.data);
                     // 데이터가 성공적으로 설정된 후 팝업창 열기
                     setIsModalOpen(true);

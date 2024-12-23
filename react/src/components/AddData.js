@@ -5,6 +5,7 @@ import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 import '../css/AddData.css';
+import { PiSquaresFourLight } from "react-icons/pi";
 
 
 const AddData = ({width}) => {
@@ -68,6 +69,8 @@ const AddData = ({width}) => {
     //   setDestination({title:'',address:''});
     // }
 
+    // 
+
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
     },[res])
@@ -92,13 +95,16 @@ const AddData = ({width}) => {
           console.log("handleCheck switch 케이스 쪽 오류");
       }
       closeModal();
-      
       alert(`${type === "stopOver"? "경유지가" : type === "departure"? "출발지가" : "도착지가"} 추가되었습니다.`)
      
     }
 
     //좌표저장 (효용)
     const handlecoordinate = async () => {
+      if (!startPoint || !goalPoint) {
+        alert("출발지와 목적지를 입력하세요.");
+        return;
+    }
       if (wayPoints) {
         const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
         const lnglatString = lnglatArray.join("|");
@@ -222,7 +228,6 @@ const AddData = ({width}) => {
                           <li key={item.title}>
                               <span className="listNumber">{index + 1}</span>
                               <p className="listTitle">{item.title.replace(/<\/?[^>]+(>|$)/g, "")}</p>
-                              {/* <button className="addressBtn" onClick={() => handleCheck(item)}>{item.address}</button> */}
                               {modalTitle === "출발지" &&(
                                   <button className="addressBtn" onClick={() => handleCheck(item, "departure")}>
                                     {item.address}
@@ -245,7 +250,8 @@ const AddData = ({width}) => {
                     </ul>
                   ) : (
                     modalMessage
-                  )}
+                  )
+                  }
                 </div>
               }
               actions={modalActions}

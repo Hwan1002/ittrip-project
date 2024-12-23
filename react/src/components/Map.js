@@ -13,6 +13,16 @@ const Map = () => {
 
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
+   const [dayBoolean,setDayBoolean] = useState([]);
+ 
+
+  useEffect(()=>{
+    console.log("dayBoolean: "+JSON.stringify(dayBoolean));
+  },[dayBoolean])
+
+  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
+   
+
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
@@ -26,6 +36,8 @@ const Map = () => {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
+      const booleanArray = new Array(daysArray.length).fill(false);
+      setDayBoolean([...booleanArray]);
       setDayChecks([...daysArray]);
     }
   }, [tripDates]);
@@ -202,39 +214,61 @@ const Map = () => {
     };
   }, [address, path, selectedDay]);
 
-  const handleDayClick = (day) => {
-    const handleSubmit = () => {
-      setDeparture({ title: '', address: '' });
+  // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
+  const handleDayClick = (day) => {  
+    if(!mapObject.find(data=>data.days === selectedDay+1)){
+      const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
+    if (userConfirm) {
+      alert("넘어갈게");
+      setDeparture({title:'',address:''});
       setStopOverList([]);
       setDestination({ title: '', address: '' });
       closeModal();
       setSelectedDay(day);
-    };
-
-    if (!mapObject.find(data => data.days === selectedDay + 1)) {
-      openModal({
-        title: "주의",
-        message: "저장 안했는데 넘어갈거야?",
-        actions: [
-          { label: "확인", onClick: handleSubmit, className: "confirm-btn" },
-          { label: "돌아가기", onClick: closeModal, className: "cancel-btn" },
-        ],
+      setDayBoolean(prev => {
+        const updatedDayBoolean = [...prev];
+        updatedDayBoolean[selectedDay] = false;
+        updatedDayBoolean[day] = true;
+        return updatedDayBoolean;
       });
     } else {
-      setDeparture({ title: '', address: '' });
+      alert("그래 저장해");
+    }
+    }else{
+      setDeparture({title:'',address:''});
       setStopOverList([]);
       setDestination({ title: '', address: '' });
       setSelectedDay(day);
+      setDayBoolean(prev => {
+        const updatedDayBoolean = [...prev];
+        updatedDayBoolean[selectedDay] = false;
+        updatedDayBoolean[day] = true;
+        return updatedDayBoolean;
+      });
     }
+    // else{
+    //   setDeparture({title:'',address:''});
+    //   setStopOverList([]);
+    //   setDestination({title:'',address:''});
+    //   setSelectedDay(day);
+    // }
+    
   };
 
   return (
     <div id="mapPlan">
       <div id="map-container"></div>
       <div id="dayFrame">
-        {dayChecks.map((item, index) => (
-          <div id="dayChecks" onClick={() => handleDayClick(index)} key={index}>
-            {item}
+        {/* dayChecks 배열의 항목에 따라 DayN 요소 생성 */}
+        {dayChecks.map((item,index) => (
+          <div id="dayChecks" 
+           key={index}>
+            <input
+              type="button"
+              disabled={dayBoolean[index]}
+              onClick={()=>handleDayClick(index)}
+              value={item}
+            />
           </div>
         ))}
       </div>
@@ -243,7 +277,10 @@ const Map = () => {
         onClose={closeModal}
         title={modalTitle}
         content={modalMessage}
-        actions={modalActions}
+        actions={[
+          {label: "확인", onClick: closeModal, className: "confirm-button",},
+          {label: "뒤로가기", onClick: closeModal, className: "cancel-button",}
+        ]}
       />
     </div>
   );
