@@ -136,20 +136,20 @@ public class TripController {
 	@PostMapping("/1")
 	public void postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		String titleToCheck = tripService.titleToDB(userId, dto.getTitle());
-		String confirmedTitle = tripService.titleConfirm(titleToCheck);
-		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
+		String titleToCheck = tripService.titleToDB(userId,dto.getTitle());
+		myTitle = tripService.titleConfirm(titleToCheck);
+		TripEntity entity = TripEntity.builder().title(myTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
 		tripRepository.save(entity);
 		myTitle = confirmedTitle;
 	}
-
+	// 111/제목(2)
 	// map객체 저장
 	@PostMapping("/2")
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.getByTitle(myTitle);
-
+        
 		StringBuilder waypointsBuilder;
 		for (MapDTO.MapObject mapObject : dto.getMapObject()) {
 			waypointsBuilder = new StringBuilder();
@@ -180,19 +180,16 @@ public class TripController {
 	}
 
 	// checkList객체 저장
-	@PostMapping("/3")
-	public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		String title = tripService.titleToDB(userId, myTitle);
-		TripEntity trip = tripRepository.getByTitle(title);
-		CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip)
-				.items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열
-																															// 변환
-																															// 예시
-						.collect(Collectors.joining("|"))) // 리스트 -> 문자열 합치기
-				.build();
-		checkListRepository.save(entity);
-	}
+		@PostMapping("/3")
+		public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
+			UserEntity user = userRepository.findById(userId).get();
+			TripEntity trip = tripRepository.getByTitle(myTitle);
+			CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
+					items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
+                    .collect(Collectors.joining("|"))) // 리스트 -> 문자열 합치기
+            .build();
+			checkListRepository.save(entity) ;	
+		}
 
 	// ----------------- POST ---------------------------
 	// ----------------- PUT ---------------------------

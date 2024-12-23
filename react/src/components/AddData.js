@@ -5,6 +5,7 @@ import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 import '../css/AddData.css';
+import { PiSquaresFourLight } from "react-icons/pi";
 
 
 const AddData = ({width}) => {
@@ -69,6 +70,8 @@ const AddData = ({width}) => {
     //   setDestination({title:'',address:''});
     // }
 
+    // 
+
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
     },[res])
@@ -76,7 +79,7 @@ const AddData = ({width}) => {
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
       debugger;
-      setAddress(item.address);
+       setAddress(item.address);
       switch(type) {
         case "departure":
           setDeparture({title: item.title, address: item.address});
