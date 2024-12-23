@@ -117,6 +117,11 @@ const EntirePlan = () => {
         );
     };
 
+    const addCheckList = () => {
+        setCheckList((prev)=>
+        [...prev,{id:Date.now(),text:'',checked:false}])
+    }
+
     const deleteCheckList = (id) => {
         setCheckList((prev) =>
             prev.filter((item)=>
@@ -249,6 +254,7 @@ const EntirePlan = () => {
 
                             </li>
                         ))}
+                        
                     </ul>
                     
                 </div>
