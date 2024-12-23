@@ -13,8 +13,6 @@ const AddData = ({width}) => {
     const [res, setRes] = useState([]);
     const [searchInput1, setSearchInput1] = useState("");
     const [searchInput2, setSearchInput2] = useState("");
-    const [departure, setDeparture] = useState("");
-    const [destination, setDestination] = useState("")
     const [test, setTest] = useState(false);
 
     //모달창 사용
@@ -27,23 +25,27 @@ const AddData = ({width}) => {
     } = useModal();
     //모달끝
 
-    const {setAddress, setPath, wayPoints, startPoint, goalPoint} = useContext(ProjectContext);
+    const {setAddress, setPath, wayPoints, startPoint, goalPoint, 
+      startPlace,setStartPlace,setStartAddress,goalPlace,setGoalPlace,setGoalAddress,setWayPointsPlace,setWayPointsAddress} = useContext(ProjectContext);
+
     //handler 모음
     const handleCheck = (item) => {
       
         setAddress(item.address);
 
         if(test){
-          setDestination(item.title)
+          setGoalPlace(item.title)
+          setGoalAddress(item.address)
         }else{
-          setDeparture(item.title);
+          setStartAddress(item.address)
+          setStartPlace(item.title);
         }
         closeModal();
         alert("추가 되었습니다.")
     }
 
 
-    const departureBtnClicked = async () => {
+    const StartBtnClicked = async () => {
       const newData = [...data,searchInput1];
       const response = await axios.get(`${API_BASE_URL}/local`, {
         params: {query: searchInput1}
@@ -53,7 +55,7 @@ const AddData = ({width}) => {
       setData(newData);
     }
 
-    const destinateBtnClicked = async () => {
+    const GoalBtnClicked = async () => {
       const newData = [...data,searchInput2];
       const response = await axios.get(`${API_BASE_URL}/local`, {
         params: {query: searchInput2}
@@ -89,8 +91,8 @@ const AddData = ({width}) => {
 
     ////모달창 함수
     //출발지
-    const openDepartureModal = () => {
-      departureBtnClicked();
+    const openStartModal = () => {
+      StartBtnClicked();
       openModal({
           title: "출발지 설정",
           message: "",
@@ -98,9 +100,9 @@ const AddData = ({width}) => {
       });
     };
     //도착지
-    const openDestinateModal = () => {
+    const openGoalModal = () => {
       setTest(true);
-      destinateBtnClicked();
+      GoalBtnClicked();
       openModal({
         title: "도착지 설정",
         message: "",
@@ -111,18 +113,12 @@ const AddData = ({width}) => {
     return (
         <div className="addData">
           <div className="departSearch">
-          {/* <input
-            type="text"
-            placeholder="출발지를 검색하세요."
-            value={test || (departure ? departure.replace(/<\/?[^>]+(>|$)/g, "") : "")}
-            onChange={(e) => setTest(e.target.value)}
-          /> */}
-            {departure?<input type="text" value={departure.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=> setDeparture(e.target.value)}/> : <input type="text" placeholder="출발지를 검색하세요." onChange={(e) => setSearchInput1(e.target.value)}/>}
-            <button className="addDataBtns" type="button" onClick={openDepartureModal}>출발지 검색</button>
+            {startPlace?<input type="text" value={startPlace.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=> setStartPlace(e.target.value)}/> : <input type="text" placeholder="출발지를 검색하세요." onChange={(e) => setSearchInput1(e.target.value)}/>}
+            <button className="addDataBtns" type="button" onClick={openStartModal}>출발지 검색</button>
           </div>
           <div>
-             {destination?<input type="text" value={destination.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=> setDestination(e.target.value)}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>}
-            <button className="addDataBtns" type="button" onClick={openDestinateModal}>도착지 설정</button>
+             {goalPlace?<input type="text" value={goalPlace.replace(/<\/?[^>]+(>|$)/g, "")} onChange={(e)=> setGoalPlace(e.target.value)}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>}
+            <button className="addDataBtns" type="button" onClick={openGoalModal}>도착지 설정</button>
           </div>
             <button className="addDataBtns" type="button" onClick={handlecoordinate}>저장</button>
             <Modal

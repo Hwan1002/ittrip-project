@@ -57,6 +57,13 @@ export const ProjectProvider = ({ children }) => {
 
   const [markers,setMarkers] = useState([]);
 
+  const [startPlace,setStartPlace] =useState();
+  const [startAddress,setStartAddress] =useState();
+  const [goalPlace,setGoalPlace] =useState();
+  const [goalAddress,setGoalAddress] =useState();
+  const [wayPointsPlace,setWayPointsPlace] =useState();
+  const [wayPointsAddress,setWayPointsAddress] =useState();
+
 
   const value = {
     loginSuccess,
@@ -86,7 +93,15 @@ export const ProjectProvider = ({ children }) => {
     wayPoints,
     setWaypoints,
     path, setPath,
-    markers,setMarkers
+    markers,setMarkers,
+
+
+    startPlace,setStartPlace,
+    startAddress,setStartAddress,
+    goalPlace,setGoalPlace,
+    goalAddress,setGoalAddress,
+    wayPointsPlace,setWayPointsPlace,
+    wayPointsAddress,setWayPointsAddress
   };
 
   return (

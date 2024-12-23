@@ -3,9 +3,23 @@ import { ProjectContext } from "../context/ProjectContext";
 
 const Map = () => {
 
-  const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints } = useContext(ProjectContext);
+  const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints,
+    startPlace,startAddress,goalPlace,goalAddress,wayPointsPlace,wayPointsAddress} = useContext(ProjectContext);
 
   const [dayChecks, setDayChecks] = useState([])
+  const [selectedDay, setSelectedDay] = useState(null);  // 선택된 날짜를 저장할 상태
+  const [dayData, setDayData] = useState({
+    day: selectedDay,
+    startPlace: startPlace,
+    startAddress: startAddress,
+    goalPlace: goalPlace,
+    goalAddress: goalAddress,
+    wayPointsPlace: wayPointsPlace,
+    wayPointsAddress: wayPointsAddress,
+    startPoint: startPoint,
+    goalPoint: goalPoint,
+    wayPoints: wayPoints
+  })
 
   useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
@@ -18,9 +32,10 @@ const Map = () => {
       // 차이를 일수로 변환
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1일은 시작일도 포함
 
-      // dayChacks 배열 업데이트
+      // dayChecks 배열 업데이트
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
       setDayChecks(daysArray);
+
     }
   }, [tripDates]);
 
@@ -157,6 +172,12 @@ const Map = () => {
     };
   }, [address, path]);
 
+  // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
+  const handleDayClick = (day) => {
+    setSelectedDay(day);
+    // selectedDay를 기반으로 지도에 표시할 경로 또는 다른 로직 추가
+  };
+
 
   return (
     <div id="mapPlan" style={{
@@ -193,7 +214,11 @@ const Map = () => {
             borderRadius: 18,
             padding: "4px 6px 2px 4px",
             margin: "20px 10px", // 요소들 사이의 여백
-          }} key={index}>{index}</div>
+          }} key={index}
+            onClick={() => handleDayClick(index)}
+          >
+            {index}
+          </div>
         ))}
       </div>
     </div>
