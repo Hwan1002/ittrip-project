@@ -101,7 +101,7 @@ const AddData = ({width}) => {
 
     //좌표저장 (효용)
     const handlecoordinate = async () => {
-      if (!startPoint || !goalPoint) {
+      if (!departure || !destination) {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
