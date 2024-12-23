@@ -5,6 +5,7 @@ import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 import '../css/AddData.css';
+import { PiSquaresFourLight } from "react-icons/pi";
 
 
 const AddData = ({width}) => {
@@ -68,6 +69,8 @@ const AddData = ({width}) => {
     //   setDestination({title:'',address:''});
     // }
 
+    // 
+
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
     },[res])
@@ -98,6 +101,10 @@ const AddData = ({width}) => {
 
     //좌표저장 (효용)
     const handlecoordinate = async () => {
+      if (!startPoint || !goalPoint) {
+        alert("출발지와 목적지를 입력하세요.");
+        return;
+    }
       if (wayPoints) {
         const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
         const lnglatString = lnglatArray.join("|");
