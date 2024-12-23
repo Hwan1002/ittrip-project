@@ -1,12 +1,15 @@
 package project.map.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO.Items;
+import project.map.dto.MapDTO;
 import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
@@ -68,10 +71,19 @@ public class TripService {
 	
 	//-------------------------메인페이지 기능---------------------
 	//ex) 인천광역시를 누르면 인천시에 대한 부평구,남동구 등등의 리스트를 반환
-	public List<AreaEntity> getSignguNms(String areaNm){
-			List<AreaEntity> list = areaRepository.getAreaList(areaNm);
-			return list;
+
+	public List<String> getSignguNms(String areaCd){
+		List<String> signguNm = areaRepository.findByAreaCd(areaCd) ;
+		return signguNm;
+
 	}
+	
+	// 시군구 이름으로 엔티티반환메서드 .
+	public AreaDTO getCd(String areaNm, String signguNm){
+		AreaEntity entity = areaRepository.findByAreaNmSignguNm(areaNm,signguNm);
+		return new AreaDTO(entity);
+	}
+	
 	
 	//ex)이후 부평구를 누르면 인천광역시 부평구에 대한 areaCd,signguCd 반환 - 반환된 값으로 바로 공공데이터 요청을 할 것임
 	public List<AreaEntity> getCds(String areaNm,String signguNm){
@@ -94,13 +106,17 @@ public class TripService {
 //	}
 	
 	//trip의 title을 받아서 MapEntity들 반환하기
-	public List<MapEntity> getMaps(String userId,String title,Integer days){
-		return mapRepository.getLocation(userId, title,days);
+	public List<MapEntity> getMaps(String userId,String title){
+		return mapRepository.getLocation(userId, title);
 	}
 	
 	//trip의 title을 받아서 CheckListEntity 반환하기
 	public String getCheckLists(String userId,String title){
 		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
+	}
+	
+	public Integer getIdxByItems(String items) {
+		return checkListRepository.getIdxByItems(items);
 	}
 	
 	public List<Items> parseItems(String itemsString) {
@@ -112,7 +128,7 @@ public class TripService {
 	    }
 
 	    // ','를 기준으로 각 항목을 나눔
-	    String[] itemArray = itemsString.split(",");
+	    String[] itemArray = itemsString.split("\\|");
 	    
 	    for (String item : itemArray) {
 	        // ':'로 구분하여 id, text, checked 값을 추출
@@ -131,8 +147,28 @@ public class TripService {
 	            }
 	        }
 	    }
-	    
 	    return itemList;
 	}
+	
+
+	
+
+	public static List<MapDTO.WayPointDTO> parseWaypoints(String waypoint) {
+        if (waypoint == null || waypoint.isEmpty()) {
+            return List.of();
+        }
+
+        return Arrays.stream(waypoint.split("\\|"))
+            .map(entry -> {
+                String[] parts = entry.split(":");
+                if (parts.length == 3) {
+                    return new MapDTO.WayPointDTO(parts[0], parts[1], parts[2]);
+                } else {
+                    throw new IllegalArgumentException("Invalid waypoint format: " + entry);
+                }
+            })
+            .toList();
+    }
+
 
 }

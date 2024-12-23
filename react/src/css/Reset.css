@@ -35,7 +35,7 @@ body::-webkit-scrollbar {
 h1,h2,h3{
     color:#F6A354;
 }
-h2,h3,p,span,a,button, label{
+h2,h3,p,span,a,button, label, input{
     font-family: 'Pretendard-Regular';
     text-decoration: none;
 }

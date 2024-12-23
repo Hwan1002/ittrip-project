@@ -1,9 +1,11 @@
 #myPage{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width:100%;
 }
+
 
 #myPage button{
     width: 110px;
@@ -13,6 +15,7 @@
     color: #fff;
     font-size: 15px;
     background-color: #F6A354;
+    margin-bottom: 20px;
 }
 #myPage button:hover{
     background-color: #f78b26;
@@ -23,7 +26,8 @@
     justify-content: space-around;
     align-items: center;
     width: 90%;
-    height: 30vh;
+    border-top : 1px solid #b9b9b9;
+    padding-top: 35px;
 }
 #profileFrame {
     display: flex;
@@ -60,8 +64,12 @@
     margin-bottom: 20px;
 }
 #myInfo input{
-    border-radius: 8px;
+    border-radius: 15px;
     height:20px;
+    color: #666;
+    text-align: center;
+    border-width: 2px;
+
 }
 #myInfoFrame{
     display: flex;

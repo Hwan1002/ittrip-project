@@ -1,28 +1,24 @@
+import "../css/Map.css";
 import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
+import useModal from "../context/useModal";
+import Modal from "./Modal";
 
 const Map = () => {
 
   const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints,
-    startPlace,startAddress,goalPlace,goalAddress,wayPointsPlace,wayPointsAddress} = useContext(ProjectContext);
+    stopOverList,setStopOverList,mapObject,setMapObject,departure,setDeparture,destination,setDestination,selectedDay,setSelectedDay,
+    dayChecks,setDayChecks} = useContext(ProjectContext);
 
-  const [dayChecks, setDayChecks] = useState([])
-  const [selectedDay, setSelectedDay] = useState(null);  // 선택된 날짜를 저장할 상태
-  const [dayData, setDayData] = useState({
-    day: selectedDay,
-    startPlace: startPlace,
-    startAddress: startAddress,
-    goalPlace: goalPlace,
-    goalAddress: goalAddress,
-    wayPointsPlace: wayPointsPlace,
-    wayPointsAddress: wayPointsAddress,
-    startPoint: startPoint,
-    goalPoint: goalPoint,
-    wayPoints: wayPoints
-  })
-
+    const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
+  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
+   
   useEffect(() => {
-    if (tripDates && tripDates.startDate && tripDates.endDate) {
+    console.log("mapObject updated:", JSON.stringify(mapObject));
+  }, [mapObject]);
+  
+  useEffect(() => {
+    if (tripDates && tripDates.startDate && tripDates.endDate) {                //1111
       const startDate = new Date(tripDates.startDate);
       const endDate = new Date(tripDates.endDate);
 
@@ -33,12 +29,22 @@ const Map = () => {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1일은 시작일도 포함
 
       // dayChecks 배열 업데이트
-      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
-      setDayChecks(daysArray);
-
+      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
+      setDayChecks([...daysArray]);
     }
   }, [tripDates]);
 
+ 
+  useEffect(()=>{
+    const foundData = mapObject.find(data => data.days === selectedDay+1);
+    if(foundData){
+      setDeparture({title:foundData.startPlace, address:foundData.startAddress})
+      setStopOverList([...foundData.wayPoints])
+      setDestination({title:foundData.goalPlace, address:foundData.goalAddress})
+    }
+      
+    
+  },[selectedDay])
 
   useEffect(() => {
     // Naver 지도 API 스크립트 로드
@@ -63,7 +69,11 @@ const Map = () => {
             query: address
           }, (status, response) => {
             if (status === window.naver.maps.Service.Status.ERROR) {
-              alert('주소를 찾을 수 없습니다.');
+              // alert('주소를 찾을 수 없습니다.');
+              openModal({
+                title:"주소 오류",
+                message:"주소를 찾을 수 없습니다.",
+              })
               return;
             }
 
@@ -77,13 +87,13 @@ const Map = () => {
 
             } else if (startPoint && !goalPoint) {
               setGoalPoint(latlng)
-            } else if (!wayPoints.some(point => point.equals(latlng)) && !goalPoint.equals(latlng)) {
+            } 
+            else if (!wayPoints.some(point => point.equals(latlng)) && !goalPoint.equals(latlng)) {
               setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
             }
 
             // 지도 위치를 마커로 이동
             map.setCenter(latlng);
-
 
             // 마커를 모두 추가하기
             const markers = [];
@@ -140,7 +150,6 @@ const Map = () => {
               });
             }
 
-
             // 경로 표시하기 
             if (path) {
               const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude))
@@ -173,54 +182,63 @@ const Map = () => {
   }, [address, path]);
 
   // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
-  const handleDayClick = (day) => {
-    setSelectedDay(day);
-    // selectedDay를 기반으로 지도에 표시할 경로 또는 다른 로직 추가
+  const handleDayClick = (day) => {  
+    if(!mapObject.find(data=>data.days === selectedDay+1)){
+      // const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
+      openModal({
+        title:"주의",
+        message: "저장 안했는데 넘어갈거야?",
+      })
+      setDeparture({title:'',address:''});
+      setStopOverList([]);
+      setDestination({title:'',address:''});
+      setSelectedDay(day);
+    // if (userConfirm) {
+    //   alert("넘어갈게");
+    //   openModal({
+    //     title:"",
+    //     message:"넘어갈게",
+    //   })
+    //   // setDeparture({title:'',address:''});
+    //   // setStopOverList([]);
+    //   // setDestination({title:'',address:''});
+    //   // setSelectedDay(day);
+    // } else {
+    //   alert("그래 저장해");
+    // }
+    }
+    // else{
+    //   setDeparture({title:'',address:''});
+    //   setStopOverList([]);
+    //   setDestination({title:'',address:''});
+    //   setSelectedDay(day);
+    // }
+    
   };
 
-
   return (
-    <div id="mapPlan" style={{
-      width: "100%",
-      height: "100%",
-      position: "relative",
-      display: "flex",
-    }}>
+    <div id="mapPlan">
       {/* 배경색을 넣어주는 div */}
-      <div id="map-container" style={{
-        position: 'absolute',
-        width: "100%",
-        height: "100%",
-        // backgroundColor: '#A3A3A3',
-        // zIndex: -1  // 배경을 다른 내용보다 뒤로 보이게 하기 위해 z-index를 설정
-      }}></div>
-
+      <div id="map-container"></div>
       {/* Day 요소들 배치 */}
-      <div id="dayFrame" style={{
-        display: 'flex',    // flexbox로 Day들을 가로로 나열
-
-        position: 'absolute',  // 부모 div에 맞게 절대 위치 설정
-        top: '10px',   // 부모 div의 위에서 20px 떨어지게 설정
-        left: "14px",
-      }}>
+      <div id="dayFrame">
         {/* dayChecks 배열의 항목에 따라 DayN 요소 생성 */}
-        {dayChecks.map((index) => (
-          <div style={{
-            textAlign: "center",
-            width: 62,   // 각 Day 요소의 너비
-            height: 30,  // 각 Day 요소의 높이
-            backgroundColor: "#F6A354",
-            color: "#fff",
-            borderRadius: 18,
-            padding: "4px 6px 2px 4px",
-            margin: "20px 10px", // 요소들 사이의 여백
-          }} key={index}
-            onClick={() => handleDayClick(index)}
-          >
-            {index}
+        {dayChecks.map((item,index) => (
+          <div id="dayChecks" onClick={()=>handleDayClick(index)} key={index}>
+            {item}
           </div>
         ))}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={[
+          {label: "확인", onClick: closeModal, className: "confirm-button",},
+          {label: "뒤로가기", onClick: closeModal, className: "cancel-button",}
+        ]}
+      />
     </div>
   );
 }

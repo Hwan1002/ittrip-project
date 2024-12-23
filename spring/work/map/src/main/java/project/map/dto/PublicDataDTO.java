@@ -13,15 +13,11 @@ public class PublicDataDTO {
 
     @Data
     public static class Response {
-        private Header header;
+ 
         private Body body;
     }
 
-    @Data
-    public static class Header {
-        private String resultCode;
-        private String resultMsg;
-    }
+
 
     @Data
     public static class Body {
@@ -43,5 +39,9 @@ public class PublicDataDTO {
 
         @JsonProperty("rlteCtgryLclsNm")	//관광지,음식,숙박
         private String rlteCtgryLclsNm;
+        
+        @JsonProperty("rlteCtgrySclsNm")	
+        private String rlteCtgrySclsNm;
+        
     }
 }

@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 export const ProjectContext = createContext();
 
 export const ProjectProvider = ({ children }) => {
+
   //회원 토큰 인증을 위한 필수 데이터들
   const token = window.localStorage.getItem("token");
   //axios시 헤더에 토큰을 같이 보내서 인증을 거쳐야함
@@ -17,9 +18,8 @@ export const ProjectProvider = ({ children }) => {
   //프로필 이미지 url 상태
   const [imagePreview, setImagePreview] = useState(null); 
 
+  //newtrip에서 출발,경유,도착지 주소 저장
   const [address , setAddress] = useState();
-
-
 
   // startPoint 출발지
   const [startPoint,setStartPoint] = useState();
@@ -30,7 +30,6 @@ export const ProjectProvider = ({ children }) => {
   
   // wayPoints  경유지
   const [wayPoints , setWaypoints ] = useState([]);
-
 
   const [path, setPath] = useState();
 
@@ -43,13 +42,13 @@ export const ProjectProvider = ({ children }) => {
     setLoginSuccess(true);
   };
 
-  //여행 제목,날짜 값
+  //여행 제목,날짜, 저장값 눌렀을때 상태 값들
   const [tripTitle, setTripTitle] = useState("");
   const [tripDates, setTripDates] = useState({
     startDate: null,
     endDate: null,
   });
-
+ 
   //체크리스트 input 값
   const [input, setInput] = useState("");
   //체크리스트 배열
@@ -65,43 +64,56 @@ export const ProjectProvider = ({ children }) => {
   const [wayPointsAddress,setWayPointsAddress] =useState();
 
 
-  const value = {
-    loginSuccess,
-    setLoginSuccess,
-    imagePreview,
-    setImagePreview,
-    userInfo,
-    setUserInfo,
-    setUserData,
-    token,
-    logData,
-    tripTitle,
-    setTripTitle,
-    tripDates,
-    setTripDates,
-    input,
-    setInput,
-    items,
-    setItems,
-    address, 
-    setAddress,
+  const [signguNm , setSignguNm]  =useState([]) ;
 
-    startPoint,
-    setStartPoint,
-    goalPoint,
-    setGoalPoint,
-    wayPoints,
-    setWaypoints,
+  const [stopOverList, setStopOverList] = useState([]);
+
+  const [mapObject,setMapObject] = useState([]);
+
+  const [departure,setDeparture] = useState({
+    title:'',
+    address:''
+  })
+
+  const [destination,setDestination] = useState({
+    title:'',
+    address:''
+  })
+
+  const [selectedDay,setSelectedDay] = useState(0);
+
+  const [dayChecks,setDayChecks] = useState([]);
+
+  const initObject=()=>{
+    setDeparture({title:'',address:''});
+    setStopOverList([]);
+    setDestination({title:'',address:''});
+  }
+
+  const value = {
+    loginSuccess,setLoginSuccess,
+    imagePreview,setImagePreview,
+    userInfo,setUserInfo,
+    setUserData,
+    token,logData,
+    tripTitle,setTripTitle,
+    tripDates,setTripDates,
+    input,setInput,
+    items,setItems,
+    address,setAddress,
+    startPoint,setStartPoint,
+    goalPoint,setGoalPoint,
+    wayPoints,setWaypoints,
     path, setPath,
     markers,setMarkers,
-
-
-    startPlace,setStartPlace,
-    startAddress,setStartAddress,
-    goalPlace,setGoalPlace,
-    goalAddress,setGoalAddress,
-    wayPointsPlace,setWayPointsPlace,
-    wayPointsAddress,setWayPointsAddress
+    signguNm , setSignguNm,
+    stopOverList,setStopOverList,
+    mapObject,setMapObject,
+    departure,setDeparture,
+    destination,setDestination,
+    selectedDay,setSelectedDay,
+    initObject,dayChecks,
+    setDayChecks
   };
 
   return (

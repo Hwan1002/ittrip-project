@@ -3,7 +3,7 @@ import Login from "./screen/Login";
 import EntirePlan from "./screen/EntirePlan";
 import Header from "./components/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Main from "./screen/Main";
+// import Main from "./screen/Main";
 import Map from "./components/Map";
 import SignUp from "./screen/SignUp";
 import AddData from "./components/AddData";
@@ -14,6 +14,8 @@ import NewTrip from "./screen/NewTrip";
 import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
+import Maintest from "./screen/Maintest";
+import Main from "./screen/Main";
 
 function App() {
   return (
@@ -21,7 +23,8 @@ function App() {
       <ProjectProvider>
         <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Maintest />} />
+          <Route path="/1" element={<Main />} />
           <Route path="/addData" element={<AddData />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
