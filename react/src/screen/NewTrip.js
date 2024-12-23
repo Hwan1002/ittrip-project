@@ -92,7 +92,7 @@ const NewTrip = () => {
     } catch (error) {
       alert("에러 내용:", error);
     }
-    //map db저장 axios
+    // map db저장 axios
     
     try {
       const response = await axios.post(`${API_BASE_URL}/2`,

@@ -59,6 +59,7 @@ public class TripController {
 	@Autowired
 	private AreaRepository areaRepository;
 
+	static String myTitle;
 	
 	
 	
@@ -162,19 +163,18 @@ public class TripController {
 	public void postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		String titleToCheck = tripService.titleToDB(userId,dto.getTitle());
-		String confirmedTitle = tripService.titleConfirm(titleToCheck);
-		TripEntity entity = TripEntity.builder().title(confirmedTitle).startDate(dto.getStartDate())
+		myTitle = tripService.titleConfirm(titleToCheck);
+		TripEntity entity = TripEntity.builder().title(myTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
 		tripRepository.save(entity);
 
 	}
-
+	// 111/제목(2)
 	// map객체 저장
 	@PostMapping("/2")
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		String title = tripService.titleToDB(userId, dto.getTripTitle());
-		TripEntity trip = tripRepository.getByTitle(title);
+		TripEntity trip = tripRepository.getByTitle(myTitle);
         
 		StringBuilder waypointsBuilder;
         for (MapDTO.MapObject mapObject : dto.getMapObject()){
@@ -212,8 +212,7 @@ public class TripController {
 		@PostMapping("/3")
 		public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 			UserEntity user = userRepository.findById(userId).get();
-			String title = tripService.titleToDB(userId, dto.getTripTitle());
-			TripEntity trip = tripRepository.getByTitle(title);
+			TripEntity trip = tripRepository.getByTitle(myTitle);
 			CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
 					items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
                     .collect(Collectors.joining("|"))) // 리스트 -> 문자열 합치기

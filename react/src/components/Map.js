@@ -9,9 +9,13 @@ const Map = () => {
     stopOverList,setStopOverList,mapObject,setMapObject,departure,setDeparture,destination,setDestination,selectedDay,setSelectedDay,
     dayChecks,setDayChecks} = useContext(ProjectContext);
 
-  
-  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
-   
+   const [dayBoolean,setDayBoolean] = useState([]);
+ 
+
+  useEffect(()=>{
+    console.log("dayBoolean: "+JSON.stringify(dayBoolean));
+  },[dayBoolean])
+
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
@@ -29,6 +33,8 @@ const Map = () => {
 
       // dayChecks 배열 업데이트
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
+      const booleanArray = new Array(daysArray.length).fill(false);
+      setDayBoolean([...booleanArray]);
       setDayChecks([...daysArray]);
     }
   }, [tripDates]);
@@ -186,6 +192,12 @@ const Map = () => {
       setStopOverList([]);
       setDestination({title:'',address:''});
       setSelectedDay(day);
+      setDayBoolean(prev => {
+        const updatedDayBoolean = [...prev];
+        updatedDayBoolean[selectedDay] = false;
+        updatedDayBoolean[day] = true;
+        return updatedDayBoolean;
+      });
     } else {
       alert("그래 저장해");
     }
@@ -194,11 +206,15 @@ const Map = () => {
       setStopOverList([]);
       setDestination({title:'',address:''});
       setSelectedDay(day);
+      setDayBoolean(prev => {
+        const updatedDayBoolean = [...prev];
+        updatedDayBoolean[selectedDay] = false;
+        updatedDayBoolean[day] = true;
+        return updatedDayBoolean;
+      });
     }
     
   };
-
-
 
   return (
     <div id="mapPlan">
@@ -208,8 +224,14 @@ const Map = () => {
       <div id="dayFrame">
         {/* dayChecks 배열의 항목에 따라 DayN 요소 생성 */}
         {dayChecks.map((item,index) => (
-          <div id="dayChecks" onClick={()=>handleDayClick(index)} key={index}>
-            {item}
+          <div id="dayChecks" 
+           key={index}>
+            <input
+              type="button"
+              disabled={dayBoolean[index]}
+              onClick={()=>handleDayClick(index)}
+              value={item}
+            />
           </div>
         ))}
       </div>
