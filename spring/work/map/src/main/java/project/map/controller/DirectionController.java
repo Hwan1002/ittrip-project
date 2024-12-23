@@ -37,6 +37,9 @@ public class DirectionController {
 			@RequestParam(name = "goal") String goal
 	// 기본값 trafast
 	) {
+		 System.out.println("start:"+start);
+		 System.out.println("goal:"+ goal);
+		 
 		try {
 
 			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
@@ -51,10 +54,14 @@ public class DirectionController {
 																													// 반환
 					.block(); // block -> ResponseEntity로 반환하기 위해 씀
 
+			System.out.println(response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
 		}
+			
+		
+		
 	}
 
 
@@ -73,6 +80,9 @@ public class DirectionController {
 					.bodyToMono(DirectionsResponseDTO.class) // mono (0개 또는 1개) 로 반환
 					.block(); // block -> ResponseEntity로 반환하기 위해 씀
 
+			System.out.println("start:"+start);
+			 System.out.println("goal:"+ goal);
+			 System.out.println("response"+response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));

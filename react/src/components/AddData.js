@@ -24,9 +24,13 @@ const AddData = ({width}) => {
       stopOverList, setStopOverList,
       destination, setDestination,
       selectedDay,setSelectedDay,
-      mapObject,setMapObject
+      mapObject,setMapObject,
+      type ,setType
     } = useContext(ProjectContext);
-
+    const [test, setTest] = useState('');
+    useEffect(()=>{
+      console.log(test);
+    },[test])
     //모달창 사용
     const {
         isModalOpen,
@@ -37,8 +41,7 @@ const AddData = ({width}) => {
         closeModal,
         currentModal
     } = useModal();
-    //putObject 효용
-    
+
     const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
       const foundData = mapObject.find(data=> data.days === selectedDay+1);
       if(foundData){
@@ -69,19 +72,21 @@ const AddData = ({width}) => {
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
-      setAddress(item.address);
       switch(type) {
         case "departure":
-          setDeparture({title: item.title, address: item.address, type : type});
+          setDeparture({title:item.title, address:item.address, type:type  });
+          setType(type);
           break;
         case "destination": 
-          setDestination({title:item.title, address:item.address});
+          setDestination({title:item.title, address:item.address, type:type});
+          setType(type);
           break; 
         case "stopOver": 
         setStopOverList((prevList) => [
           ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
-          { id: Date.now(), value: item.title, address : item.address } // 새로운 아이템 강제로 추가
+          { id: Date.now(), value:item.title, address:item.address, type:type } // 새로운 아이템 강제로 추가
         ]);
+        setType(type);
         break;
         default: 
           console.log("handleCheck switch 케이스 쪽 오류");
@@ -92,41 +97,46 @@ const AddData = ({width}) => {
     }
 
     //좌표저장 (효용)
-    const handlecoordinate = async () => {
+    const handlecoordinate = async() => {
       if (!departure || !destination) {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
-    try {
-      if (wayPoints) {
-        const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
-        const lnglatString = lnglatArray.join("|");
-        const response = await axios.get(`${API_BASE_URL}/12345`, {
-          params: {
-            start: `${startPoint._lng},${startPoint._lat}`,
-            goal: `${goalPoint._lng},${goalPoint._lat}`,
-            waypoints: lnglatString
-          }
-        });
-       
-        setPath(response.data.route.traoptimal[0].path);
-        console.log(path)
-      } else {
-        const response = await axios.get(`${API_BASE_URL}/1234`, {
-          params: {
-            start: `${startPoint._lng},${startPoint._lat}`,
-            goal: `${goalPoint._lng},${goalPoint._lat}`
-          }
-        })
-        setPath(response.data.route.traoptimal[0].path)
-      }
-      putObject();
+
+    
+      debugger;
+      try{
+        if (stopOverList.length>0) {
+               const latlngArray = stopOverList.map(prev=>prev.latlng);
+               
+               const lnglatString = latlngArray.join("|");
+               const response = await axios.get(`${API_BASE_URL}/12345`, {
+                 params: {
+                  start: departure.latlng,
+                  goal: destination.latlng,
+                  waypoints: lnglatString
+                 }
+               });
+       setPath(response.data.route.traoptimal[0].path);
+       }else {
+               const response = await axios.get(`${API_BASE_URL}/1234`, {
+                 params: {
+                  start: departure.latlng,
+                  goal: destination.latlng,
+                 }
+               })
+               setPath(response.data.route.traoptimal[0].path)
+             }
+        
+      // }
+      // putObject();
     } catch (error) {
       alert("cathch 에러");
+    }  
+
+
     }
-      
-    }
-    
+
     const handleSearch = async(value, updateState, modalTitle) => {
       if(!value){
         setRes([]);
