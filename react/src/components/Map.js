@@ -189,6 +189,7 @@ const Map = () => {
       setDestination({ title: "", address: "" });
       resetMapElements();
       setSelectedDay(day);
+      closeModal();
     }
     const dayData = mapObject.find((data) => data.days === selectedDay + 1);
     if (!dayData) {
@@ -218,7 +219,7 @@ const Map = () => {
       <div id="dayFrame">
         {dayChecks.map((item, index) => (
           <div id="dayChecks" onClick={() => handleDayClick(index)} key={index}>
-            {item}
+            <button className="dayChecksBtns">{item}</button>
           </div>
         ))}
       </div>
