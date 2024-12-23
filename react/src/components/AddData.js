@@ -40,7 +40,6 @@ const AddData = ({width}) => {
     
 
     const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-      debugger;
       const foundData = mapObject.find(data=> data.days === selectedDay+1);
       if(foundData){
       if(foundData.StartAddress!== departure.address || JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) || foundData.goalAddress !== destination.address){
@@ -75,7 +74,6 @@ const AddData = ({width}) => {
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
-      debugger;
       setAddress(item.address);
       switch(type) {
         case "departure":
@@ -135,7 +133,6 @@ const AddData = ({width}) => {
         return;
       }else{
         try {
-          debugger
           const newData = [...data,value];
           const response = await axios.get(`${API_BASE_URL}/local`,{
             params:{query : value}

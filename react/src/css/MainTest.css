@@ -15,6 +15,9 @@
 }
 .mainModal .modal-body{
     width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .mainLocal{
@@ -97,7 +100,9 @@
 /* .mainModal .modal-body{
     
 } */
-
+.categoryBtns {
+    text-align: center;
+}
 
 .categoryBtns button{
     margin-right: 20px;
@@ -119,12 +124,16 @@
 }
 
 .categoryList{
+    border: 2px solid #F6A354;
+    border-radius: 10px;
     height: 400px;
     overflow: scroll;
     margin-top: 27px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+.categoryList::-webkit-scrollbar {
+    display: none;
 }
 .categoryList div{
     border-radius: 10px;
@@ -138,6 +147,7 @@
     display:flex;
     justify-content: center;
     align-items: center;
+    margin : 20px 0px 0px 20px; 
 
 }
 .categoryList .icon{

@@ -56,14 +56,6 @@ export const ProjectProvider = ({ children }) => {
 
   const [markers,setMarkers] = useState([]);
 
-  const [startPlace,setStartPlace] =useState();
-  const [startAddress,setStartAddress] =useState();
-  const [goalPlace,setGoalPlace] =useState();
-  const [goalAddress,setGoalAddress] =useState();
-  const [wayPointsPlace,setWayPointsPlace] =useState();
-  const [wayPointsAddress,setWayPointsAddress] =useState();
-
-
   const [signguNm , setSignguNm]  =useState([]) ;
 
   const [stopOverList, setStopOverList] = useState([]);
