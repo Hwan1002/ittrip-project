@@ -77,6 +77,9 @@ export const ProjectProvider = ({ children }) => {
 
   const [dayChecks,setDayChecks] = useState([]);
 
+  const [mapInstance,setMapInstance] = useState(null);
+  
+
   const initObject=()=>{
     setDeparture({title:'',address:''});
     setStopOverList([]);
@@ -106,7 +109,8 @@ export const ProjectProvider = ({ children }) => {
     destination,setDestination,
     selectedDay,setSelectedDay,
     initObject,dayChecks,
-    setDayChecks
+    setDayChecks,mapInstance,setMapInstance
+    
   };
 
   return (

@@ -21,6 +21,13 @@ const EntirePlan = () => {
     const [isUpdating, setIsUpdating] = useState(true);
 
 
+    useEffect(()=>{
+        if(!isUpdating){
+            alert("수정 모드")
+        }
+    },[isUpdating])
+
+
     useEffect(() => {
         console.log("trip객체: " + JSON.stringify(trips));
         console.log("map객체: " + JSON.stringify(maps));
@@ -72,13 +79,51 @@ const EntirePlan = () => {
             });
             setCheckList(() => (response.data.items));
         } catch (err) {
-            alert("get CheckList 에러");
+            alert("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
         }
     }
 
+    const deleteTrip = async (idx) => {
+        try {
+            const response = await axios.delete(`${API_BASE_URL}/1/${idx}`)
+            setTrips((prevTrips) => prevTrips.filter((trip) => trip.idx !== idx));
+            alert("삭제 완료")
+        } catch (err) {
+            alert("삭제 실패");
+        }
+    }
 
+    const handleTripTitleChange = (e, trip) => {
+        setTrips((prevTrips) =>
+            prevTrips.map((t) =>
+                t.idx === trip.idx ? { ...t, title: e.target.value } : t
+            )
+        );
+    };
 
+    const handleCheckboxChange = (id) => {
+        setCheckList((prevCheckList) =>
+            prevCheckList.map((item) =>
+                item.id === id ? { ...item, checked: !item.checked } : item
+            )
+        );
+    };
+    
+    const handleCheckListTextChange = (id, value) => {
+        setCheckList((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, text: value } : item
+            )
+        );
+    };
 
+    const deleteCheckList = (id) => {
+        setCheckList((prev) =>
+            prev.filter((item)=>
+                item.id !== id
+            )    
+        )
+    }
 
     return (
         <div id="entirePlan">
@@ -116,9 +161,14 @@ const EntirePlan = () => {
                                     /* 해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/
                                     readOnly={isUpdating}
                                     onClick={() => fetchMapCheck(trip)}
+                                    onChange={(e) => handleTripTitleChange(e, trip)}
                                     value={trip.title}
                                 >
                                 </input>
+                                <button
+                                    onClick={() => deleteTrip(trip.idx)}
+                                >삭제
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -180,18 +230,23 @@ const EntirePlan = () => {
                     {/*체크리스트 나열해주는 곳 */}
                     <ul>
                         {checkList.map((list) => (
-                            <li
-                                key={list.id}
-                            >
+                            <li key={list.id}>
                                 <input
                                     type="checkbox"
-                                    checked={list.checked}  // 상태 값에 따라 체크 여부 결정
-                                    
+                                    checked={list.checked} // 상태 값에 따라 체크 여부 결정
+                                    readOnly={isUpdating} // 수정 가능 여부
+                                    onChange={() => handleCheckboxChange(list.id)} // 체크 상태 변경
                                 />
                                 <input
-                                    readOnly
                                     value={list.text}
+                                    readOnly={isUpdating} // 수정 가능 여부
+                                    onChange={(e) => handleCheckListTextChange(list.id, e.target.value)} // 텍스트 변경
                                 />
+                                <button
+                                    onClick={() => deleteCheckList(list.id)}
+                                >삭제
+                                </button>
+
                             </li>
                         ))}
                     </ul>
