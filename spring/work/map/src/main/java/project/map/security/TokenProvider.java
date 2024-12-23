@@ -52,6 +52,7 @@ public class TokenProvider {
 		ApplicationOAuth2User userPrincipal = (ApplicationOAuth2User) authentication.getPrincipal();
 		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
 
+
 		String token = Jwts.builder()
 				.signWith(key, SignatureAlgorithm.HS512)
 				.setSubject(userPrincipal.getName()) // id가 반환됨
