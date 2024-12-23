@@ -102,34 +102,29 @@ const AddData = ({width}) => {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
-
-    
-      debugger;
       try{
         if (stopOverList.length>0) {
-               const latlngArray = stopOverList.map(prev=>prev.latlng);
-               
-               const lnglatString = latlngArray.join("|");
-               const response = await axios.get(`${API_BASE_URL}/12345`, {
-                 params: {
-                  start: departure.latlng,
-                  goal: destination.latlng,
-                  waypoints: lnglatString
-                 }
-               });
+          const latlngArray = stopOverList.map(prev=>prev.latlng);
+          
+          const lnglatString = latlngArray.join("|");
+          const response = await axios.get(`${API_BASE_URL}/12345`, {
+            params: {
+            start: departure.latlng,
+            goal: destination.latlng,
+            waypoints: lnglatString
+            }
+          });
        setPath(response.data.route.traoptimal[0].path);
        }else {
-               const response = await axios.get(`${API_BASE_URL}/1234`, {
-                 params: {
-                  start: departure.latlng,
-                  goal: destination.latlng,
-                 }
-               })
-               setPath(response.data.route.traoptimal[0].path)
-             }
-        
-      // }
-      // putObject();
+        const response = await axios.get(`${API_BASE_URL}/1234`, {
+          params: {
+          start: departure.latlng,
+          goal: destination.latlng,
+          }
+        })
+        setPath(response.data.route.traoptimal[0].path)
+      }
+      putObject();
     } catch (error) {
       alert("cathch 에러");
     }  
