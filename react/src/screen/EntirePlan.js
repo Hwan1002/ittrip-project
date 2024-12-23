@@ -12,7 +12,9 @@ import axios from "axios";
 
 const EntirePlan = () => {
 
-    const { logData, selectedDay } = useContext(ProjectContext);
+    const { logData, setDeparture, setStopOverList, setDestination, dayChecks, setDayChecks, selectedDay } = useContext(ProjectContext);
+
+
 
     const [trips, setTrips] = useState([]);  //{idx,title,startDate,lastDate} 
     const [maps, setMaps] = useState([]);    //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints} 
@@ -63,8 +65,24 @@ const EntirePlan = () => {
                     tripTitle: trip.title
                 },
             });
-            console.log("response:", response.data[0].mapObject);
+            const startDate = new Date(trip.startDate);
+            const endDate = new Date(trip.lastDate);
+
+            const diffTime = endDate - startDate;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
+            setDayChecks([...daysArray])
+
+            console.log("response:", JSON.stringify(response.data[0].mapObject[selectedDay]));
             response.data.map((trip) => setMaps((prev) => [...prev, trip.mapObject]));
+            setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress })
+            setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress })
+            setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints])
+
+
+            // setStopOverList({title: ,address:})
+            // setDestination({title: ,address:})
             //   setMaps(response.data.mapObject);
             console.log("maps: " + JSON.stringify(maps))
         } catch (err) {
@@ -118,7 +136,7 @@ const EntirePlan = () => {
         } catch (err) {
             alert("put CheckList 에러");
         }
-        setIsUpdating(()=>!isUpdating)
+        setIsUpdating(() => !isUpdating)
     }
 
     const deleteTrip = async (idx) => {
@@ -186,6 +204,7 @@ const EntirePlan = () => {
                     </p>
                     }
                 </div>
+
                 {/* 여행목록 */}
                 <p style={{ color: "#F6A354", fontSize: "20px", marginBottom: "5px" }}>여행목록</p>
                 <div
@@ -238,7 +257,7 @@ const EntirePlan = () => {
                 >
                     {/* map의 경로 출발지와 waypoint들 목적지 띄워주는 곳 */}
                     <div>
-                        {maps && maps.length > 0 &&
+                        {isUpdating ? maps && maps.length > 0 &&
                             <>
                                 <input
                                     readOnly={isUpdating}
@@ -258,8 +277,9 @@ const EntirePlan = () => {
                                     readOnly={isUpdating}
                                     value={maps[0][selectedDay]?.goalPlace}
                                 />
-                            </>
-                        }
+                            </> : <AddData />}
+
+
                     </div>
                 </div>
 
