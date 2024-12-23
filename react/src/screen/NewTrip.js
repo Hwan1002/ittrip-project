@@ -67,8 +67,7 @@ const NewTrip = () => {
   }, [openModal, closeModal]);
 
 
-  const buttonClicked = async () => {
-    
+  const buttonClicked = async() => {
 
     if(mapObject.length!==dayChecks.length){
       const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
@@ -80,7 +79,9 @@ const NewTrip = () => {
       //여행제목, 출발일,도착일 받아서 db 저장 axios 
       const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
       const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-      const response = await axios.post(`${API_BASE_URL}/1`,
+      debugger;
+      console.log(tripTitle, formattedStartDate, formattedEndDate, mapObject);
+      const response1 = await axios.post(`${API_BASE_URL}/1`,
         {
           title: tripTitle,
           startDate: formattedStartDate,
@@ -88,46 +89,57 @@ const NewTrip = () => {
         },
         logData
       );
-      console.log(response.data.value);
+      if(!response1){
+        alert("날짜, 여행제목 저장 에러");
+      }
+      const response2 = await axios.post(`${API_BASE_URL}/2`,{tripTitle:tripTitle, mapObject:mapObject,},logData);
+      if(response2){
+        openModal({
+          title:"저장 성공",
+          message:"여행 일정 등록을 성공하였습니다.",
+          actions:[{label:"확인", onClick:closeModal, className:"confirm-btn"}]
+        })
+        navigate("/");
+        initObject();
+        setSelectedDay(0);
+      }
+      console.log(response1, response2);
+
     } catch (error) {
-      alert("에러 내용:", error);
+      alert("catch 쪽 에러 axios 확인");
     }
     //map db저장 axios
-    
-    try {
-      const response = await axios.post(`${API_BASE_URL}/2`,
-        {
-          tripTitle: tripTitle,
-          mapObject : mapObject
-        },
-        logData
-      );
-       alert("저장 성공");
-       initObject();
-       setSelectedDay(0);
-    } catch (error) {
-      console.log(mapObject);
-      alert("post2 에러");
+    // try {
+    //   // console.log(mapObject);
+    //   // const response = await axios.post(`${API_BASE_URL}/2`,
+    //   //   {tripTitle: tripTitle, mapObject: mapObject,},
+    //   //   logData
+    //   // );
+    //    alert("저장 성공");
+    //    initObject();
+    //    setSelectedDay(0);
+    // } catch (error) {
+    //   console.log(mapObject);
+    //   alert("post2 에러");
       
-    }
-    
-
+    // }
     //체크리스트 db저장 axios
-    try {
-      const response = await axios.post(`${API_BASE_URL}/3`,
-        {
-          tripTitle: tripTitle,
-          items : items
-        },
-        logData
-      );
-       console.log(response.data);
-    } catch (error) {
-      console.log(items);
-      alert("post3 에러");
+    // try {
+    //   const response = await axios.post(`${API_BASE_URL}/3`,
+    //     {
+    //       tripTitle: tripTitle,
+    //       items : items
+    //     },
+    //     logData
+    //   );
+    //    console.log(response.data);
+    // } catch (error) {
+    //   console.log(items);
+    //   alert("post3 에러");
       
-    }
+    // }
   };
+    
 
   return (
     <div className="newTrip">
