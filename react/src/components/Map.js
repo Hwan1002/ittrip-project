@@ -14,6 +14,8 @@ const Map = () => {
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
    const [dayBoolean,setDayBoolean] = useState([]);
+   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
+
  
 
   useEffect(()=>{
@@ -72,15 +74,28 @@ const Map = () => {
           zoom: 15
         });
 
-        let markers = [];
-        let polylines = [];
 
         const clearMapData = () => {
-          markers.forEach(marker => marker.setMap(null)); // 기존 마커 제거
-          polylines.forEach(polyline => polyline.setMap(null)); // 기존 폴리라인 제거
-          markers = [];
-          polylines = [];
+          // 이전 날짜의 마커와 폴리라인 삭제
+          if (dayMapData[selectedDay]) {
+            dayMapData[selectedDay].markers.forEach(marker => marker.setMap(null));
+            dayMapData[selectedDay].polylines.forEach(polyline => polyline.setMap(null));
+          }
         };
+
+        const createMarkerIcon = (text) => {
+          return {
+            content: `
+              <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
+                ${text}
+                <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
+              </div>
+            `,
+            size: new window.naver.maps.Size(30, 30),
+            anchor: new window.naver.maps.Point(15, 15),
+          };
+        };
+
 
         if (address) {
           window.naver.maps.Service.geocode({
@@ -107,25 +122,16 @@ const Map = () => {
 
             map.setCenter(latlng);
             const bounds = new window.naver.maps.LatLngBounds();
-
-            const createMarkerIcon = (text) => {
-              return {
-                content: `
-                  <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
-                    ${text}
-                    <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
-                  </div>
-                `,
-                size: new window.naver.maps.Size(30, 30),
-                anchor: new window.naver.maps.Point(15, 15),
-              };
-            };
-
-            clearMapData(); // 기존 마커와 폴리라인 지우기
+            
 
             const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
             if (selectedData) {
-              const { startPlace, startAddress, goalPlace, goalAddress, wayPoints } = selectedData;
+              const {startAddress, goalAddress, wayPoints, path } = selectedData;
+
+              clearMapData(); // 이전 날짜의 마커와 폴리라인을 삭제
+
+              let markers = [];
+              let polylines = [];
 
               if (startAddress) {
 
@@ -178,13 +184,29 @@ const Map = () => {
 
               if (wayPoints && wayPoints.length > 0) {
                 wayPoints.forEach((point, index) => {
-                  const waypointMarker = new window.naver.maps.Marker({
-                    position: point,
-                    map: map,
-                    icon: createMarkerIcon(`${index + 1}`)
+                  const address = point.address;  // address를 사용하여 geocode 호출
+                  
+                  window.naver.maps.Service.geocode({
+                    query: address
+                  }, (status, response) => {
+                    if (status === window.naver.maps.Service.Status.ERROR) {
+                      openModal({
+                        title: "주소 오류",
+                        message: `${address}를 찾을 수 없습니다.`,
+                      });
+                      return;
+                    }
+                    const result = response.v2;
+                    const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
+              
+                    const waypointMarker = new window.naver.maps.Marker({
+                      position: latlng,
+                      map: map,
+                      icon: createMarkerIcon(`${index + 1}`)
+                    });
+                    markers.push(waypointMarker);
+                    bounds.extend(waypointMarker.getPosition());
                   });
-                  markers.push(waypointMarker);
-                  bounds.extend(waypointMarker.getPosition());
                 });
               }
 
@@ -204,6 +226,14 @@ const Map = () => {
 
               map.fitBounds(bounds);
               map.setZoom(map.getZoom() - 1);
+
+
+               // 날짜별로 마커와 폴리라인 저장
+               setDayMapData(prevData => ({
+                ...prevData,
+                [selectedDay]: { markers, polylines }
+              }));
+
             }
           });
         }

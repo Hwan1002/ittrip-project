@@ -5,7 +5,6 @@ import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 import '../css/AddData.css';
-import { PiSquaresFourLight } from "react-icons/pi";
 
 
 const AddData = ({width}) => {
@@ -18,6 +17,7 @@ const AddData = ({width}) => {
     //context 활용
     const {
       setAddress,
+      path,
       setPath,
       wayPoints, 
       startPoint, 
@@ -57,6 +57,7 @@ const AddData = ({width}) => {
           goalPlace: destination?.title || "",
           goalAddress: destination?.address || "",
           wayPoints: stopOverList || [],
+          path: path
         },
       ]);
 
@@ -105,6 +106,7 @@ const AddData = ({width}) => {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
+    try {
       if (wayPoints) {
         const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
         const lnglatString = lnglatArray.join("|");
@@ -117,6 +119,7 @@ const AddData = ({width}) => {
         });
        
         setPath(response.data.route.traoptimal[0].path);
+        console.log(path)
       } else {
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {
@@ -127,6 +130,10 @@ const AddData = ({width}) => {
         setPath(response.data.route.traoptimal[0].path)
       }
       putObject();
+    } catch (error) {
+      alert("cathch 에러");
+    }
+      
     }
     
     const handleSearch = async(value, updateState, modalTitle) => {
