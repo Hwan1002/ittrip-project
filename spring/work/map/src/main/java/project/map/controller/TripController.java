@@ -141,7 +141,6 @@ public class TripController {
 		TripEntity entity = TripEntity.builder().title(myTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
 		tripRepository.save(entity);
-		myTitle = confirmedTitle;
 	}
 	// 111/제목(2)
 	// map객체 저장
