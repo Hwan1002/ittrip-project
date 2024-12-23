@@ -80,6 +80,9 @@ public class DirectionController {
 					.bodyToMono(DirectionsResponseDTO.class) // mono (0개 또는 1개) 로 반환
 					.block(); // block -> ResponseEntity로 반환하기 위해 씀
 
+			System.out.println("start:"+start);
+			 System.out.println("goal:"+ goal);
+			 System.out.println("response"+response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));

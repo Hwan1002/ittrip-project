@@ -17,10 +17,12 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
+  
 
   useEffect(() => {
     console.log("departure: " + JSON.stringify(departure));
     console.log("destination: " + JSON.stringify(destination));
+    
   }, [departure, destination]);
 
   useEffect(() => {
@@ -56,72 +58,86 @@ const Map = () => {
     const convertXY = () => {
       switch (type) {
         case "departure":
-          window.naver.maps.Service.geocode({
-            query: departure.address,
-          }, (status, response) => {
-            if (status === window.naver.maps.Service.Status.ERROR) {
-              openModal({
-                title: "주소 오류",
-                message: "주소를 찾을 수 없습니다.",
-              });
-              return;
+          window.naver.maps.Service.geocode(
+            {
+              query: departure.address,
+            },
+            (status, response) => {
+              if (status === window.naver.maps.Service.Status.ERROR) {
+                openModal({
+                  title: "주소 오류",
+                  message: "주소를 찾을 수 없습니다.",
+                });
+                return;
+              }
+              const result = response.v2;
+              const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+              setDeparture((prev) => ({
+                ...prev,
+                latlng: latlng, // 원하는 latlng 값
+              }));
             }
-            const result = response.v2;
-            const latlng = `${result.addresses[0].y},${result.addresses[0].x}`;
-            setDeparture(prev => ({
-              ...prev,
-              latlng: latlng // 원하는 latlng 값
-            }));
-          });
+          );
           break;
+  
         case "destination":
-          window.naver.maps.Service.geocode({
-            query: destination.address,
-          }, (status, response) => {
-            if (status === window.naver.maps.Service.Status.ERROR) {
-              openModal({
-                title: "주소 오류",
-                message: "주소를 찾을 수 없습니다.",
-              });
-              return;
+          window.naver.maps.Service.geocode(
+            {
+              query: destination.address,
+            },
+            (status, response) => {
+              if (status === window.naver.maps.Service.Status.ERROR) {
+                openModal({
+                  title: "주소 오류",
+                  message: "주소를 찾을 수 없습니다.",
+                });
+                return;
+              }
+              const result = response.v2;
+              const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+              setDestination((prev) => ({
+                ...prev,
+                latlng: latlng, // 원하는 latlng 값
+              }));
             }
-            const result = response.v2;
-            const latlng = `${result.addresses[0].y},${result.addresses[0].x}`;
-            setDestination(prev => ({
-              ...prev,
-              latlng: latlng // 원하는 latlng 값
-            }));
-          });
+          );
           break;
+  
         case "stopOver":
-          const inde = stopOverList.length - 1;
-          window.naver.maps.Service.geocode({
-            query: stopOverList[inde].address,
-          }, (status, response) => {
-            if (status === window.naver.maps.Service.Status.ERROR) {
-              openModal({
-                title: "주소 오류",
-                message: "주소를 찾을 수 없습니다.",
-              });
-              return;
-            }
-            const result = response.v2;
-            const latlng = `${result.addresses[0].y},${result.addresses[0].x}`;
-            setStopOverList((prev) =>
-              prev.map((item, index) =>
-                index === inde
-                  ? { ...item, latlng: latlng }
-                  : item
-              )
+          if (stopOverList.length > 0) {
+            const num = stopOverList.length - 1;
+            window.naver.maps.Service.geocode(
+              {
+                query: stopOverList[num].address,
+              },
+              (status, response) => {
+                if (status === window.naver.maps.Service.Status.ERROR) {
+                  openModal({
+                    title: "주소 오류",
+                    message: "주소를 찾을 수 없습니다.",
+                  });
+                  return;
+                }
+                const result = response.v2;
+                const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+                setStopOverList((prev) =>
+                  prev.map((item, index) =>
+                    index === num ? { ...item, latlng: latlng } : item
+                  )
+                );
+              }
             );
-          });
+          }
           break;
+  
         default:
           break;
       }
     };
     convertXY();
   }, [type]);
+  
+  
 
   useEffect(() => {
     const script = document.createElement("script");

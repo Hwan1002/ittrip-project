@@ -108,22 +108,18 @@ const AddData = ({width}) => {
         return;
     }
 
-    const response = await axios.get(`${API_BASE_URL}/1234`,{
-      params: {
-        start: departure.latlng,
-        goal: destination.latlng
-      }
-    })
-    setTest(JSON.stringify(response.data.route));
+    
+      debugger;
       try{
-        if (stopOverList) {
+        if (stopOverList.length>0) {
                const latlngArray = stopOverList.map(prev=>prev.latlng);
+               
                const lnglatString = latlngArray.join("|");
                const response = await axios.get(`${API_BASE_URL}/12345`, {
                  params: {
                   start: departure.latlng,
                   goal: destination.latlng,
-                  stopOverList: lnglatString
+                  waypoints: lnglatString
                  }
                });
        setPath(response.data.route.traoptimal[0].path);
