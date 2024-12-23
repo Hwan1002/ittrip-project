@@ -20,12 +20,13 @@ const EntirePlan = () => {
 
     const [isUpdating, setIsUpdating] = useState(true);
 
+    const [currentTitle, setCurrentTitle] = useState(null);
 
-    useEffect(()=>{
-        if(!isUpdating){
+    useEffect(() => {
+        if (!isUpdating) {
             alert("수정 모드")
         }
-    },[isUpdating])
+    }, [isUpdating])
 
 
     useEffect(() => {
@@ -53,6 +54,7 @@ const EntirePlan = () => {
 
 
     const fetchMapCheck = async (trip) => {
+        setCurrentTitle(trip.title);
         try {
             setMaps([]);
             const response = await axios.get(`${API_BASE_URL}/4`, {
@@ -83,6 +85,42 @@ const EntirePlan = () => {
         }
     }
 
+    const putMapCheck = async () => {
+        //maps put
+        debugger;
+        try {
+            const response = await axios.put(
+                `${API_BASE_URL}/2`,
+                {
+                    tripTitle: currentTitle,
+                    mapObject: maps
+                },
+                {
+                    headers: logData.headers
+                }
+            );
+        } catch (err) {
+            alert("put Map 에러");
+        }
+
+        //checkList put
+        try {
+            const response = await axios.put(
+                `${API_BASE_URL}/3`,
+                {
+                    tripTitle: currentTitle,
+                    items: checkList
+                },
+                {
+                    headers: logData.headers
+                }
+            );
+        } catch (err) {
+            alert("put CheckList 에러");
+        }
+        setIsUpdating(()=>!isUpdating)
+    }
+
     const deleteTrip = async (idx) => {
         try {
             const response = await axios.delete(`${API_BASE_URL}/1/${idx}`)
@@ -108,7 +146,7 @@ const EntirePlan = () => {
             )
         );
     };
-    
+
     const handleCheckListTextChange = (id, value) => {
         setCheckList((prev) =>
             prev.map((item) =>
@@ -117,11 +155,16 @@ const EntirePlan = () => {
         );
     };
 
+    const addCheckList = () => {
+        setCheckList((prev) =>
+            [...prev, { id: Date.now(), text: '', checked: false }])
+    }
+
     const deleteCheckList = (id) => {
         setCheckList((prev) =>
-            prev.filter((item)=>
+            prev.filter((item) =>
                 item.id !== id
-            )    
+            )
         )
     }
 
@@ -130,14 +173,19 @@ const EntirePlan = () => {
             <div id="mapFrame">
                 <Map />
             </div>
-
             <div id="planFrame">
                 <div id="newTripBt">
-                    <p
+                    {isUpdating ? (<p
                         style={{ marginLeft: "10px" }}
                         onClick={() => setIsUpdating(!isUpdating)}
-                    >수정</p></div>
-
+                    >수정하기
+                    </p>) : <p
+                        style={{ marginLeft: "10px" }}
+                        onClick={() => putMapCheck()}
+                    >수정완료
+                    </p>
+                    }
+                </div>
                 {/* 여행목록 */}
                 <p style={{ color: "#F6A354", fontSize: "20px", marginBottom: "5px" }}>여행목록</p>
                 <div
@@ -249,7 +297,13 @@ const EntirePlan = () => {
 
                             </li>
                         ))}
+
                     </ul>
+                    {!isUpdating && <button
+                        onClick={() => addCheckList()}
+                    >추가
+                    </button>
+                    }
                 </div>
 
             </div>
@@ -257,4 +311,4 @@ const EntirePlan = () => {
     )
 }
 
-export default EntirePlan
+export default EntirePlan;

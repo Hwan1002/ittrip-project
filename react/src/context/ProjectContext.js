@@ -26,7 +26,6 @@ export const ProjectProvider = ({ children }) => {
 
   // goalPoint 도착지 
   const [goalPoint, setGoalPoint] = useState();
-
   
   // wayPoints  경유지
   const [wayPoints , setWaypoints ] = useState([]);

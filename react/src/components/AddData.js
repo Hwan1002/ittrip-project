@@ -18,7 +18,7 @@ const AddData = ({width}) => {
     //context 활용
     const {
       setAddress,
-      setPath,
+      path,setPath,
       wayPoints, 
       startPoint, 
       goalPoint,
@@ -38,8 +38,8 @@ const AddData = ({width}) => {
         openModal,
         closeModal
     } = useModal();
+    //putObject 효용
     
-
     const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
       const foundData = mapObject.find(data=> data.days === selectedDay+1);
       if(foundData){
@@ -57,19 +57,14 @@ const AddData = ({width}) => {
           goalPlace: destination?.title || "",
           goalAddress: destination?.address || "",
           wayPoints: stopOverList || [],
+          path: path
+
         },
       ]);
 
       alert(`Day${selectedDay+1} 저장 완료`);
     }
 
-    // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
-    //   setDeparture({title:'',address:''});
-    //   setStopOverList([]);
-    //   setDestination({title:'',address:''});
-    // }
-
-    // 
 
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
