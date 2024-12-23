@@ -1,35 +1,28 @@
 import "../css/Map.css";
 import React, { useEffect, useContext, useRef } from "react";
 import { ProjectContext } from "../context/ProjectContext";
+import useModal from "../context/useModal";
+import Modal from "./Modal";
 const Map = () => {
   const {
     tripDates,
     address,
     path,
-    startPoint,
-    setStartPoint,
-    goalPoint,
-    setGoalPoint,
-    wayPoints,
-    setWaypoints,
-    stopOverList,
-    setStopOverList,
-    mapObject,
-    setMapObject,
-    departure,
-    setDeparture,
-    destination,
-    setDestination,
-    selectedDay,
-    setSelectedDay,
-    dayChecks,
-    setDayChecks,
+    startPoint,setStartPoint,
+    goalPoint,setGoalPoint,
+    wayPoints,setWaypoints,
+    stopOverList, setStopOverList,
+    mapObject,setMapObject,
+    departure,setDeparture,
+    destination,setDestination,
+    selectedDay,setSelectedDay,
+    dayChecks,setDayChecks,
   } = useContext(ProjectContext);
 
   const mapRef = useRef(null); // Map 인스턴스 저장
   const markersRef = useRef([]); // 마커 배열 저장
   const polylineRef = useRef(null); // Polyline 저장
-
+  const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
@@ -38,7 +31,6 @@ const Map = () => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
       const startDate = new Date(tripDates.startDate);
       const endDate = new Date(tripDates.endDate);
-
       const diffTime = endDate - startDate;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
       const daysArray = Array.from({ length: diffDays }, (_, index) => `Day${index + 1}`);
@@ -190,16 +182,34 @@ const Map = () => {
   };
 
   const handleDayClick = (day) => {
+
+    const handleConfirm = () => {
+      setDeparture({ title: "", address: "" });
+      setStopOverList([]);
+      setDestination({ title: "", address: "" });
+      resetMapElements();
+      setSelectedDay(day);
+    }
     const dayData = mapObject.find((data) => data.days === selectedDay + 1);
     if (!dayData) {
-      const dayConfirm = window.confirm(`Day${selectedDay + 1}의 정보가 저장되지 않았습니다. 넘어가시겠습니까?`);
-      if (!dayConfirm) return;
-    }
-    setDeparture({ title: "", address: "" });
+      openModal({
+        title:"",
+        message: `Day ${selectedDay + 1}의 정보가 저장되지 않았습니다. 넘어가시겠습니까?`,
+        actions:[
+          {label:"확인", onClick:handleConfirm, className:"confirm-btn"},
+          {label:"취소", onClick:closeModal, className:"cancel-btn"}
+        ] 
+      })
+      // const dayConfirm = window.confirm(`Day${selectedDay + 1}의 정보가 저장되지 않았습니다. 넘어가시겠습니까?`);
+      // if (!dayConfirm) return;
+    }else{
+      setDeparture({ title: "", address: "" });
     setStopOverList([]);
     setDestination({ title: "", address: "" });
     resetMapElements();
     setSelectedDay(day);
+    }
+    
   };
 
   return (
@@ -212,13 +222,13 @@ const Map = () => {
           </div>
         ))}
       </div>
-      {/* <Modal
+      <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
         title={modalTitle}
         content={modalMessage}
         actions={modalActions}
-      /> */}
+      />
     </div>
   );
 };
