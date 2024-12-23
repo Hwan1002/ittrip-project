@@ -21,18 +21,23 @@
     font-family: 'GmarketSansMedium';
 }
 
-#dayChecks{
+.dayChecksBtns {
     text-align: center;
     width: 42px;
-    height: 20px;
+    height: 25px;
     background-color: #F6A354;
-    color: #fff;
+    border: none;
     border-radius: 18px;
     padding: 4px 6px 2px 4px;
     margin: 10px 6px;
-    font-size: 11px;
-}
+    color: #fff;
+    font-size: 12px;
+} 
 
-#dayChecks:hover {
+
+#dayChecks button:hover {
+    background-color: #f78b26;
+}
+#dayChecks button:focus{
     background-color: #f78b26;
 }

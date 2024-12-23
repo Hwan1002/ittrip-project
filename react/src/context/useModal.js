@@ -5,15 +5,23 @@ const useModal = () => {
     const [modalTitle, setModalTitle] = useState("");
     const [modalMessage, setModalMessage] = useState("");
     const [modalActions, setModalActions] = useState([]);
+    const [currentModal, setCurrentModal] = useState("");
 
-    const openModal = ({ title = "", message = "", actions = [] }) => {
-        setModalTitle(title);
-        setModalMessage(message);
-        setModalActions(actions);
+    const openModal = ({ title = "", message = "", actions = [], modalType }) => {
         setModalOpen(true);
+        setModalTitle(title || "");
+        setModalMessage(message || "");
+        setModalActions(actions || "");
+        setCurrentModal(modalType || "default");
     };
 
-    const closeModal = () => setModalOpen(false);
+    const closeModal = () => {
+        setModalOpen(false);
+        setModalTitle("");
+        setModalMessage("");
+        setModalActions([]);
+        setCurrentModal("");
+    }
 
     return {
         isModalOpen,
@@ -22,6 +30,7 @@ const useModal = () => {
         modalActions,
         openModal,
         closeModal,
+        currentModal,
     };
 };
 

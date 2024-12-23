@@ -41,7 +41,6 @@ const AddData = ({width}) => {
     
 
     const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-      debugger;
       const foundData = mapObject.find(data=> data.days === selectedDay+1);
       if(foundData){
       if(foundData.StartAddress!== departure.address || JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) || foundData.goalAddress !== destination.address){
@@ -78,8 +77,7 @@ const AddData = ({width}) => {
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
-      debugger;
-       setAddress(item.address);
+      setAddress(item.address);
       switch(type) {
         case "departure":
           setDeparture({title: item.title, address: item.address});
@@ -97,7 +95,6 @@ const AddData = ({width}) => {
           console.log("handleCheck switch 케이스 쪽 오류");
       }
       closeModal();
-      
       alert(`${type === "stopOver"? "경유지가" : type === "departure"? "출발지가" : "도착지가"} 추가되었습니다.`)
      
     }
@@ -144,7 +141,6 @@ const AddData = ({width}) => {
         return;
       }else{
         try {
-          debugger
           const newData = [...data,value];
           const response = await axios.get(`${API_BASE_URL}/local`,{
             params:{query : value}
@@ -235,7 +231,6 @@ const AddData = ({width}) => {
                           <li key={item.title}>
                               <span className="listNumber">{index + 1}</span>
                               <p className="listTitle">{item.title.replace(/<\/?[^>]+(>|$)/g, "")}</p>
-                              {/* <button className="addressBtn" onClick={() => handleCheck(item)}>{item.address}</button> */}
                               {modalTitle === "출발지" &&(
                                   <button className="addressBtn" onClick={() => handleCheck(item, "departure")}>
                                     {item.address}
@@ -258,7 +253,8 @@ const AddData = ({width}) => {
                     </ul>
                   ) : (
                     modalMessage
-                  )}
+                  )
+                  }
                 </div>
               }
               actions={modalActions}
