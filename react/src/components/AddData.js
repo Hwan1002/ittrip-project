@@ -108,7 +108,6 @@ const AddData = ({width}) => {
       if (wayPoints) {
         const lnglatArray = wayPoints.map((points) => (points._lng + "," + points._lat));
         const lnglatString = lnglatArray.join("|");
-        console.log("waypoint 있음", wayPoints)
         const response = await axios.get(`${API_BASE_URL}/12345`, {
           params: {
             start: `${startPoint._lng},${startPoint._lat}`,
@@ -119,7 +118,6 @@ const AddData = ({width}) => {
        
         setPath(response.data.route.traoptimal[0].path);
       } else {
-        console.log("waypoint 없음", wayPoints)
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {
             start: `${startPoint._lng},${startPoint._lat}`,
@@ -160,7 +158,6 @@ const AddData = ({width}) => {
       }
       
     }
-
     //경유지 추가 버튼
     const plusBtnClicked = () => {
       setStopOverList([...stopOverList, {id:Date.now(),value:""}]);

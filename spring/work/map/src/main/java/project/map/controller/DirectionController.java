@@ -58,6 +58,8 @@ public class DirectionController {
 	}
 
 
+
+
 	@GetMapping("/12345") // baseurl에 포함시키려했으나 권장하지 않는대서 여기에 넣음
 	public ResponseEntity<?> getDirections(@RequestParam(name = "start") String start, // 127.74645%2C37.64424 형태로 보내야함
 			@RequestParam(name = "waypoints") String wayPoints, @RequestParam(name = "goal") String goal
@@ -77,5 +79,6 @@ public class DirectionController {
 
 		}
 	}
+
 }
 
