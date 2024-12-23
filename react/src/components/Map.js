@@ -205,10 +205,10 @@ const Map = () => {
       // if (!dayConfirm) return;
     }else{
       setDeparture({ title: "", address: "" });
-    setStopOverList([]);
-    setDestination({ title: "", address: "" });
-    resetMapElements();
-    setSelectedDay(day);
+      setStopOverList([]);
+      setDestination({ title: "", address: "" });
+      resetMapElements();
+      setSelectedDay(day);
     }
     
   };
