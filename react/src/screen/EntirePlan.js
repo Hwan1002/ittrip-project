@@ -250,6 +250,7 @@ const EntirePlan = () => {
                             </li>
                         ))}
                     </ul>
+                    
                 </div>
 
             </div>
