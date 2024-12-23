@@ -1,220 +1,178 @@
-import "../css/Map.css";
-import React, { useEffect, useContext, useState } from "react";
-import { ProjectContext } from "../context/ProjectContext";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/NewTrip.css";
+import Plus2 from "../img/plus2.svg";
+import Map from "../components/Map.js";
+import AddData from "../components/AddData.js";
+import CheckList from "../components/CheckList.js";
+import axios from "axios";
+import Modal from "../components/Modal.js";
+import useModal from "../context/useModal.js";
+import { ProjectContext } from "../context/ProjectContext.js";
+import { API_BASE_URL } from "../service/api-config.js";
+import { format } from "date-fns";
 
+const NewTrip = () => {
+  const [firstRender, setFirstRender] = useState(true);
+  //context에서 필요한 상태값들 가져오기
+  const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
 
-const Map = () => {
-
-  const { tripDates, address, path, startPoint, setStartPoint, goalPoint, setGoalPoint, wayPoints, setWaypoints,
-    stopOverList,setStopOverList,mapObject,setMapObject,departure,setDeparture,destination,setDestination,selectedDay,setSelectedDay,
-    dayChecks,setDayChecks} = useContext(ProjectContext);
-
-  
-  // const [selectedDay, setSelectedDay] = useState(0);  // 선택된 날짜를 저장할 상태
-   
-  useEffect(() => {
-    console.log("mapObject updated:", JSON.stringify(mapObject));
-  }, [mapObject]);
-  
-  useEffect(() => {
-    if (tripDates && tripDates.startDate && tripDates.endDate) {                //1111
-      const startDate = new Date(tripDates.startDate);
-      const endDate = new Date(tripDates.endDate);
-
-      // 출발일자와 도착일자 간의 차이를 계산 (밀리초 단위)
-      const diffTime = endDate - startDate;
-
-      // 차이를 일수로 변환
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1일은 시작일도 포함
-
-      // dayChecks 배열 업데이트
-      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
-      setDayChecks([...daysArray]);
-    }
-  }, [tripDates]);
-
- 
-  useEffect(()=>{
-    const foundData = mapObject.find(data => data.days === selectedDay+1);
-    if(foundData){
-      setDeparture({title:foundData.startPlace, address:foundData.startAddress})
-      setStopOverList([...foundData.wayPoints])
-      setDestination({title:foundData.goalPlace, address:foundData.goalAddress})
-    }
-      
-    
-  },[selectedDay])
+  const navigate = useNavigate();
+  const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
   useEffect(() => {
-    // Naver 지도 API 스크립트 로드
-    const script = document.createElement('script');
-    script.src = "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wz3pjcepky&submodules=geocoder"; // YOUR_CLIENT_ID를 실제 클라이언트 ID로 교체
-    script.async = true;
-    script.onload = () => {
-      // Naver 지도 API가 로드된 후 실행되는 코드
-      if (window.naver && window.naver.maps) {
-        const map = new window.naver.maps.Map('map-container', {
-          center: new window.naver.maps.LatLng(37.5665, 126.9780), // 서울의 중심 좌표
-          zoom: 15
-        });
-
-
-        // LatLngBounds 객체 생성: 모든 마커를 포함할 범위 계산
-        const bounds = new window.naver.maps.LatLngBounds();
-
-
-        if (address) {
-          window.naver.maps.Service.geocode({
-            query: address
-          }, (status, response) => {
-            if (status === window.naver.maps.Service.Status.ERROR) {
-              alert('주소를 찾을 수 없습니다.');
-              return;
-            }
-
-            // 변환된 좌표 가져오기
-            const result = response.v2;
-            const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
-
-
-            if (!startPoint) {
-              setStartPoint(latlng)
-
-            } else if (startPoint && !goalPoint) {
-              setGoalPoint(latlng)
-            } 
-            else if (!wayPoints.some(point => point.equals(latlng)) && !goalPoint.equals(latlng)) {
-              setWaypoints(prevWaypoints => [...prevWaypoints, latlng]);
-            }
-
-            // 지도 위치를 마커로 이동
-            map.setCenter(latlng);
-
-            // 마커를 모두 추가하기
-            const markers = [];
-
-            //마커모양 교체
-            const createMarkerIcon = (text) => {
-              return {
-                content: `
-                    <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
-                      ${text}
-                      <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
-                    </div>
-                  `,
-                size: new window.naver.maps.Size(30, 30),
-                anchor: new window.naver.maps.Point(15, 15),
-              };
-            };
-
-
-
-
-            // 시작 지점 마커 추가
-            if (startPoint) {
-              const startMarker = new window.naver.maps.Marker({
-                position: startPoint,
-                map: map,
-                icon: createMarkerIcon('S')
-              });
-              markers.push(startMarker);
-              bounds.extend(startMarker.getPosition()); // 시작 지점 위치 추가
-            }
-
-            // 목표 지점 마커 추가
-            if (goalPoint) {
-              const goalMarker = new window.naver.maps.Marker({
-                position: goalPoint,
-                map: map,
-                icon: createMarkerIcon('G')
-              });
-              markers.push(goalMarker);
-              bounds.extend(goalMarker.getPosition()); // 목표 지점 위치 추가
-            }
-
-            // 경유지 마커 추가
-            if (wayPoints && wayPoints.length > 0) {
-              wayPoints.forEach((point, index) => {
-                const waypointMarker = new window.naver.maps.Marker({
-                  position: point,
-                  map: map,
-                  icon: createMarkerIcon(`${index + 1}`)
-                });
-                markers.push(waypointMarker);
-                bounds.extend(waypointMarker.getPosition()); // 경유지 위치 추가
-              });
-            }
-
-            // 경로 표시하기 
-            if (path) {
-              const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude))
-
-
-              const polyline = new window.naver.maps.Polyline({
-                path: pathCoordinates,  // 경로를 정의
-                strokeColor: '#FF0000',  // 선 색
-                strokeOpacity: 1,        // 선의 투명도
-                strokeWeight: 3          // 선의 두께
-              });
-
-              polyline.setMap(map);  // 지도에 폴리라인을 표시
-              pathCoordinates.forEach(coord => bounds.extend(coord));// 경로 좌표도 범위에 추가
-            }
-            // 모든 마커와 경로를 포함하는 범위로 지도를 자동으로 조정
-            map.fitBounds(bounds)
-            map.setZoom(map.getZoom() - 1); // 한 단계 더 줌 아웃해서 여유를 줍니다.
-          });
-        }
+    const handleRefreshAttempt = (e) => {
+      e.preventDefault();
+      openModal({
+        title: "초기화 경고",
+        message: "새로고침하면 데이터가 초기화됩니다. 계속하시겠습니까?",
+        actions: [
+          {
+            label: "확인",
+            onClick: () => {
+              closeModal();
+              window.location.reload();
+              navigate("/")
+            },
+            className: "confirm-btn",
+          },
+          {
+            label: "취소",
+            onClick: closeModal,
+            className: "cancel-btn",
+          },
+        ],
+      });
+    };
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey && e.key === "r") || e.key === "F5") {
+        e.preventDefault();
+        handleRefreshAttempt(e);
       }
     };
-    // 스크립트 로드를 DOM에 추가
-    document.body.appendChild(script);
-
-    // 컴포넌트가 언마운트될 때 스크립트 제거
-    return () => {
-      document.body.removeChild(script);
+    // 뒤로가기 감지
+    const handlePopState = (e) => {
+      e.preventDefault();
+      handleRefreshAttempt(e);
     };
-  }, [address, path]);
 
-  // Day 클릭 시, 해당 날짜에 맞는 지도 업데이트
-  const handleDayClick = (day) => {  
-    if(!mapObject.find(data=>data.days === selectedDay+1)){
-      const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
-    if (userConfirm) {
-      alert("넘어갈게");
-      setDeparture({title:'',address:''});
-      setStopOverList([]);
-      setDestination({title:'',address:''});
-      setSelectedDay(day);
-    } else {
-      alert("그래 저장해");
+    window.addEventListener("keydown", handleKeyDown);
+    window.history.pushState(null, "", window.location.href); // 현재 상태 저장
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [openModal, closeModal]);
+
+
+  const buttonClicked = async () => {
+    
+
+    if(mapObject.length!==dayChecks.length){
+      const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
+      if (!mapConfirm) {
+        return;
+      }
     }
-    }else{
-      setDeparture({title:'',address:''});
-      setStopOverList([]);
-      setDestination({title:'',address:''});
-      setSelectedDay(day);
+    try {
+      //여행제목, 출발일,도착일 받아서 db 저장 axios 
+      const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
+      const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
+      const response = await axios.post(`${API_BASE_URL}/1`,
+        {
+          title: tripTitle,
+          startDate: formattedStartDate,
+          lastDate: formattedEndDate,
+        },
+        logData
+      );
+      console.log(response.data.value);
+    } catch (error) {
+      alert("에러 내용:", error);
+    }
+    // map db저장 axios
+    
+    try {
+      const response = await axios.post(`${API_BASE_URL}/2`,
+        {
+          tripTitle: tripTitle,
+          mapObject : mapObject
+        },
+        logData
+      );
+       alert("저장 성공");
+       initObject();
+       setSelectedDay(0);
+    } catch (error) {
+      console.log(mapObject);
+      alert("post2 에러");
+      
     }
     
+
+    //체크리스트 db저장 axios
+    try {
+      const response = await axios.post(`${API_BASE_URL}/3`,
+        {
+          tripTitle: tripTitle,
+          items : items
+        },
+        logData
+      );
+       console.log(response.data);
+    } catch (error) {
+      console.log(items);
+      alert("post3 에러");
+      
+    }
   };
 
-
-
   return (
-    <div id="mapPlan">
-      {/* 배경색을 넣어주는 div */}
-      <div id="map-container"></div>
-      {/* Day 요소들 배치 */}
-      <div id="dayFrame">
-        {/* dayChecks 배열의 항목에 따라 DayN 요소 생성 */}
-        {dayChecks.map((item,index) => (
-          <div id="dayChecks" onClick={()=>handleDayClick(index)} key={index}>
-            {item}
+    <div className="newTrip">
+      <h2 >새로운 여행 하기</h2>
+      <div><p className="tripTitle1">"{tripTitle}"을 계획해봐요!</p></div>
+      {/* 경로설정 부분 */}
+      <div id="rootSet">
+        <h3 style={{ color: "#F6A354", marginTop: "25px", fontSize:'22px'}}>경로 설정</h3>
+        {/* 지도, 경로추가부분 */}
+
+        <div id="locationFrame">
+          <div id="newMap">
+            <Map/>
           </div>
-        ))}
+          <div id="addDirectionFrame">
+            <AddData width="200px"/>
+            {/* <MapWithData /> */}
+          </div>
+        </div>
+        <div id="checkAndEnd">
+          <div id="checkListFrame">
+            <h3 style={{ color: "#F6A354", marginTop: 0 ,fontSize:'22px' }}>체크리스트</h3>
+            <div id='checkList'>
+              <CheckList />
+            </div>
+          </div>
+          <div id="endBtFrame">
+            <p style={{color: "#F6A354", fontSize:'25px', marginBottom:'5px'}}>Happy Your Trip!</p>
+            <p style={{color: "#828282", marginBottom:'20px'}}>일정계획이 완료되면 아래 버튼을 눌러주세요</p>
+            <button id="newEnd" onClick={buttonClicked}>
+              새로운 여행 추가
+              <img src={Plus2} width="25px" style={{ marginLeft: "15px"  }} alt="새로운 여행"/>
+            </button>
+          </div>
+        </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={modalActions}
+      />
     </div>
   );
-}
+};
 
-export default Map;
+export default NewTrip;
