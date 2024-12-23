@@ -40,7 +40,6 @@ function App() {
     checkTokenExpiration();
   }, [navigate]);
   return (
-
     <ProjectProvider>
       <Header />
       <Routes>

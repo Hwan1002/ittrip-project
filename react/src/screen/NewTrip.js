@@ -68,8 +68,8 @@ const NewTrip = () => {
 
 
   const buttonClicked = async () => {
-    
-
+    debugger
+    console.log(mapObject.length, dayChecks.length, mapObject)
     if(mapObject.length!==dayChecks.length){
       const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
       if (!mapConfirm) {
