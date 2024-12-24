@@ -22,14 +22,13 @@ export const ProjectProvider = ({ children }) => {
   const [address , setAddress] = useState();
 
   // startPoint 출발지
-  const [startPoint,setStartPoint] = useState();
+  // const [startPoint,setStartPoint] = useState();
 
   // goalPoint 도착지 
-  const [goalPoint, setGoalPoint] = useState();
 
-  
+  // const [goalPoint, setGoalPoint] = useState();
   // wayPoints  경유지
-  const [wayPoints , setWaypoints ] = useState([]);
+  // const [wayPoints , setWaypoints ] = useState([]);
 
   const [path, setPath] = useState();
 
@@ -58,26 +57,32 @@ export const ProjectProvider = ({ children }) => {
 
   const [signguNm , setSignguNm]  =useState([]) ;
 
-  const [stopOverList, setStopOverList] = useState([]);
+ 
 
 
   const [mapObject,setMapObject] = useState([]);
 
   const [departure,setDeparture] = useState({
     title:'',
-    address:''
+    address:'',
+    latlng : '' ,
   })
 
   const [destination,setDestination] = useState({
     title:'',
-    address:''
+    address:'',
+    latlng : '' ,
   })
+
+  const [stopOverList, setStopOverList] = useState([]);
+
+
 
   const [selectedDay,setSelectedDay] = useState(0);
 
   const [dayChecks,setDayChecks] = useState([]);
 
-  
+  const [type ,setType] = useState("");
   
 
   const initObject=()=>{
@@ -97,9 +102,6 @@ export const ProjectProvider = ({ children }) => {
     input,setInput,
     items,setItems,
     address,setAddress,
-    startPoint,setStartPoint,
-    goalPoint,setGoalPoint,
-    wayPoints,setWaypoints,
     path, setPath,
     markers,setMarkers,
     signguNm , setSignguNm,
@@ -110,6 +112,7 @@ export const ProjectProvider = ({ children }) => {
     selectedDay,setSelectedDay,
     initObject,dayChecks,
     setDayChecks,
+    type ,setType,
     
   };
 

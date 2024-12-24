@@ -13,12 +13,12 @@ import { API_BASE_URL } from "../service/api-config.js";
 import { format } from "date-fns";
 
 const NewTrip = () => {
-  const [firstRender, setFirstRender] = useState(true);
-  //context에서 필요한 상태값들 가져오기
-  const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
-
+ 
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
+  const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
+  const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
+  const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
 
   useEffect(() => {
     const handleRefreshAttempt = (e) => {
@@ -67,66 +67,60 @@ const NewTrip = () => {
   }, [openModal, closeModal]);
 
 
-  const buttonClicked = async () => {
+  const allAxios = async() => {
+    try {
+      debugger;
+      const response1 = await axios.post(`${API_BASE_URL}/1`,{title: tripTitle,startDate: formattedStartDate,lastDate: formattedEndDate,},logData);
+      const response2 = await axios.post(`${API_BASE_URL}/2`,{tripTitle: tripTitle,mapObject : mapObject},logData);
+      const response3 = await axios.post(`${API_BASE_URL}/3`,{tripTitle: tripTitle,items : items},logData);
+      if(response1.status !== 200){alert("post1 에러");}
+      if(response2.status !== 200){
+        alert("post2 에러");
+      }else{
+        initObject();
+        setSelectedDay(0);
+      }
+      if(response3.status !== 200){
+        alert("post3 에러");
+      }else{
+        openModal({
+          title:"저장 성공",
+          message:"여행 일정이 저장되었습니다.",
+          actions:[{label:"확인", onClick: () => {closeModal(); navigate("/entireplan")}}]
+        })
+      }
+    } catch (error) {
+      alert("그외의 에러");
+    }
     
-
-    if(mapObject.length!==dayChecks.length){
+  }
+  const buttonClicked = () => {
+    debugger;
+    console.log(mapObject.length, dayChecks.length);
+    if(mapObject.length !== dayChecks.length){
       const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
       if (!mapConfirm) {
         return;
       }
+      openModal({
+        title:"에러",
+        message:"저장하지 않은 날짜가 있습니다. 저장하시겠습니까?",
+        actions:[
+          {label:"확인", onClick: allAxios, className: "confirm-btn",},
+          {label:"돌아가기", onClick: closeModal, className: "cancel-btn",}
+        ]
+      })
+    }else{
+      openModal({
+        title:"저장",
+        message:"저장하시겠습니까?",
+        actions:[
+          {label:"확인", onClick: allAxios, className: "confirm-btn",},
+          {label:"돌아가기", onClick: closeModal, className: "cancel-btn",}
+        ]
+      })
     }
-    try {
-      //여행제목, 출발일,도착일 받아서 db 저장 axios 
-      const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
-      const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-      const response = await axios.post(`${API_BASE_URL}/1`,
-        {
-          title: tripTitle,
-          startDate: formattedStartDate,
-          lastDate: formattedEndDate,
-        },
-        logData
-      );
-      console.log(response.data.value);
-    } catch (error) {
-      alert("에러 내용:", error);
-    }
-    // map db저장 axios
-    
-    try {
-      const response = await axios.post(`${API_BASE_URL}/2`,
-        {
-          tripTitle: tripTitle,
-          mapObject : mapObject
-        },
-        logData
-      );
-       alert("저장 성공");
-       initObject();
-       setSelectedDay(0);
-    } catch (error) {
-      console.log(mapObject);
-      alert("post2 에러");
-      
-    }
-    
-
-    //체크리스트 db저장 axios
-    try {
-      const response = await axios.post(`${API_BASE_URL}/3`,
-        {
-          tripTitle: tripTitle,
-          items : items
-        },
-        logData
-      );
-       console.log(response.data);
-    } catch (error) {
-      console.log(items);
-      alert("post3 에러");
-      
-    }
+   
   };
 
   return (

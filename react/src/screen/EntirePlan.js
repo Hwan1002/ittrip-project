@@ -24,8 +24,6 @@ const EntirePlan = () => {
 
     const [currentTitle, setCurrentTitle] = useState(null);
 
-
-
     useEffect(() => {
         if (!isUpdating) {
             alert("수정 모드")
@@ -193,7 +191,6 @@ const EntirePlan = () => {
             <div id="mapFrame">
                 <Map />
             </div>
-
             <div id="planFrame">
                 <div id="newTripBt">
                     {isUpdating ? (<p
