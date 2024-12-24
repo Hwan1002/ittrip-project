@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/NewTrip.css";
 import Plus2 from "../img/plus2.svg";
@@ -70,10 +70,10 @@ const NewTrip = () => {
   const allAxios = async() => {
     debugger;
     try {
-      console.log(tripTitle, formattedStartDate, formattedEndDate)
       const response1 = await axios.post(`${API_BASE_URL}/1`,{title: tripTitle,startDate: formattedStartDate,lastDate: formattedEndDate,},logData);
       const response2 = await axios.post(`${API_BASE_URL}/2`,{tripTitle: tripTitle,mapObject : mapObject},logData);
       const response3 = await axios.post(`${API_BASE_URL}/3`,{tripTitle: tripTitle,items : items},logData);
+
       if(response1.status !== 200){alert("post1 에러");}
       if(response2.status !== 200){
         alert("post2 에러");
