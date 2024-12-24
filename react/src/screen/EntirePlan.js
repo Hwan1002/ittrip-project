@@ -74,7 +74,7 @@ const EntirePlan = () => {
             const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
             setDayChecks([...daysArray])
 
-            console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
+            console.log("Mapresponse:", JSON.stringify(response.data[0]));
             // const tripArray = response.data[0].mapObject;
             setMaps(...response.data[0].mapObject);
             
