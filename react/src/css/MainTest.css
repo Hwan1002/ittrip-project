@@ -100,6 +100,13 @@
 /* .mainModal .modal-body{
     
 } */
+
+
+.categoryAll{
+    width:500px;
+}
+
+
 .categoryBtns {
     text-align: center;
 }
@@ -126,7 +133,7 @@
 .categoryList{
     border: 2px solid #F6A354;
     border-radius: 10px;
-    height: 400px;
+    height: 500px;
     overflow: scroll;
     margin-top: 27px;
     display: flex;
@@ -135,24 +142,24 @@
 .categoryList::-webkit-scrollbar {
     display: none;
 }
-.categoryList div{
-    border-radius: 10px;
-    width:900px;
-}
+
 .categoryList div p {
     padding-left : 20px;
 }
 
 .listContents{
     display:flex;
-    justify-content: center;
     align-items: center;
-    margin : 20px 0px 0px 20px; 
+    margin : 20px; 
 
 }
-.categoryList .icon{
+.listContents .icon{
     width:50px;
     height:50px;
+}
+
+.listContents .icon img{
+    width:100%;
 }
 
 .icon img{
@@ -161,7 +168,10 @@
 }
 .listInfo{
 }
-
+.suggestStyle{
+    color:#F6A354;
+    font-weight: bold;
+}
 .suggestName{
     color:#9D9D9C;
     font-weight: 600;
