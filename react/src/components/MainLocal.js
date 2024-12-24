@@ -4,26 +4,22 @@ import local1 from '../img/MainPage/local1.gif'
 import { ProjectContext } from "../context/ProjectContext";
 
 
-const MainLocal = ({select,content,signguNm}) => {
+const MainLocal = ({localInfo}) => {
     // const {signguNm , setSignguNm} = useContext(ProjectContext);
-    
-    console.log(signguNm)
 
     //임시 구 정보 (API로 대체 예정)
-    
-
     return (
         <div id="mainLocal">
             <div id="siGun">
                 <div id="siGunText">
                     <div>
-                        <p id="seoulKo">{select}</p>
-                        <p id="seoulEn">{content.english}</p>
+                        <p id="seoulKo">{localInfo.localKorea}</p>
+                        <p id="seoulEn">{localInfo.localEnglish}</p>
                     </div>
-                    <p>{content.explan}</p>
+                    <p>{localInfo.explain}</p>
                 </div>
                 <div id="siGunImg">
-                    <img src={local1} style={{ width: '355px', height: '355px' }} alt="이미지" />
+                    <img src={localInfo.images} style={{ width: '355px', height: '355px' }} alt="이미지" />
                 </div>
             </div>
 

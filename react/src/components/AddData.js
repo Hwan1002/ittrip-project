@@ -17,11 +17,7 @@ const AddData = ({width}) => {
     
     //context 활용
     const {
-      setAddress,
       path,setPath,
-      wayPoints, 
-      startPoint, 
-      goalPoint,
       departure, setDeparture,
       stopOverList, setStopOverList,
       destination, setDestination,

@@ -30,6 +30,10 @@ const MyPage = () => {
         closeModal,
     } = useModal();
 
+    useEffect(()=>{
+        console.log(userData);
+    },[userData])
+
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
@@ -41,10 +45,10 @@ const MyPage = () => {
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
                 console.error("Error fetching user info:", error);
-            } 
+            }
         };
         fetchUserInfo();
-    }, [])
+    }, [token])
 
     //회원 삭제
     const handleDeleteAccount = async () => {
@@ -105,25 +109,33 @@ const MyPage = () => {
 
     const modify = async (e) => {
         e.preventDefault();
+
         const emptyValue = Object.keys(userData).find((key) => {
             const value = userData[key];
             return typeof value === 'string' && value.trim() === '';
         });
-
+        if( userData.password === null){
+            openModal({
+                title: "비밀번호 오류",
+                message: "비밀번호를 입력해주세요.",
+                actions: [{ label: "확인", onClick: () => closeModal() }],
+            });
+            return;
+        }
+        if (userData.password !== passwordConfirm) {
+            openModal({
+                title: "비밀번호 오류",
+                message: "비밀번호가 일치하지 않습니다.",
+                actions: [{ label: "확인", onClick: () => closeModal() }],
+            });
+            return;
+        }
         if (emptyValue) {
             openModal({
                 title: "입력오류",
                 message: "빈값이 존재합니다. 확인 후 다시 시도하세요.",
                 actions: [{ label: "확인", onClick: closeModal }],
             })
-            return;
-        }
-        if (userData.authProvider === null && userData.password !== passwordConfirm) {
-            openModal({
-                title: "비밀번호 오류",
-                message: "비밀번호가 일치하지 않습니다.",
-                actions: [{ label: "확인", onClick: () => closeModal() }],
-            });
             return;
         }
 

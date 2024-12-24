@@ -189,7 +189,9 @@ const EntirePlan = () => {
     }
 
     return (
-        <div id="entirePlan">
+        <div id='entirePlan'>
+            <h2 style={{textAlign:'center', marginBottom:0}}>내일정 보기</h2>
+        <div id="mapPlanContain">
             <div id="mapFrame">
                 <Map />
             </div>
@@ -329,6 +331,7 @@ const EntirePlan = () => {
                 </div>
 
             </div>
+        </div>
         </div>
     )
 }
