@@ -17,13 +17,18 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
-  
+
 
   useEffect(() => {
     console.log("departure: " + JSON.stringify(departure));
     console.log("destination: " + JSON.stringify(destination));
-    
+
   }, [departure, destination]);
+
+
+  useEffect(() => {
+    console.log("dayMapData updated:", dayMapData);
+  }, [dayMapData]);
 
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
@@ -80,7 +85,7 @@ const Map = () => {
             }
           );
           break;
-  
+
         case "destination":
           window.naver.maps.Service.geocode(
             {
@@ -103,7 +108,7 @@ const Map = () => {
             }
           );
           break;
-  
+
         case "stopOver":
           if (stopOverList.length > 0) {
             const num = stopOverList.length - 1;
@@ -130,15 +135,15 @@ const Map = () => {
             );
           }
           break;
-  
+
         default:
           break;
       }
     };
     convertXY();
   }, [type]);
-  
-  
+
+
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -151,12 +156,13 @@ const Map = () => {
           zoom: 15,
         });
 
-        const clearMapData = () => {
-          if (dayMapData[selectedDay]) {
-            dayMapData[selectedDay].markers.forEach(marker => marker.setMap(null));
-            dayMapData[selectedDay].polylines.forEach(polyline => polyline.setMap(null));
-          }
-        };
+        // const clearMapData = () => {
+        //   //이전 날짜의 마커 및 폴리라인 제거거
+        //   if (dayMapData[selectedDay]) {
+        //     dayMapData[selectedDay].markers.forEach(marker => marker.setMap(null));
+        //     dayMapData[selectedDay].polylines.forEach(polyline => polyline.setMap(null));
+        //   }
+        // };
 
         const createMarkerIcon = (text) => {
           return {
@@ -170,14 +176,158 @@ const Map = () => {
             anchor: new window.naver.maps.Point(15, 15),
           };
         };
-        // 지도 초기화와 관련된 로직 추가...
+
+        // const createMarker = (lnglat, text) => {
+        //   const position = lnglat
+        //   const marker = new window.naver.maps.Marker({
+        //     position: position,
+        //     map: map, // 이미 초기화된 지도 객체
+        //     icon: createMarkerIcon(text), // 아이콘 설정 (createMarkerIcon 함수 사용)
+        //   });
+        //   return marker;
+        // }
+
+        // const createPolyline = (path) => {
+        //   const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
+        //   const polyline = new window.naver.maps.Polyline({
+        //     path: pathCoordinates,
+        //     strokeColor: "#FF0000",
+        //     strokeOpacity: 1,
+        //     strokeWeight: 4,
+        //   });
+        //   polyline.setMap(map); // 폴리라인을 지도에 표시
+        //   return polyline;
+        // };
+
+
+        // 날짜가 변경될 때마다 마커와 폴리라인 업데이트
+        const updateMapForDay = () => {
+          // clearMapData();
+
+          const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
+          if (selectedData) {
+            const {startAddress, goalAddress, wayPoints } = selectedData;
+
+            let markers = [];
+            let polylines = [];
+
+            if (startAddress) {
+
+              window.naver.maps.Service.geocode({
+                query: startAddress
+              }, (status, response) => {
+                if (status === window.naver.maps.Service.Status.ERROR) {
+                  openModal({
+                    title: "주소 오류",
+                    message: "주소를 찾을 수 없습니다.",
+                  });
+                  return;
+                }
+                const result = response.v2;
+                const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
+
+                const startMarker = new window.naver.maps.Marker({
+                  position: latlng,
+                  map: map,
+                  icon: createMarkerIcon('S')
+                });
+                markers.push(startMarker);
+              })
+            }
+
+            if (goalAddress) {
+              window.naver.maps.Service.geocode({
+                query: goalAddress
+              }, (status, response) => {
+                if (status === window.naver.maps.Service.Status.ERROR) {
+                  openModal({
+                    title: "주소 오류",
+                    message: "주소를 찾을 수 없습니다.",
+                  });
+                  return;
+                }
+                const result = response.v2;
+                const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
+
+                const goalMarker = new window.naver.maps.Marker({
+                  position: latlng,
+                  map: map,
+                  icon: createMarkerIcon('G')
+                });
+                markers.push(goalMarker);
+              })
+            }
+
+            if (wayPoints && wayPoints.length > 0) {
+              wayPoints.forEach((point, index) => {
+                const address = point.address;  // address를 사용하여 geocode 호출
+                
+                window.naver.maps.Service.geocode({
+                  query: address
+                }, (status, response) => {
+                  if (status === window.naver.maps.Service.Status.ERROR) {
+                    openModal({
+                      title: "주소 오류",
+                      message: `${address}를 찾을 수 없습니다.`,
+                    });
+                    return;
+                  }
+                  const result = response.v2;
+                  const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
+            
+                  const waypointMarker = new window.naver.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    icon: createMarkerIcon(`${index + 1}`)
+                  });
+                  markers.push(waypointMarker);
+                
+                });
+              });
+            }
+
+
+            if (path) {
+              const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
+              const polyline = new window.naver.maps.Polyline({
+                path: pathCoordinates,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1,
+                strokeWeight: 3
+              });
+              polyline.setMap(map);
+              polylines.push(polyline);
+            }
+
+          }
+
+          // 출발지 마커 추가
+      
+          // 도착지 마커 추가
+         
+
+          // 경유지 마커 추가
+       
+
+          // 경로 폴리라인 그리기
+          
+
+          // 해당 날짜의 마커와 폴리라인 데이터 저장
+          // setDayMapData(prevData => ({
+          //   ...prevData,
+          //   [selectedDay]: { markers, polylines }
+          // }));
+        };
+
+        updateMapForDay();
       }
     };
+
     document.body.appendChild(script);
     return () => {
       document.body.removeChild(script);
     };
-  }, [address, path, selectedDay]);
+  }, [selectedDay, departure, destination, stopOverList, mapObject]);
 
   const handleDayClick = (day) => {
     if (!mapObject.find(data => data.days === selectedDay + 1)) {
