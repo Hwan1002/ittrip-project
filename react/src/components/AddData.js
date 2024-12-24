@@ -17,14 +17,18 @@ const AddData = ({width}) => {
     
     //context 활용
     const {
+      setAddress,
       path,setPath,
+      wayPoints, 
+      startPoint, 
+      goalPoint,
       departure, setDeparture,
       stopOverList, setStopOverList,
       destination, setDestination,
       selectedDay,setSelectedDay,
       mapObject,setMapObject,
       setStopOverCount,stopOverCount,
-      setRouteType,
+      routeType,setRouteType,
     } = useContext(ProjectContext);
 
     //모달창 사용
@@ -47,7 +51,7 @@ const AddData = ({width}) => {
         setMapObject([...newArr]);
       }
     }
-      setMapObject((prevMapObject) =>  [
+      setMapObject((prevMapObject) => [
         ...prevMapObject,
         {
           days: selectedDay + 1,
@@ -58,7 +62,6 @@ const AddData = ({width}) => {
           goalAddress: destination?.address || "",
           goalPoint : destination?.latlng || "",
           wayPoints: stopOverList || [],
-          path: path || [], // 경로 추가
         },
       ]);
 
@@ -116,6 +119,7 @@ const AddData = ({width}) => {
 
     //좌표저장 (효용)
     const handlecoordinate = async () => {
+      debugger;
       if (!departure || !destination) {
         alert("출발지와 목적지를 입력하세요.");
         return;
@@ -135,7 +139,6 @@ const AddData = ({width}) => {
        
         setPath(response.data.route.traoptimal[0].path);
        }else {
-
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {
           start: departure.latlng,

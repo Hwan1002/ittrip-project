@@ -72,7 +72,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [stopOverCount , setStopOverCount] = useState(0);
   
-  
+  const [dayBoolean, setDayBoolean] = useState([]);
 
   const initObject=()=>{
     setDeparture({title:'',address:''});
@@ -101,7 +101,8 @@ export const ProjectProvider = ({ children }) => {
     initObject,dayChecks,
     setDayChecks,
     routeType,setRouteType,
-    stopOverCount,setStopOverCount
+    stopOverCount,setStopOverCount,
+    dayBoolean,setDayBoolean
     
   };
 

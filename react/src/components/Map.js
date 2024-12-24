@@ -9,13 +9,13 @@ const Map = () => {
   const {
     tripDates, address, path, setPath,routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
-    dayChecks, setDayChecks, stopOverCount
+    dayChecks, setDayChecks, stopOverCount,dayBoolean,setDayBoolean
 
   } = useContext(ProjectContext);
 
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
-  const [dayBoolean, setDayBoolean] = useState([]);
+  
   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
 
   useEffect(() => {    
@@ -111,6 +111,7 @@ const Map = () => {
     console.log("departure: " + JSON.stringify(departure));
     console.log("destination: " + JSON.stringify(destination));
     console.log("stopOverList:" + JSON.stringify(stopOverList))
+    console.log("dayBoolean:" + JSON.stringify(dayBoolean))
   }, [departure, destination, stopOverList]);
 
   useEffect(() => {
@@ -181,7 +182,7 @@ const Map = () => {
 
         // 날짜가 변경될 때마다 마커와 폴리라인 업데이트
         const updateMapForDay = () => {
-
+            debugger;
           const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
           if (selectedData) {
             const { startPoint, goalPoint, wayPoints, path } = selectedData;
