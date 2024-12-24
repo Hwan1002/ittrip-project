@@ -21,7 +21,7 @@ export const ProjectProvider = ({ children }) => {
   
  
 
-  const [path, setPath] = useState();
+  const [path, setPath] = useState([]);
 
   // 로그인한 사용자 정보
   const [userInfo, setUserInfo] = useState(null);

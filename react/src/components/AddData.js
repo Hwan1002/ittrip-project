@@ -65,6 +65,13 @@ const AddData = ({ width }) => {
     alert(`Day${selectedDay + 1} 저장 완료`);
   }
 
+
+  useEffect(() => {
+    if (path.length > 0) { // path가 유효할 때만 putObject 실행
+      putObject(); // path 값이 업데이트되었을 때 putObject 실행
+    }
+  }, [path]); // path가 변경될 때마다 실행
+
   // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
   //   setDeparture({title:'',address:''});
   //   setStopOverList([]);
@@ -144,8 +151,6 @@ const AddData = ({ width }) => {
       }
   
       setPath(response.data.route.traoptimal[0].path);
-  
-      putObject();
   
     } catch (error) {
       alert("catch 에러");
