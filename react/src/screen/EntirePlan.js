@@ -78,7 +78,7 @@ const EntirePlan = () => {
 
             console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
              
-            // setMaps(response.data.map(item=>item.mapObject))
+            
             const flatMapObjects = response.data.map(item => item.mapObject).flat();
             setMaps(flatMapObjects);
             
