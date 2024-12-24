@@ -112,6 +112,7 @@ public class TripController {
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(updatedList);
+		
 	}
 
 	@GetMapping("/5")

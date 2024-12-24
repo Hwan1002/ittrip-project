@@ -31,8 +31,8 @@ const NewTrip = () => {
             label: "확인",
             onClick: () => {
               closeModal();
-              window.location.reload();
               navigate("/")
+              window.location.reload();
             },
             className: "confirm-btn",
           },
