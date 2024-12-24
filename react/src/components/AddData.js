@@ -62,6 +62,7 @@ const AddData = ({width}) => {
           goalAddress: destination?.address || "",
           goalPoint : destination?.latlng || "",
           wayPoints: stopOverList || [],
+          path: path || [], // 경로 추가
         },
       ]);
 

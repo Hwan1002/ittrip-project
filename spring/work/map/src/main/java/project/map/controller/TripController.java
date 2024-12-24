@@ -166,7 +166,7 @@ public class TripController {
 				waypointsBuilder.append(wayPoint.getId()).append(":")
 						.append(wayPoint.getValue().replaceAll("</?[^>]+>", "")).append(":")
 						.append(wayPoint.getAddress()).append(":")
-						.append(wayPoint.getPoint()).
+						.append(wayPoint.getLatlng()).
 						append("|");
 			}
 			if (waypointsBuilder.length() > 0) {
@@ -254,7 +254,7 @@ public class TripController {
 				waypointsBuilder.append(wayPoint.getId()).append(":")
 						.append(wayPoint.getValue().replaceAll("</?[^>]+>", "")).append(":")
 						.append(wayPoint.getAddress()).append(":")
-						.append(wayPoint.getPoint())
+						.append(wayPoint.getLatlng())
 						.append("|");
 			}
 			if (waypointsBuilder.length() > 0) {
