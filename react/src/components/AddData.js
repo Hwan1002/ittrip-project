@@ -6,6 +6,8 @@ import Modal from "./Modal";
 import useModal from "../context/useModal";
 import '../css/AddData.css';
 
+
+
 const AddData = ({width}) => {
     //입력된 데이터를 저장할 배열
     const [data, setData] = useState([]); 
@@ -25,12 +27,10 @@ const AddData = ({width}) => {
       destination, setDestination,
       selectedDay,setSelectedDay,
       mapObject,setMapObject,
-      type ,setType
+      setStopOverCount,stopOverCount,
+      type,setType
     } = useContext(ProjectContext);
-    const [test, setTest] = useState('');
-    useEffect(()=>{
-      console.log(test);
-    },[test])
+
     //모달창 사용
     const {
         isModalOpen,
@@ -40,7 +40,8 @@ const AddData = ({width}) => {
         openModal,
         closeModal,
         currentModal
-    } = useModal();
+      } = useModal();
+    
 
     const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
       const foundData = mapObject.find(data=> data.days === selectedDay+1);
@@ -56,15 +57,24 @@ const AddData = ({width}) => {
           days: selectedDay + 1,
           startPlace: departure?.title || "", // 방어적으로 title 확인
           startAddress: departure?.address || "",
+          startPoint: departure?.latlng || "",
           goalPlace: destination?.title || "",
           goalAddress: destination?.address || "",
+          goalPoint : destination?.latlng || "",
           wayPoints: stopOverList || [],
-          path: path
         },
       ]);
 
       alert(`Day${selectedDay+1} 저장 완료`);
     }
+
+    // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
+    //   setDeparture({title:'',address:''});
+    //   setStopOverList([]);
+    //   setDestination({title:'',address:''});
+    // }
+
+    // 
 
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
@@ -74,19 +84,30 @@ const AddData = ({width}) => {
     const handleCheck = (item,type) => {
       switch(type) {
         case "departure":
-          setDeparture({title:item.title, address:item.address, type:type  });
-          setType(type);
+          setDeparture({title: item.title, address: item.address});
+          setType(type);      
           break;
         case "destination": 
-          setDestination({title:item.title, address:item.address, type:type});
+          setDestination({title:item.title, address:item.address});
           setType(type);
           break; 
         case "stopOver": 
-        setStopOverList((prevList) => [
-          ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
-          { id: Date.now(), value:item.title, address:item.address, type:type } // 새로운 아이템 강제로 추가
-        ]);
-        setType(type);
+        if(stopOverCount==0){
+          setStopOverList((prevList) => [
+            ...prevList.slice(1), 
+            { id: Date.now(), value: item.title, address : item.address } 
+          ]);
+        }else{
+          setStopOverList((prevList) => [
+            ...prevList.slice(0,-1), 
+            { id: Date.now(), value: item.title, address : item.address } 
+          ]);
+        }
+          setType(type);
+          setStopOverCount((prev)=>prev+1)
+          console.log("stopOver:"+JSON.stringify(stopOverList))
+          console.log("stopOvercount:"+JSON.stringify(stopOverCount))
+          
         break;
         default: 
           console.log("handleCheck switch 케이스 쪽 오류");
@@ -97,24 +118,25 @@ const AddData = ({width}) => {
     }
 
     //좌표저장 (효용)
-    const handlecoordinate = async() => {
+    const handlecoordinate = async () => {
       if (!departure || !destination) {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
-      try{
-        if (stopOverList.length>0) {
-          const latlngArray = stopOverList.map(prev=>prev.latlng);
-          
-          const lnglatString = latlngArray.join("|");
-          const response = await axios.get(`${API_BASE_URL}/12345`, {
-            params: {
-            start: departure.latlng,
-            goal: destination.latlng,
-            waypoints: lnglatString
-            }
-          });
-       setPath(response.data.route.traoptimal[0].path);
+    try{
+      if (stopOverList.length>0) {
+        const latlngArray = stopOverList.map(prev=>prev.latlng);
+        
+        const lnglatString = latlngArray.join("|");
+        const response = await axios.get(`${API_BASE_URL}/12345`, {
+          params: {
+          start: departure.latlng,
+          goal: destination.latlng,
+          waypoints: lnglatString
+          }
+        });
+       
+        setPath(response.data.route.traoptimal[0].path);
        }else {
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {
@@ -128,10 +150,8 @@ const AddData = ({width}) => {
     } catch (error) {
       alert("cathch 에러");
     }  
-
-
     }
-
+    
     const handleSearch = async(value, updateState, modalTitle) => {
       if(!value){
         setRes([]);
@@ -177,6 +197,7 @@ const AddData = ({width}) => {
     const removeStopOver = (id) => {
       console.log(id);
       setStopOverList(stopOverList.filter((stopOver)=>stopOver.id!==id))
+      setStopOverCount((prev)=>prev-1)
     }
 
     return (

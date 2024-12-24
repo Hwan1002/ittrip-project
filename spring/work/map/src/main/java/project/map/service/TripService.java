@@ -161,8 +161,8 @@ public class TripService {
         return Arrays.stream(waypoint.split("\\|"))
             .map(entry -> {
                 String[] parts = entry.split(":");
-                if (parts.length == 3) {
-                    return new MapDTO.WayPointDTO(parts[0], parts[1], parts[2]);
+                if (parts.length == 4) {
+                    return new MapDTO.WayPointDTO(parts[0], parts[1], parts[2],parts[3]);
                 } else {
                     throw new IllegalArgumentException("Invalid waypoint format: " + entry);
                 }
