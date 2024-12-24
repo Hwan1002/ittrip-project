@@ -69,7 +69,6 @@ const NewTrip = () => {
 
   const allAxios = async() => {
     try {
-      debugger;
       const response1 = await axios.post(`${API_BASE_URL}/1`,{title: tripTitle,startDate: formattedStartDate,lastDate: formattedEndDate,},logData);
       const response2 = await axios.post(`${API_BASE_URL}/2`,{tripTitle: tripTitle,mapObject : mapObject},logData);
       const response3 = await axios.post(`${API_BASE_URL}/3`,{tripTitle: tripTitle,items : items},logData);
