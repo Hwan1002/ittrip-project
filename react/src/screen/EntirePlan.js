@@ -12,7 +12,7 @@ import axios from "axios";
 
 const EntirePlan = () => {
 
-    const { logData, setDeparture, setStopOverList, setDestination, dayChecks, setDayChecks, selectedDay } = useContext(ProjectContext);
+    const { logData, setDeparture, setStopOverList, setDestination, dayChecks, setDayChecks, selectedDay ,departure,destination,stopOverList} = useContext(ProjectContext);
 
 
 
@@ -74,8 +74,10 @@ const EntirePlan = () => {
             const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
             setDayChecks([...daysArray])
 
-            console.log("response:", JSON.stringify(response.data[0].mapObject[selectedDay]));
-            response.data.map((trip) => setMaps((prev) => [...prev, trip.mapObject]));
+            console.log("Mapresponse:", JSON.stringify(response.data[0]));
+            // const tripArray = response.data[0].mapObject;
+            response.data[0].mapObject.map((trip) => setMaps((prev) => [...prev, trip]));
+
             setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress, latlng:response.data[0].mapObject[selectedDay].startPoint })
             setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress, latlng:response.data[0].mapObject[selectedDay].goalPoint})
             setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints])
@@ -84,7 +86,7 @@ const EntirePlan = () => {
             // setStopOverList({title: ,address:})
             // setDestination({title: ,address:})
             //   setMaps(response.data.mapObject);
-            console.log("maps: " + JSON.stringify(maps))
+            
         } catch (err) {
             alert("get Map 에러");
         }
@@ -261,10 +263,10 @@ const EntirePlan = () => {
                             <>
                                 <input
                                     readOnly={isUpdating}
-                                    value={maps[0][selectedDay]?.startPlace}
+                                    value={departure.title}
                                 />
                                 <ul>
-                                    {maps[0][selectedDay].wayPoints.map((point) => (
+                                    {stopOverList.wayPoints.map((point) => (
                                         <li key={point.id}>
                                             <input
                                                 readOnly={isUpdating}
@@ -275,7 +277,7 @@ const EntirePlan = () => {
                                 </ul>
                                 <input
                                     readOnly={isUpdating}
-                                    value={maps[0][selectedDay]?.goalPlace}
+                                    value={destination.title}
                                 />
                             </> : <AddData />}
 

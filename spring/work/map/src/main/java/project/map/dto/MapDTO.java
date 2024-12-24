@@ -47,7 +47,7 @@ public class MapDTO {
 	        private String id;
 	        private String value;
 	        private String address;
-	        private String point;
+	        private String latlng;
 	    }
 	    
 		public MapDTO(MapEntity entity) {

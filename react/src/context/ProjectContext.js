@@ -68,7 +68,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [dayChecks,setDayChecks] = useState([]);
 
-  const [type,setType] = useState("");
+  const [routeType,setRouteType] = useState("");
 
   const [stopOverCount , setStopOverCount] = useState(0);
   
@@ -100,7 +100,7 @@ export const ProjectProvider = ({ children }) => {
     selectedDay,setSelectedDay,
     initObject,dayChecks,
     setDayChecks,
-    type,setType,
+    routeType,setRouteType,
     stopOverCount,setStopOverCount
     
   };
