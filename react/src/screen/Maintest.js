@@ -10,12 +10,13 @@ import local6 from "../img/MainPage/local6.gif";
 import local7 from "../img/MainPage/local7.gif";
 import local8 from "../img/MainPage/local8.png";
 //icon
-import house from "../img/Icon/house.png"
-import food from "../img/Icon/food.png"
-import spot from "../img/Icon/spot.png"
+import house from "../img/Icon/house2.png"
+import food from "../img/Icon/food2.png"
+import spot from "../img/Icon/spot2.png"
 import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
+
 const Maintest = () => {
 
     const [img, setImg] = useState();
@@ -80,9 +81,8 @@ const Maintest = () => {
         setSelect(region)
         setImg()
     };
-
+    
     useEffect(() => {
-
         if (areaCd) {
             const requestAreaNm = async () => {
                 try {
@@ -95,6 +95,7 @@ const Maintest = () => {
                     console.log("Response Data:", response.data.data);
                     // state의 상태 업데이트
                     setSignguNm(response.data.data);
+                    console.log(signguNm);
                     // 데이터가 성공적으로 설정된 후 팝업창 열기
                     setIsModalOpen(true);
                 } catch (error) {
@@ -105,7 +106,9 @@ const Maintest = () => {
         } //if end
     }, [areaCd]) // useEffect end
 
-
+    useEffect(()=>{
+        console.log(signguNm);
+    },[signguNm])
 
     const requestData = async (item) => {
         try {
@@ -142,6 +145,7 @@ const Maintest = () => {
         console.log(recButton.all)
     }, [recButton])
 
+    
 
     return (
         <div id="main">
@@ -149,7 +153,7 @@ const Maintest = () => {
             <div id="bigbanner">
                 <img src={banner2} alt="banner" />
             </div>
-
+            
             {/* 지역 4개 */}
             <div className="localSet">
                 <div className="localtrip">
@@ -354,7 +358,7 @@ const Maintest = () => {
                             </div>
                         </div>
                         <div className="tripSelect">
-                            <p>여행할 곳을 선택해 주세용.</p>
+                            <p>여행할 곳을 선택해 주세요.</p>
                             <div className="guSelect">
                                 {signguNm && signguNm.length > 0 ? (
                                     signguNm.map((item, index) => (
@@ -392,12 +396,12 @@ const Maintest = () => {
                                     {recButton[currentView].map((item, index) => (
                                         <div key={index} className="listContents">
                                             <div className="icon">
-                                                <> {item.rlteCtgryLclsNm ==="관광지" ?  <img src={spot} alt="관광지"/> : item.rlteCtgryLclsNm === "숙박" ? <img src={house} alt="숙박"/> :  <img src={food} alt="음식"/>}</>
+                                                <> {item.rlteCtgryLclsNm ==="관광지" ?  <img src={spot} alt="관광지" style={{width:"53px", marginRight:'20px'}}/> : item.rlteCtgryLclsNm === "숙박" ? <img src={house} alt="숙박" style={{width:"50px",marginRight:'20px'}}/> :  <img src={food} alt="음식" className="food" style={{width:"40px",marginRight:'28px'}}/>}</>
                                             </div>
                                             <div className="listInfo">
-                                                <p>이름 : {item.rlteTatsNm} </p>
-                                                <p>주소 : {item.rlteBsicAdres} </p>
-                                                <p>테마 :  {item.rlteCtgrySclsNm} </p>
+                                                <p ><span className="suggestName">이름</span> <span className="suggestData">{item.rlteTatsNm}</span> </p>
+                                                <p><span className="suggestName">주소</span> <span className="suggestData">{item.rlteBsicAdres}</span> </p>
+                                                <p><span className="suggestName"> 태마</span> <span className="suggestData">{item.rlteCtgrySclsNm}</span> </p>
                                             </div>
                                             
                                         </div>

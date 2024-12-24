@@ -124,15 +124,59 @@ const Main = () => {
         contentEvent(); // `select` 값이 변경될 때마다 `contentEvent` 실행
     }, [select,areaCd]); // `select`가 변경될 때마다 실행
 
+    const [localInfo, setLocalInfo] = useState({
+        localKorea: ["서울", "경기", "인천", "강원", "충청", "전라", "경상", "제주"],
+        localEnglish: ["SEOUL", "GYEONGGI", "INCHEON", "KANGWON", "CHUNCHEONG", "JEOLLA", "GYEONGSANG", "JEJU"],
+        areaCd: ["11", "41", "28", "50", "", "", "", "28"],
+        images: [local1, local2, local3, local4, local5, local6, local7, local8],
+        explain: [
+            "서울은 현대적이고 전통적인 매력을 모두 갖춘 도시로, 고궁과 전통 시장, 쇼핑과 음식이 풍성한 명소, 북촌 한옥마을, 경복궁, 남산타워 등 다양한 명소가 방문객을 맞이합니다.",
+            "경기도는 아름다운 자연과 풍성한 문화유산을 자랑하는 여행지로, 서울 근교에서 쉽게 접근할 수 있습니다. 인기 있는 명소로는 수원 화성, 가평의 북한강, 파주의 DMZ가 있습니다.",
+            "인천은 아름다운 바다와 다양한 문화가 어우러진 도시로, 차이나타운과 송도 국제도시가 유명합니다. 또한, 인천공항을 중심으로 편리한 교통과 풍성한 쇼핑, 맛집도 즐길 수 있는 여행지입니다.",
+            "강원도는 청정 자연과 아름다운 산과 바다가 어우러진 곳으로, 설악산과 동해의 해변이 유명합니다. 하이킹, 스키, 해양 스포츠 등 다양한 활동을 즐기며 자연의 매력을 만끽할 수 있는 여행지입니다.",
+            "충청도는 고즈넉한 전통과 자연의 아름다움이 어우러진 지역으로, 공주와 부여의 역사 유적지와 청풍호수의 경치가 유명합니다. 또한, 맛있는 음식과 다양한 축제들이 있어 여행객들에게 풍성한 경험을 제공합니다.",
+            "전라도는 풍부한 역사와 문화유산을 자랑하는 지역으로, 전주 한옥마을과 광주 문화가 유명합니다. 또한, 맛있는 음식과 아름다운 자연 경관, 특히 남해안의 섬들이 매력적인 여행지입니다.",
+            "경상도는 풍부한 역사와 자연을 자랑하는 지역으로, 부산의 해변과 경주의 고대 유적이 매력적입니다. 전통적인 문화와 맛있는 음식도 함께 즐길 수 있어 여행하기 좋은 곳입니다.",
+            "제주도는 아름다운 자연경관과 독특한 문화가 어우러진 섬으로, 한라산과 해변, 오름을 탐험할 수 있습니다. 신선한 해산물과 전통적인 음식도 즐기며 휴식을 취하기 좋은 여행지입니다.",
+        ],
+    });
     return (
         <div id="main">
             {/* 큰 배너 */}
             <div id="bigbanner">
                 <img src={banner2} alt="banner"/>
             </div>
-            {/* 지역 4개 */}
-            <div className="localSet">
-                <div className="localtrip">
+            {Array.from({ length: Math.ceil(localInfo.localKorea.length / 4) }, (_, rowIndex) => (
+                <div className="localSet" key={rowIndex}>
+                {localInfo.localKorea
+                    .slice(rowIndex * 4, rowIndex * 4 + 4)
+                    .map((koreaName, index) => {
+                        const actualIndex = rowIndex * 4 + index; // 전체 데이터에서 인덱스 계산
+                        return (
+                            <div className="localtrip" key={localInfo.areaCd[actualIndex]}>
+                                <div className="localName">
+                                    <p className="localEnglish">{localInfo.localEnglish[actualIndex]}</p>
+                                    <p className="localKorea">{koreaName}</p>
+                                </div>
+                                <div
+                                    className="localImg"
+                                    onClick={() => {
+                                        setWhiteBox(true);
+                                        
+                                        setAreaCd(localInfo.areaCd[actualIndex]);
+                                        setSelect(koreaName);
+                                    }}
+                                >
+                                    <img src={localInfo.images[actualIndex]} alt={koreaName} />
+                                </div>
+                            </div>
+                        );
+                    })
+                }
+                </div>
+            ))}
+
+                {/* <div className="localtrip">
                     <div className="localName">
                         <p className="localEnglish">SEOUL</p>
                         <p className="localKorea">서울</p>
@@ -200,10 +244,10 @@ const Main = () => {
                     </div>
 
                 </div>
-            </div>
+            </div> */}
 
             {/* 지역 4개 */}
-            <div className="localSet">
+            {/* <div className="localSet">
                 <div
                     className="localtrip"
                     onClick={() => {
@@ -269,8 +313,25 @@ const Main = () => {
                         <img src={local8} alt="제주"/>
                     </div>
                 </div>
-            </div>
+            </div> */}
             {
+                whiteBox && (
+                    <div className="overlay">
+                        <div className="boxContent">
+                            <MainLocal content={localInfo}/>
+                            <div id="mainbtFrame">
+                                <button id="mainBackBt" onClick={() => setWhiteBox(false)}>돌아가기</button>
+                                <button
+                                    id="mainNewBt"
+                                    onClick={() => {
+                                        navigate("/newtrip")
+                                    }}>일정 만들기</button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+            {/* {
                 whiteBox && (
                     <div className="overlay">
                         <div className="boxContent">
@@ -286,7 +347,7 @@ const Main = () => {
                         </div>
                     </div>
                 )
-            }
+            } */}
         </div>
     );
 };

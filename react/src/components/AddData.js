@@ -17,18 +17,14 @@ const AddData = ({width}) => {
     
     //context 활용
     const {
-      setAddress,
       path,setPath,
-      wayPoints, 
-      startPoint, 
-      goalPoint,
       departure, setDeparture,
       stopOverList, setStopOverList,
       destination, setDestination,
       selectedDay,setSelectedDay,
       mapObject,setMapObject,
       setStopOverCount,stopOverCount,
-      type,setType
+      setRouteType,
     } = useContext(ProjectContext);
 
     //모달창 사용
@@ -85,11 +81,11 @@ const AddData = ({width}) => {
       switch(type) {
         case "departure":
           setDeparture({title: item.title, address: item.address});
-          setType(type);      
+          setRouteType(type);      
           break;
         case "destination": 
           setDestination({title:item.title, address:item.address});
-          setType(type);
+          setRouteType(type);
           break; 
         case "stopOver": 
         if(stopOverCount==0){
@@ -103,7 +99,7 @@ const AddData = ({width}) => {
             { id: Date.now(), value: item.title, address : item.address } 
           ]);
         }
-          setType(type);
+          setRouteType(type);
           setStopOverCount((prev)=>prev+1)
           console.log("stopOver:"+JSON.stringify(stopOverList))
           console.log("stopOvercount:"+JSON.stringify(stopOverCount))
