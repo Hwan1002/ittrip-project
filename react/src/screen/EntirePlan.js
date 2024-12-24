@@ -220,9 +220,7 @@ const EntirePlan = () => {
                     {/* axios로 가져온 title 목록 띄워주는 곳곳 */}
                     <ul>
                         {trips.map(trip => (
-                            <li
-                                key={trip.idx}
-                            >
+                            <li key={trip.idx}>
                                 <input
                                     /* 해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/
                                     readOnly={isUpdating}
@@ -298,12 +296,7 @@ const EntirePlan = () => {
                     <ul>
                         {checkList.map((list) => (
                             <li key={list.id}>
-                                <input
-                                    type="checkbox"
-                                    checked={list.checked} // 상태 값에 따라 체크 여부 결정
-                                    readOnly={isUpdating} // 수정 가능 여부
-                                    onChange={() => handleCheckboxChange(list.id)} // 체크 상태 변경
-                                />
+                                <input type="checkbox" checked={list.checked} readOnly={isUpdating} onChange={() => handleCheckboxChange(list.id)}/>
                                 <input
                                     value={list.text}
                                     readOnly={isUpdating} // 수정 가능 여부
