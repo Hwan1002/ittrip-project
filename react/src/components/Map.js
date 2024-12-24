@@ -7,7 +7,7 @@ import { AiOutlineSmallDash } from "react-icons/ai";
 
 const Map = () => {
   const {
-    tripDates, address, path, setPath,routeType,
+    tripDates, address, path, setPath, routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
     dayChecks, setDayChecks, stopOverCount
 
@@ -16,10 +16,9 @@ const Map = () => {
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
   const [dayBoolean, setDayBoolean] = useState([]);
-  const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
 
-  useEffect(() => {    
-    console.log("ct",stopOverCount)
+  useEffect(() => {
+    console.log("ct", stopOverCount)
 
     const convertXY = () => {
       switch (routeType) {
@@ -105,22 +104,19 @@ const Map = () => {
     };
     convertXY();
 
-  }, [routeType,stopOverCount]);
+  }, [routeType, stopOverCount]);
 
   useEffect(() => {
     console.log("departure: " + JSON.stringify(departure));
     console.log("destination: " + JSON.stringify(destination));
     console.log("stopOverList:" + JSON.stringify(stopOverList))
+    console.log("dayBoolean:" + JSON.stringify(dayBoolean))
   }, [departure, destination, stopOverList]);
 
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
 
-  useEffect(() => {
-    console.log("path:", JSON.stringify(path));
-
-  }, [path]);
 
   useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
@@ -156,7 +152,7 @@ const Map = () => {
       if (window.naver && window.naver.maps) {
         const map = new window.naver.maps.Map("map-container", {
           center: new window.naver.maps.LatLng(37.5665, 126.9780),
-          zoom: 15,
+          zoom: 11,
         });
 
         const createMarker = (latlng, text) => {
@@ -181,7 +177,7 @@ const Map = () => {
 
         // 날짜가 변경될 때마다 마커와 폴리라인 업데이트
         const updateMapForDay = () => {
-
+            debugger;
           const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
           if (selectedData) {
             const { startPoint, goalPoint, wayPoints, path } = selectedData;
@@ -189,13 +185,14 @@ const Map = () => {
             let markers = [];
             let polylines = [];
 
+
             // 출발지 마커 추가
             const departureLatLng = new window.naver.maps.LatLng(startPoint.split(",")[1], startPoint.split(",")[0]);
-            markers.push(createMarker(departureLatLng, "S"));
+            markers.push(createMarker(departureLatLng, "출발"));
 
             // 도착지 마커 추가
             const destinationLatLng = new window.naver.maps.LatLng(goalPoint.split(",")[1], goalPoint.split(",")[0]);
-            markers.push(createMarker(destinationLatLng, "G"));
+            markers.push(createMarker(destinationLatLng, "도착"));
 
             // 경유지 마커 추가
             if (wayPoints && wayPoints.length > 0) {
@@ -204,18 +201,20 @@ const Map = () => {
                 markers.push(createMarker(wayPointLatLng, `${index + 1}`));
               });
             }
-        
+
             // 폴리라인 생성
             const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
             const polyline = new window.naver.maps.Polyline({
               path: pathCoordinates, // 경로 (LatLng 객체 배열)
-              strokeColor: '#FF0000', // 폴리라인 색상
-              strokeWeight: 5, // 선 두께
+              strokeColor: 'blue', // 폴리라인 색상
+              strokeWeight: 4, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
             });
-      
+            
+            map.setCenter(departureLatLng)
             polyline.setMap(map);
             polylines.push(polyline);
+
           }
         };
 

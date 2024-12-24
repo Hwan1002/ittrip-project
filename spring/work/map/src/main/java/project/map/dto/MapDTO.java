@@ -20,9 +20,9 @@ import project.map.service.TripService;
 @AllArgsConstructor
 @Data
 public class MapDTO {
-		private Integer idx;			//맵 식별자
-		private String tripTitle;		//TripEntity의 title
-		private String userId;
+		
+//		private String tripTitle;		//TripEntity의 title
+	
 		private List<MapObject> mapObject;
 		
 		@Data
@@ -51,9 +51,9 @@ public class MapDTO {
 	    }
 	    
 		public MapDTO(MapEntity entity) {
-			this.idx = entity.getIdx();
-			this.userId = entity.getUser().getId();
-			this.tripTitle = entity.getTrip().getTitle();
+			
+		
+//			this.tripTitle = entity.getTrip().getTitle();
 			
 			this.mapObject = List.of(new MapObject(
 			        entity.getDays(),
