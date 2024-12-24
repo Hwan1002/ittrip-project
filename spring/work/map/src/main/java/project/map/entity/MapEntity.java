@@ -32,9 +32,11 @@ public class MapEntity {
 	@Column(name = "start_place", nullable = false)
     private String startPlace;   // 출발지 상호명
 	
-	
 	@Column(name = "start_address", nullable = false)
 	private String startAddress;	//출발지 지번주소
+	
+	@Column(name = "start_point", nullable = false)
+    private String startPoint;   // 출발지 좌표
 	
 	@Column(name = "goal_place", nullable = false)
     private String goalPlace;    // 목적지 상호명
@@ -42,9 +44,11 @@ public class MapEntity {
 	@Column(name = "goal_address", nullable = false)
 	private String goalAddress;	// 목적지 지번주소
 	
+	@Column(name = "goal_point", nullable = false)
+	private String goalPoint;	// 목적지 좌표
+	
 	@Column(name = "waypoint")
     private String waypoint; // 경유지 상호명
-	
 	
 	@Column(name = "days", nullable = false , length = 10)
     private Integer days;       // 일자

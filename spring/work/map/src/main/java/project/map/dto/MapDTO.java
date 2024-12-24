@@ -32,8 +32,10 @@ public class MapDTO {
 			private int days;
 		    private String startPlace;
 		    private String startAddress;
+		    private String startPoint;
 		    private String goalPlace;
 		    private String goalAddress;
+		    private String goalPoint;
 		    private List<WayPointDTO> wayPoints;
 
 		}
@@ -45,6 +47,7 @@ public class MapDTO {
 	        private String id;
 	        private String value;
 	        private String address;
+	        private String point;
 	    }
 	    
 		public MapDTO(MapEntity entity) {
@@ -56,8 +59,10 @@ public class MapDTO {
 			        entity.getDays(),
 			        entity.getStartPlace(),
 			        entity.getStartAddress(),
+			        entity.getStartPoint(),
 			        entity.getGoalPlace(),
 			        entity.getGoalAddress(),
+			        entity.getGoalPoint(),
 			        TripService.parseWaypoints(entity.getWaypoint())
 					));
 		}	       

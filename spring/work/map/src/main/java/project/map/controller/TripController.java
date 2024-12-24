@@ -148,6 +148,8 @@ public class TripController {
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.getByTitle(myTitle);
+		
+		System.out.println("dto::::::::"+dto);
         
 		StringBuilder waypointsBuilder;
 		for (MapDTO.MapObject mapObject : dto.getMapObject()) {
@@ -155,13 +157,17 @@ public class TripController {
 			int days = mapObject.getDays();
 			String startPlace = mapObject.getStartPlace().replaceAll("</?[^>]+>", "");
 			String startAddress = mapObject.getStartAddress();
+			String startPoint = mapObject.getStartPoint();
 			String goalPlace = mapObject.getGoalPlace().replaceAll("</?[^>]+>", "");
 			String goalAddress = mapObject.getGoalAddress();
+			String goalPoint = mapObject.getGoalPoint();
 
 			for (MapDTO.WayPointDTO wayPoint : mapObject.getWayPoints()) {
 				waypointsBuilder.append(wayPoint.getId()).append(":")
 						.append(wayPoint.getValue().replaceAll("</?[^>]+>", "")).append(":")
-						.append(wayPoint.getAddress()).append("|");
+						.append(wayPoint.getAddress()).append(":")
+						.append(wayPoint.getPoint()).
+						append("|");
 			}
 			if (waypointsBuilder.length() > 0) {
 				waypointsBuilder.setLength(waypointsBuilder.length() - 1);
@@ -169,7 +175,7 @@ public class TripController {
 			String waypoints = waypointsBuilder.toString();
 
 			MapEntity entity = MapEntity.builder().user(user).trip(trip).days(days).startPlace(startPlace)
-					.startAddress(startAddress).goalPlace(goalPlace).goalAddress(goalAddress).waypoint(waypoints)
+					.startAddress(startAddress).startPoint(startPoint).goalPlace(goalPlace).goalAddress(goalAddress).goalPoint(goalPoint).waypoint(waypoints)
 					.build();
 			System.out.println(entity);
 			mapRepository.save(entity);
@@ -239,13 +245,17 @@ public class TripController {
 			int days = mapObjects.get(i).getDays();
 			String startPlace = mapObjects.get(i).getStartPlace().replaceAll("</?[^>]+>", "");
 			String startAddress = mapObjects.get(i).getStartAddress();
+			String startPoint = mapObjects.get(i).getStartPoint();
 			String goalPlace = mapObjects.get(i).getGoalPlace().replaceAll("</?[^>]+>", "");
 			String goalAddress = mapObjects.get(i).getGoalAddress();
+			String goalPoint = mapObjects.get(i).getGoalPoint();
 
 			for (MapDTO.WayPointDTO wayPoint : mapObjects.get(i).getWayPoints()) {
 				waypointsBuilder.append(wayPoint.getId()).append(":")
 						.append(wayPoint.getValue().replaceAll("</?[^>]+>", "")).append(":")
-						.append(wayPoint.getAddress()).append("|");
+						.append(wayPoint.getAddress()).append(":")
+						.append(wayPoint.getPoint())
+						.append("|");
 			}
 			if (waypointsBuilder.length() > 0) {
 				waypointsBuilder.setLength(waypointsBuilder.length() - 1);
@@ -259,6 +269,7 @@ public class TripController {
 			currentEntity.setDays(days);
 			currentEntity.setStartPlace(startPlace);
 			currentEntity.setStartAddress(startAddress);
+			currentEntity.setStartPoint(startPoint);
 			currentEntity.setGoalPlace(goalPlace);
 			currentEntity.setGoalAddress(goalAddress);
 			currentEntity.setWaypoint(waypoints);
