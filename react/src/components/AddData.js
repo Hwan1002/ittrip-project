@@ -65,24 +65,26 @@ const AddData = ({ width }) => {
     alert(`Day${selectedDay + 1} 저장 완료`);
   }
 
-
-  useEffect(() => {
-    if (path.length > 0) { // path가 유효할 때만 putObject 실행
-      putObject(); // path 값이 업데이트되었을 때 putObject 실행
-    }
-  }, [path]); // path가 변경될 때마다 실행
-
   // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
   //   setDeparture({title:'',address:''});
   //   setStopOverList([]);
   //   setDestination({title:'',address:''});
   // }
 
-  // 
+
 
   useEffect(() => {
     console.log("검색 결과 업데이트 됨 :", res);
   }, [res])
+    useEffect(() => {
+      if (path.length > 0) { // path가 유효할 때만 putObject 실행
+        putObject(); // path 값이 업데이트되었을 때 putObject 실행
+      }
+    }, [path]); // path가 변경될 때마다 실행
+    
+    useEffect(()=>{
+      console.log("검색 결과 업데이트 됨 :" , res);
+    },[res])
 
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
@@ -106,6 +108,7 @@ const AddData = ({ width }) => {
             ...prevList.slice(0, -1),
             { id: Date.now(), value: item.title, address: item.address }
           ]);
+
         }
         setRouteType(type);
         setStopOverCount((prev) => prev + 1)
