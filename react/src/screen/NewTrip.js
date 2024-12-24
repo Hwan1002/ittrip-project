@@ -68,7 +68,9 @@ const NewTrip = () => {
 
 
   const allAxios = async() => {
+    debugger;
     try {
+      console.log(tripTitle, formattedStartDate, formattedEndDate)
       const response1 = await axios.post(`${API_BASE_URL}/1`,{title: tripTitle,startDate: formattedStartDate,lastDate: formattedEndDate,},logData);
       const response2 = await axios.post(`${API_BASE_URL}/2`,{tripTitle: tripTitle,mapObject : mapObject},logData);
       const response3 = await axios.post(`${API_BASE_URL}/3`,{tripTitle: tripTitle,items : items},logData);
@@ -94,8 +96,6 @@ const NewTrip = () => {
     
   }
   const buttonClicked = () => {
-    debugger;
-    console.log(mapObject.length, dayChecks.length);
     if(mapObject.length !== dayChecks.length){
       const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
       if (!mapConfirm) {
