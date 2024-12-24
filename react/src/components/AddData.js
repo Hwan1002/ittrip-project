@@ -48,7 +48,7 @@ const AddData = ({width}) => {
         setMapObject([...newArr]);
       }
     }
-      setMapObject((prevMapObject) => [
+      setMapObject((prevMapObject) =>  [
         ...prevMapObject,
         {
           days: selectedDay + 1,
@@ -57,7 +57,6 @@ const AddData = ({width}) => {
           goalPlace: destination?.title || "",
           goalAddress: destination?.address || "",
           wayPoints: stopOverList || [],
-          path: path
         },
       ]);
 
@@ -78,18 +77,17 @@ const AddData = ({width}) => {
 
     //출발,도착,경유 타입에 따라서 저장 방식 달라짐
     const handleCheck = (item,type) => {
-      setAddress(item.address);
       switch(type) {
         case "departure":
-          setDeparture({title: item.title, address: item.address});
+          setDeparture({title: item.title, address: item.address, part: "departure"});
           break;
         case "destination": 
-          setDestination({title:item.title, address:item.address});
+          setDestination({title:item.title, address:item.address, part: "destination"});
           break; 
         case "stopOver": 
         setStopOverList((prevList) => [
           ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
-          { id: Date.now(), value: item.title, address : item.address } // 새로운 아이템 강제로 추가
+          { id: Date.now(), value: item.title, address : item.address, part: "stopOver" } // 새로운 아이템 강제로 추가
         ]);
         break;
         default: 
@@ -119,7 +117,6 @@ const AddData = ({width}) => {
         });
        
         setPath(response.data.route.traoptimal[0].path);
-        console.log(path)
       } else {
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {

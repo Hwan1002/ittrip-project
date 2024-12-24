@@ -97,6 +97,8 @@ const Map = () => {
         };
 
 
+
+
         if (address) {
           window.naver.maps.Service.geocode({
             query: address
@@ -110,7 +112,8 @@ const Map = () => {
             }
 
             const result = response.v2;
-            const latlng = new window.naver.maps.LatLng(result.addresses[0].y, result.addresses[0].x);
+            const latlng = result.addresses[0].y+","+ result.addresses[0].x;
+            console.log(latlng)
 
             if (!startPoint) {
               setStartPoint(latlng);
@@ -126,7 +129,7 @@ const Map = () => {
 
             const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
             if (selectedData) {
-              const {startAddress, goalAddress, wayPoints, path } = selectedData;
+              const {startAddress, goalAddress, wayPoints } = selectedData;
 
               clearMapData(); // 이전 날짜의 마커와 폴리라인을 삭제
 
