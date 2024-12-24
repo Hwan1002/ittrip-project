@@ -32,7 +32,7 @@ public class TokenProvider {
 	private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY);
 
 	public String create(UserEntity entity) {
-		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
+		Date expiryDate = Date.from(Instant.now().plus(6, ChronoUnit.HOURS));
 
 		String token = Jwts.builder()
 				.signWith(key, SignatureAlgorithm.HS512)
@@ -50,7 +50,7 @@ public class TokenProvider {
 	public String create(final Authentication authentication) {
 
 		ApplicationOAuth2User userPrincipal = (ApplicationOAuth2User) authentication.getPrincipal();
-		Date expiryDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
+		Date expiryDate = Date.from(Instant.now().plus(6, ChronoUnit.HOURS));
 
 
 		String token = Jwts.builder()
