@@ -76,8 +76,8 @@ const EntirePlan = () => {
 
             console.log("response:", JSON.stringify(response.data[0].mapObject[selectedDay]));
             response.data.map((trip) => setMaps((prev) => [...prev, trip.mapObject]));
-            setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress })
-            setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress })
+            setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress, latlng:response.data[0].mapObject[selectedDay].startPoint })
+            setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress, latlng:response.data[0].mapObject[selectedDay].goalPoint})
             setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints])
 
 
