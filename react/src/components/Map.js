@@ -7,7 +7,7 @@ import { AiOutlineSmallDash } from "react-icons/ai";
 
 const Map = () => {
   const {
-    tripDates, address, path, setPath,type,setType,
+    tripDates, address, path, setPath,routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
     dayChecks, setDayChecks,stopOverCount
     
@@ -17,11 +17,12 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
+
   useEffect(() => {
-    console.log(type);
+    
     console.log("ct",stopOverCount)
     const convertXY = () => {
-      switch (type) {
+      switch (routeType) {
         case "departure":
           window.naver.maps.Service.geocode(
             {
@@ -103,7 +104,7 @@ const Map = () => {
       }
     };
     convertXY();
-  }, [type,stopOverCount]);
+  }, [routeType,stopOverCount]);
 
   useEffect(() => {
     console.log("departure: " + JSON.stringify(departure));
