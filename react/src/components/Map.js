@@ -7,7 +7,7 @@ import { AiOutlineSmallDash } from "react-icons/ai";
 
 const Map = () => {
   const {
-    tripDates, address, path, setPath,routeType,
+    tripDates, address, path, setPath, routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
     dayChecks, setDayChecks, stopOverCount
 
@@ -16,10 +16,9 @@ const Map = () => {
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
 
   const [dayBoolean, setDayBoolean] = useState([]);
-  const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
 
-  useEffect(() => {    
-    console.log("ct",stopOverCount)
+  useEffect(() => {
+    console.log("ct", stopOverCount)
 
     const convertXY = () => {
       switch (routeType) {
@@ -105,7 +104,7 @@ const Map = () => {
     };
     convertXY();
 
-  }, [routeType,stopOverCount]);
+  }, [routeType, stopOverCount]);
 
   useEffect(() => {
     console.log("departure: " + JSON.stringify(departure));
@@ -185,6 +184,7 @@ const Map = () => {
             let markers = [];
             let polylines = [];
 
+
             // 출발지 마커 추가
             const departureLatLng = new window.naver.maps.LatLng(startPoint.split(",")[1], startPoint.split(",")[0]);
             markers.push(createMarker(departureLatLng, "S"));
@@ -200,7 +200,7 @@ const Map = () => {
                 markers.push(createMarker(wayPointLatLng, `${index + 1}`));
               });
             }
-        
+
             // 폴리라인 생성
             const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
             const polyline = new window.naver.maps.Polyline({
@@ -209,9 +209,10 @@ const Map = () => {
               strokeWeight: 5, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
             });
-      
+
             polyline.setMap(map);
             polylines.push(polyline);
+
           }
         };
 
