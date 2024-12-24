@@ -396,10 +396,10 @@ const Maintest = () => {
                                     {recButton[currentView].map((item, index) => (
                                         <div key={index} className="listContents">
                                             <div className="icon">
-                                                <> {item.rlteCtgryLclsNm ==="관광지" ?  <img src={spot} alt="관광지" style={{width:"53px", marginRight:'20px'}}/> : item.rlteCtgryLclsNm === "숙박" ? <img src={house} alt="숙박" style={{width:"50px",marginRight:'20px'}}/> :  <img src={food} alt="음식" className="food" style={{width:"40px",marginRight:'28px'}}/>}</>
+                                                <> {item.rlteCtgryLclsNm ==="관광지" ?  <img src={spot} alt="관광지"/> : item.rlteCtgryLclsNm === "숙박" ? <img src={house} alt="숙박"/> :  <img src={food} alt="음식" className="food"/>}</>
                                             </div>
                                             <div className="listInfo">
-                                                <p ><span className="suggestName">이름</span> <span className="suggestData">{item.rlteTatsNm}</span> </p>
+                                                <p><span className="suggestName">이름</span> <span className="suggestData suggestStyle">{item.rlteTatsNm}</span> </p>
                                                 <p><span className="suggestName">주소</span> <span className="suggestData">{item.rlteBsicAdres}</span> </p>
                                                 <p><span className="suggestName"> 태마</span> <span className="suggestData">{item.rlteCtgrySclsNm}</span> </p>
                                             </div>

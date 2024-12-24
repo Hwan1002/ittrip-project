@@ -75,7 +75,12 @@ const AddData = ({width}) => {
     // }
 
     // 
-
+    useEffect(() => {
+      if (path.length > 0) { // path가 유효할 때만 putObject 실행
+        putObject(); // path 값이 업데이트되었을 때 putObject 실행
+      }
+    }, [path]); // path가 변경될 때마다 실행
+    
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
     },[res])
@@ -124,10 +129,9 @@ const AddData = ({width}) => {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
-    try{
+    // try{
       if (stopOverList.length>0) {
         const latlngArray = stopOverList.map(prev=>prev.latlng);
-        
         const lnglatString = latlngArray.join("|");
         const response = await axios.get(`${API_BASE_URL}/12345`, {
           params: {
@@ -136,9 +140,8 @@ const AddData = ({width}) => {
           waypoints: lnglatString
           }
         });
-       
         setPath(response.data.route.traoptimal[0].path);
-       }else {
+      }else {
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {
           start: departure.latlng,
@@ -147,10 +150,9 @@ const AddData = ({width}) => {
         })
         setPath(response.data.route.traoptimal[0].path)
       }
-      putObject();
-    } catch (error) {
-      alert("cathch 에러");
-    }  
+    // } catch (error) {
+    //   alert("cathch 에러");
+    // }  
     }
     
     const handleSearch = async(value, updateState, modalTitle) => {

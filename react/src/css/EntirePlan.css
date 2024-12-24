@@ -1,74 +1,65 @@
-#entirePlan{
-    position: relative;
-    top:100px;
-    width: 1200px;
-    padding-top: 50px;
-    background-color: rgba(255,255,255,0.7);
-box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
+.myPlan{
+    width: 1000px;
+}
+.myPlan ul{
+    padding:0;
+}
+.myPlanContainer{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #dadada;
+    margin-top: 20px;
+}
+.myPlanContainer button:hover{
+    background-color: #f78b26;
+}
+.myPlanContainer input{
+    border: 2px solid #dadada;
+    border-radius: 10px;
+    height:30px;
+}
+.mapFrame{
+    flex:1;
+    width:50%;
+    height:70vh;
+}
+.planFrame{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+}
+.myPlanContent{
+    margin-top: 20px;
+}
+.myPlanContent::before{
+    content:"";
+    display: block;
+    border: 1px solid #dadada;
+}
+.myPlanContent button{
+    border:none;
+    border-radius: 10px;
+    background-color: #F6A354;
+    width:50px;
+    height:30px;
+    color:#fff;
 }
 
-#mapPlanContain {
-    height: auto;
+.newTripBt{
+    text-align: center;
+}
+
+.newTripBt button{
+    border:none;
+    border-radius: 10px;
+    background-color: #F6A354;
+    width:80px;
+    height:40px;
+    color:#fff;
+}
+
+.tripCheck ul li {
     display: flex;
     align-items: center;
-}
-
-
-#mapFrame {
-    display: grid;
-    border-radius: 7px;
-    width: 700px;
-    height: 700px;
-    margin :0 50px 50px 60px;
-
-
-}
-
-#planFrame {
-    
-    display: flex;          /* #planFrame을 flex 컨테이너로 설정 */
-    flex-direction: column; /* 자식 요소들을 세로로 정렬 */
-    padding-bottom: 120px;
-    align-items: center;
-}
-
-.entireScroll{
-    border: 2px solid #DADADA;
-    border-right: none;
-    border-left: none;
-    overflow-y: auto;
-    padding: 10px;
-    width:300px;
-    height:168px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#newTripBt {
-    width :190px;
-    height: 40px;
-    border-radius: 25px;
-    border: none;
-    font-size: 17px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #F6A354;   
-    color: #fff;
-    padding-left: 12px;
-}
-
-
-
-#newTripBt img {
-    margin-left: 10px;
-}
-
-.entireTitle{
-    color: #F6A354;
-    font-size:18px;
-    font-weight: 600;
-    margin :25px 0 15px 0;
-
 }
