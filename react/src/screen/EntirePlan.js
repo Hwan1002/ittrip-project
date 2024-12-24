@@ -65,6 +65,8 @@ const EntirePlan = () => {
                     tripTitle: trip.title
                 },
             });
+
+            console.log("응답형식 확인  : ", response.data)
             const startDate = new Date(trip.startDate);
             const endDate = new Date(trip.lastDate);
 
@@ -75,8 +77,11 @@ const EntirePlan = () => {
             setDayChecks([...daysArray])
 
             console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
+      
             // const tripArray = response.data[0].mapObject;
             setMaps(...response.data[0].mapObject);
+
+            
             
             setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress, latlng:response.data[0].mapObject[selectedDay].startPoint })
             setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress, latlng:response.data[0].mapObject[selectedDay].goalPoint})

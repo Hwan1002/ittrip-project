@@ -108,6 +108,7 @@ public class TripService {
 	//trip의 title을 받아서 MapEntity들 반환하기
 	public List<MapEntity> getMaps(String userId,String title){
 		return mapRepository.getLocation(userId, title);
+		
 	}
 	
 	//trip의 title을 받아서 CheckListEntity 반환하기

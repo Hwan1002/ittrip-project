@@ -107,10 +107,8 @@ public class TripController {
 		List<MapEntity> list = tripService.getMaps(userId, title);
 		TripEntity trip = tripRepository.getByTitle(title);
 		trip.setTitle(tripService.titleFromDB(title));
-
 		List<MapDTO> updatedList = list.stream().map(data -> new MapDTO(data)) // MapEntity를 MapDTO로 변환
 				.collect(Collectors.toList());
-
 		return ResponseEntity.ok(updatedList);
 		
 	}
