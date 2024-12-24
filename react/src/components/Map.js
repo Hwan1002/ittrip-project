@@ -117,10 +117,6 @@ const Map = () => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
   }, [mapObject]);
 
-  useEffect(() => {
-    console.log("path:", JSON.stringify(path));
-
-  }, [path]);
 
   useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
