@@ -9,8 +9,8 @@ const Map = () => {
   const {
     tripDates, address, path, setPath,routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
-    dayChecks, setDayChecks,stopOverCount
-    
+    dayChecks, setDayChecks, stopOverCount
+
   } = useContext(ProjectContext);
 
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
@@ -18,9 +18,9 @@ const Map = () => {
   const [dayBoolean, setDayBoolean] = useState([]);
   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
 
-  useEffect(() => {
-    
+  useEffect(() => {    
     console.log("ct",stopOverCount)
+
     const convertXY = () => {
       switch (routeType) {
         case "departure":
@@ -45,7 +45,7 @@ const Map = () => {
             }
           );
           break;
-  
+
         case "destination":
           window.naver.maps.Service.geocode(
             {
@@ -68,11 +68,11 @@ const Map = () => {
             }
           );
           break;
-  
+
         case "stopOver":
           if (stopOverList.length > 0) {
             const num = stopOverList.length - 1;
-            console.log("num"+num);
+            console.log("num" + num);
             console.log("stopOverlen" + stopOverList.length)
             window.naver.maps.Service.geocode(
               {
@@ -93,24 +93,25 @@ const Map = () => {
                     index === num ? { ...item, latlng: latlng } : item
                   )
                 );
-                console.log("stopOver : "+JSON.stringify(stopOverList))
+                console.log("stopOver : " + JSON.stringify(stopOverList))
               }
             );
           }
           break;
-  
+
         default:
           break;
       }
     };
     convertXY();
+
   }, [routeType,stopOverCount]);
 
   useEffect(() => {
     console.log("departure: " + JSON.stringify(departure));
     console.log("destination: " + JSON.stringify(destination));
     console.log("stopOverList:" + JSON.stringify(stopOverList))
-  }, [departure, destination,stopOverList]);
+  }, [departure, destination, stopOverList]);
 
   useEffect(() => {
     console.log("mapObject updated:", JSON.stringify(mapObject));
@@ -118,7 +119,7 @@ const Map = () => {
 
   useEffect(() => {
     console.log("path:", JSON.stringify(path));
-    
+
   }, [path]);
 
   useEffect(() => {
@@ -141,15 +142,11 @@ const Map = () => {
     const foundData = mapObject.find(data => data.days === selectedDay + 1);
     console.log(foundData);
     if (foundData) {
-      setDeparture({ title: foundData.startPlace, address: foundData.startAddress , latlng: foundData.startPoint});
+      setDeparture({ title: foundData.startPlace, address: foundData.startAddress, latlng: foundData.startPoint });
       setStopOverList([...foundData.wayPoints]);
       setDestination({ title: foundData.goalPlace, address: foundData.goalAddress, latlng: foundData.goalPoint });
     }
   }, [selectedDay]);
-
-  
-  
-  
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -162,15 +159,8 @@ const Map = () => {
           zoom: 15,
         });
 
-        const clearMapData = () => {
-          if (dayMapData[selectedDay]) {
-            dayMapData[selectedDay].markers.forEach(marker => marker.setMap(null));
-            dayMapData[selectedDay].polylines.forEach(polyline => polyline.setMap(null));
-          }
-        };
-
-        const createMarkerIcon = (text) => {
-          return {
+        const createMarker = (latlng, text) => {
+          const icon = {
             content: `
               <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
                 ${text}
@@ -180,16 +170,64 @@ const Map = () => {
             size: new window.naver.maps.Size(30, 30),
             anchor: new window.naver.maps.Point(15, 15),
           };
+
+          // 마커 객체를 생성하여 반환
+          return new window.naver.maps.Marker({
+            position: latlng,  // 마커를 표시할 위치
+            icon: icon,  // 위에서 정의한 스타일 아이콘 사용
+            map: map,  // 마커를 표시할 지도 객체
+          });
         };
 
-        // 지도 초기화와 관련된 로직 추가...
+        // 날짜가 변경될 때마다 마커와 폴리라인 업데이트
+        const updateMapForDay = () => {
+
+          const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
+          if (selectedData) {
+            const { startPoint, goalPoint, wayPoints, path } = selectedData;
+
+            let markers = [];
+            let polylines = [];
+
+            // 출발지 마커 추가
+            const departureLatLng = new window.naver.maps.LatLng(startPoint.split(",")[1], startPoint.split(",")[0]);
+            markers.push(createMarker(departureLatLng, "S"));
+
+            // 도착지 마커 추가
+            const destinationLatLng = new window.naver.maps.LatLng(goalPoint.split(",")[1], goalPoint.split(",")[0]);
+            markers.push(createMarker(destinationLatLng, "G"));
+
+            // 경유지 마커 추가
+            if (wayPoints && wayPoints.length > 0) {
+              wayPoints.forEach((wayPoint, index) => {
+                const wayPointLatLng = new window.naver.maps.LatLng(wayPoint.latlng.split(",")[1], wayPoint.latlng.split(",")[0]);
+                markers.push(createMarker(wayPointLatLng, `${index + 1}`));
+              });
+            }
+        
+            // 폴리라인 생성
+            const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
+            const polyline = new window.naver.maps.Polyline({
+              path: pathCoordinates, // 경로 (LatLng 객체 배열)
+              strokeColor: '#FF0000', // 폴리라인 색상
+              strokeWeight: 5, // 선 두께
+              strokeOpacity: 0.8, // 선의 불투명도
+            });
+      
+            polyline.setMap(map);
+            polylines.push(polyline);
+          }
+        };
+
+        updateMapForDay();
       }
     };
+
     document.body.appendChild(script);
     return () => {
       document.body.removeChild(script);
     };
-  }, [address, path, selectedDay]);
+  }, [selectedDay, departure, destination, stopOverList, mapObject]);
 
   const handleDayClick = (day) => {
     if (!mapObject.find(data => data.days === selectedDay + 1)) {

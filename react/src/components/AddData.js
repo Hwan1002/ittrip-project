@@ -47,7 +47,7 @@ const AddData = ({width}) => {
         setMapObject([...newArr]);
       }
     }
-      setMapObject((prevMapObject) => [
+      setMapObject((prevMapObject) =>  [
         ...prevMapObject,
         {
           days: selectedDay + 1,
@@ -58,6 +58,7 @@ const AddData = ({width}) => {
           goalAddress: destination?.address || "",
           goalPoint : destination?.latlng || "",
           wayPoints: stopOverList || [],
+          path: path || [], // 경로 추가
         },
       ]);
 
@@ -134,6 +135,7 @@ const AddData = ({width}) => {
        
         setPath(response.data.route.traoptimal[0].path);
        }else {
+
         const response = await axios.get(`${API_BASE_URL}/1234`, {
           params: {
           start: departure.latlng,
