@@ -7,10 +7,10 @@ import { AiOutlineSmallDash } from "react-icons/ai";
 
 const Map = () => {
   const {
-    tripDates, address, path, setPath,
+    tripDates, address, path, setPath,type,setType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
-    dayChecks, setDayChecks,
-    type,
+    dayChecks, setDayChecks,stopOverCount
+    
   } = useContext(ProjectContext);
 
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
@@ -18,49 +18,9 @@ const Map = () => {
   const [dayBoolean, setDayBoolean] = useState([]);
   const [dayMapData, setDayMapData] = useState({}); // 각 날짜에 대한 마커와 폴리라인 데이터를 저장
 
-
   useEffect(() => {
-    console.log("departure: " + JSON.stringify(departure));
-    console.log("destination: " + JSON.stringify(destination));
-
-  }, [departure, destination]);
-
-
-  useEffect(() => {
-    console.log("dayMapData updated:", dayMapData);
-  }, [dayMapData]);
-
-  useEffect(() => {
-    console.log("mapObject updated:", JSON.stringify(mapObject));
-  }, [mapObject]);
-
-  useEffect(() => {
-    if (tripDates && tripDates.startDate && tripDates.endDate) {
-      const startDate = new Date(tripDates.startDate);
-      const endDate = new Date(tripDates.endDate);
-
-      const diffTime = endDate - startDate;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
-      const booleanArray = new Array(daysArray.length).fill(false);
-      booleanArray[0] = true;
-      setDayBoolean([...booleanArray]);
-      setDayChecks([...daysArray]);
-    }
-  }, [tripDates]);
-
-  useEffect(() => {
-    const foundData = mapObject.find(data => data.days === selectedDay + 1);
-    console.log(foundData);
-    if (foundData) {
-      setDeparture({ title: foundData.startPlace, address: foundData.startAddress });
-      setStopOverList([...foundData.wayPoints]);
-      setDestination({ title: foundData.goalPlace, address: foundData.goalAddress });
-    }
-  }, [selectedDay]);
-
-  useEffect(() => {
+    console.log(type);
+    console.log("ct",stopOverCount)
     const convertXY = () => {
       switch (type) {
         case "departure":
@@ -112,6 +72,8 @@ const Map = () => {
         case "stopOver":
           if (stopOverList.length > 0) {
             const num = stopOverList.length - 1;
+            console.log("num"+num);
+            console.log("stopOverlen" + stopOverList.length)
             window.naver.maps.Service.geocode(
               {
                 query: stopOverList[num].address,
@@ -131,6 +93,7 @@ const Map = () => {
                     index === num ? { ...item, latlng: latlng } : item
                   )
                 );
+                console.log("stopOver : "+JSON.stringify(stopOverList))
               }
             );
           }
@@ -141,9 +104,48 @@ const Map = () => {
       }
     };
     convertXY();
-  }, [type]);
+  }, [type,stopOverCount]);
 
+  useEffect(() => {
+    console.log("departure: " + JSON.stringify(departure));
+    console.log("destination: " + JSON.stringify(destination));
+    console.log("stopOverList:" + JSON.stringify(stopOverList))
+  }, [departure, destination,stopOverList]);
 
+  useEffect(() => {
+    console.log("mapObject updated:", JSON.stringify(mapObject));
+  }, [mapObject]);
+
+  useEffect(() => {
+    console.log("path:", JSON.stringify(path));
+    
+  }, [path]);
+
+  useEffect(() => {
+    if (tripDates && tripDates.startDate && tripDates.endDate) {
+      const startDate = new Date(tripDates.startDate);
+      const endDate = new Date(tripDates.endDate);
+
+      const diffTime = endDate - startDate;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+      const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
+      const booleanArray = new Array(daysArray.length).fill(false);
+      booleanArray[0] = true;
+      setDayBoolean([...booleanArray]);
+      setDayChecks([...daysArray]);
+    }
+  }, [tripDates]);
+
+  useEffect(() => {
+    const foundData = mapObject.find(data => data.days === selectedDay + 1);
+    console.log(foundData);
+    if (foundData) {
+      setDeparture({ title: foundData.startPlace, address: foundData.startAddress , latlng: foundData.startPoint});
+      setStopOverList([...foundData.wayPoints]);
+      setDestination({ title: foundData.goalPlace, address: foundData.goalAddress, latlng: foundData.goalPoint });
+    }
+  }, [selectedDay]);
 
   useEffect(() => {
     const script = document.createElement("script");

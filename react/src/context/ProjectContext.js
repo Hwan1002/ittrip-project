@@ -18,17 +18,8 @@ export const ProjectProvider = ({ children }) => {
   //프로필 이미지 url 상태
   const [imagePreview, setImagePreview] = useState(null); 
 
-  //newtrip에서 출발,경유,도착지 주소 저장
-  const [address , setAddress] = useState();
-
-  // startPoint 출발지
-  // const [startPoint,setStartPoint] = useState();
-
-  // goalPoint 도착지 
-
-  // const [goalPoint, setGoalPoint] = useState();
-  // wayPoints  경유지
-  // const [wayPoints , setWaypoints ] = useState([]);
+  
+ 
 
   const [path, setPath] = useState();
 
@@ -57,7 +48,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [signguNm , setSignguNm]  =useState([]) ;
 
- 
+  const [stopOverList, setStopOverList] = useState([]);
 
 
   const [mapObject,setMapObject] = useState([]);
@@ -65,24 +56,22 @@ export const ProjectProvider = ({ children }) => {
   const [departure,setDeparture] = useState({
     title:'',
     address:'',
-    latlng : '' ,
+    latlng : ''
   })
 
   const [destination,setDestination] = useState({
     title:'',
     address:'',
-    latlng : '' ,
+    latlng : ''
   })
-
-  const [stopOverList, setStopOverList] = useState([]);
-
-
-
   const [selectedDay,setSelectedDay] = useState(0);
 
   const [dayChecks,setDayChecks] = useState([]);
 
-  const [type ,setType] = useState("");
+  const [type,setType] = useState("");
+
+  const [stopOverCount , setStopOverCount] = useState(0);
+  
   
 
   const initObject=()=>{
@@ -101,7 +90,6 @@ export const ProjectProvider = ({ children }) => {
     tripDates,setTripDates,
     input,setInput,
     items,setItems,
-    address,setAddress,
     path, setPath,
     markers,setMarkers,
     signguNm , setSignguNm,
@@ -112,7 +100,8 @@ export const ProjectProvider = ({ children }) => {
     selectedDay,setSelectedDay,
     initObject,dayChecks,
     setDayChecks,
-    type ,setType,
+    type,setType,
+    stopOverCount,setStopOverCount
     
   };
 
