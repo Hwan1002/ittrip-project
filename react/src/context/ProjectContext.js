@@ -82,7 +82,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [dayChecks,setDayChecks] = useState([]);
 
-  const [type ,setType] = useState("");
+  const [mapType ,setMapType] = useState("");
   
 
   const initObject=()=>{
@@ -112,7 +112,7 @@ export const ProjectProvider = ({ children }) => {
     selectedDay,setSelectedDay,
     initObject,dayChecks,
     setDayChecks,
-    type ,setType,
+    mapType ,setMapType,
     
   };
 

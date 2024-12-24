@@ -16,6 +16,7 @@ import spot from "../img/Icon/spot.png"
 import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
+
 const Maintest = () => {
 
     const [img, setImg] = useState();
@@ -80,9 +81,8 @@ const Maintest = () => {
         setSelect(region)
         setImg()
     };
-
+    
     useEffect(() => {
-
         if (areaCd) {
             const requestAreaNm = async () => {
                 try {
@@ -95,6 +95,7 @@ const Maintest = () => {
                     console.log("Response Data:", response.data.data);
                     // state의 상태 업데이트
                     setSignguNm(response.data.data);
+                    console.log(signguNm);
                     // 데이터가 성공적으로 설정된 후 팝업창 열기
                     setIsModalOpen(true);
                 } catch (error) {
@@ -105,7 +106,9 @@ const Maintest = () => {
         } //if end
     }, [areaCd]) // useEffect end
 
-
+    useEffect(()=>{
+        console.log(signguNm);
+    },[signguNm])
 
     const requestData = async (item) => {
         try {
@@ -142,6 +145,7 @@ const Maintest = () => {
         console.log(recButton.all)
     }, [recButton])
 
+    
 
     return (
         <div id="main">
@@ -149,7 +153,7 @@ const Maintest = () => {
             <div id="bigbanner">
                 <img src={banner2} alt="banner" />
             </div>
-
+            
             {/* 지역 4개 */}
             <div className="localSet">
                 <div className="localtrip">
@@ -354,7 +358,7 @@ const Maintest = () => {
                             </div>
                         </div>
                         <div className="tripSelect">
-                            <p>여행할 곳을 선택해 주세용.</p>
+                            <p>여행할 곳을 선택해 주세요.</p>
                             <div className="guSelect">
                                 {signguNm && signguNm.length > 0 ? (
                                     signguNm.map((item, index) => (

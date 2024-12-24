@@ -15,18 +15,15 @@ const AddData = ({width}) => {
     
     //context 활용
     const {
-      setAddress,
       path,setPath,
-      wayPoints, 
-      startPoint, 
-      goalPoint,
       departure, setDeparture,
       stopOverList, setStopOverList,
       destination, setDestination,
       selectedDay,setSelectedDay,
       mapObject,setMapObject,
-      type ,setType
+      mapType,setMapType
     } = useContext(ProjectContext);
+
     const [test, setTest] = useState('');
     useEffect(()=>{
       console.log(test);
@@ -50,21 +47,21 @@ const AddData = ({width}) => {
         setMapObject([...newArr]);
       }
     }
-      setMapObject((prevMapObject) => [
-        ...prevMapObject,
-        {
-          days: selectedDay + 1,
-          startPlace: departure?.title || "", // 방어적으로 title 확인
-          startAddress: departure?.address || "",
-          goalPlace: destination?.title || "",
-          goalAddress: destination?.address || "",
-          wayPoints: stopOverList || [],
-          path: path
-        },
-      ]);
-
-      alert(`Day${selectedDay+1} 저장 완료`);
-    }
+    setMapObject((prevMapObject) => [
+      ...prevMapObject,
+      {
+        days: selectedDay + 1,
+        startPlace: departure?.title || "", // 방어적으로 title 확인
+        startAddress: departure?.address || "",
+        goalPlace: destination?.title || "",
+        goalAddress: destination?.address || "",
+        wayPoints: stopOverList || [],
+        path: path
+      },
+    ]);
+    
+    alert(`Day${selectedDay+1} 저장 완료`);
+  }
 
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
@@ -74,19 +71,19 @@ const AddData = ({width}) => {
     const handleCheck = (item,type) => {
       switch(type) {
         case "departure":
-          setDeparture({title:item.title, address:item.address, type:type  });
-          setType(type);
+          setDeparture({title:item.title, address:item.address });
+          setMapType(type);
           break;
         case "destination": 
-          setDestination({title:item.title, address:item.address, type:type});
-          setType(type);
+          setDestination({title:item.title, address:item.address});
+          setMapType(type);
           break; 
         case "stopOver": 
         setStopOverList((prevList) => [
           ...prevList.slice(0,-1), // 기존의 stopOverList에 추가
-          { id: Date.now(), value:item.title, address:item.address, type:type } // 새로운 아이템 강제로 추가
+          { id: Date.now(), value:item.title, address:item.address} // 새로운 아이템 강제로 추가
         ]);
-        setType(type);
+        setMapType(type);
         break;
         default: 
           console.log("handleCheck switch 케이스 쪽 오류");
@@ -102,6 +99,7 @@ const AddData = ({width}) => {
         alert("출발지와 목적지를 입력하세요.");
         return;
     }
+    debugger;
       try{
         if (stopOverList.length>0) {
           const latlngArray = stopOverList.map(prev=>prev.latlng);
