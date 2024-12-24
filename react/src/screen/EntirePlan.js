@@ -74,10 +74,10 @@ const EntirePlan = () => {
             const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
             setDayChecks([...daysArray])
 
-            console.log("Mapresponse:", JSON.stringify(response.data[0]));
+            console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
             // const tripArray = response.data[0].mapObject;
-            response.data[0].mapObject.map((trip) => setMaps((prev) => [...prev, trip]));
-
+            setMaps(...response.data[0].mapObject);
+            
             setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress, latlng:response.data[0].mapObject[selectedDay].startPoint })
             setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress, latlng:response.data[0].mapObject[selectedDay].goalPoint})
             setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints])
