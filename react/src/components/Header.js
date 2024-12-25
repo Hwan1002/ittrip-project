@@ -15,7 +15,9 @@ const Header = () => {
     token,
     tripTitle,
     tripDates,
-    initObject
+    initObject,
+    setMapObject,
+    setIsReadOnly
   } = useContext(ProjectContext);
   const navigate = useNavigate();
 
@@ -83,6 +85,8 @@ const Header = () => {
     e.preventDefault();
     setIsNewPlanModal(true);
     initObject();
+    setMapObject([]);
+    setIsReadOnly(false);
     openModal({});
   };
 

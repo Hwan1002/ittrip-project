@@ -35,15 +35,15 @@ public class CheckListDTO {
 	        this.checked = checked;
 	    }
 	}
-	private Integer idx;
+	
 	private List<Items> items;
 	private String userId;		//UserEntity의 id
-	private String tripTitle;	//TripEntity의 title
+	private Integer tripIdx;	
 	
 	
 	public CheckListDTO(CheckListEntity entity) {
 		this.userId = entity.getUser().getId();
-		this.tripTitle = entity.getTrip().getTitle();
+		this.tripIdx = entity.getTrip().getIdx();
 	}
 	
 //	public static CheckListDTO fromEntity(CheckListEntity entity) {

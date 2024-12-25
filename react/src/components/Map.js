@@ -9,7 +9,7 @@ const Map = () => {
   const {
     tripDates, address, path, setPath, routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
-    dayChecks, setDayChecks, stopOverCount
+    dayChecks, setDayChecks, stopOverCount,isReadOnly
 
   } = useContext(ProjectContext);
 
@@ -176,49 +176,49 @@ const Map = () => {
         };
 
         // 날짜가 변경될 때마다 마커와 폴리라인 업데이트
-        const updateMapForDay = () => {
-            debugger;
-          const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
-          if (selectedData) {
-            const { startPoint, goalPoint, wayPoints, path } = selectedData;
+        // const updateMapForDay = () => {
+        //     debugger;
+        //   const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
+        //   if (selectedData) {
+        //     const { startPoint, goalPoint, wayPoints, path } = selectedData;
 
-            let markers = [];
-            let polylines = [];
+        //     let markers = [];
+        //     let polylines = [];
 
 
-            // 출발지 마커 추가
-            const departureLatLng = new window.naver.maps.LatLng(startPoint.split(",")[1], startPoint.split(",")[0]);
-            markers.push(createMarker(departureLatLng, "출발"));
+        //     // 출발지 마커 추가
+        //     const departureLatLng = new window.naver.maps.LatLng(startPoint.split(",")[1], startPoint.split(",")[0]);
+        //     markers.push(createMarker(departureLatLng, "출발"));
 
-            // 도착지 마커 추가
-            const destinationLatLng = new window.naver.maps.LatLng(goalPoint.split(",")[1], goalPoint.split(",")[0]);
-            markers.push(createMarker(destinationLatLng, "도착"));
+        //     // 도착지 마커 추가
+        //     const destinationLatLng = new window.naver.maps.LatLng(goalPoint.split(",")[1], goalPoint.split(",")[0]);
+        //     markers.push(createMarker(destinationLatLng, "도착"));
 
-            // 경유지 마커 추가
-            if (wayPoints && wayPoints.length > 0) {
-              wayPoints.forEach((wayPoint, index) => {
-                const wayPointLatLng = new window.naver.maps.LatLng(wayPoint.latlng.split(",")[1], wayPoint.latlng.split(",")[0]);
-                markers.push(createMarker(wayPointLatLng, `${index + 1}`));
-              });
-            }
+        //     // 경유지 마커 추가
+        //     if (wayPoints && wayPoints.length > 0) {
+        //       wayPoints.forEach((wayPoint, index) => {
+        //         const wayPointLatLng = new window.naver.maps.LatLng(wayPoint.latlng.split(",")[1], wayPoint.latlng.split(",")[0]);
+        //         markers.push(createMarker(wayPointLatLng, `${index + 1}`));
+        //       });
+        //     }
 
-            // 폴리라인 생성
-            const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
-            const polyline = new window.naver.maps.Polyline({
-              path: pathCoordinates, // 경로 (LatLng 객체 배열)
-              strokeColor: 'blue', // 폴리라인 색상
-              strokeWeight: 4, // 선 두께
-              strokeOpacity: 0.8, // 선의 불투명도
-            });
+        //     // 폴리라인 생성
+        //     const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
+        //     const polyline = new window.naver.maps.Polyline({
+        //       path: pathCoordinates, // 경로 (LatLng 객체 배열)
+        //       strokeColor: 'blue', // 폴리라인 색상
+        //       strokeWeight: 4, // 선 두께
+        //       strokeOpacity: 0.8, // 선의 불투명도
+        //     });
             
-            map.setCenter(departureLatLng)
-            polyline.setMap(map);
-            polylines.push(polyline);
+        //     map.setCenter(departureLatLng)
+        //     polyline.setMap(map);
+        //     polylines.push(polyline);
 
-          }
-        };
+        //   }
+        // };
 
-        updateMapForDay();
+        // updateMapForDay();
       }
     };
 
@@ -229,7 +229,7 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject]);
 
   const handleDayClick = (day) => {
-    if (!mapObject.find(data => data.days === selectedDay + 1)) {
+    if (!isReadOnly && !mapObject.find(data => data.days === selectedDay + 1)) {
       const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
       if (userConfirm) {
         alert("넘어갈게");

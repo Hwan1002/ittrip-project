@@ -24,7 +24,7 @@ public class MapDTO {
 //		private String tripTitle;		//TripEntity의 title
 	
 		private List<MapObject> mapObject;
-		
+		private Integer tripIdx;
 		@Data
 		@NoArgsConstructor
 		@AllArgsConstructor
@@ -53,7 +53,6 @@ public class MapDTO {
 		public MapDTO(MapEntity entity) {
 			
 		
-//			this.tripTitle = entity.getTrip().getTitle();
 			
 			this.mapObject = List.of(new MapObject(
 			        entity.getDays(),
