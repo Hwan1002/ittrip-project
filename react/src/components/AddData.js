@@ -38,7 +38,8 @@ const AddData = ({ width }) => {
   } = useModal();
 
 
-  const putObject = () => {         //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
+  const putObject = () => {        
+     //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
     const foundData = mapObject.find(data => data.days === selectedDay + 1);
     if (foundData) {
       if (foundData.StartAddress !== departure.address || JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) || foundData.goalAddress !== destination.address) {
@@ -75,16 +76,15 @@ const AddData = ({ width }) => {
   //   setDestination({title:'',address:''});
   // }
 
-
-
   useEffect(() => {
     console.log("검색 결과 업데이트 됨 :", res);
   }, [res])
-    useEffect(() => {
-      if (path.length > 0) { // path가 유효할 때만 putObject 실행
-        putObject(); // path 값이 업데이트되었을 때 putObject 실행
-      }
-    }, [path]); // path가 변경될 때마다 실행
+
+  useEffect(() => {
+    if (path.length > 0) { // path가 유효할 때만 putObject 실행
+      putObject(); // path 값이 업데이트되었을 때 putObject 실행
+    }
+  }, [path]); // path가 변경될 때마다 실행
     
     useEffect(()=>{
       console.log("검색 결과 업데이트 됨 :" , res);
@@ -161,9 +161,6 @@ const AddData = ({ width }) => {
           },
         });
       }
-  
-      setPath(response.data.route.traoptimal[0].path);
-  
     } catch (error) {
       openModal({
         message: "빈칸을 입력해주세요.",

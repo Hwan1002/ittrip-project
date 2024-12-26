@@ -69,7 +69,7 @@ export const ProjectProvider = ({ children }) => {
 
   const [stopOverCount , setStopOverCount] = useState(0);
   
-  
+  const [isReadOnly,setIsReadOnly] = useState(true);
 
   const initObject=()=>{
     setDeparture({title:'',address:''});
@@ -99,7 +99,7 @@ export const ProjectProvider = ({ children }) => {
     setDayChecks,
     routeType,setRouteType,
     stopOverCount,setStopOverCount,
-    
+    isReadOnly,setIsReadOnly
     
   };
 
