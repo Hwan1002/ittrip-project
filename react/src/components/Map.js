@@ -272,7 +272,9 @@ const Map = () => {
               strokeColor: 'blue', // 폴리라인 색상
               strokeWeight: 4, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
-            });         
+
+            });
+            
             polyline.setMap(map);
 
             map.setCenter(departureLatLng)

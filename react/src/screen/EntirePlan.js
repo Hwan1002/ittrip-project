@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import "../css/EntirePlan.css";
 import '../css/Reset.css'
 import { Link } from "react-router-dom";
-import Map2 from "../components/Map2";
 import Map from "../components/Map";
 import Plus2 from "../img/plus2.svg"
 import { API_BASE_URL } from "../service/api-config";
@@ -214,7 +213,7 @@ const EntirePlan = () => {
             <h2 style={{textAlign:'center', marginBottom:0}}>내 일정 보기</h2>
             <div className="myPlanContainer">
                 <div className="mapFrame">
-                    <Map2 maps={maps} selectedDay={selectedDay}/>
+                    <Map/>
                 </div>
                 <div className="planFrame">
                     <div className="newTripBt">
