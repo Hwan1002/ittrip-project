@@ -147,6 +147,7 @@
 
 /* newTrip 모달 */
 .newTripModal {
+    font-family: 'Pretendard-Regular';
     height: auto;
     width: 700px;
     text-align: center;
