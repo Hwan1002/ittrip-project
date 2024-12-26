@@ -41,7 +41,6 @@ const MyPage = () => {
                 debugger;
                 console.log(response.data.value)
                 setUserData(response.data.value);
-
                 setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
             } catch (error) {
                 console.error("Error fetching user info:", error);
@@ -52,13 +51,10 @@ const MyPage = () => {
 
     //회원 삭제
     const handleDeleteAccount = async () => {
-        if (window.confirm("정말로 회원 탈퇴를 진행하시겠습니까?")) {
+
+        const userDelete = async() => {
             try {
-                const response = await axios.delete(`${API_BASE_URL}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                await axios.delete(`${API_BASE_URL}`, {headers: {Authorization: `Bearer ${token}`}});
                 window.localStorage.removeItem("token");
                 setLoginSuccess(false);
                 openModal({
@@ -72,6 +68,30 @@ const MyPage = () => {
                 alert("회원 삭제 중 오류가 발생했습니다.");
             }
         }
+        openModal({
+            title: "회원탈퇴",
+            message:"정말로 회원 탈퇴를 진행하시겠습니까?",
+            actions: [
+                {label: "확인",onClick:userDelete},
+                {label:"돌아가기", onClick:closeModal,}
+            ]
+        })
+        // if (window.confirm("정말로 회원 탈퇴를 진행하시겠습니까?")) {
+        //     try {
+        //         await axios.delete(`${API_BASE_URL}`, {headers: {Authorization: `Bearer ${token}`}});
+        //         window.localStorage.removeItem("token");
+        //         setLoginSuccess(false);
+        //         openModal({
+        //             title: "회원탈퇴",
+        //             message: "탈퇴 되었습니다.",
+        //             actions: [{ label: "확인", onClick: () => { closeModal(); setTimeout(() => navigate("/login"), 500) } }],
+        //         })
+
+        //     } catch (error) {
+        //         console.error("회원 삭제 실패:", error);
+        //         alert("회원 삭제 중 오류가 발생했습니다.");
+        //     }
+        // }
     };
 
     const handleInputChange = (e) => {
@@ -109,12 +129,13 @@ const MyPage = () => {
 
     const modify = async (e) => {
         e.preventDefault();
-
+        debugger;
+        console.log(userData);
         const emptyValue = Object.keys(userData).find((key) => {
             const value = userData[key];
             return typeof value === 'string' && value.trim() === '';
         });
-        if( userData.password === null){
+        if(userData.authProvider === null && userData.password === null){
             openModal({
                 title: "비밀번호 오류",
                 message: "비밀번호를 입력해주세요.",
@@ -122,7 +143,7 @@ const MyPage = () => {
             });
             return;
         }
-        if (userData.password !== passwordConfirm) {
+        if (userData.authProvider === null && userData.password !== passwordConfirm) {
             openModal({
                 title: "비밀번호 오류",
                 message: "비밀번호가 일치하지 않습니다.",
