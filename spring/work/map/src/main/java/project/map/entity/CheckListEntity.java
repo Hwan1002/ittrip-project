@@ -34,11 +34,11 @@ public class CheckListEntity {
 	@Column(name="items")
 	private String items; 
 	
-	@OneToOne(cascade = CascadeType.PERSIST)
-   	 @JoinColumn(name = "trip_title", referencedColumnName = "title") // TripEntity의 만 매핑
+	@OneToOne(cascade = CascadeType.MERGE)
+   	 @JoinColumn(name = "trip_idx", referencedColumnName = "idx") // TripEntity의 만 매핑
     private TripEntity trip; // 외래 키 매핑
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id",referencedColumnName = "id",nullable=false) // 외래키: user_id
     private UserEntity user;
 	

@@ -55,14 +55,14 @@ public class TripEntity {
     private LocalDate updateDate; // 데이터 수정한 날
     
 
-    @Column(name = "title",unique=true , length = 50)
+    @Column(name = "title")
     private String title;    // 여행 제목
     
-    public TripEntity(String title) {
-        this.title = title;
-    }
+//    public TripEntity(String title) {
+//        this.title = title;
+//    }
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id",referencedColumnName = "id",nullable=false) // 외래키: user_id
     private UserEntity user;
 }
