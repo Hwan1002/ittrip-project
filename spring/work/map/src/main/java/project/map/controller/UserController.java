@@ -38,11 +38,9 @@ public class UserController {
 
 	// 회원가입
 	@PostMapping(value = "/signup", consumes = "multipart/form-data")
-	public ResponseEntity<?> registerUser(@RequestParam("id") String id,
-										@RequestParam("password") String password,
-										@RequestParam("userName") String userName,
-										@RequestParam("email") String email,
-										@RequestParam("profilePhoto") MultipartFile profilePhoto) {
+	public ResponseEntity<?> registerUser(@RequestParam("id") String id, @RequestParam("password") String password,
+			@RequestParam("userName") String userName, @RequestParam("email") String email,
+			@RequestParam("profilePhoto") MultipartFile profilePhoto) {
 		try {
 			// DTO 객체 생성
 			UserDTO dto = new UserDTO(id, password, userName, email);
@@ -60,7 +58,6 @@ public class UserController {
 	public ResponseEntity<?> authenticate(@RequestBody UserDTO dto) {
 		UserDTO user = service.getByCredentials(dto.getId(), dto.getPassword());
 		if (user != null) {
-
 			ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
 			return ResponseEntity.ok(response);
 
@@ -73,9 +70,9 @@ public class UserController {
 	}
 
 	// 중복체크
-	@PostMapping("/check")
-	public ResponseEntity<?> duplicate(@RequestBody UserDTO dto) {
-		return ResponseEntity.ok(service.duplicate(dto.getId()));
+	@GetMapping("/check")
+	public ResponseEntity<?> duplicate(@RequestParam("id") String id) {
+		return ResponseEntity.ok(service.duplicate(id));
 	}
 
 	// 회원정보 수정

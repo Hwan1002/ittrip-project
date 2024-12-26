@@ -91,7 +91,8 @@ const SignUp = () => {
                 return;
               
             }else{
-                const response = await axios.post(`${API_BASE_URL}/check`,{id : formData.id})
+                const response = await axios.get(`${API_BASE_URL}/check`,{
+                    params :   {id : formData.id}} )
                 if(response.data){
                     openModal({
                         title: "",
