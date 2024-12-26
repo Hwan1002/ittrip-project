@@ -58,7 +58,7 @@ const AddData = ({ width }) => {
         goalAddress: destination?.address || "",
         goalPoint: destination?.latlng || "",
         wayPoints: stopOverList || [],
-        // path: path || [], // 경로 추가
+        path: path || [], // 경로 추가
       },
     ]);
 
@@ -79,22 +79,16 @@ const AddData = ({ width }) => {
   useEffect(() => {
     console.log("검색 결과 업데이트 됨 :", res);
   }, [res])
-<<<<<<< HEAD
 
   useEffect(() => {
     if (path.length > 0) { // path가 유효할 때만 putObject 실행
       putObject(); // path 값이 업데이트되었을 때 putObject 실행
     }
   }, [path]); // path가 변경될 때마다 실행
-=======
-    // useEffect(() => {
-    //   if (path.length > 0) { // path가 유효할 때만 putObject 실행
-    //     putObject(); // path 값이 업데이트되었을 때 putObject 실행
-    //   }
-    // }, [path]); // path가 변경될 때마다 실행
     
->>>>>>> parent of 96fe83b (Revert "Merge branch 'test' into JHS")
-    
+    useEffect(()=>{
+      console.log("검색 결과 업데이트 됨 :" , res);
+    },[res])
 
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
@@ -139,7 +133,6 @@ const AddData = ({ width }) => {
 
   //좌표저장 (효용)
   const handlecoordinate = async () => {
-<<<<<<< HEAD
     try {
       let response;
       
@@ -173,15 +166,8 @@ const AddData = ({ width }) => {
         message: "빈칸을 입력해주세요.",
         actions: [{ label: "확인", onClick: closeModal, className: "cancel-button" }],
       })
-=======
-    if (!departure || !destination) {
-      alert("출발지와 목적지를 입력하세요.");
-      return;
->>>>>>> parent of 96fe83b (Revert "Merge branch 'test' into JHS")
     }
-    putObject();
-    
-  }
+  };
 
   const handleSearch = async (value, updateState, modalTitle) => {
     if (!value) {

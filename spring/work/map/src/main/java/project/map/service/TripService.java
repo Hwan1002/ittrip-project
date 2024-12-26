@@ -33,27 +33,26 @@ public class TripService {
 	
 	//--------------------데이터 가공----------------------------
 	//경유지 String -> String[] (directions 15 요청에서 waypoints의 타입이 "|"로 구분된 String이라서 변환해주는 것)
-//	public String[] stringToMap(String wayPoints) {
-//		return wayPoints.split("|");
-//	}
-//	//경유지 String[] -> String (다시 React에서 배열로 사용해야 하기 때문)
-//	//체크리스트 String[] -> String
-//	public String mapToString(String[] waypoints) {
-//		return String.join("|", waypoints);
-//	}
-//	//DB에 title 넣을 때 ID/Title 형태로 가공하는 로직
-//	public String titleToDB(String userId,String title) {
-//		return userId+"/"+title;
-//	}
-//	//DB에서 title 가져올 때 ID/를 제거하는 로직
-//	public String titleFromDB(String title) {
-//		String[] arr = title.split("/");
-//		return arr[1];
-//	}
+	public String[] stringToMap(String wayPoints) {
+		return wayPoints.split("|");
+	}
+	//경유지 String[] -> String (다시 React에서 배열로 사용해야 하기 때문)
+	//체크리스트 String[] -> String
+	public String mapToString(String[] waypoints) {
+		return String.join("|", waypoints);
+	}
+	//DB에 title 넣을 때 ID/Title 형태로 가공하는 로직
+	public String titleToDB(String userId,String title) {
+		return userId+"/"+title;
+	}
+	//DB에서 title 가져올 때 ID/를 제거하는 로직
+	public String titleFromDB(String title) {
+		String[] arr = title.split("/");
+		return arr[1];
+	}
 	//타이틀이 중복이면 (2),(3) 하나씩 증가(DB에 여행 하나를 저장하기 전에 중복을 확인해서 title값을 변경해주는 역할)
-	public String titleConfirm(String title,String userId) {
+	public String titleConfirm(String title) {
 	    int count = 2;
-//	    List<String> titleList = tripRepository.getTitlesByUserId(userId);
 	    String newTitle = title;
 	    while (tripRepository.existsByTitle(newTitle)) {
 	        if (newTitle.matches(".*\\(\\d+\\)$")) {
@@ -107,13 +106,14 @@ public class TripService {
 //	}
 	
 	//trip의 title을 받아서 MapEntity들 반환하기
-	public List<MapEntity> getMaps(String userId,Integer tripIdx){
-		return mapRepository.getLocation(userId, tripIdx);
+	public List<MapEntity> getMaps(String userId,String title){
+		return mapRepository.getLocation(userId, title);
+		
 	}
 	
 	//trip의 title을 받아서 CheckListEntity 반환하기
-	public CheckListEntity getCheckLists(String userId,Integer idx){
-		return checkListRepository.getCheckListByUserIdAndTripIdx(userId, idx);
+	public String getCheckLists(String userId,String title){
+		return checkListRepository.getCheckListByUserIdAndTitle(userId, title);
 	}
 	
 	public Integer getIdxByItems(String items) {
@@ -136,7 +136,7 @@ public class TripService {
 	        String[] itemDetails = item.split(":");
 	        if (itemDetails.length == 3) {
 	            try {
-	                Long id = Long.parseLong(itemDetails[0]);
+	                Integer id = Integer.parseInt(itemDetails[0]);
 	                String text = itemDetails[1];
 	                boolean checked = Boolean.parseBoolean(itemDetails[2]);
 
@@ -151,6 +151,9 @@ public class TripService {
 	    return itemList;
 	}
 	
+
+	
+
 	public static List<MapDTO.WayPointDTO> parseWaypoints(String waypoint) {
         if (waypoint == null || waypoint.isEmpty()) {
             return List.of();
@@ -168,9 +171,5 @@ public class TripService {
             .toList();
     }
 
-	
-	
-	
-	
 
 }
