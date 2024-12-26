@@ -100,9 +100,9 @@ public class TripController {
 	// MapEntity 객체들 반환(userId와 title을 통해서 map객체(days,start정보 등등 받아옴))
 	// 만약 @RequestParam으로 쓰면 (@RequestParam String userId,@RequestParam String
 	// title)
-	@GetMapping("/4")
+	@GetMapping("/4/{tripTitle}")
 	public ResponseEntity<?> getMaps(@AuthenticationPrincipal String userId,
-			@RequestParam(name = "tripTitle") String tripTitle) {
+			@PathVariable(name = "tripTitle") String tripTitle) {
 		String title = tripService.titleToDB(userId, tripTitle);
 		List<MapEntity> list = tripService.getMaps(userId, title);
 		TripEntity trip = tripRepository.getByTitle(title);
@@ -209,8 +209,8 @@ public class TripController {
 	}
 
 	@PutMapping("/2")
-	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
-		String title = tripService.titleToDB(userId, dto.getTripTitle());
+	public void putMap(@AuthenticationPrincipal String userId,@PathVariable(name="tripTitle") String tripTitle, @RequestBody MapDTO dto) {
+		String title = tripService.titleToDB(userId, tripTitle);
 		TripEntity trip = tripRepository.getByTitle(title);
 		UserEntity user = userRepository.findById(userId).get();
 		List<MapEntity> mapList = tripService.getMaps(userId, title);

@@ -71,6 +71,7 @@ const Header = () => {
             label: "확인",
             onClick: () => {
               closeModal();
+              initObject();
               navigate("/newTrip"); // 상태를 닫고 이동
             },
             className: "confirm-button",

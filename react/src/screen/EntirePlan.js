@@ -38,6 +38,8 @@ const EntirePlan = () => {
     }, [trips, maps, checkList])
 
 
+    
+
     useEffect(() => {
         // API 호출
         const fetchTrips = async () => {
@@ -58,15 +60,12 @@ const EntirePlan = () => {
     const fetchMapCheck = async(trip) => {
         setCurrentTitle(trip.title);
         try {
-            setMaps([]);
-            const response = await axios.get(`${API_BASE_URL}/4`, {
-                headers: logData.headers,
-                params: {
-                    tripTitle: trip.title
-                },
+            
+            const response = await axios.get(`${API_BASE_URL}/4/${trip.title}`, {
+                headers: logData.headers
+                
             });
 
-            console.log("응답형식 확인  : ", response.data)
             const startDate = new Date(trip.startDate);
             const endDate = new Date(trip.lastDate);
 
@@ -74,14 +73,14 @@ const EntirePlan = () => {
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
             const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
-            setDayChecks([...daysArray])
+
+            setDayChecks([...daysArray]);
 
             console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
-      
-            // const tripArray = response.data[0].mapObject;
-            setMaps(...response.data[0].mapObject);
-
+             
             
+            const flatMapObjects = response.data.map(item => item.mapObject).flat();
+            setMaps(flatMapObjects);
             
             setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress, latlng:response.data[0].mapObject[selectedDay].startPoint })
             setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress, latlng:response.data[0].mapObject[selectedDay].goalPoint})
@@ -229,7 +228,7 @@ const EntirePlan = () => {
                                 <>
                                     <input readOnly={isUpdating} value={departure.title}/>
                                     <ul>
-                                        {stopOverList.wayPoints.map((point) => (
+                                        {stopOverList.map((point) => (
                                             <li key={point.id}>
                                                 <input readOnly={isUpdating} value={point.value}/>
                                             </li>

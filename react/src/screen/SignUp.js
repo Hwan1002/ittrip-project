@@ -24,6 +24,7 @@ const SignUp = () => {
         profilePhoto : null,
     })
      //비밀번호 확인 상태만 따로 관리 (용도 : 입력한 비밀번호와 비교 용도)
+    const [idCheckBtn, setIdCheckBtn] = useState(false);
     const [userPwdConfirm, setUserPwdConfirm] = useState('');
     const inputImgRef = useRef(null);
     const navigate = useNavigate();
@@ -42,6 +43,7 @@ const SignUp = () => {
     
     //핸들러
     const handleInputChange = (e) => {
+        setIdCheckBtn(false);
         const { name, value } = e.target;
         setFormData((prev) => ({
           ...prev,
@@ -76,6 +78,7 @@ const SignUp = () => {
 
     //중복 아이디 체크
     const idCheck = async() => {
+        
         try {
             if(formData.id === '') {
                 openModal({
@@ -100,6 +103,7 @@ const SignUp = () => {
                         message:"사용 가능한 아이디 입니다.",
                         actions : [{label : "확인", onClick: closeModal}],
                     })
+                    setIdCheckBtn(true);
                 }
             }
 
@@ -163,6 +167,13 @@ const signUp = async(e) => {
         openModal({
             title:"비밀번호 오류",
             message:"비밀번호가 일치하지 않습니다.",
+            actions:[{label: "확인", onClick:closeModal}],
+        })
+        return;
+    }else if(!idCheckBtn){
+        openModal({
+            title:"아이디 확인",
+            message:"중복체크 해야합니다.",
             actions:[{label: "확인", onClick:closeModal}],
         })
         return;
