@@ -58,7 +58,12 @@ const EntirePlan = () => {
 
 
     const fetchMapCheck = async(trip) => {
-        setCurrentTitle(trip.title);
+
+        debugger;
+        setCurrentIdx(()=>trip.idx);
+
+        
+
         try {
             
             const response = await axios.get(`${API_BASE_URL}/4/${trip.title}`, {
@@ -92,7 +97,7 @@ const EntirePlan = () => {
             //   setMaps(response.data.mapObject);
             
         } catch (err) {
-            alert("get Map 에러");
+            console.log("err"+err)
         }
 
         try {
