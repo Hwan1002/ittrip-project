@@ -20,15 +20,15 @@ const EntirePlan = () => {
     const [maps, setMaps] = useState([]);    //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints} 
     const [checkList, setCheckList] = useState([]);     //{id,text,checked} 
 
-    const [isReadOnly, setIsReadOnly] = useState(true);
+    const [isUpdating, setIsUpdating] = useState(true);
 
     const [currentTitle, setCurrentTitle] = useState(null);
 
     useEffect(() => {
-        if (!isReadOnly) {
+        if (!isUpdating) {
             alert("수정 모드")
         }
-    }, [isReadOnly])
+    }, [isUpdating])
 
 
     useEffect(() => {
@@ -142,7 +142,7 @@ const EntirePlan = () => {
         } catch (err) {
             alert("put CheckList 에러");
         }
-        setIsReadOnly(() => !isReadOnly)
+        setIsUpdating(() => !isUpdating)
     }
 
     const deleteTrip = async (idx) => {
@@ -202,8 +202,8 @@ const EntirePlan = () => {
                 </div>
                 <div className="planFrame">
                     <div className="newTripBt">
-                        {isReadOnly ? (
-                            <button onClick={() => setIsReadOnly(!isReadOnly)}>수정하기</button>
+                        {isUpdating ? (
+                            <button onClick={() => setIsUpdating(!isUpdating)}>수정하기</button>
                         ) 
                         : (
                             <button onClick={() => putMapCheck()}>수정완료</button>
@@ -215,7 +215,7 @@ const EntirePlan = () => {
                         <ul>
                             {trips.map(trip => (
                                 <li key={trip.idx}>
-                                    <input readOnly={isReadOnly} onClick={() => fetchMapCheck(trip)} onChange={(e) => handleTripTitleChange(e, trip)} value={trip.title}/>
+                                    <input readOnly={isUpdating} onClick={() => fetchMapCheck(trip)} onChange={(e) => handleTripTitleChange(e, trip)} value={trip.title}/>
                                         {/*해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/ }
                                     <button onClick={() => deleteTrip(trip.idx)}>삭제</button>
                                 </li>
@@ -225,17 +225,17 @@ const EntirePlan = () => {
                     <div className="tripRoute myPlanContent">
                         <h3>여행경로</h3>
                         <div>
-                            {isReadOnly ? maps && maps.length > 0 &&
+                            {isUpdating ? maps && maps.length > 0 &&
                                 <>
-                                    <input readOnly={isReadOnly} value={departure.title}/>
+                                    <input readOnly={isUpdating} value={departure.title}/>
                                     <ul>
                                         {stopOverList.map((point) => (
                                             <li key={point.id}>
-                                                <input readOnly={isReadOnly} value={point.value}/>
+                                                <input readOnly={isUpdating} value={point.value}/>
                                             </li>
                                         ))}
                                     </ul>
-                                    <input readOnly={isReadOnly} value={destination.title}/>
+                                    <input readOnly={isUpdating} value={destination.title}/>
                                 </> : <AddData />
                             }
                         </div>
@@ -245,13 +245,13 @@ const EntirePlan = () => {
                         <ul>
                             {checkList.map((list) => (
                                 <li key={list.id}>
-                                    <input type="checkbox" checked={list.checked} readOnly={isReadOnly} onChange={() => handleCheckboxChange(list.id)}/>
-                                    <input value={list.text} readOnly={isReadOnly} onChange={(e) => handleCheckListTextChange(list.id, e.target.value)}/>
-                                    {!isReadOnly && <button onClick={() => deleteCheckList(list.id)}>삭제</button>}
+                                    <input type="checkbox" checked={list.checked} readOnly={isUpdating} onChange={() => handleCheckboxChange(list.id)}/>
+                                    <input value={list.text} readOnly={isUpdating} onChange={(e) => handleCheckListTextChange(list.id, e.target.value)}/>
+                                    <button onClick={() => deleteCheckList(list.id)}>삭제</button>
                                 </li>
                             ))}
                         </ul>
-                        {!isReadOnly && <button onClick={() => addCheckList()}>추가</button>}
+                        {!isUpdating && <button onClick={() => addCheckList()}>추가</button>}
                     </div>
                 </div>
             </div>
