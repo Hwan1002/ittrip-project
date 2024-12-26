@@ -162,7 +162,6 @@ const Main = () => {
                                     className="localImg"
                                     onClick={() => {
                                         setWhiteBox(true);
-                                        
                                         setAreaCd(localInfo.areaCd[actualIndex]);
                                         setSelect(koreaName);
                                     }}

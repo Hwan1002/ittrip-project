@@ -45,7 +45,6 @@ const SignUp = () => {
 
     //핸들러
     const handleInputChange = (e) => {
-        
         const { name, value } = e.target;
         setFormData((prev) => ({
           ...prev,
@@ -80,7 +79,6 @@ const SignUp = () => {
 
     //중복 아이디 체크
     const idCheck = async() => {
-        
         try {
             if(formData.id === '') {
                 openModal({
@@ -89,7 +87,6 @@ const SignUp = () => {
                     actions : [{label : "확인", onClick: closeModal}],
                 })
                 return;
-              
             }else{
                 const response = await axios.post(`${API_BASE_URL}/check`,{id : formData.id})
                 if(response.data){
@@ -161,7 +158,7 @@ const signUp = async(e) => {
     }else if(userPwdConfirm === ''){
         openModal({
             title:"비밀번호 오류",
-            message:"비밀번호 확인란을 입력해주세요..",
+            message:"비밀번호 확인란을 입력해주세요.",
             actions:[{label: "확인", onClick:closeModal}],
         })
         return;
