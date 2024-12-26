@@ -45,6 +45,7 @@ const SignUp = () => {
 
     //핸들러
     const handleInputChange = (e) => {
+        
         const { name, value } = e.target;
         setFormData((prev) => ({
           ...prev,
