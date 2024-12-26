@@ -177,7 +177,6 @@ const Map = () => {
 
         // 날짜가 변경될 때마다 마커와 폴리라인 업데이트
         const updateMapForDay = () => {
-            debugger;
           const selectedData = mapObject.find(data => data.days === selectedDay + 1); // selectedDay에 맞는 데이터 찾기
           if (selectedData) {
             const { startPoint, goalPoint, wayPoints, path } = selectedData;
