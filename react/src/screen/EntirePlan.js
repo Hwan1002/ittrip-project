@@ -262,7 +262,7 @@ const EntirePlan = () => {
                                 <li key={list.id}>
                                     <input type="checkbox" checked={list.checked} readOnly={isReadOnly} onChange={() => handleCheckboxChange(list.id)}/>
                                     <input value={list.text} readOnly={isReadOnly} onChange={(e) => handleCheckListTextChange(list.id, e.target.value)}/>
-                                    <button onClick={() => deleteCheckList(list.id)}>삭제</button>
+                                    {!isReadOnly && <button onClick={() => deleteCheckList(list.id)}>삭제</button>}
                                 </li>
                             ))}
                         </ul>
