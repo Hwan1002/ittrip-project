@@ -151,6 +151,7 @@ const EntirePlan = () => {
             const response = await axios.delete(`${API_BASE_URL}/1/${idx}`)
             setTrips((prevTrips) => prevTrips.filter((trip) => trip.idx !== idx));
             alert("삭제 완료")
+            window.location.reload();
         } catch (err) {
             alert("삭제 실패");
         }

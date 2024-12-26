@@ -18,8 +18,6 @@ const Map = () => {
   const [dayBoolean, setDayBoolean] = useState([]);
 
   useEffect(() => {
-    console.log("ct", stopOverCount)
-
     const convertXY = () => {
       switch (routeType) {
         case "departure":
@@ -55,6 +53,7 @@ const Map = () => {
                 openModal({
                   title: "주소 오류",
                   message: "주소를 찾을 수 없습니다.",
+                  actions:[{label:"확인", onClick:closeModal}]
                 });
                 return;
               }
@@ -71,8 +70,6 @@ const Map = () => {
         case "stopOver":
           if (stopOverList.length > 0) {
             const num = stopOverList.length - 1;
-            console.log("num" + num);
-            console.log("stopOverlen" + stopOverList.length)
             window.naver.maps.Service.geocode(
               {
                 query: stopOverList[num].address,
@@ -82,6 +79,7 @@ const Map = () => {
                   openModal({
                     title: "주소 오류",
                     message: "주소를 찾을 수 없습니다.",
+                    actions:[{label:"확인", onClick:closeModal}]
                   });
                   return;
                 }
@@ -92,7 +90,6 @@ const Map = () => {
                     index === num ? { ...item, latlng: latlng } : item
                   )
                 );
-                console.log("stopOver : " + JSON.stringify(stopOverList))
               }
             );
           }
@@ -136,7 +133,6 @@ const Map = () => {
 
   useEffect(() => {
     const foundData = mapObject.find(data => data.days === selectedDay + 1);
-    console.log(foundData);
     if (foundData) {
       setDeparture({ title: foundData.startPlace, address: foundData.startAddress, latlng: foundData.startPoint });
       setStopOverList([...foundData.wayPoints]);
@@ -232,24 +228,47 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject]);
 
   const handleDayClick = (day) => {
+
+    const afterSet = () => {
+      console.log("afterSet 실행");
+      setDeparture({ title: "", address: "" });
+      setStopOverList([]);
+      setDestination({ title: "", address: "" });
+      setSelectedDay(day);
+      setDayBoolean(prev => {
+        const updatedDayBoolean = [...prev];
+        updatedDayBoolean[selectedDay] = false;
+        updatedDayBoolean[day] = true;
+        return updatedDayBoolean;
+      });
+      
+    }
     if (!mapObject.find(data => data.days === selectedDay + 1)) {
-      const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
-      if (userConfirm) {
-        alert("넘어갈게");
-        setDeparture({ title: "", address: "" });
-        setStopOverList([]);
-        setDestination({ title: "", address: "" });
-        closeModal();
-        setSelectedDay(day);
-        setDayBoolean(prev => {
-          const updatedDayBoolean = [...prev];
-          updatedDayBoolean[selectedDay] = false;
-          updatedDayBoolean[day] = true;
-          return updatedDayBoolean;
-        });
-      } else {
-        alert("그래 저장해");
-      }
+      // const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
+      
+      openModal({
+        message:"저장이 안된 일정이 있습니다. 넘어가시겠습니까?",
+        actions:[
+          { label: "확인", onClick:()=> {afterSet();closeModal();}, className: "confirm-button" },
+          { label: "뒤로가기", onClick: closeModal, className: "cancel-button" },
+        ]
+      })
+      // if (userConfirm) {
+      //   alert("넘어갈게");
+      //   setDeparture({ title: "", address: "" });
+      //   setStopOverList([]);
+      //   setDestination({ title: "", address: "" });
+      //   closeModal();
+      //   setSelectedDay(day);
+      //   setDayBoolean(prev => {
+      //     const updatedDayBoolean = [...prev];
+      //     updatedDayBoolean[selectedDay] = false;
+      //     updatedDayBoolean[day] = true;
+      //     return updatedDayBoolean;
+      //   });
+      // } else {
+      //   alert("그래 저장해");
+      // }
     } else {
       setDeparture({ title: "", address: "" });
       setStopOverList([]);
@@ -284,10 +303,7 @@ const Map = () => {
         onClose={closeModal}
         title={modalTitle}
         content={modalMessage}
-        actions={[
-          { label: "확인", onClick: closeModal, className: "confirm-button" },
-          { label: "뒤로가기", onClick: closeModal, className: "cancel-button" },
-        ]}
+        actions={modalActions}
       />
     </div>
   );
