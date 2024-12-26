@@ -18,9 +18,6 @@ export const ProjectProvider = ({ children }) => {
   //프로필 이미지 url 상태
   const [imagePreview, setImagePreview] = useState(null); 
 
-  
- 
-
   const [path, setPath] = useState([]);
 
   // 로그인한 사용자 정보

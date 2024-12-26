@@ -4,7 +4,7 @@ import '../css/Reset.css';
 //component
 import Logo from "../components/Logo";
 //react import
-import React,{useState, useRef, useContext} from "react";
+import React,{useState, useRef, useContext, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { API_BASE_URL } from '../service/api-config';
@@ -14,8 +14,8 @@ import { ProjectContext } from '../context/ProjectContext';
 
 
 const SignUp = () => {
+    
 
-   
     const [formData, setFormData] = useState({
         id : '',
         password : '',
@@ -24,6 +24,7 @@ const SignUp = () => {
         profilePhoto : null,
     })
      //비밀번호 확인 상태만 따로 관리 (용도 : 입력한 비밀번호와 비교 용도)
+    const [idCheckBtn, setIdCheckBtn] = useState(false);
     const [userPwdConfirm, setUserPwdConfirm] = useState('');
     const inputImgRef = useRef(null);
     const navigate = useNavigate();
@@ -40,6 +41,8 @@ const SignUp = () => {
         closeModal,
     } = useModal();
     
+    
+
     //핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -84,9 +87,9 @@ const SignUp = () => {
                     actions : [{label : "확인", onClick: closeModal}],
                 })
                 return;
-              
             }else{
-                const response = await axios.post(`${API_BASE_URL}/check`,{id : formData.id})
+                const response = await axios.get(`${API_BASE_URL}/check`,{
+                    params :   {id : formData.id}} )
                 if(response.data){
                     openModal({
                         title: "",
@@ -100,6 +103,7 @@ const SignUp = () => {
                         message:"사용 가능한 아이디 입니다.",
                         actions : [{label : "확인", onClick: closeModal}],
                     })
+                    setIdCheckBtn(true);
                 }
             }
 
@@ -155,7 +159,7 @@ const signUp = async(e) => {
     }else if(userPwdConfirm === ''){
         openModal({
             title:"비밀번호 오류",
-            message:"비밀번호 확인란을 입력해주세요..",
+            message:"비밀번호 확인란을 입력해주세요.",
             actions:[{label: "확인", onClick:closeModal}],
         })
         return;
@@ -163,6 +167,13 @@ const signUp = async(e) => {
         openModal({
             title:"비밀번호 오류",
             message:"비밀번호가 일치하지 않습니다.",
+            actions:[{label: "확인", onClick:closeModal}],
+        })
+        return;
+    }else if(!idCheckBtn){
+        openModal({
+            title:"아이디 확인",
+            message:"중복체크 해야합니다.",
             actions:[{label: "확인", onClick:closeModal}],
         })
         return;
@@ -181,7 +192,7 @@ const signUp = async(e) => {
                     message:"환영합니다!.",
                     actions:[{label: "확인", onClick:closeModal}],
                 })
-                setTimeout(() => navigate("/login"), 1500);
+                setTimeout(() => {window.location.href = "/login";}, 1000);
             }
         } catch (error) {
             if(error.response){
@@ -225,7 +236,7 @@ return(
                         <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
                     </div>
                     <div className='signUp_id'>
-                        <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.id}/>
+                        <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange= {(e) => {handleInputChange(e);setIdCheckBtn(false)}} value={formData.id}/>
                         <button type="button" onClick={idCheck}>중복체크</button>
                     </div>
                     <div>

@@ -91,11 +91,8 @@ const Maintest = () => {
                         params: { areaCd: areaCd },
                     });
                     // 응답 데이터 확인
-                    console.log(select)
-                    console.log("Response Data:", response.data.data);
                     // state의 상태 업데이트
                     setSignguNm(response.data.data);
-                    console.log(signguNm);
                     // 데이터가 성공적으로 설정된 후 팝업창 열기
                     setIsModalOpen(true);
                 } catch (error) {
@@ -123,7 +120,7 @@ const Maintest = () => {
             const items = response.data.response.body.items.item
 
             setRecButton((prevState) => ({
-                ...prevState, // 기존 상태 유지
+                ...prevState,
                 all: items,
                 food: items.filter((data) => data.rlteCtgryLclsNm === "음식"),
                 lodgment: items.filter((data) => data.rlteCtgryLclsNm === "숙박"),
@@ -134,7 +131,6 @@ const Maintest = () => {
             // 필요한 추가 작업 수행
         } catch (error) {
             console.error("Error fetching data:", error);
-            // 에러 메시지 표시 등 추가 처리
         }
     };
 
@@ -253,7 +249,6 @@ const Maintest = () => {
                     </div>
                     <div className="localImg"
                         onClick={() => {
-                            debugger;
                             regionClick("충청도");
                             setImg(local5)
                             setHeader("충청도")
@@ -368,14 +363,17 @@ const Maintest = () => {
                                         >{item}</button>
                                     )
                                     )) : (subRegions.map((item, index) => (
-                                        <button className="guBt"
-                                            key={index}
-                                            onClick={() => {
-                                                setSelect(item.name);
-                                                setAreaCd(item.areaCd);
-                                                setHeader(item.header)
-                                            }}>{item.name}</button>
-                                    )))}
+                                            <button className="guBt" key={index}
+                                                onClick={() => {
+                                                    setSelect(item.name);
+                                                    setAreaCd(item.areaCd);
+                                                    setHeader(item.header)
+                                                }}  
+                                            >
+                                                {item.name}
+                                            </button>
+                                        ))
+                                    )}
                             </div>
                         </div>
                     </div>) :
@@ -403,7 +401,6 @@ const Maintest = () => {
                                                 <p><span className="suggestName">주소</span> <span className="suggestData">{item.rlteBsicAdres}</span> </p>
                                                 <p><span className="suggestName"> 태마</span> <span className="suggestData">{item.rlteCtgrySclsNm}</span> </p>
                                             </div>
-                                            
                                         </div>
                                     ))}
                                 </>

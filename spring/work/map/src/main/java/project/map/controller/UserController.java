@@ -3,6 +3,7 @@ package project.map.controller;
 import java.security.AuthProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,36 +29,35 @@ public class UserController {
 	@Autowired
 	private UserService service;
 
-
 	@GetMapping("/mypage")
-    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
-        UserDTO user = service.getById(userId);
-        ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
-        return ResponseEntity.ok(response);
-     }
+	public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
+		UserDTO user = service.getById(userId);
+		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
+		return ResponseEntity.ok(response);
+	}
 
 	// 회원가입
-   @PostMapping(value = "/signup", consumes = "multipart/form-data")
-   public ResponseEntity<?> registerUser(@RequestParam("id") String id, 
-                              @RequestParam("password") String password,
-                              @RequestParam("userName") String userName, 
-                              @RequestParam("email") String email,
-                              @RequestParam("profilePhoto") MultipartFile profilePhoto) {
-      // DTO 객체 생성
-      UserDTO dto = new UserDTO(id, password, userName, email);
-      // profilePhoto 처리
-      UserDTO registerUser = service.create(dto, profilePhoto);
-      ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(registerUser).build();
-      return ResponseEntity.ok(response);
-   }
+	@PostMapping(value = "/signup", consumes = "multipart/form-data")
+	public ResponseEntity<?> registerUser(@RequestParam("id") String id, @RequestParam("password") String password,
+			@RequestParam("userName") String userName, @RequestParam("email") String email,
+			@RequestParam("profilePhoto") MultipartFile profilePhoto) {
+		try {
+			// DTO 객체 생성
+			UserDTO dto = new UserDTO(id, password, userName, email);
+			// profilePhoto 처리
+			service.create(dto, profilePhoto);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 문제가 발생했습니다.");
+		}
 
+	}
 
 	// 로그인
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticate(@RequestBody UserDTO dto) {
 		UserDTO user = service.getByCredentials(dto.getId(), dto.getPassword());
 		if (user != null) {
-
 			ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
 			return ResponseEntity.ok(response);
 
@@ -70,18 +70,17 @@ public class UserController {
 	}
 
 	// 중복체크
-	@PostMapping("/check")
-	public ResponseEntity<?> duplicate(@RequestBody UserDTO dto) {
-		return ResponseEntity.ok(service.duplicate(dto.getId()));
+	@GetMapping("/check")
+	public ResponseEntity<?> duplicate(@RequestParam("id") String id) {
+		return ResponseEntity.ok(service.duplicate(id));
 	}
 
 	// 회원정보 수정
 	@PutMapping
-	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId, 
-										@RequestParam(value = "password" , required = false) String password,
-										@RequestParam("userName") String userName, 
-										@RequestParam("email") String email,
-										@RequestParam(value ="profilePhoto" , required = false) MultipartFile profilePhoto) {
+	public ResponseEntity<?> modify(@AuthenticationPrincipal String userId,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam("userName") String userName, @RequestParam("email") String email,
+			@RequestParam(value = "profilePhoto", required = false) MultipartFile profilePhoto) {
 		// DTO 객체 생성
 		UserDTO dto = new UserDTO(userId, password, userName, email);
 		service.modify(userId, dto, profilePhoto);
@@ -93,7 +92,7 @@ public class UserController {
 	@DeleteMapping
 	public ResponseEntity<?> delete(@AuthenticationPrincipal String userId) {
 		String message = service.delete(userId);
-		ResponseDTO response = ResponseDTO.builder().value(message).build() ;
+		ResponseDTO response = ResponseDTO.builder().value(message).build();
 		return ResponseEntity.ok(response);
 
 	}

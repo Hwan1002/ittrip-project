@@ -17,7 +17,6 @@ public class ApplicationOAuth2User implements OAuth2User {
 	public ApplicationOAuth2User(String id, Map<String, Object> attributes) {
 		this.id = id;
 		this.attributes = attributes;
-		this.authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 	
 	

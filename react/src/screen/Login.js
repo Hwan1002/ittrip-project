@@ -17,7 +17,7 @@ const Login = () => {
 
     //useState
     const { setLoginSuccess, setUserData } = useContext(ProjectContext); // setUserData 추가
-    const [logData, setLogData] = useState({ id : '', password : ''});
+    const [logInfo, setLogInfo] = useState({ id : '', password : ''});
     
     const {
         isModalOpen,
@@ -31,19 +31,19 @@ const Login = () => {
     //navigate
     const navigate = useNavigate();
     const handleChange = (e) => {
-        setLogData({ ...logData, [e.target.name]: e.target.value });
+        setLogInfo({ ...logInfo, [e.target.name]: e.target.value });
     }
 
    
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${API_BASE_URL}/signin`, logData);
+            const response = await axios.post(`${API_BASE_URL}/signin`, logInfo);
             setLoginSuccess(true);
             if (response.data && response.data.value.token){
                 const token = response.data.value.token;
                 localStorage.setItem("token", token);
-                const userData = response.data.value // 예시로 user 정보를 받아오는 부분
+                const userData = response.data.value // response 의 
                 setUserData(userData);  // 로그인한 사용자 정보를 context에 저장
                 openModal({
                     title: "로그인 성공",
@@ -73,7 +73,7 @@ const Login = () => {
     //소셜로그인
     const socialLogin = (e, provider) => {
         e.preventDefault();
-        // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:5000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
+        // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:3000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
         window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
 
     }

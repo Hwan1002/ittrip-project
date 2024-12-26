@@ -73,6 +73,7 @@ const Header = () => {
             label: "확인",
             onClick: () => {
               closeModal();
+              initObject();
               navigate("/newTrip"); // 상태를 닫고 이동
             },
             className: "confirm-button",
@@ -98,8 +99,8 @@ const Header = () => {
   //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
   return (
     <div className="header">
-      <Link className="logo" to={"/"}>
-        <img className="headerLogo" src={logo} alt="Logo" />
+      <Link className="logo" to={"/"} >
+        <img className="headerLogo" src={logo} alt="Logo" onClick={() => {window.location.href = "/";}}/>
       </Link>
       <nav className="menuBar">
         <Link className="menu" to={"/checklist"}>CheckList</Link>

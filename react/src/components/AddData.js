@@ -13,8 +13,8 @@ const AddData = ({ width }) => {
   const [data, setData] = useState([]);
   //여러 개의 input을 관리하는 배열
   const [res, setRes] = useState([]);
-  //입력값을 각각 따로 저장하기 위해 만든 state
-
+  //모달창 분리 하기 위해 만든 상태
+  const [isNewModal , setIsNewModal] = useState(false);
   //context 활용
   const {
     path, setPath,
@@ -35,7 +35,6 @@ const AddData = ({ width }) => {
     modalMessage,
     openModal,
     closeModal,
-    currentModal
   } = useModal();
 
 
@@ -62,7 +61,12 @@ const AddData = ({ width }) => {
       },
     ]);
 
-    alert(`Day${selectedDay + 1} 저장 완료`);
+    // alert(`Day${selectedDay + 1} 저장 완료`);
+    openModal({
+      title: `Day ${selectedDay + 1}`,
+      message:`${selectedDay + 1 }일 여행 계획이 저장되었습니다.`,
+      actions: [{label:"확인", onClick:closeModal}]
+    })
   }
 
   // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
@@ -86,6 +90,7 @@ const AddData = ({ width }) => {
 
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
+    setIsNewModal(false);
     switch (type) {
       case "departure":
         setDeparture({ title: item.title, address: item.address });
@@ -112,14 +117,16 @@ const AddData = ({ width }) => {
         setStopOverCount((prev) => prev + 1)
         console.log("stopOver:" + JSON.stringify(stopOverList))
         console.log("stopOvercount:" + JSON.stringify(stopOverCount))
-
         break;
       default:
         console.log("handleCheck switch 케이스 쪽 오류");
     }
     closeModal();
-    alert(`${type === "stopOver" ? "경유지가" : type === "departure" ? "출발지가" : "도착지가"} 추가되었습니다.`)
-
+    // alert(`${type === "stopOver" ? "경유지가" : type === "departure" ? "출발지가" : "도착지가"} 추가되었습니다.`)
+    openModal({
+      message:`${type === "stopOver" ? "경유지가" : type === "departure" ? "출발지가" : "도착지가"} 추가되었습니다.`,
+      actions:[{label: "확인", onClick:closeModal}],
+    })
   }
 
   //좌표저장 (효용)
@@ -149,9 +156,11 @@ const AddData = ({ width }) => {
         setRes(response.data.items);
         setData(newData)
         updateState(value);
+        setIsNewModal(true);
         openModal({
           title: modalTitle,
-          message: "재검색 해주세요."
+          message: "재검색 해주세요.",
+          actions:[{label:"확인", onClick:closeModal}]
         });
 
       } catch (error) {
@@ -226,7 +235,8 @@ const AddData = ({ width }) => {
         title={modalTitle}
         content={
           <div className="searchList">
-            {res.length > 0 ? (
+          {isNewModal? (
+            res.length > 0 ? (
               <ul>
                 {res.map((item, index) =>
                   <li key={item.title}>
@@ -253,9 +263,11 @@ const AddData = ({ width }) => {
                 )}
               </ul>
             ) : (
-              modalMessage
+              <p>검색 결과가 없습니다.</p>
             )
-            }
+          ):(
+            modalMessage
+          )}
           </div>
         }
         actions={modalActions}
