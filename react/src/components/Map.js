@@ -9,7 +9,7 @@ const Map = () => {
   const {
     tripDates, address, path, setPath, routeType,
     stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
-    dayChecks, setDayChecks, stopOverCount,isReadOnly
+    dayChecks, setDayChecks, stopOverCount
 
   } = useContext(ProjectContext);
 
@@ -226,6 +226,7 @@ const Map = () => {
   const handleDayClick = (day) => {
 
     const afterSet = () => {
+      console.log("afterSet 실행");
       setDeparture({ title: "", address: "" });
       setStopOverList([]);
       setDestination({ title: "", address: "" });
@@ -238,7 +239,7 @@ const Map = () => {
       });
       
     }
-    if (!isReadOnly && !mapObject.find(data => data.days === selectedDay + 1)) {
+    if (!mapObject.find(data => data.days === selectedDay + 1)) {
       // const userConfirm = window.confirm("저장 안 했는데 넘어갈 거야?");
       
       openModal({
@@ -248,7 +249,22 @@ const Map = () => {
           { label: "뒤로가기", onClick: closeModal, className: "cancel-button" },
         ]
       })
-
+      // if (userConfirm) {
+      //   alert("넘어갈게");
+      //   setDeparture({ title: "", address: "" });
+      //   setStopOverList([]);
+      //   setDestination({ title: "", address: "" });
+      //   closeModal();
+      //   setSelectedDay(day);
+      //   setDayBoolean(prev => {
+      //     const updatedDayBoolean = [...prev];
+      //     updatedDayBoolean[selectedDay] = false;
+      //     updatedDayBoolean[day] = true;
+      //     return updatedDayBoolean;
+      //   });
+      // } else {
+      //   alert("그래 저장해");
+      // }
     } else {
       setDeparture({ title: "", address: "" });
       setStopOverList([]);
