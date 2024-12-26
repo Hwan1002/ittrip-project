@@ -96,10 +96,7 @@ const NewTrip = () => {
   }
   const buttonClicked = () => {
     if(mapObject.length !== dayChecks.length){
-      const mapConfirm = window.confirm("저장하지 않은 날짜가 있습니다. 저장하시겠습니까?");
-      if (!mapConfirm) {
-        return;
-      }
+      
       openModal({
         title:"에러",
         message:"저장하지 않은 날짜가 있습니다. 저장하시겠습니까?",
