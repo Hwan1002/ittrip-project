@@ -47,7 +47,7 @@ public class UserService {
 	}
 
 	// 유저 생성
-	public UserDTO create(UserDTO dto, MultipartFile profilePhoto) {
+	public void create(UserDTO dto, MultipartFile profilePhoto) {
 		try {
 			// 필수 필드 검증
 
@@ -88,7 +88,7 @@ public class UserService {
 			}
 			// 엔티티 저장
 			repository.save(entity);
-			return toDTO(entity);
+			
 		} catch (Exception e) {
 			// 예외 발생 시 로그를 남기고 사용자 정의 예외를 던짐
 

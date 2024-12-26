@@ -43,7 +43,6 @@ const SignUp = () => {
     
     //핸들러
     const handleInputChange = (e) => {
-        setIdCheckBtn(false);
         const { name, value } = e.target;
         setFormData((prev) => ({
           ...prev,
