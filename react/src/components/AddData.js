@@ -62,7 +62,12 @@ const AddData = ({ width }) => {
       },
     ]);
 
-    alert(`Day${selectedDay + 1} 저장 완료`);
+    // alert(`Day${selectedDay + 1} 저장 완료`);
+    openModal({
+      title: `Day ${selectedDay + 1}`,
+      message:`${selectedDay + 1 }일 여행 계획이 저장되었습니다.`,
+      actions: [{label:"확인", onClick:closeModal}]
+    })
   }
 
   // const initObject= () => {   //출발,경유,목적 상태 초기화                  //5555
@@ -126,10 +131,10 @@ const AddData = ({ width }) => {
 
   //좌표저장 (효용)
   const handlecoordinate = async () => {
-    if (!departure || !destination) {
-      alert("출발지와 목적지를 입력하세요.");
-      return;
-    }
+    // if (!departure || !destination) {
+    //   alert("출발지와 목적지를 입력하세요.");
+    //   return;
+    // } 안먹음
   
     try {
       let response;
@@ -156,7 +161,10 @@ const AddData = ({ width }) => {
       setPath(response.data.route.traoptimal[0].path);
   
     } catch (error) {
-      alert("catch 에러");
+      openModal({
+        message: `${modalTitle}를 입력해주세요.`,
+        actions: [{ label: "확인", onClick: closeModal, className: "cancel-button" }],
+      })
     }
   };
 
