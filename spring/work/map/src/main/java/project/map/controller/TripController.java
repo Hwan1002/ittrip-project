@@ -284,6 +284,7 @@ public class TripController {
 		UserEntity user = userRepository.findById(userId).get();
 		TripEntity trip = tripRepository.getByIdx(dto.getTripIdx());
 		CheckListEntity entity = tripService.getCheckLists(userId, dto.getTripIdx());
+				
 		String items =  dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) 																															
 		.collect(Collectors.joining("|"));
 		entity.setUser(user);

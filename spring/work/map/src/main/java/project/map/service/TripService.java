@@ -136,7 +136,7 @@ public class TripService {
 	        String[] itemDetails = item.split(":");
 	        if (itemDetails.length == 3) {
 	            try {
-	                Integer id = Integer.parseInt(itemDetails[0]);
+	                Long id = Long.parseLong(itemDetails[0]);
 	                String text = itemDetails[1];
 	                boolean checked = Boolean.parseBoolean(itemDetails[2]);
 

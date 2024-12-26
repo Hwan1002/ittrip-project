@@ -14,7 +14,7 @@ const EntirePlan = () => {
 
     const { logData, setDeparture, setStopOverList, setDestination, dayChecks,
          setDayChecks, selectedDay ,departure,destination,stopOverList,
-        isReadOnly,setIsReadOnly,mapObject,setMapObject} = useContext(ProjectContext);
+        isReadOnly,setIsReadOnly,mapObject,setMapObject,setPath} = useContext(ProjectContext);
 
 
 
@@ -22,6 +22,7 @@ const EntirePlan = () => {
     const [maps, setMaps] = useState([]);    //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints} 
     const [checkList, setCheckList] = useState([]);     //{id,text,checked} 
 
+    
     // const [isReadOnly, setIsReadOnly] = useState(true);
 
     const [currentIdx, setCurrentIdx] = useState(null);
@@ -65,6 +66,7 @@ const EntirePlan = () => {
         };
         fetchTrips();
     }, []);
+
 
 
     const fetchMapCheck = async(trip) => {
@@ -117,10 +119,12 @@ const EntirePlan = () => {
         }
     }
 
+   
+
     const putMapCheck = async () => {
         //maps put
         debugger;
-        console.log("maps"+JSON.stringify(maps))
+        
         try {
             const response = await axios.put(
                 `${API_BASE_URL}/2`,
@@ -138,7 +142,7 @@ const EntirePlan = () => {
         }
 
         //checkList put
-        console.log("checkList"+JSON.stringify(checkList))
+        
         try {
             const response = await axios.put(
                 `${API_BASE_URL}/3`,

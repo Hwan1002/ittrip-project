@@ -25,11 +25,11 @@ public class CheckListDTO {
     @NoArgsConstructor
     @AllArgsConstructor
 	public static class Items{
-		private Integer id;
+		private Long id;
 		private String text;
 		private boolean checked;
 		
-		public Items(Integer id, String text, Boolean checked) {
+		public Items(Long id, String text, Boolean checked) {
 	        this.id = id;
 	        this.text = text;
 	        this.checked = checked;
