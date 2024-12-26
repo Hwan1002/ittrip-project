@@ -1,12 +1,6 @@
 .myPlan{
     width: 1000px;
-    height: 800px;
-    overflow: scroll;
-    
 }
-.myPlan::-webkit-scrollbar {
-    display: none;
-} 
 .myPlan ul{
     padding:0;
 }
@@ -27,7 +21,7 @@
 .mapFrame{
     flex:1;
     width:50%;
-    height:auto;
+    height:70vh;
 }
 .planFrame{
     display: flex;
