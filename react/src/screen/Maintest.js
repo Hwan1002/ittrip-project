@@ -403,7 +403,6 @@ const Maintest = () => {
                                                 <p><span className="suggestName">주소</span> <span className="suggestData">{item.rlteBsicAdres}</span> </p>
                                                 <p><span className="suggestName"> 태마</span> <span className="suggestData">{item.rlteCtgrySclsNm}</span> </p>
                                             </div>
-                                            
                                         </div>
                                     ))}
                                 </>
