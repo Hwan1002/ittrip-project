@@ -101,7 +101,8 @@ export const ProjectProvider = ({ children }) => {
     initObject,dayChecks,
     setDayChecks,
     routeType,setRouteType,
-    stopOverCount,setStopOverCount
+    stopOverCount,setStopOverCount,
+    
     
   };
 

@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import "../css/EntirePlan.css"
+import "../css/EntirePlan.css";
+import '../css/Reset.css'
 import { Link } from "react-router-dom";
 import Map from "../components/Map";
-import '../css/Reset.css'
 import Plus2 from "../img/plus2.svg"
 import { API_BASE_URL } from "../service/api-config";
 import AddData from "../components/AddData";
@@ -38,6 +38,8 @@ const EntirePlan = () => {
     }, [trips, maps, checkList])
 
 
+    
+
     useEffect(() => {
         // API 호출
         const fetchTrips = async () => {
@@ -58,13 +60,12 @@ const EntirePlan = () => {
     const fetchMapCheck = async(trip) => {
         setCurrentTitle(trip.title);
         try {
-            setMaps([]);
-            const response = await axios.get(`${API_BASE_URL}/4`, {
-                headers: logData.headers,
-                params: {
-                    tripTitle: trip.title
-                },
+            
+            const response = await axios.get(`${API_BASE_URL}/4/${trip.title}`, {
+                headers: logData.headers
+                
             });
+
             const startDate = new Date(trip.startDate);
             const endDate = new Date(trip.lastDate);
 
@@ -72,11 +73,14 @@ const EntirePlan = () => {
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
             const daysArray = Array.from({ length: diffDays }, (_, index) => `Day ${index + 1}`);
-            setDayChecks([...daysArray])
+
+            setDayChecks([...daysArray]);
 
             console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
-            // const tripArray = response.data[0].mapObject;
-            setMaps(...response.data[0].mapObject);
+             
+            
+            const flatMapObjects = response.data.map(item => item.mapObject).flat();
+            setMaps(flatMapObjects);
             
             setDeparture({ title: response.data[0].mapObject[selectedDay].startPlace, address: response.data[0].mapObject[selectedDay].startAddress, latlng:response.data[0].mapObject[selectedDay].startPoint })
             setDestination({ title: response.data[0].mapObject[selectedDay].goalPlace, address: response.data[0].mapObject[selectedDay].goalAddress, latlng:response.data[0].mapObject[selectedDay].goalPoint})
@@ -189,137 +193,67 @@ const EntirePlan = () => {
     }
 
     return (
-        <div id='entirePlan'>
+        <div className='myPlan'>
             <h2 style={{textAlign:'center', marginBottom:0}}>내 일정 보기</h2>
-        <div id="mapPlanContain">
-            <div id="mapFrame">
-                <Map />
-            </div>
-            <div id="planFrame">
-                <div id="newTripBt">
-                    {isUpdating ? (
-                        <p onClick={() => setIsUpdating(!isUpdating)}>수정하기</p>
-                    ) 
-                    : (
-                        <p onClick={() => putMapCheck()}>수정완료</p>
-                        )
-                    }
+            <div className="myPlanContainer">
+                <div className="mapFrame">
+                    <Map />
                 </div>
-                {/* 여행목록 */}
-                <p style={{ color: "#F6A354", fontSize: "20px", marginBottom: "5px" }}>여행목록</p>
-                <div style={{
-                        border: "2px solid #DADADA",
-                        borderRight: "none",
-                        borderLeft: "none",
-                        overflowY: "auto", 
-                        padding: "10px",  
-                        width: "300px",
-                        height: "160px"
-                    }}
-                >
-                    {/* axios로 가져온 title 목록 띄워주는 곳곳 */}
-                    <ul>
-                        {trips.map(trip => (
-                            <li key={trip.idx}>
-                                <input
-                                    /* 해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/
-                                    readOnly={isUpdating}
-                                    onClick={() => fetchMapCheck(trip)}
-                                    onChange={(e) => handleTripTitleChange(e, trip)}
-                                    value={trip.title}
-                                >
-                                </input>
-                                <button
-                                    onClick={() => deleteTrip(trip.idx)}
-                                >삭제
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-
-
-                </div>
-
-                <p style={{ color: "#F6A354", fontSize: "20px", marginBottom: "5px" }}>여행경로</p>
-                <div
-                    style={{
-                        border: "2px solid #DADADA",
-                        borderRight: "none",
-                        borderLeft: "none",
-                        overflowY: "auto",  // 세로 스크롤을 가능하게 함 
-                        padding: "10px",  // 내부 여백을 추가 (선택 사항)
-                        width: "300px",
-                        height: "160px"
-                    }}
-                >
-                    {/* map의 경로 출발지와 waypoint들 목적지 띄워주는 곳 */}
-                    <div>
-                        {isUpdating ? maps && maps.length > 0 &&
-                            <>
-                                <input
-                                    readOnly={isUpdating}
-                                    value={departure.title}
-                                />
-                                <ul>
-                                    {stopOverList.wayPoints.map((point) => (
-                                        <li key={point.id}>
-                                            <input
-                                                readOnly={isUpdating}
-                                                value={point.value}
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-                                <input
-                                    readOnly={isUpdating}
-                                    value={destination.title}
-                                />
-                            </> : <AddData />}
-
-
+                <div className="planFrame">
+                    <div className="newTripBt">
+                        {isUpdating ? (
+                            <button onClick={() => setIsUpdating(!isUpdating)}>수정하기</button>
+                        ) 
+                        : (
+                            <button onClick={() => putMapCheck()}>수정완료</button>
+                            )
+                        }
+                    </div>
+                    <div className="tripList myPlanContent">
+                        <h3>여행목록</h3>
+                        <ul>
+                            {trips.map(trip => (
+                                <li key={trip.idx}>
+                                    <input readOnly={isUpdating} onClick={() => fetchMapCheck(trip)} onChange={(e) => handleTripTitleChange(e, trip)} value={trip.title}/>
+                                        {/*해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/ }
+                                    <button onClick={() => deleteTrip(trip.idx)}>삭제</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="tripRoute myPlanContent">
+                        <h3>여행경로</h3>
+                        <div>
+                            {isUpdating ? maps && maps.length > 0 &&
+                                <>
+                                    <input readOnly={isUpdating} value={departure.title}/>
+                                    <ul>
+                                        {stopOverList.map((point) => (
+                                            <li key={point.id}>
+                                                <input readOnly={isUpdating} value={point.value}/>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <input readOnly={isUpdating} value={destination.title}/>
+                                </> : <AddData />
+                            }
+                        </div>
+                    </div>
+                    <div className="tripCheck myPlanContent">
+                        <h3>체크리스트</h3>
+                        <ul>
+                            {checkList.map((list) => (
+                                <li key={list.id}>
+                                    <input type="checkbox" checked={list.checked} readOnly={isUpdating} onChange={() => handleCheckboxChange(list.id)}/>
+                                    <input value={list.text} readOnly={isUpdating} onChange={(e) => handleCheckListTextChange(list.id, e.target.value)}/>
+                                    <button onClick={() => deleteCheckList(list.id)}>삭제</button>
+                                </li>
+                            ))}
+                        </ul>
+                        {!isUpdating && <button onClick={() => addCheckList()}>추가</button>}
                     </div>
                 </div>
-
-                <p style={{ color: "#F6A354", fontSize: "20px", marginBottom: "5px", }}>체크리스트</p>
-                <div
-                    style={{
-                        border: "2px solid #DADADA",
-                        borderRight: "none",
-                        borderLeft: "none",
-                        overflowY: "auto",  // 세로 스크롤을 가능하게 함 
-                        padding: "10px",  // 내부 여백을 추가 (선택 사항)
-                        width: "300px",
-                        height: "160px"
-                    }}
-                >
-                    {/*체크리스트 나열해주는 곳 */}
-                    <ul>
-                        {checkList.map((list) => (
-                            <li key={list.id}>
-                                <input type="checkbox" checked={list.checked} readOnly={isUpdating} onChange={() => handleCheckboxChange(list.id)}/>
-                                <input
-                                    value={list.text}
-                                    readOnly={isUpdating} // 수정 가능 여부
-                                    onChange={(e) => handleCheckListTextChange(list.id, e.target.value)} // 텍스트 변경
-                                />
-                                <button
-                                    onClick={() => deleteCheckList(list.id)}
-                                >삭제
-                                </button>
-
-                            </li>
-                        ))}
-
-                    </ul>
-                    {!isUpdating && <button
-                        onClick={() => addCheckList()}
-                    >추가
-                    </button>
-                    }
-                </div>
-
             </div>
-        </div>
         </div>
     )
 }
