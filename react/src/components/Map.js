@@ -7,8 +7,8 @@ import { AiOutlineSmallDash } from "react-icons/ai";
 
 const Map = () => {
   const {
-    tripDates, address, path, setPath, routeType,
-    stopOverList, setStopOverList, mapObject, setMapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
+    tripDates, routeType,
+    stopOverList, setStopOverList, mapObject, departure, setDeparture, destination, setDestination, selectedDay, setSelectedDay,
     dayChecks, setDayChecks, stopOverCount
 
   } = useContext(ProjectContext);
@@ -201,6 +201,8 @@ const Map = () => {
               });
             }
 
+
+
             // 폴리라인 생성
             const pathCoordinates = path.map(([longitude, latitude]) => new window.naver.maps.LatLng(latitude, longitude));
             const polyline = new window.naver.maps.Polyline({
@@ -208,8 +210,10 @@ const Map = () => {
               strokeColor: 'blue', // 폴리라인 색상
               strokeWeight: 4, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
-            });
-            
+              strokeLineCap: 'round', // 선 끝 모양을 둥글게
+              strokeLineJoin: 'round', // 모서리 둥글게
+            })
+
             map.setCenter(departureLatLng)
             polyline.setMap(map);
             polylines.push(polyline);
