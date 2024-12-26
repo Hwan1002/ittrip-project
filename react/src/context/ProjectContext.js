@@ -71,6 +71,8 @@ export const ProjectProvider = ({ children }) => {
   
   const [isReadOnly,setIsReadOnly] = useState(true);
 
+  const [isReadOnly,setIsReadOnly] = useState(true);
+
   const initObject=()=>{
     setDeparture({title:'',address:''});
     setStopOverList([]);
@@ -99,7 +101,12 @@ export const ProjectProvider = ({ children }) => {
     setDayChecks,
     routeType,setRouteType,
     stopOverCount,setStopOverCount,
+<<<<<<< HEAD
     isReadOnly,setIsReadOnly
+=======
+    isReadOnly,setIsReadOnly,
+    
+>>>>>>> parent of 96fe83b (Revert "Merge branch 'test' into JHS")
     
   };
 
