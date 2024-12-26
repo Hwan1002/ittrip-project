@@ -4,7 +4,7 @@ import '../css/Reset.css';
 //component
 import Logo from "../components/Logo";
 //react import
-import React,{useState, useRef, useContext} from "react";
+import React,{useState, useRef, useContext, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { API_BASE_URL } from '../service/api-config';
@@ -14,8 +14,8 @@ import { ProjectContext } from '../context/ProjectContext';
 
 
 const SignUp = () => {
+    
 
-   
     const [formData, setFormData] = useState({
         id : '',
         password : '',
@@ -41,9 +41,11 @@ const SignUp = () => {
         closeModal,
     } = useModal();
     
+    
+
     //핸들러
     const handleInputChange = (e) => {
-        setIdCheckBtn(false);
+        
         const { name, value } = e.target;
         setFormData((prev) => ({
           ...prev,
@@ -192,7 +194,7 @@ const signUp = async(e) => {
                     message:"환영합니다!.",
                     actions:[{label: "확인", onClick:closeModal}],
                 })
-                setTimeout(() => navigate("/login"), 1500);
+                setTimeout(() => {window.location.href = "/login";}, 1000);
             }
         } catch (error) {
             if(error.response){
@@ -236,7 +238,7 @@ return(
                         <input name="profilePhoto" type="file" accept="image/*" ref={inputImgRef} onChange={ImageUpload}/>
                     </div>
                     <div className='signUp_id'>
-                        <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange={handleInputChange} value={formData.id}/>
+                        <input name="id" type="text" placeholder='아이디를 입력하세요.' onChange= {(e) => {handleInputChange(e);setIdCheckBtn(false)}} value={formData.id}/>
                         <button type="button" onClick={idCheck}>중복체크</button>
                     </div>
                     <div>
