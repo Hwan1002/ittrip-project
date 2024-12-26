@@ -16,7 +16,7 @@ const NewTrip = () => {
  
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal, modalTitle, modalMessage, modalActions } = useModal();
-  const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks } = useContext(ProjectContext);
+  const { tripTitle, tripDates, logData,items,mapObject,initObject,setSelectedDay,dayChecks,setMapObject } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
 
@@ -69,9 +69,9 @@ const NewTrip = () => {
 
   const allAxios = async() => {
     try {
-      const response1 = await axios.post(`${API_BASE_URL}/1`,{title: tripTitle,startDate: formattedStartDate,lastDate: formattedEndDate,},logData);
-      const response2 = await axios.post(`${API_BASE_URL}/2`,{tripTitle: tripTitle,mapObject : mapObject},logData);
-      const response3 = await axios.post(`${API_BASE_URL}/3`,{tripTitle: tripTitle,items : items},logData);
+      const response1 = await axios.post(`${API_BASE_URL}/1`,{title:tripTitle ,startDate: formattedStartDate,lastDate: formattedEndDate,},logData);
+      const response2 = await axios.post(`${API_BASE_URL}/2`,{mapObject : mapObject},logData);
+      const response3 = await axios.post(`${API_BASE_URL}/3`,{items : items},logData);
 
       if(response1.status !== 200){alert("post1 에러");}
       if(response2.status !== 200){
@@ -92,7 +92,7 @@ const NewTrip = () => {
     } catch (error) {
       alert("그외의 에러");
     }
-    
+    setMapObject([])
   }
   const buttonClicked = () => {
     if(mapObject.length !== dayChecks.length){

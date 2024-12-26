@@ -25,25 +25,25 @@ public class CheckListDTO {
     @NoArgsConstructor
     @AllArgsConstructor
 	public static class Items{
-		private Integer id;
+		private Long id;
 		private String text;
 		private boolean checked;
 		
-		public Items(Integer id, String text, Boolean checked) {
+		public Items(Long id, String text, Boolean checked) {
 	        this.id = id;
 	        this.text = text;
 	        this.checked = checked;
 	    }
 	}
-	private Integer idx;
+	
 	private List<Items> items;
 	private String userId;		//UserEntity의 id
-	private String tripTitle;	//TripEntity의 title
+	private Integer tripIdx;	
 	
 	
 	public CheckListDTO(CheckListEntity entity) {
 		this.userId = entity.getUser().getId();
-		this.tripTitle = entity.getTrip().getTitle();
+		this.tripIdx = entity.getTrip().getIdx();
 	}
 	
 //	public static CheckListDTO fromEntity(CheckListEntity entity) {
