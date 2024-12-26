@@ -70,7 +70,8 @@ const EntirePlan = () => {
 
 
     const fetchMapCheck = async(trip) => {
-        setCurrentIdx(trip.idx);
+        debugger;
+        setCurrentIdx(()=>trip.idx);
         try {
             
             const response = await axios.get(`${API_BASE_URL}/4/${trip.idx}`, {
@@ -105,7 +106,7 @@ const EntirePlan = () => {
             //   setMaps(response.data.mapObject);
             
         } catch (err) {
-            alert("get Map 에러");
+            console.log("err"+err)
         }
 
         try {
@@ -262,7 +263,7 @@ const EntirePlan = () => {
                                 <li key={list.id}>
                                     <input type="checkbox" checked={list.checked} readOnly={isReadOnly} onChange={() => handleCheckboxChange(list.id)}/>
                                     <input value={list.text} readOnly={isReadOnly} onChange={(e) => handleCheckListTextChange(list.id, e.target.value)}/>
-                                    <button onClick={() => deleteCheckList(list.id)}>삭제</button>
+                                    {!isReadOnly && <button onClick={() => deleteCheckList(list.id)}>삭제</button>}
                                 </li>
                             ))}
                         </ul>
