@@ -305,40 +305,40 @@ const Map = () => {
         if(foundObject){
           if (foundObject.wayPoints) {  
           try {
-                const latlngArray = foundObject.wayPoints.map(prev => {return prev.latlng});
-                const lnglatString = latlngArray.join("|");
-                const response = await axios.get(`${API_BASE_URL}/12345`, {
-                  params: {
-                    start: foundObject.startPoint,
-                    goal: foundObject.goalPoint,
-                    waypoints: lnglatString,
-                  },
-                })
+                  const latlngArray = foundObject.wayPoints.map(prev => {return prev.latlng});
+                  const lnglatString = latlngArray.join("|");
+                  const response = await axios.get(`${API_BASE_URL}/12345`, {
+                    params: {
+                      start: foundObject.startPoint,
+                      goal: foundObject.goalPoint,
+                      waypoints: lnglatString,
+                    },
+                  })
+                  setPath(response.data.route.traoptimal[0].path);
+                  setDuration(formatDuration(response.data.route.traoptimal[0].summary.duration));
+                  setDistance(formatDistance(response.data.route.traoptimal[0].summary.distance));
+                  
+                }catch (error) {
+                  alert("경유지있는 디렉션 에러");
+                }
+                
+               } else {
+                try {
+                  const response = await axios.get(`${API_BASE_URL}/1234`, {
+                    params: {
+                      start: foundObject.startPoint,
+                      goal: foundObject.goalPoint,
+                    },
+                  }
+                )
                 setPath(response.data.route.traoptimal[0].path);
                 setDuration(formatDuration(response.data.route.traoptimal[0].summary.duration));
                 setDistance(formatDistance(response.data.route.traoptimal[0].summary.distance));
-                
-              }catch (error) {
-                alert("경유지있는 디렉션 에러");
-              }
-                
-          } else {
-          try {
-            const response = await axios.get(`${API_BASE_URL}/1234`, {
-              params: {
-                start: foundObject.startPoint,
-                goal: foundObject.goalPoint,
-              },
-            }
-          )
-          setPath(response.data.route.traoptimal[0].path);
-          setDuration(formatDuration(response.data.route.traoptimal[0].summary.duration));
-          setDistance(formatDistance(response.data.route.traoptimal[0].summary.distance));
-          } catch (error) {
-            alert("경유지없는 디렉션 에러");
-          }
-            
-          }
+                } catch (error) {
+                  alert("경유지없는 디렉션 에러");
+                }
+                  
+                }
          
               } 
         } 
