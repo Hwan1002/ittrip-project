@@ -28,6 +28,7 @@ const Map = () => {
     setDayChecks,
     stopOverCount,
     isReadOnly,
+    routeSaved,setRouteSaved
   } = useContext(ProjectContext);
 
   const {
@@ -431,8 +432,10 @@ const Map = () => {
         return updatedDayBoolean;
       });
     };
-    if (!isReadOnly || !mapObject.find((data) => data.days === selectedDay + 1)
-    ) {
+    debugger;
+    console.log(mapObject);
+   
+    if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
       openModal({
         message: "저장이 안된 일정이 있습니다. 넘어가시겠습니까?",
         actions: [

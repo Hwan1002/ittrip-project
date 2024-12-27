@@ -69,6 +69,8 @@ export const ProjectProvider = ({ children }) => {
 
   const [isReadOnly, setIsReadOnly] = useState(true);
 
+  const [routeSaved, setRouteSaved] = useState(false);
+
   const initObject = () => {
     setDeparture({ title: "", address: "" });
     console.log(departure);
@@ -121,6 +123,7 @@ export const ProjectProvider = ({ children }) => {
     setStopOverCount,
     isReadOnly,
     setIsReadOnly,
+    routeSaved, setRouteSaved
   };
 
   return (
