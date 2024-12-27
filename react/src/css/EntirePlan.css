@@ -54,11 +54,11 @@
     color:#fff;
 }
 
-.myPlan h2 {
+.myPlan > h2 {
   margin-top: 100px;
 }
 
-.myPlan ul {
+.myPlan > ul {
   padding: 0;
 }
 .myPlanContainer {
@@ -85,6 +85,8 @@
   flex-direction: column;
   text-align: center;
   padding: 20px;
+  min-width:220px;
+  min-height: 500px;
 }
 .myPlanContent {
   margin-top: 20px;
@@ -94,11 +96,11 @@
   display: block;
   border: 1px solid #dadada;
 }
-.myPlanContent button {
+.myPlanContent .saveBtn {
+  
   border: none;
   border-radius: 10px;
   background-color: #f6a354;
-  width: 50px;
   height: 30px;
   color: #fff;
 }

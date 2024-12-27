@@ -148,7 +148,7 @@ const signUp = async(e) => {
         const value = formData[key];
         return  typeof value === 'string' && value.trim() === '';
     });
-
+    const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
     if(emptyValue){
         openModal({
             title:"입력오류",
@@ -174,6 +174,13 @@ const signUp = async(e) => {
         openModal({
             title:"아이디 확인",
             message:"중복체크 해야합니다.",
+            actions:[{label: "확인", onClick:closeModal}],
+        })
+        return;
+    }else if(!emailRegEx.test(formData.email)){
+        openModal({
+            title:"이메일 오류",
+            message:"이메일을 확인해주세요.",
             actions:[{label: "확인", onClick:closeModal}],
         })
         return;
@@ -250,6 +257,7 @@ return(
                     </div>
                     <div>
                         <input name="email" type="email" placeholder='이메일을 입력하세요' onChange={handleInputChange} value={formData.email}/>
+                        
                     </div>
                     <div className="sigUp_Btns">
                         <button className="sigupBtn" type="submit">회원가입</button>

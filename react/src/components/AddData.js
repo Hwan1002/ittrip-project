@@ -30,8 +30,9 @@ const AddData = ({ width }) => {
     setStopOverCount,
     stopOverCount,
     setRouteType,
+    routeSaved,setRouteSaved
   } = useContext(ProjectContext);
-
+  const [prevLength, setPrevLength] = useState(stopOverList.length-1);
   //모달창 사용
   const {
     isModalOpen,
@@ -42,41 +43,48 @@ const AddData = ({ width }) => {
     closeModal,
   } = useModal();
 
+  useEffect(()=>{
+    setStopOverCount(()=>stopOverList.length);
+  },[stopOverList])
+  //경로저장하기 버튼을 눌름
   const putObject = () => {
-    //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-    debugger;
-    const foundData = mapObject.find((data) => data.days === selectedDay + 1);
-    if (foundData) {
-      if (
-        foundData.StartAddress !== departure.address ||
-        JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) ||
-        foundData.goalAddress !== destination.address
-      ) {
-        const newArr = mapObject.filter(
-          (data) => data.days !== selectedDay + 1
-        );
-        setMapObject([...newArr]);
+    if(stopOverList.length-1 > prevLength){
+      const foundData = mapObject.find((data) => data.days === selectedDay + 1);
+      if (foundData) {
+        if (foundData.StartAddress !== departure.address ||JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) ||foundData.goalAddress !== destination.address) 
+        {
+            const newArr = mapObject.filter((data) => data.days !== selectedDay + 1);
+            setMapObject([...newArr]);
+        }
       }
+      setMapObject((prevMapObject) => [
+        ...prevMapObject,
+        {
+          days: selectedDay + 1,
+          startPlace: departure?.title || "", // 방어적으로 title 확인
+          startAddress: departure?.address || "",
+          startPoint: departure?.latlng || "",
+          goalPlace: destination?.title || "",
+          goalAddress: destination?.address || "",
+          goalPoint: destination?.latlng || "",
+          wayPoints: stopOverList || [],
+        },
+      ]);
+      setRouteSaved(false);
+      openModal({
+        title: `Day ${selectedDay + 1}`,
+        message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
+        actions: [{ label: "확인", onClick: closeModal }],
+      });
+    }else{
+      setRouteSaved(true);
+        openModal({
+          title: "오류",
+          message: "fdsdfsdfsd",
+          actions: [{ label: "확인", onClick: closeModal }],
+        });
+        return;
     }
-    setMapObject((prevMapObject) => [
-      ...prevMapObject,
-      {
-        days: selectedDay + 1,
-        startPlace: departure?.title || "", // 방어적으로 title 확인
-        startAddress: departure?.address || "",
-        startPoint: departure?.latlng || "",
-        goalPlace: destination?.title || "",
-        goalAddress: destination?.address || "",
-        goalPoint: destination?.latlng || "",
-        wayPoints: stopOverList || [],
-      },
-    ]);
-
-    openModal({
-      title: `Day ${selectedDay + 1}`,
-      message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
-      actions: [{ label: "확인", onClick: closeModal }],
-    });
   };
 
   useEffect(() => {
@@ -87,6 +95,7 @@ const AddData = ({ width }) => {
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
     setIsNewModal(false);
+    setRouteSaved(true);
     switch (type) {
       case "departure":
         setDeparture({ title: item.title, address: item.address });
@@ -110,14 +119,11 @@ const AddData = ({ width }) => {
         }
         setRouteType(type);
         setStopOverCount((prev) => prev + 1);
-        console.log("stopOver:" + JSON.stringify(stopOverList));
-        console.log("stopOvercount:" + JSON.stringify(stopOverCount));
         break;
       default:
         console.log("handleCheck switch 케이스 쪽 오류");
     }
     closeModal();
-    // alert(`${type === "stopOver" ? "경유지가" : type === "departure" ? "출발지가" : "도착지가"} 추가되었습니다.`)
     openModal({
       message: `${
         type === "stopOver"
@@ -132,15 +138,16 @@ const AddData = ({ width }) => {
 
   //좌표저장 (효용)
   const handlecoordinate = () => {
-    if (departure.title === "" || destination.title === "") {
+    if (departure.address === "" || destination.address === "" ) {
       openModal({
         title: "오류",
-        message: "출발지와 도착지, 경유지를 입력해주세요.",
+        message: "출발지와 도착지를 입력해주세요.",
         actions: [{ label: "확인", onClick: closeModal }],
       });
       return;
     }
-    if (stopOverList.some((list) => list.value === "")) {
+    if (stopOverList.some((list) => list.address === "")) {
+      setRouteSaved(false);
       openModal({
         title: "오류",
         message: "경유지를 입력해주세요.",
@@ -148,7 +155,6 @@ const AddData = ({ width }) => {
       });
       return;
     }
-    debugger;
     putObject();
   };
 
@@ -186,7 +192,7 @@ const AddData = ({ width }) => {
   };
   //경유지 추가 버튼
   const plusBtnClicked = () => {
-    setStopOverList([...stopOverList, { id: Date.now(), value: "" }]);
+    setStopOverList([...stopOverList, { id: Date.now(), value: "", address: ""}]);
   };
 
   const handleStopOverChange = (id, value) => {
