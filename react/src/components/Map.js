@@ -1,10 +1,14 @@
 import "../css/Map.css";
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
+import { AiOutlineSmallDash } from "react-icons/ai";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
+import "../img/Icon/start.png"
+import "../img/Icon/Goal.png"
+import "../img/Icon/waypoint.png"
 
 const Map = () => {
   const {
@@ -27,6 +31,7 @@ const Map = () => {
     setDayChecks,
     stopOverCount,
     isReadOnly,
+    routeSaved, setRouteSaved
   } = useContext(ProjectContext);
 
   const {
@@ -40,32 +45,12 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
 
-
-  function formatDuration(milliseconds) {
-
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const totalMinutes = Math.floor(totalSeconds / 60);
-    const hours = Math.floor(totalMinutes / 60);
-
-    const minutes = totalMinutes % 60;
-    const seconds = totalSeconds % 60;
-
-    return `${hours}시 ${minutes}분 ${seconds}초`;
-  }
-
-  function formatDistance(meters) {
-    if (meters >= 1000) {
-      const kilometers = (meters / 1000).toFixed(1);
-      return `${kilometers}km`;
-    } else {
-      return `${meters}m`;
-    }
-  }
-
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const [tollFare, setTollFare] = useState(0);
   const [fuelPrice, setFuelPrice] = useState(0);
+
+
 
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -108,6 +93,7 @@ const Map = () => {
               }
               const result = response.v2;
               const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+
               setDeparture((prev) => ({
                 ...prev,
                 latlng: latlng, // 원하는 latlng 값
@@ -135,6 +121,7 @@ const Map = () => {
               }
               const result = response.v2;
               const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+
               setDestination((prev) => ({
                 ...prev,
                 latlng: latlng, // 원하는 latlng 값
@@ -239,24 +226,33 @@ const Map = () => {
           pixelOffset: new window.naver.maps.Point(10, -10),
         });
 
-        const createMarker = (latlng, text, obj, data) => {
+        const createMarker = (latlng, obj, data) => {
 
-          const icon = {
-            content: `
-              <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
-                ${text}
-                <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
-              </div>
-            `,
-            size: new window.naver.maps.Size(30, 30),
-            anchor: new window.naver.maps.Point(15, 15),
-          };
+
+          let iconUrl;
+          if (obj === data.startPoint) {
+            // Departure icon
+            iconUrl = require("../img/Icon/start.png");
+          } else if (obj === data.goalPoint) {
+            // Destination icon
+            iconUrl = require("../img/Icon/Goal.png");
+          } else {
+            // Waypoint icon
+            iconUrl = require("../img/Icon/waypoint.png");
+          }
+
 
           // 마커 객체 생성
           const marker = new window.naver.maps.Marker({
             position: latlng,
-            icon: icon,
             map: map,
+            icon: {
+              url: iconUrl,
+              size: new window.naver.maps.Size(48,48), // 마커 크기 설정
+              anchor: new window.naver.maps.Point(25,40),
+              // 이미지 크기 비율 맞추기 (background-size로 크기 조정)
+              backgroundSize: 'contain',  // 또는 'cover'를 사용하여 이미지 비율을 맞출 수 있습니다.
+            },
           });
           // 마커 클릭 이벤트 등록
           window.naver.maps.Event.addListener(marker, "click", () => {
@@ -290,6 +286,9 @@ const Map = () => {
               }
             }
           });
+          window.naver.maps.Event.addListener(map, 'click', () => {
+            infoWindow.close();
+          });
           return marker;
         };
 
@@ -311,7 +310,6 @@ const Map = () => {
             markers.push(
               createMarker(
                 departureLatLng,
-                "출발",
                 selectedData.startPoint,
                 selectedData
               )
@@ -325,7 +323,6 @@ const Map = () => {
             markers.push(
               createMarker(
                 destinationLatLng,
-                "도착",
                 selectedData.goalPoint,
                 selectedData
               )
@@ -340,7 +337,6 @@ const Map = () => {
                 markers.push(
                   createMarker(
                     wayPointLatLng,
-                    `${index + 1}`,
                     wayPoint.address,
                     wayPoint
                   )
@@ -348,11 +344,10 @@ const Map = () => {
               });
             }
 
-
-            // path.setPatternImage(
-            //   new window.naver.maps.OverlayImage.fromResource('./img/Icon/arrow.png') // 실제 이미지 경로
-            // );
-            // path.setPatternInterval(10);
+            var bounds = new window.naver.maps.LatLngBounds();
+            for (var i = 0; i < markers.length; i++) {
+              bounds.extend(markers[i].getPosition());
+            }
 
             // 폴리라인 생성
             const pathCoordinates = path.map(
@@ -361,15 +356,20 @@ const Map = () => {
             );
             const polyline = new window.naver.maps.Polyline({
               path: pathCoordinates, // 경로 (LatLng 객체 배열)
-              strokeColor: "blue", // 폴리라인 색상
+              strokeColor: "#FF0000", // 폴리라인 색상
               strokeWeight: 2.5, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
             });
+            map.fitBounds(bounds);
+            const currentZoom = map.getZoom();
+            map.setZoom(currentZoom -1); 
 
             polyline.setMap(map);
-            map.setCenter(departureLatLng);
+           
+
           }
         };
+
         updateMapForDay();
       }
     };
@@ -381,13 +381,11 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
-    debugger;
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
       );
       console.log("foundObject" + JSON.stringify(foundObject));
-      // console.log("waypoint" + JSON.stringify(foundObject.wayPoints))
       const dirReq = async () => {
         if (foundObject) {
           if (foundObject.wayPoints) {
@@ -448,8 +446,8 @@ const Map = () => {
   }, [mapObject, selectedDay]);
 
   const handleDayClick = (day) => {
+    setRouteSaved(false);
     const afterSet = () => {
-      console.log("afterSet 실행");
       setDeparture({ title: "", address: "" });
       setStopOverList([]);
       setDestination({ title: "", address: "" });
@@ -461,41 +459,30 @@ const Map = () => {
         return updatedDayBoolean;
       });
     };
-    if (
-      !isReadOnly ||
-      !mapObject.find((data) => data.days === selectedDay + 1)
-    ) {
-      openModal({
-        message: "저장이 안된 일정이 있습니다. 넘어가시겠습니까?",
-        actions: [
-          {
-            label: "확인",
-            onClick: () => {
-              afterSet();
-              closeModal();
-            },
-            className: "confirm-button",
-          },
-          {
-            label: "뒤로가기",
-            onClick: closeModal,
-            className: "cancel-button",
-          },
-        ],
-      });
-    } else {
-      setDeparture({ title: "", address: "" });
-      setStopOverList([]);
-      setDestination({ title: "", address: "" });
-      setSelectedDay(day);
-      setDayBoolean((prev) => {
-        const updatedDayBoolean = [...prev];
-        updatedDayBoolean[selectedDay] = false;
-        updatedDayBoolean[day] = true;
-        return updatedDayBoolean;
-      });
+    console.log(mapObject);
+    if (!isReadOnly || !mapObject.find((data) => data.days === selectedDay + 1)) {
+      if (!routeSaved) {
+        openModal({
+          message: "저장이 안된 일정이 있습니다. 넘어가시겠습니까?",
+          actions: [
+            { label: "확인", onClick: () => { afterSet(); closeModal(); }, className: "confirm-button", },
+            { label: "뒤로가기", onClick: closeModal, className: "cancel-button" },
+          ],
+        });
+      } else {
+        setDeparture({ title: "", address: "" });
+        setStopOverList([]);
+        setDestination({ title: "", address: "" });
+        setSelectedDay(day);
+        setDayBoolean((prev) => {
+          const updatedDayBoolean = [...prev];
+          updatedDayBoolean[selectedDay] = false;
+          updatedDayBoolean[day] = true;
+          return updatedDayBoolean;
+        });
+      }
     }
-  };
+  }
 
   return (
     <div id="mapPlan">
@@ -512,7 +499,6 @@ const Map = () => {
           </div>
         ))}
       </div>
-
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
