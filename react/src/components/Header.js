@@ -121,29 +121,6 @@ const Header = () => {
   //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
   return (
     <div className="header">
-      {/* <a className="logo" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
-        <img className="headerLogo" src={logo} alt="Logo"/>
-      </a>
-      <nav>
-        <a className="menu" onClick={(e) => { e.preventDefault(); navigate("/entireplan"); }}>My Plan</a>
-        <a className="menu" onClick={openNewPlanModal}>New Trip</a>
-      </nav>
-      <div className="headerBtn">
-        {loginSuccess ? (
-            <div>
-              <a className="logout" onClick={openLogoutModal}>LOGOUT</a>
-              <a className="mypage" onClick={(e) => { e.preventDefault(); navigate("/mypage"); }}>MYPAGE</a>
-            </div>
-          ):(
-            <div>
-              <a className="login" onClick={(e) => { e.preventDefault(); navigate("/login"); }}>LOGIN</a>
-              <a className="signup" onClick={(e) => { e.preventDefault(); navigate("/entireplan"); }}>SIGNUP</a>
-            </div>
-            )
-        }
-      </div> */}
-
-
       <Link className="logo" onClick={() => {window.location.href = "/";}}>
         <img className="headerLogo" src={logo} alt="Logo"/>
       </Link>
@@ -154,21 +131,13 @@ const Header = () => {
       <div className="headerBtn">
         {loginSuccess ? (
           <div>
-            <Link className="logout" onClick={openLogoutModal}>
-              LOGOUT
-            </Link>
-            <Link className="mypage" to={"/mypage"}>
-              MYPAGE
-            </Link>
+            <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
+            <Link className="mypage" to={"/mypage"}>MYPAGE</Link>
           </div>
         ) : (
           <div>
-            <Link className="login" to={"/login"}>
-              LOGIN
-            </Link>
-            <Link className="signup" to={"/signup"}>
-              SIGNUP
-            </Link>
+            <Link className="login" to={"/login"}>LOGIN</Link>
+            <Link className="signup" to={"/signup"}>SIGNUP</Link>
           </div>
         )}
       </div>
@@ -181,18 +150,8 @@ const Header = () => {
         actions={
           isNewPlanModal
             ? [
-                {
-                  label: "저장",
-                  onClick:handleNewPlanSubmit,
-                  className: "save-button",
-                },
-                {
-                  label: "취소",
-                  onClick: () => {
-                    closeModal();
-                  },
-                  className: "cancel-button",
-                },
+                { label: "저장", onClick:handleNewPlanSubmit, className: "save-button"},
+                { label: "취소", onClick:closeModal, className: "cancel-button"},
               ]
             : modalActions
         }

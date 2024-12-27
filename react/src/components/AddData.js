@@ -42,6 +42,10 @@ const AddData = ({ width }) => {
     closeModal,
   } = useModal();
 
+  useEffect(()=>{
+    setStopOverCount(()=>stopOverList.length);
+  },[stopOverList])
+
   const putObject = () => {
     //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
     const foundData = mapObject.find((data) => data.days === selectedDay + 1);

@@ -38,6 +38,8 @@
   flex-direction: column;
   text-align: center;
   padding: 20px;
+  min-width:220px;
+  min-height: 500px;
 }
 .myPlanContent {
   margin-top: 20px;
