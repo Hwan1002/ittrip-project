@@ -38,7 +38,7 @@ const Header = () => {
     if (token && !loginSuccess) {
       setLoginSuccess(true);
     }
-  }, [token]);
+  }, [token,loginSuccess]);
 
   //로그아웃 버튼 클릭시 함수
   const handleLogout = () => {
@@ -68,7 +68,6 @@ const Header = () => {
   const handleNewPlanSubmit = (e) => {
     setIsNewPlanModal(false);
     e.preventDefault();
-    // setSavedBtnClicked(true);
     if (!tripTitle || !tripDates.startDate || !tripDates.endDate) {
       openModal({
         title: "입력 오류",
@@ -87,7 +86,8 @@ const Header = () => {
             label: "확인",
             onClick: () => {
               closeModal();
-              navigate("/newTrip"); // 상태를 닫고 이동
+              navigate("/newTrip");
+               // 상태를 닫고 이동
             },
             className: "confirm-button",
           },
@@ -102,13 +102,12 @@ const Header = () => {
       setIsNewPlanModal(true);
       setTripTitle("");
       setTripDates({});
-      initObject();
       openModal({});
     }else{
       openModal({
         title:"로그인",
         message: "로그인이 필요한 서비스 입니다.",
-        actions:[{label:"확인",onClick:closeModal}],
+        actions:[{label:"확인",onClick:()=>{closeModal();navigate("/login");}}],
       })
     }
     
@@ -118,31 +117,39 @@ const Header = () => {
     setIsNewPlanModal(false);
     closeModal();
   };
-
+ 
   //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
   return (
     <div className="header">
-      <Link className="logo" to={"/"}>
-        <img
-          className="headerLogo"
-          src={logo}
-          alt="Logo"
-          onClick={() => {
-            window.location.href = "/";
-          }}
-        />
+      {/* <a className="logo" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
+        <img className="headerLogo" src={logo} alt="Logo"/>
+      </a>
+      <nav>
+        <a className="menu" onClick={(e) => { e.preventDefault(); navigate("/entireplan"); }}>My Plan</a>
+        <a className="menu" onClick={openNewPlanModal}>New Trip</a>
+      </nav>
+      <div className="headerBtn">
+        {loginSuccess ? (
+            <div>
+              <a className="logout" onClick={openLogoutModal}>LOGOUT</a>
+              <a className="mypage" onClick={(e) => { e.preventDefault(); navigate("/mypage"); }}>MYPAGE</a>
+            </div>
+          ):(
+            <div>
+              <a className="login" onClick={(e) => { e.preventDefault(); navigate("/login"); }}>LOGIN</a>
+              <a className="signup" onClick={(e) => { e.preventDefault(); navigate("/entireplan"); }}>SIGNUP</a>
+            </div>
+            )
+        }
+      </div> */}
+
+
+      <Link className="logo" onClick={() => {window.location.href = "/";}}>
+        <img className="headerLogo" src={logo} alt="Logo"/>
       </Link>
       <nav className="menuBar">
-        <Link className="menu" to={"/checklist"}>
-          CheckList
-        </Link>
-        <Link className="menu" to={"/entireplan"}>
-          My Plan
-        </Link>
-        <Link className="menu" onClick={openNewPlanModal}>
-          {" "}
-          New Plan
-        </Link>
+        <Link className="menu" to={"/entireplan"} >My Plan</Link>
+        <Link className="menu" onClick={openNewPlanModal}>New Plan</Link>
       </nav>
       <div className="headerBtn">
         {loginSuccess ? (
@@ -176,14 +183,13 @@ const Header = () => {
             ? [
                 {
                   label: "저장",
-                  onClick: handleNewPlanSubmit,
+                  onClick:handleNewPlanSubmit,
                   className: "save-button",
                 },
                 {
                   label: "취소",
                   onClick: () => {
                     closeModal();
-                    initObject();
                   },
                   className: "cancel-button",
                 },

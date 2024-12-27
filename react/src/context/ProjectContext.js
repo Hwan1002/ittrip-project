@@ -70,7 +70,6 @@ export const ProjectProvider = ({ children }) => {
   const [isReadOnly, setIsReadOnly] = useState(true);
 
   const initObject = () => {
-    debugger;
     setDeparture({ title: "", address: "" });
     console.log(departure);
     setStopOverList([]);

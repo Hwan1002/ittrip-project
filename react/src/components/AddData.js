@@ -44,7 +44,6 @@ const AddData = ({ width }) => {
 
   const putObject = () => {
     //Day를 옮길 때(selectedDay 값이 바뀌기 전에 작동)              //4444
-    debugger;
     const foundData = mapObject.find((data) => data.days === selectedDay + 1);
     if (foundData) {
       if (
@@ -128,10 +127,11 @@ const AddData = ({ width }) => {
 
   //좌표저장 (효용)
   const handlecoordinate = () => {
-    if (departure.title === "" || destination.title === "") {
+    
+    if (departure.address === "" || destination.address === "" ) {
       openModal({
         title: "오류",
-        message: "출발지와 도착지, 경유지를 입력해주세요.",
+        message: "출발지와 도착지를 입력해주세요.",
         actions: [{ label: "확인", onClick: closeModal }],
       });
       return;
@@ -180,7 +180,7 @@ const AddData = ({ width }) => {
   };
   //경유지 추가 버튼
   const plusBtnClicked = () => {
-    setStopOverList([...stopOverList, { id: Date.now(), value: "" }]);
+    setStopOverList([...stopOverList, { id: Date.now(), value: "", address: ""}]);
   };
 
   const handleStopOverChange = (id, value) => {

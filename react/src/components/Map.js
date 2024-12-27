@@ -70,55 +70,65 @@ const Map = () => {
     const convertXY = () => {
       switch (routeType) {
         case "departure":
-          window.naver.maps.Service.geocode(
-            {
-              query: departure.address,
-            },
-            (status, response) => {
-              if (status === window.naver.maps.Service.Status.ERROR) {
-                openModal({
-                  title: "주소 오류",
-                  message: "주소를 찾을 수 없습니다.",
-                });
-                return;
+          if(!departure.address){
+            return;
+          }
+            window.naver.maps.Service.geocode(
+              {
+                query: departure.address,
+              },
+              (status, response) => {
+                if (status === window.naver.maps.Service.Status.ERROR) {
+                  openModal({
+                    title: "주소 오류",
+                    message: "주소를 찾을 수 없습니다.",
+                  });
+                  return;
+                }
+                const result = response.v2;
+                const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+                setDeparture((prev) => ({
+                  ...prev,
+                  latlng: latlng, // 원하는 latlng 값
+                }));
               }
-              const result = response.v2;
-              const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
-              setDeparture((prev) => ({
-                ...prev,
-                latlng: latlng, // 원하는 latlng 값
-              }));
-            }
-          );
+            );
           break;
 
         case "destination":
-          window.naver.maps.Service.geocode(
-            {
-              query: destination.address,
-            },
-            (status, response) => {
-              if (status === window.naver.maps.Service.Status.ERROR) {
-                openModal({
-                  title: "주소 오류",
-                  message: "주소를 찾을 수 없습니다.",
-                  actions: [{ label: "확인", onClick: closeModal }],
-                });
-                return;
+          if (!destination.address) {
+            return;
+          }
+            window.naver.maps.Service.geocode(
+              {
+                query: destination.address,
+              },
+              (status, response) => {
+                if (status === window.naver.maps.Service.Status.ERROR) {
+                  openModal({
+                    title: "주소 오류",
+                    message: "주소를 찾을 수 없습니다.",
+                    actions: [{ label: "확인", onClick: closeModal }],
+                  });
+                  return;
+                }
+                const result = response.v2;
+                const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+                setDestination((prev) => ({
+                  ...prev,
+                  latlng: latlng, // 원하는 latlng 값
+                }));
               }
-              const result = response.v2;
-              const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
-              setDestination((prev) => ({
-                ...prev,
-                latlng: latlng, // 원하는 latlng 값
-              }));
-            }
-          );
+            );
           break;
 
         case "stopOver":
           if (stopOverList.length > 0) {
             const num = stopOverList.length - 1;
+            const stopOverAddress = stopOverList[num].address;
+            if (!stopOverAddress) {
+              return;
+            }
             window.naver.maps.Service.geocode(
               {
                 query: stopOverList[num].address,
@@ -349,9 +359,7 @@ const Map = () => {
         (data) => data.days === selectedDay + 1
       );
       console.log("foundObject" + JSON.stringify(foundObject));
-      // console.log("waypoint" + JSON.stringify(foundObject.wayPoints))
       const dirReq = async () => {
-        debugger;
         if (foundObject) {
           if (foundObject.wayPoints) {
             try {
@@ -412,7 +420,6 @@ const Map = () => {
 
   const handleDayClick = (day) => {
     const afterSet = () => {
-      console.log("afterSet 실행");
       setDeparture({ title: "", address: "" });
       setStopOverList([]);
       setDestination({ title: "", address: "" });
@@ -424,9 +431,7 @@ const Map = () => {
         return updatedDayBoolean;
       });
     };
-    if (
-      !isReadOnly ||
-      !mapObject.find((data) => data.days === selectedDay + 1)
+    if (!isReadOnly && !mapObject.find((data) => data.days === selectedDay + 1)
     ) {
       openModal({
         message: "저장이 안된 일정이 있습니다. 넘어가시겠습니까?",

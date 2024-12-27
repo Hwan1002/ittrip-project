@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/NewTrip.css";
+import "../css/Reset.css";
 import Plus2 from "../img/plus2.svg";
 import Map from "../components/Map.js";
 import AddData from "../components/AddData.js";
@@ -27,16 +28,24 @@ const NewTrip = () => {
     tripDates,
     logData,
     items,
-    mapObject,
+    mapObject,setMapObject,
     initObject,
     setSelectedDay,
     dayChecks,
-    departure,
-    destination,
-    stopOverList,
+    setDeparture,
+    setDestination,
+    
+    setStopOverList
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
+
+  useEffect(() => {
+    setDeparture({title: "",address: "",latlng: "",});  
+    setDestination({title: "",address: "",latlng: "",});  
+    setStopOverList([]); 
+    setMapObject([]);
+  }, []);
 
   useEffect(() => {
     const handleRefreshAttempt = (e) => {
@@ -165,14 +174,12 @@ const NewTrip = () => {
           경로 설정
         </h3>
         {/* 지도, 경로추가부분 */}
-
         <div id="locationFrame">
           <div id="newMap">
             <Map />
           </div>
           <div id="addDirectionFrame">
             <AddData width="200px" />
-            {/* <MapWithData /> */}
           </div>
         </div>
         <div id="checkAndEnd">
