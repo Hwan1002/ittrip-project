@@ -97,12 +97,21 @@ const Header = () => {
   };
 
   const openNewPlanModal = (e) => {
-    e.preventDefault();
-    setIsNewPlanModal(true);
-    setTripTitle("");
-    setTripDates({});
-    initObject();
-    openModal({});
+    if(loginSuccess){
+      e.preventDefault();
+      setIsNewPlanModal(true);
+      setTripTitle("");
+      setTripDates({});
+      initObject();
+      openModal({});
+    }else{
+      openModal({
+        title:"로그인",
+        message: "로그인이 필요한 서비스 입니다.",
+        actions:[{label:"확인",onClick:closeModal}],
+      })
+    }
+    
   };
 
   const closeModalWithReset = () => {

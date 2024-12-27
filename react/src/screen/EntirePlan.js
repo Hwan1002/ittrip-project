@@ -30,7 +30,7 @@ const EntirePlan = () => {
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
-  const [maps, setMaps] = useState([]); //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints}
+  // const [maps, setMaps] = useState([]); //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints}
   const [checkList, setCheckList] = useState([]); //{id,text,checked}
 
   const [currentIdx, setCurrentIdx] = useState(null);
@@ -114,7 +114,6 @@ const EntirePlan = () => {
     }
 
     try {
-      debugger;
       setCheckList([]);
       const response = await axios.get(`${API_BASE_URL}/5/${trip.idx}`, {
         headers: logData.headers,
@@ -126,7 +125,6 @@ const EntirePlan = () => {
   };
 
   const putMapCheck = async () => {
-    debugger;
     try {
       await axios.put(
         `${API_BASE_URL}/2`,

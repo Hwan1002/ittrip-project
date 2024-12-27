@@ -109,14 +109,11 @@ const AddData = ({ width }) => {
         }
         setRouteType(type);
         setStopOverCount((prev) => prev + 1);
-        console.log("stopOver:" + JSON.stringify(stopOverList));
-        console.log("stopOvercount:" + JSON.stringify(stopOverCount));
         break;
       default:
         console.log("handleCheck switch 케이스 쪽 오류");
     }
     closeModal();
-    // alert(`${type === "stopOver" ? "경유지가" : type === "departure" ? "출발지가" : "도착지가"} 추가되었습니다.`)
     openModal({
       message: `${
         type === "stopOver"
@@ -147,7 +144,6 @@ const AddData = ({ width }) => {
       });
       return;
     }
-    debugger;
     putObject();
   };
 
