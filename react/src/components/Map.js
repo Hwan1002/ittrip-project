@@ -1,9 +1,8 @@
 import "../css/Map.css";
-import React, { useEffect, useContext, useState ,useRef} from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
-import { AiOutlineSmallDash } from "react-icons/ai";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
 
@@ -43,11 +42,11 @@ const Map = () => {
 
 
   function formatDuration(milliseconds) {
-    
+
     const totalSeconds = Math.floor(milliseconds / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
     const hours = Math.floor(totalMinutes / 60);
-    
+
     const minutes = totalMinutes % 60;
     const seconds = totalSeconds % 60;
 
@@ -92,6 +91,9 @@ const Map = () => {
     const convertXY = () => {
       switch (routeType) {
         case "departure":
+          if (!departure.address) {
+            return;
+          }
           window.naver.maps.Service.geocode(
             {
               query: departure.address,
@@ -115,6 +117,9 @@ const Map = () => {
           break;
 
         case "destination":
+          if (!destination.address) {
+            return;
+          }
           window.naver.maps.Service.geocode(
             {
               query: destination.address,
@@ -141,6 +146,10 @@ const Map = () => {
         case "stopOver":
           if (stopOverList.length > 0) {
             const num = stopOverList.length - 1;
+            const stopOverAddress = stopOverList[num].address;
+            if (!stopOverAddress) {
+              return;
+            }
             window.naver.maps.Service.geocode(
               {
                 query: stopOverList[num].address,
@@ -224,7 +233,7 @@ const Map = () => {
           center: new window.naver.maps.LatLng(37.5665, 126.978),
           zoom: 11,
         });
-        
+
         const infoWindow = new window.naver.maps.InfoWindow({
           anchorSkew: true,
           pixelOffset: new window.naver.maps.Point(10, -10),
@@ -338,7 +347,7 @@ const Map = () => {
                 );
               });
             }
-            
+
 
             // path.setPatternImage(
             //   new window.naver.maps.OverlayImage.fromResource('./img/Icon/arrow.png') // 실제 이미지 경로
@@ -361,7 +370,6 @@ const Map = () => {
             map.setCenter(departureLatLng);
           }
         };
-
         updateMapForDay();
       }
     };
@@ -373,6 +381,7 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
+    debugger;
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
@@ -380,7 +389,6 @@ const Map = () => {
       console.log("foundObject" + JSON.stringify(foundObject));
       // console.log("waypoint" + JSON.stringify(foundObject.wayPoints))
       const dirReq = async () => {
-        debugger;
         if (foundObject) {
           if (foundObject.wayPoints) {
             try {
@@ -504,7 +512,7 @@ const Map = () => {
           </div>
         ))}
       </div>
-      
+
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

@@ -102,8 +102,6 @@ const Header = () => {
     setTripTitle("");
     setTripDates({});
     initObject();
-    setMapObject([]);
-    setIsReadOnly(false);
     openModal({});
   };
 
