@@ -22,9 +22,11 @@ const EntirePlan = () => {
     setIsReadOnly,
     mapObject,
     setMapObject,
-    distance, setDistance,
-    duration, setDuration
-    
+    setRouteSaved,
+    distance,
+    setDistance,
+    duration,
+    setDuration,
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
@@ -54,9 +56,12 @@ const EntirePlan = () => {
     // API 호출
     const fetchTrips = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/trips`, {
-          headers: logData.headers, //getMapping에선 header와 param을 명시해줘야한다고 함. (logData만 쓰니 인식 못 함)
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/trips`,
+          {
+            headers: logData.headers, //getMapping에선 header와 param을 명시해줘야한다고 함. (logData만 쓰니 인식 못 함)
+          }
+        );
         setTrips(response.data.data);
       } catch (err) {
         console.error("axios get 3번 에러");
@@ -69,10 +74,12 @@ const EntirePlan = () => {
     setCurrentIdx(() => trip.idx);
     setTitle(trip.title);
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`, {
-        headers: logData.headers,
-      });
-
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`,
+        {
+          headers: logData.headers,
+        }
+      );
       const startDate = new Date(trip.startDate);
       const endDate = new Date(trip.lastDate);
 
@@ -99,16 +106,19 @@ const EntirePlan = () => {
         latlng: response.data[0].mapObject[selectedDay].goalPoint,
       });
       setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints]);
-
+      setRouteSaved(true);
     } catch (err) {
       console.log("catch get Map 에러");
     }
 
     try {
       setCheckList([]);
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/checklist/${trip.idx}`, {
-        headers: logData.headers,
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/checklist/${trip.idx}`,
+        {
+          headers: logData.headers,
+        }
+      );
       setCheckList(() => response.data.items);
     } catch (err) {
       alert("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
@@ -117,18 +127,26 @@ const EntirePlan = () => {
 
   const putMapCheck = async () => {
     try {
-      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/maps`,{tripIdx: currentIdx,mapObject: mapObject,},logData);
+      await axios.put(
+        `${process.env.REACT_APP_API_BASE_URL}/maps`,
+        { tripIdx: currentIdx, mapObject: mapObject },
+        logData
+      );
       openModal({
-        message:"수정이 완료되었습니다.",
-        actions:[{label:"확인", onClick:closeModal}]
-      })
+        message: "수정이 완료되었습니다.",
+        actions: [{ label: "확인", onClick: closeModal }],
+      });
     } catch (err) {
       alert("put Map 에러");
     }
 
     //checkList put
     try {
-      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/checklist`,{tripIdx: currentIdx,items: checkList,},logData);
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_BASE_URL}/checklist`,
+        { tripIdx: currentIdx, items: checkList },
+        logData
+      );
     } catch (err) {
       alert("put CheckList 에러");
     }
@@ -137,7 +155,9 @@ const EntirePlan = () => {
 
   const deleteTrip = async (idx) => {
     try {
-      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/trip/${idx}`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/trip/${idx}`
+      );
       setTrips((prevTrips) => prevTrips.filter((trip) => trip.idx !== idx));
       openModal({
         message: "삭제 완료",
@@ -189,15 +209,18 @@ const EntirePlan = () => {
     setCheckList((prev) => prev.filter((item) => item.id !== id));
   };
   // const title = trips.map((item) => item.title);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   return (
     <div className="myPlan">
       <h2 style={{ textAlign: "center", marginBottom: 0 }}>내 일정 보기</h2>
       <div className="tripTitle">
-        {title !== ''? 
-          (<p type="text" onChange={(e) => setTitle(e.target.value)}>" {title} "</p>)
-          :('')
-        }
+        {title !== "" ? (
+          <p type="text" onChange={(e) => setTitle(e.target.value)}>
+            " {title} "
+          </p>
+        ) : (
+          ""
+        )}
       </div>
       <div className="myPlanContainer">
         <div className="mapFrame">
@@ -225,7 +248,12 @@ const EntirePlan = () => {
                     value={trip.title}
                   />
                   {/*해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/}
-                  <button className="addDataBtns" onClick={() => deleteTrip(trip.idx)}>삭제</button>
+                  <button
+                    className="addDataBtns"
+                    onClick={() => deleteTrip(trip.idx)}
+                  >
+                    삭제
+                  </button>
                 </li>
               ))}
             </ul>
@@ -241,7 +269,10 @@ const EntirePlan = () => {
                     <ul>
                       {stopOverList.map((point) => (
                         <li key={point.id}>
-                          <input readOnly={isReadOnly} value={point.value.replace(/<\/?[^>]+(>|$)/g, "")} />
+                          <input
+                            readOnly={isReadOnly}
+                            value={point.value.replace(/<\/?[^>]+(>|$)/g, "")}
+                          />
                         </li>
                       ))}
                     </ul>
@@ -272,7 +303,10 @@ const EntirePlan = () => {
                     }
                   />
                   {!isReadOnly && (
-                    <button className="addDataBtns" onClick={() => deleteCheckList(list.id)}>
+                    <button
+                      className="addDataBtns"
+                      onClick={() => deleteCheckList(list.id)}
+                    >
                       삭제
                     </button>
                   )}
@@ -280,7 +314,9 @@ const EntirePlan = () => {
               ))}
             </ul>
             {!isReadOnly && (
-              <button className="addDataBtns" onClick={() => addCheckList()} >추가</button>
+              <button className="addDataBtns" onClick={() => addCheckList()}>
+                추가
+              </button>
             )}
           </div>
         </div>

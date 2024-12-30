@@ -29,29 +29,27 @@ const NewTrip = () => {
     tripDates,
     logData,
     items,
-    mapObject,setMapObject,
+    mapObject,
+    setMapObject,
     initObject,
     setSelectedDay,
     dayChecks,
     setDeparture,
     setStopOverList,
     setDestination,
-    distance,setDistance,
-    duration,setDuration,
+    distance,
+    setDistance,
+    duration,
+    setDuration,
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-  useEffect(()=>{
-    setDistance(null);
-    setDuration(null);
-  },[distance,duration])
-  
+
   useEffect(() => {
-    debugger;
-    setDeparture({title: "",address: "",latlng: "",});  
-    setDestination({title: "",address: "",latlng: "",});  
-    setStopOverList([]); 
     setMapObject([]);
+    setDeparture({ title: "", address: "", latlng: "" });
+    setDestination({ title: "", address: "", latlng: "" });
+    setStopOverList([]);
   }, []);
 
   useEffect(() => {

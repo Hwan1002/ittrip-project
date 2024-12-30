@@ -26,7 +26,7 @@ const AddData = ({ width }) => {
     setStopOverCount,
     stopOverCount,
     setRouteType,
-    setRouteSaved
+    setRouteSaved,
   } = useContext(ProjectContext);
   const [prevLength, setPrevLength] = useState(0);
   //모달창 사용
@@ -39,20 +39,25 @@ const AddData = ({ width }) => {
     closeModal,
   } = useModal();
 
-  useEffect(()=>{
-    setStopOverCount(()=>stopOverList.length);
-  },[stopOverList])
+  useEffect(() => {
+    setStopOverCount(() => stopOverList.length);
+  }, [stopOverList]);
 
   //경로저장하기 버튼을 눌름
   const putObject = () => {
-
-    if(stopOverList.length-1 >= prevLength || stopOverList !== ''){
+    if (stopOverList.length - 1 >= prevLength || stopOverList !== "") {
       const foundData = mapObject.find((data) => data.days === selectedDay + 1);
       if (foundData) {
-        if (foundData.StartAddress !== departure.address ||JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) ||foundData.goalAddress !== destination.address) 
-        {
-            const newArr = mapObject.filter((data) => data.days !== selectedDay + 1);
-            setMapObject([...newArr]);
+        if (
+          foundData.StartAddress !== departure.address ||
+          JSON.stringify(foundData.wayPoints) !==
+            JSON.stringify(stopOverList) ||
+          foundData.goalAddress !== destination.address
+        ) {
+          const newArr = mapObject.filter(
+            (data) => data.days !== selectedDay + 1
+          );
+          setMapObject([...newArr]);
         }
       }
       setMapObject((prevMapObject) => [
@@ -123,7 +128,7 @@ const AddData = ({ width }) => {
 
   //좌표저장
   const handlecoordinate = () => {
-    if (departure.address === "" || destination.address === "" ) {
+    if (departure.address === "" || destination.address === "") {
       openModal({
         title: "오류",
         message: "출발지와 도착지를 입력해주세요.",
@@ -156,9 +161,12 @@ const AddData = ({ width }) => {
     } else {
       try {
         const newData = [...data, value];
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/local`, {
-          params: { query: value },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/local`,
+          {
+            params: { query: value },
+          }
+        );
         setRes(response.data.items);
         setData(newData);
         updateState(value);
@@ -176,7 +184,11 @@ const AddData = ({ width }) => {
   };
   //경유지 추가 버튼
   const plusBtnClicked = () => {
-    setStopOverList([...stopOverList, { id: Date.now(), value: "", address: ""}]);
+    setStopOverList([
+      ...stopOverList,
+      { id: Date.now(), value: "", address: "" },
+    ]);
+    setRouteSaved(false);
   };
 
   const handleStopOverChange = (id, value) => {
@@ -248,7 +260,7 @@ const AddData = ({ width }) => {
           </button>
         </div>
       ))}
-      {departure.title && destination.title && stopOverList.length < 15 &&(
+      {departure.title && destination.title && stopOverList.length < 15 && (
         <div className="plusBtn">
           <button type="button" onClick={plusBtnClicked}>
             경유지 추가

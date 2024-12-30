@@ -124,9 +124,12 @@ export const ProjectProvider = ({ children }) => {
     setStopOverCount,
     isReadOnly,
     setIsReadOnly,
-    routeSaved, setRouteSaved,
-    distance, setDistance,
-    duration, setDuration
+    routeSaved,
+    setRouteSaved,
+    distance,
+    setDistance,
+    duration,
+    setDuration,
   };
 
   return (
