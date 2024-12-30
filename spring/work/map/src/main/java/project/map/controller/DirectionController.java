@@ -16,10 +16,10 @@ public class DirectionController {
 
 	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";
 																								
-	@Value("${naver.maps.api.key.id}") 
+	@Value("${naver.api.key.id}") 
 	private String apiKeyId;
 
-	@Value("${naver.maps.api.key.secret}")
+	@Value("${naver.api.key.secret}")
 	private String apiKeySecret;
 
 	private final WebClient webClient;

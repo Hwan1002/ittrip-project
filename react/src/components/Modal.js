@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from "react";
-import "../css/Modal.css"; 
+import React, { useState, useEffect } from "react";
+import "../css/Modal.css";
 
-const Modal = ({ isOpen, onClose, title, content,  actions, className}) => {
+const Modal = ({ isOpen, onClose, title, content, actions, className }) => {
+    const [isVisible, setIsVisible] = useState(false);
 
-    const [isVisible , setIsVisible] = useState(false);
-    // if (!isOpen) return null; // isOpen이 false면 Modal을 렌더링하지 않음
-    useEffect(()=>{
-        if(isOpen){
+    // 애니메이션을 위해 상태 관리
+    useEffect(() => {
+        if (isOpen) {
             setIsVisible(true);
         }
-    },[isOpen])
-   
+    }, [isOpen]);
+
+    const handleClose = () => {
+        // 애니메이션 종료 후 onClose 호출
+        setIsVisible(false);
+        setTimeout(() => {
+            onClose();
+        }, 700); // transition-duration과 동일하게 설정
+    };
+
     return (
-        <div className={`modal-backdrop ${isOpen? "open" : ""}`}>
-            {/* <div className="modal-content"> */}
+        <div className={`modal-backdrop ${isOpen ? "open" : ""}`}>
             <div
                 className={`modal-content ${isOpen ? "open" : ""} ${className || ""}`}
                 onTransitionEnd={() => {
@@ -36,8 +43,8 @@ const Modal = ({ isOpen, onClose, title, content,  actions, className}) => {
                             {action.label}
                         </button>
                     ))}
-                    {!actions.length && (
-                        <button className="default-close" onClick={onClose}>
+                    {!actions?.length && (
+                        <button className="default-close" onClick={handleClose}>
                             확인
                         </button>
                     )}

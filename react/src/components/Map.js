@@ -56,8 +56,6 @@ const Map = () => {
     }
   }
 
-
-
   useEffect(() => {
     const convertXY = () => {
       switch (routeType) {
@@ -444,7 +442,7 @@ const Map = () => {
       setRouteSaved(false);
     };
    
-    if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
+    if (!routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
       openModal({
         message: "저장이 안된 일정이 있습니다. 넘어가시겠습니까?",
         actions: [
@@ -484,12 +482,12 @@ const Map = () => {
           </div>
         ))}
       </div>
-      {(duration !== 0 && distance !== 0)? (
+      {(duration !== null || distance !== null)? (
         <div className="duration">
           <p>소요시간 : {duration}</p>
           <p>여행거리 : {distance}</p>
         </div>
-      ):('')}
+      ):("")}
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

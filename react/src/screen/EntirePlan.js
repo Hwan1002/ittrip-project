@@ -22,6 +22,9 @@ const EntirePlan = () => {
     setIsReadOnly,
     mapObject,
     setMapObject,
+    distance, setDistance,
+    duration, setDuration
+    
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
@@ -65,7 +68,6 @@ const EntirePlan = () => {
   const fetchMapCheck = async (trip) => {
     setCurrentIdx(() => trip.idx);
     setTitle(trip.title);
-    debugger;
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`, {
         headers: logData.headers,

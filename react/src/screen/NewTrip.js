@@ -14,6 +14,7 @@ import { format } from "date-fns";
 
 const NewTrip = () => {
   const navigate = useNavigate();
+
   const {
     isModalOpen,
     openModal,
@@ -22,6 +23,7 @@ const NewTrip = () => {
     modalMessage,
     modalActions,
   } = useModal();
+
   const {
     tripTitle,
     tripDates,
@@ -34,19 +36,22 @@ const NewTrip = () => {
     setDeparture,
     setStopOverList,
     setDestination,
-    setDistance,
-    setDuration,
+    distance,setDistance,
+    duration,setDuration,
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-
+  useEffect(()=>{
+    setDistance(null);
+    setDuration(null);
+  },[distance,duration])
+  
   useEffect(() => {
+    debugger;
     setDeparture({title: "",address: "",latlng: "",});  
     setDestination({title: "",address: "",latlng: "",});  
     setStopOverList([]); 
     setMapObject([]);
-    setDistance(0);
-    setDuration(0);
   }, []);
 
   useEffect(() => {

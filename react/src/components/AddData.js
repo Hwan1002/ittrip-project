@@ -68,7 +68,7 @@ const AddData = ({ width }) => {
           wayPoints: stopOverList || [],
         },
       ]);
-      setRouteSaved(false);
+      setRouteSaved(true);
       openModal({
         title: `Day ${selectedDay + 1}`,
         message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
