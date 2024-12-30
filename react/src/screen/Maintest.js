@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/MainTest.css"
+import "../css/Main.css";
 import banner2 from "../img/MainPage/banner/banner2.jpg";
 import local1 from "../img/MainPage/local1.gif";
 import local2 from "../img/MainPage/local2.gif";
@@ -103,10 +104,6 @@ const Maintest = () => {
         } //if end
     }, [areaCd]) // useEffect end
 
-    useEffect(()=>{
-        console.log(signguNm);
-    },[signguNm])
-
     const requestData = async (item) => {
         try {
             // API 요청
@@ -149,7 +146,6 @@ const Maintest = () => {
             <div id="bigbanner">
                 <img src={banner2} alt="banner" />
             </div>
-            
             {/* 지역 4개 */}
             <div className="localSet">
                 <div className="localtrip">

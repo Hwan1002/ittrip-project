@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import "../css/EntirePlan.css";
 import "../css/Reset.css";
-import { Link } from "react-router-dom";
 import Map from "../components/Map";
-import Plus2 from "../img/plus2.svg";
 import { API_BASE_URL } from "../service/api-config";
 import AddData from "../components/AddData";
 import { ProjectContext } from "../context/ProjectContext";

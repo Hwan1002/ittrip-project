@@ -48,6 +48,7 @@ const AddData = ({ width }) => {
   },[stopOverList])
   //경로저장하기 버튼을 눌름
   const putObject = () => {
+
     if(stopOverList.length-1 >= prevLength || stopOverList !== ''){
       const foundData = mapObject.find((data) => data.days === selectedDay + 1);
       if (foundData) {
@@ -120,7 +121,6 @@ const AddData = ({ width }) => {
         break;
       default:
         console.log("handleCheck switch 케이스 쪽 오류");
-
     }
     closeModal();
     openModal({
@@ -203,6 +203,7 @@ const AddData = ({ width }) => {
 
   //경유지 삭제 버튼
   const removeStopOver = (id) => {
+    console.log(id);
     setStopOverList(stopOverList.filter((stopOver) => stopOver.id !== id));
     setStopOverCount((prev) => prev - 1);
   };
@@ -264,7 +265,7 @@ const AddData = ({ width }) => {
         </div>
       ))}
       {/* plus 경유지 추가 버튼  */}
-      {departure.title && destination.title && stopOverList.length < 15 &&(
+      {departure.title && destination.title && (
         <div className="plusBtn">
           <button type="button" onClick={plusBtnClicked}>
             경유지 추가

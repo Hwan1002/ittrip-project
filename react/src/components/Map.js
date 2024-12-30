@@ -10,27 +10,19 @@ import { API_BASE_URL } from "../service/api-config";
 const Map = () => {
   const {
     tripDates,
-    path,
-    setPath,
     routeType,
-    stopOverList,
-    setStopOverList,
     mapObject,
-    departure,
-    setDeparture,
-    destination,
-    setDestination,
-    selectedDay,
-    setSelectedDay,
-    dayChecks,
-    setDayChecks,
     stopOverCount,
-    routeSaved,
+    path,setPath,
+    stopOverList,setStopOverList,
+    departure,setDeparture,
+    destination,setDestination,
+    selectedDay,setSelectedDay,
+    dayChecks,setDayChecks,
+    routeSaved,setRouteSaved,
     distance, setDistance,
     duration, setDuration
   } = useContext(ProjectContext);
-
-  
 
   const {
     isModalOpen,
@@ -43,11 +35,8 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
 
-
   const [tollFare, setTollFare] = useState(0);
   const [fuelPrice, setFuelPrice] = useState(0);
-
-
 
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -68,6 +57,8 @@ const Map = () => {
       return `${meters}m`;
     }
   }
+
+
 
   useEffect(() => {
     const convertXY = () => {
@@ -199,7 +190,9 @@ const Map = () => {
         latlng: foundData.goalPoint,
       });
     }
+
   }, [selectedDay]);
+
 
 
   useEffect(() => {
@@ -450,6 +443,7 @@ const Map = () => {
         updatedDayBoolean[day] = true;
         return updatedDayBoolean;
       });
+      setRouteSaved(false);
     };
    
     if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
@@ -472,18 +466,10 @@ const Map = () => {
         ],
       });
     } else {
-      setDeparture({ title: "", address: "" });
-      setStopOverList([]);
-      setDestination({ title: "", address: "" });
-      setSelectedDay(day);
-      setDayBoolean((prev) => {
-        const updatedDayBoolean = [...prev];
-        updatedDayBoolean[selectedDay] = false;
-        updatedDayBoolean[day] = true;
-        return updatedDayBoolean;
-      });
+      afterSet();
     }
   }
+
 
   return (
     <div id="mapPlan">
@@ -502,9 +488,9 @@ const Map = () => {
       </div>
       {(duration !== 0 && distance !== 0)? (
         <div className="duration">
-        <p>소요시간 : {duration}</p>
-        <p>여행거리 : {distance}</p>
-      </div>
+          <p>소요시간 : {duration}</p>
+          <p>여행거리 : {distance}</p>
+        </div>
       ):('')}
       <Modal
         isOpen={isModalOpen}
