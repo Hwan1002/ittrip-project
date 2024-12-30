@@ -27,13 +27,5 @@ public class AreaDTO {
 		this.areaNm = entity.getAreaNm();
 		this.signguNm = entity.getSignguNm();
 	}
-	
-	public static AreaEntity toEntity(AreaDTO dto) {
-		return AreaEntity.builder().
-				signguCd(dto.getSignguCd()).
-				areaCd(dto.getAreaCd()).
-				areaNm(dto.getAreaNm()).
-				signguNm(dto.getSignguNm()).
-				build();
-	}
+
 }

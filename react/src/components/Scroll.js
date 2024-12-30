@@ -1,8 +1,6 @@
 import React from "react";
 const Scroll = ({title,list,style}) => {
 
-    
-
     return (
         <div style={{ textAlign: "center" }}>
             <p style={{ color: "#F6A354",fontSize:"20px", paddingRight:"20px" }}>{title}</p>

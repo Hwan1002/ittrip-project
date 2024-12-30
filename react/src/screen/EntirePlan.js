@@ -1,10 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import "../css/EntirePlan.css";
 import "../css/Reset.css";
-import { Link } from "react-router-dom";
 import Map from "../components/Map";
-import Plus2 from "../img/plus2.svg";
-import { API_BASE_URL } from "../service/api-config";
 import AddData from "../components/AddData";
 import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
@@ -16,7 +13,6 @@ const EntirePlan = () => {
     setDeparture,
     setStopOverList,
     setDestination,
-    dayChecks,
     setDayChecks,
     selectedDay,
     departure,
@@ -26,16 +22,12 @@ const EntirePlan = () => {
     setIsReadOnly,
     mapObject,
     setMapObject,
-    setPath,
-    distance, setDistance,
-    duration, setDuration
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
-  // const [maps, setMaps] = useState([]); //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints}
   const [checkList, setCheckList] = useState([]); //{id,text,checked}
-
   const [currentIdx, setCurrentIdx] = useState(null);
+
   const {
     isModalOpen,
     modalTitle,
@@ -59,7 +51,7 @@ const EntirePlan = () => {
     // API 호출
     const fetchTrips = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/3`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/trips`, {
           headers: logData.headers, //getMapping에선 header와 param을 명시해줘야한다고 함. (logData만 쓰니 인식 못 함)
         });
         setTrips(response.data.data);
@@ -75,7 +67,7 @@ const EntirePlan = () => {
     setTitle(trip.title);
     debugger;
     try {
-      const response = await axios.get(`${API_BASE_URL}/4/${trip.idx}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`, {
         headers: logData.headers,
       });
 
@@ -93,7 +85,6 @@ const EntirePlan = () => {
       setDayChecks([...daysArray]);
 
       const flatMapObjects = response.data.map((item) => item.mapObject).flat();
-      //   setMaps(flatMapObjects);
       setMapObject(flatMapObjects);
       setDeparture({
         title: response.data[0].mapObject[selectedDay].startPlace,
@@ -107,16 +98,13 @@ const EntirePlan = () => {
       });
       setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints]);
 
-      // setStopOverList({title: ,address:})
-      // setDestination({title: ,address:})
-      //   setMaps(response.data.mapObject);
     } catch (err) {
       console.log("catch get Map 에러");
     }
 
     try {
       setCheckList([]);
-      const response = await axios.get(`${API_BASE_URL}/5/${trip.idx}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/checklist/${trip.idx}`, {
         headers: logData.headers,
       });
       setCheckList(() => response.data.items);
@@ -127,7 +115,7 @@ const EntirePlan = () => {
 
   const putMapCheck = async () => {
     try {
-      await axios.put(`${API_BASE_URL}/2`,{tripIdx: currentIdx,mapObject: mapObject,},logData);
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/maps`,{tripIdx: currentIdx,mapObject: mapObject,},logData);
       openModal({
         message:"수정이 완료되었습니다.",
         actions:[{label:"확인", onClick:closeModal}]
@@ -138,7 +126,7 @@ const EntirePlan = () => {
 
     //checkList put
     try {
-      const response = await axios.put(`${API_BASE_URL}/3`,{tripIdx: currentIdx,items: checkList,},logData);
+      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/checklist`,{tripIdx: currentIdx,items: checkList,},logData);
     } catch (err) {
       alert("put CheckList 에러");
     }
@@ -147,7 +135,7 @@ const EntirePlan = () => {
 
   const deleteTrip = async (idx) => {
     try {
-      const response = await axios.delete(`${API_BASE_URL}/1/${idx}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/trip/${idx}`);
       setTrips((prevTrips) => prevTrips.filter((trip) => trip.idx !== idx));
       openModal({
         message: "삭제 완료",
