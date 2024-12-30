@@ -48,9 +48,6 @@ const AddData = ({ width }) => {
   },[stopOverList])
   //경로저장하기 버튼을 눌름
   const putObject = () => {
-    debugger;
-    console.log(stopOverList.length);
-    console.log(stopOverList);
     if(stopOverList.length-1 >= prevLength || stopOverList !== ''){
       const foundData = mapObject.find((data) => data.days === selectedDay + 1);
       if (foundData) {
@@ -91,9 +88,7 @@ const AddData = ({ width }) => {
     // }
   };
 
-  useEffect(() => {
-    console.log("검색 결과 업데이트 됨 :", res);
-  }, [res]);
+
 
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
@@ -125,6 +120,7 @@ const AddData = ({ width }) => {
         break;
       default:
         console.log("handleCheck switch 케이스 쪽 오류");
+
     }
     closeModal();
     openModal({
@@ -207,7 +203,6 @@ const AddData = ({ width }) => {
 
   //경유지 삭제 버튼
   const removeStopOver = (id) => {
-    console.log(id);
     setStopOverList(stopOverList.filter((stopOver) => stopOver.id !== id));
     setStopOverCount((prev) => prev - 1);
   };

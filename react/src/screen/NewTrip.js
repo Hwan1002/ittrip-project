@@ -33,9 +33,10 @@ const NewTrip = () => {
     setSelectedDay,
     dayChecks,
     setDeparture,
+    setStopOverList,
     setDestination,
-    
-    setStopOverList
+    distance, setDistance,
+    duration, setDuration,
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
@@ -45,6 +46,8 @@ const NewTrip = () => {
     setDestination({title: "",address: "",latlng: "",});  
     setStopOverList([]); 
     setMapObject([]);
+    setDistance(0);
+    setDuration(0);
   }, []);
 
   useEffect(() => {

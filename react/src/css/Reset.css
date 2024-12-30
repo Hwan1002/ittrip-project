@@ -26,7 +26,6 @@ html,body{
     background-attachment: fixed; /* 스크롤 시 배경 이미지가 고정되도록 설정 */
     font-family: "CustomFont", sans-serif; /* 폰트 설정 */
     background-color: #F6F6F6;
-    width:100%;
 }
 body::-webkit-scrollbar {
     display: none;
