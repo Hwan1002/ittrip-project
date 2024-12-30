@@ -17,8 +17,7 @@ public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		@Query("select t from TripEntity t where t.user.id = ?1 order by t.idx")
 		List<TripEntity> getTripsByUserId(String userId);
 	
-		//타이틀 중복여부 확인
-		boolean existsByTitle(String title);
+		boolean existsByTitleAndUserId(String title, String userId);
 		
 		@Query("select t from TripEntity t where t.idx = ?1")
 		TripEntity getByIdx(Integer idx);

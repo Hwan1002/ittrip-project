@@ -31,6 +31,9 @@ const Map = () => {
     setDistance,
     duration,
     setDuration,
+    flag,
+    setFlag
+
   } = useContext(ProjectContext);
 
   const {
@@ -43,9 +46,6 @@ const Map = () => {
   } = useModal();
 
   const [dayBoolean, setDayBoolean] = useState([]);
-
-  const [tollFare, setTollFare] = useState(0);
-  const [fuelPrice, setFuelPrice] = useState(0);
 
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -65,11 +65,17 @@ const Map = () => {
       return `${meters}m`;
     }
   }
-  useEffect(() => {
-    setMapObject([]);
-    setDuration(0);
-    setDistance(0);
-  }, []);
+
+
+  useEffect(()=>{
+    console.log("duration : "+JSON.stringify(duration));
+    console.log("distance : "+JSON.stringify(distance));
+    console.log("mapObject: "+JSON.stringify(mapObject));
+    console.log("path: "+JSON.stringify(path));
+    console.log("departure :"+JSON.stringify(departure))
+    console.log("destination:" +JSON.stringify(destination))
+    console.log("flag" +flag)
+  },[duration,distance])
 
   useEffect(() => {
     const convertXY = () => {
@@ -200,7 +206,12 @@ const Map = () => {
         address: foundData.goalAddress,
         latlng: foundData.goalPoint,
       });
+      setFlag(true);
+    }else{
+      setFlag(false);
     }
+     
+    
   }, [selectedDay]);
 
   useEffect(() => {
@@ -370,6 +381,7 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
+    debugger;
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
@@ -494,14 +506,13 @@ const Map = () => {
           </div>
         ))}
       </div>
-      {duration !== null && distance !== null ? (
+      {flag && duration && distance && (
         <div className="duration">
           <p>소요시간 : {duration}</p>
           <p>여행거리 : {distance}</p>
         </div>
-      ) : (
-        ""
-      )}
+      )      
+      }
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

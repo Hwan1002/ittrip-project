@@ -23,10 +23,9 @@ const EntirePlan = () => {
     mapObject,
     setMapObject,
     setRouteSaved,
-    distance,
     setDistance,
-    duration,
     setDuration,
+    setFlag
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
@@ -53,8 +52,10 @@ const EntirePlan = () => {
   }, [isReadOnly]);
 
   useEffect(() => {
+    
     // API 호출
     const fetchTrips = async () => {
+      
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_API_BASE_URL}/trips`,
@@ -68,9 +69,11 @@ const EntirePlan = () => {
       }
     };
     fetchTrips();
+    
   }, []);
 
   const fetchMapCheck = async (trip) => {
+    setFlag(true)
     setCurrentIdx(() => trip.idx);
     setTitle(trip.title);
     try {
