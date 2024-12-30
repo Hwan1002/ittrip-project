@@ -3,7 +3,6 @@ import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
-import { AiOutlineSmallDash } from "react-icons/ai";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
 
