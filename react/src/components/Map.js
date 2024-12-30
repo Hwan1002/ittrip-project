@@ -350,8 +350,8 @@ const Map = () => {
             );
             const polyline = new window.naver.maps.Polyline({
               path: pathCoordinates, // 경로 (LatLng 객체 배열)
-              strokeColor: "#FF0000", // 폴리라인 색상
-              strokeWeight: 2.5, // 선 두께
+              strokeColor: "#ff5f23", // 폴리라인 색상
+              strokeWeight: 4, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
             });
             map.fitBounds(bounds);
