@@ -438,7 +438,6 @@ const Map = () => {
   }, [mapObject, selectedDay]);
 
   const handleDayClick = (day) => {
-    setRouteSaved(false);
     const afterSet = () => {
       setDeparture({ title: "", address: "" });
       setStopOverList([]);
