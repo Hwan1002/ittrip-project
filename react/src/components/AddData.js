@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState, useContext, useEffect } from "react";
-import { API_BASE_URL } from "../service/api-config";
 import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
@@ -15,8 +14,6 @@ const AddData = ({ width }) => {
   const [isNewModal, setIsNewModal] = useState(false);
   //context 활용
   const {
-    path,
-    setPath,
     departure,
     setDeparture,
     stopOverList,
@@ -24,13 +21,12 @@ const AddData = ({ width }) => {
     destination,
     setDestination,
     selectedDay,
-    setSelectedDay,
     mapObject,
     setMapObject,
     setStopOverCount,
     stopOverCount,
     setRouteType,
-    routeSaved,setRouteSaved
+    setRouteSaved
   } = useContext(ProjectContext);
   const [prevLength, setPrevLength] = useState(0);
   //모달창 사용
@@ -46,6 +42,7 @@ const AddData = ({ width }) => {
   useEffect(()=>{
     setStopOverCount(()=>stopOverList.length);
   },[stopOverList])
+
   //경로저장하기 버튼을 눌름
   const putObject = () => {
 
@@ -78,18 +75,7 @@ const AddData = ({ width }) => {
         actions: [{ label: "확인", onClick: closeModal }],
       });
     }
-    // else{
-    //   setRouteSaved(true);
-    //     openModal({
-    //       title: "오류",
-    //       message: "fdsdfsdfsd",
-    //       actions: [{ label: "확인", onClick: closeModal }],
-    //     });
-    //     return;
-    // }
   };
-
-
 
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
@@ -135,7 +121,7 @@ const AddData = ({ width }) => {
     });
   };
 
-  //좌표저장 (효용)
+  //좌표저장
   const handlecoordinate = () => {
     if (departure.address === "" || destination.address === "" ) {
       openModal({
@@ -170,7 +156,7 @@ const AddData = ({ width }) => {
     } else {
       try {
         const newData = [...data, value];
-        const response = await axios.get(`${API_BASE_URL}/local`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/local`, {
           params: { query: value },
         });
         setRes(response.data.items);
@@ -210,7 +196,6 @@ const AddData = ({ width }) => {
 
   return (
     <div className="addData">
-      {/* 출발지 input */}
       <div className="departSearch">
         <input
           type="text"
@@ -228,7 +213,6 @@ const AddData = ({ width }) => {
           출발
         </button>
       </div>
-      {/* 경유지 input */}
       {stopOverList.map((stopOver) => (
         <div className="stopOverSearch" key={stopOver.id}>
           <input
@@ -264,19 +248,14 @@ const AddData = ({ width }) => {
           </button>
         </div>
       ))}
-      {/* plus 경유지 추가 버튼  */}
-      {departure.title && destination.title && (
+      {departure.title && destination.title && stopOverList.length < 15 &&(
         <div className="plusBtn">
           <button type="button" onClick={plusBtnClicked}>
             경유지 추가
           </button>
         </div>
       )}
-      {/* 도착지 input */}
       <div className="destinateSearch">
-        {/* {destination?
-              <input type="text" onChange={(e)=> setDestination(e.target.value)} value={destination.replace(/<\/?[^>]+(>|$)/g, "")}/> : <input type="text" placeholder="도착지를 검색하세요." onChange={(e) => setSearchInput2(e.target.value)}/>
-            } */}
         <input
           type="text"
           placeholder="도착지를 검색하세요."

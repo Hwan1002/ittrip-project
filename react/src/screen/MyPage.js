@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import '../css/MyPage.css'
-import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
@@ -13,7 +12,7 @@ const MyPage = () => {
     const [userData, setUserData] = useState({});
     const [passwordConfirm, setPasswordConfirm] = useState(''); //비밀번호 확인 상태만 따로 저장 (비교용도)
 
-    const [ImgPreview, setImgPreview] = useState(`http://localhost:8080${userData.profilePhoto}`); //그냥로그인 프로필
+    const [ImgPreview, setImgPreview] = useState(`${process.env.REACT_APP_API_BASE_URL}${userData.profilePhoto}`); //그냥로그인 프로필
     //ref
     const inputImgRef = useRef(null);
     //context
@@ -37,11 +36,11 @@ const MyPage = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/mypage`, logData);
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/mypage`, logData);
                 debugger;
                 console.log(response.data.value)
                 setUserData(response.data.value);
-                setImgPreview(`http://localhost:8080${response.data.value.profilePhoto}`);
+                setImgPreview(`${process.env.REACT_APP_API_BASE_URL}${response.data.value.profilePhoto}`);
             } catch (error) {
                 console.error("Error fetching user info:", error);
             }
@@ -54,7 +53,7 @@ const MyPage = () => {
 
         const userDelete = async() => {
             try {
-                await axios.delete(`${API_BASE_URL}`, {headers: {Authorization: `Bearer ${token}`}});
+                await axios.delete(`${process.env.REACT_APP_API_BASE_URL}`, {headers: {Authorization: `Bearer ${token}`}});
                 window.localStorage.removeItem("token");
                 setLoginSuccess(false);
                 openModal({
@@ -76,22 +75,6 @@ const MyPage = () => {
                 {label:"돌아가기", onClick:closeModal,}
             ]
         })
-        // if (window.confirm("정말로 회원 탈퇴를 진행하시겠습니까?")) {
-        //     try {
-        //         await axios.delete(`${API_BASE_URL}`, {headers: {Authorization: `Bearer ${token}`}});
-        //         window.localStorage.removeItem("token");
-        //         setLoginSuccess(false);
-        //         openModal({
-        //             title: "회원탈퇴",
-        //             message: "탈퇴 되었습니다.",
-        //             actions: [{ label: "확인", onClick: () => { closeModal(); setTimeout(() => navigate("/login"), 500) } }],
-        //         })
-
-        //     } catch (error) {
-        //         console.error("회원 삭제 실패:", error);
-        //         alert("회원 삭제 중 오류가 발생했습니다.");
-        //     }
-        // }
     };
 
     const handleInputChange = (e) => {
@@ -173,7 +156,7 @@ const MyPage = () => {
                 formData.append("profilePhoto", null);
             }
 
-            const response = await axios.put(`${API_BASE_URL}`, formData, {
+            const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",

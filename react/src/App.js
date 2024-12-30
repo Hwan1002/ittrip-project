@@ -2,7 +2,7 @@ import "./App.css";
 import Login from "./screen/Login";
 import EntirePlan from "./screen/EntirePlan";
 import Header from "./components/Header";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes, useNavigate } from "react-router-dom";
 import Map from "./components/Map";
 import SignUp from "./screen/SignUp";
 import AddData from "./components/AddData";
@@ -13,8 +13,9 @@ import NewTrip from "./screen/NewTrip";
 import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
-import Maintest from "./screen/Maintest";
+import MainTest from "./screen/MainTest";
 import { useEffect } from "react";
+
 function App() {
 
   const navigate = useNavigate();

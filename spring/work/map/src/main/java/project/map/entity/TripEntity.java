@@ -39,7 +39,6 @@ public class TripEntity {
     @Column(name = "idx", nullable = false)
     private Integer idx; 	 //식별자
     
-    
     @Column(name = "start_date")
     private LocalDate  startDate;  // 계획 첫날 	// 타입 Date 를 localDateTime으로 변경했음 
     
@@ -57,10 +56,6 @@ public class TripEntity {
 
     @Column(name = "title")
     private String title;    // 여행 제목
-    
-//    public TripEntity(String title) {
-//        this.title = title;
-//    }
     
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id",referencedColumnName = "id",nullable=false) // 외래키: user_id

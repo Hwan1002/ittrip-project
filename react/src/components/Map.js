@@ -3,9 +3,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
-import { AiOutlineSmallDash } from "react-icons/ai";
 import axios from "axios";
-import { API_BASE_URL } from "../service/api-config";
 
 const Map = () => {
   const {
@@ -198,7 +196,7 @@ const Map = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-      "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wz3pjcepky&submodules=geocoder";
+      `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.REACT_APP_NAVER_MAPS_API_KEY_ID}&submodules=geocoder`;
     script.async = true;
     script.onload = () => {
       if (window.naver && window.naver.maps) {
@@ -380,7 +378,7 @@ const Map = () => {
                 return prev.latlng;
               });
               const lnglatString = latlngArray.join("|");
-              const response = await axios.get(`${API_BASE_URL}/12345`, {
+              const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/directions/withwaypoint`, {
                 params: {
                   start: foundObject.startPoint,
                   goal: foundObject.goalPoint,
@@ -403,7 +401,7 @@ const Map = () => {
             }
           } else {
             try {
-              const response = await axios.get(`${API_BASE_URL}/1234`, {
+              const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/directions/nowaypoint`, {
                 params: {
                   start: foundObject.startPoint,
                   goal: foundObject.goalPoint,

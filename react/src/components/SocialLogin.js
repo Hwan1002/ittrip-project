@@ -37,7 +37,7 @@ const SocialLogin = () => {
 
     const UserInfo = async (token) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/mypage`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/mypage`, {
                 headers: {
                     "Authorization": `Bearer ${token}`  // Authorization 헤더에 토큰 삽입
                     }

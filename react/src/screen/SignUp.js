@@ -1,21 +1,15 @@
-//css
 import '../css/SignUp.css';
 import '../css/Reset.css';
-//component
 import Logo from "../components/Logo";
-//react import
-import React,{useState, useRef, useContext, useEffect} from "react";
+import React,{useState, useRef, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { API_BASE_URL } from '../service/api-config';
 import Modal from '../components/Modal';
 import useModal from '../context/useModal';
 import { ProjectContext } from '../context/ProjectContext';
 
 
 const SignUp = () => {
-    
-
     const [formData, setFormData] = useState({
         id : '',
         password : '',
@@ -88,7 +82,7 @@ const SignUp = () => {
                 })
                 return;
             }else{
-                const response = await axios.get(`${API_BASE_URL}/check`,{
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/check`,{
                     params :   {id : formData.id}} )
                 if(response.data){
                     openModal({
@@ -186,7 +180,7 @@ const signUp = async(e) => {
         return;
     }else{
         try {
-            const response = await axios.post(`${API_BASE_URL}/signup`, formDataToSend, {
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/signup`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data' 
 
