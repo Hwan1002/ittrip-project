@@ -28,6 +28,8 @@ const Map = () => {
     routeSaved
   } = useContext(ProjectContext);
 
+  
+
   const {
     isModalOpen,
     openModal,
