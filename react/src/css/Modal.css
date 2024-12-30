@@ -9,8 +9,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    transform: scale(0.5); 
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
+.modal-backdrop.open{
+    transform: scale(1); 
+    opacity: 1;
+}
 /* 모달창 기본 공통 css */
 .modal-content {
     display: flex;
@@ -23,16 +29,13 @@
     width: 400px;
     height: auto;
     max-width: 90%;
-<<<<<<< HEAD
     opacity: 0;
     transform: scale(0.5); 
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .modal-content.open{
-    transform: scale(1); /* 원래 크기 */
-    opacity: 1; /* 보이기 */
-=======
->>>>>>> parent of e402137 (commit)
+    transform: scale(1); 
+    opacity: 1; 
 }
 
 .modal-content h2 {
