@@ -4,6 +4,8 @@ package project.map.controller;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,9 +20,11 @@ public class LocalSearchController {
 	
 	private String requestUrl = "https://openapi.naver.com/v1/search/local.json";
 
-	private String clientId = "W9EGYZ0MuwquaEjMhFOb";
+	@Value("${localSearch.api.key.id}")
+	private String clientId ;
 	
-	private String clientSecret = "f80AypR712";
+	@Value("${localSearch.api.key.secret}")
+	private String clientSecret ;
 	
 	public LocalSearchController(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.baseUrl(requestUrl).build();

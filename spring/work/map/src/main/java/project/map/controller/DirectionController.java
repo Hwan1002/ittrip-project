@@ -14,7 +14,7 @@ import project.map.dto.DirectionsResponseDTO;
 @RestController
 public class DirectionController {
 
-	@Value("${naver.api.url}")
+
 	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";// Directions 15 요청 서버
 																								// url
 	// https://naveropenapi.apigw.ntruss.com/map-direction-15
