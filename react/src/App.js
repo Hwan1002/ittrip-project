@@ -15,7 +15,6 @@ import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
 import Maintest from "./screen/Maintest";
-import Main from "./screen/Main";
 import { useEffect } from "react";
 function App() {
 
@@ -43,7 +42,6 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Maintest />} />
-        <Route path="/1" element={<Main />} />
         <Route path="/addData" element={<AddData />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

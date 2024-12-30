@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/MainTest.css"
+import "../css/Main.css"
 import banner2 from "../img/MainPage/banner/banner2.jpg";
 import local1 from "../img/MainPage/local1.gif";
 import local2 from "../img/MainPage/local2.gif";
@@ -9,13 +10,13 @@ import local5 from "../img/MainPage/local5.gif";
 import local6 from "../img/MainPage/local6.gif";
 import local7 from "../img/MainPage/local7.gif";
 import local8 from "../img/MainPage/local8.png";
-//icon
 import house from "../img/Icon/house2.png"
 import food from "../img/Icon/food2.png"
 import spot from "../img/Icon/spot2.png"
 import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
+
 
 const Maintest = () => {
 
