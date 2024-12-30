@@ -59,6 +59,13 @@ const Map = () => {
     }
   }
 
+  useEffect(()=>{
+    if (dayBoolean.every((data) => data === true)) {
+      const booleanArray = new Array(dayBoolean.length).fill(false);
+      setDayBoolean([...booleanArray]);
+    }
+  },[dayBoolean])
+
   useEffect(() => {
     const convertXY = () => {
       switch (routeType) {

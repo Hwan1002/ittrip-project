@@ -76,6 +76,7 @@ const AddData = ({ width }) => {
     }
   };
 
+
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
     setIsNewModal(false);

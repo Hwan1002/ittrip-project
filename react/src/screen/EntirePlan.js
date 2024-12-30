@@ -22,6 +22,9 @@ const EntirePlan = () => {
     setIsReadOnly,
     mapObject,
     setMapObject,
+    setDuration,
+    setDistance,
+    duration,
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
@@ -61,6 +64,8 @@ const EntirePlan = () => {
     };
     fetchTrips();
   }, []);
+
+ 
 
   const fetchMapCheck = async (trip) => {
     setCurrentIdx(() => trip.idx);

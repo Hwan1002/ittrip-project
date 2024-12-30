@@ -25,8 +25,9 @@ public class LocalRecController {
 	@Autowired
 	private TripService service;
 
-	@Value("${public.data.api.key}")
-	private String serviceKey;
+//	@Value("${public.data.api.key}")
+	private String serviceKey = "vLo5QchUev0eMI0EfQEAAhaA8KcbKibBBFb7Ypbv1eSPl4kxhJ/g3bBPjmrlTlk8lwphxZUfqR7Ic5zYSwND2g==";
+	
 	private String mobileOs = "WEB";
 	private String mobileApp = "AppTest";
 	private String baseYm = "202407";
