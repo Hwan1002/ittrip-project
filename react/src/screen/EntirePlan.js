@@ -27,6 +27,8 @@ const EntirePlan = () => {
     mapObject,
     setMapObject,
     setPath,
+    distance, setDistance,
+    duration, setDuration
   } = useContext(ProjectContext);
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
@@ -124,9 +126,12 @@ const EntirePlan = () => {
   };
 
   const putMapCheck = async () => {
-    debugger;
     try {
       await axios.put(`${API_BASE_URL}/2`,{tripIdx: currentIdx,mapObject: mapObject,},logData);
+      openModal({
+        message:"수정이 완료되었습니다.",
+        actions:[{label:"확인", onClick:closeModal}]
+      })
     } catch (err) {
       alert("put Map 에러");
     }
@@ -200,7 +205,7 @@ const EntirePlan = () => {
       <h2 style={{ textAlign: "center", marginBottom: 0 }}>내 일정 보기</h2>
       <div className="tripTitle">
         {title !== ''? 
-          (<p type="text" onChange={(e) => setTitle(e.target.value)}>{title}</p>)
+          (<p type="text" onChange={(e) => setTitle(e.target.value)}>" {title} "</p>)
           :('')
         }
       </div>
