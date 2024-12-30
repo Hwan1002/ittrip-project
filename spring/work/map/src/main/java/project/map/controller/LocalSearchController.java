@@ -20,11 +20,11 @@ public class LocalSearchController {
 	
 	private String requestUrl = "https://openapi.naver.com/v1/search/local.json";
 
-//	@Value("${naver.local.api.key.id}") 
-	private String clientId = "W9EGYZ0MuwquaEjMhFOb";
+	@Value("${naver.local.api.key.id}") 
+	private String clientId;
 	
-//	@Value("${naver.local.api.key.secret}")
-	private String clientSecret = "f80AypR712";
+	@Value("${naver.local.api.key.secret}")
+	private String clientSecret;
 	
 	public LocalSearchController(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.baseUrl(requestUrl).build();
