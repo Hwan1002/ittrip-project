@@ -71,6 +71,7 @@ const EntirePlan = () => {
 
   const fetchMapCheck = async (trip) => {
     setCurrentIdx(() => trip.idx);
+    debugger;
     try {
       const response = await axios.get(`${API_BASE_URL}/4/${trip.idx}`, {
         headers: logData.headers,
@@ -88,7 +89,7 @@ const EntirePlan = () => {
       );
 
       setDayChecks([...daysArray]);
-
+      console.log(response.data[0]);
       console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
 
       const flatMapObjects = response.data.map((item) => item.mapObject).flat();
@@ -125,33 +126,16 @@ const EntirePlan = () => {
   };
 
   const putMapCheck = async () => {
+    debugger;
     try {
-      await axios.put(
-        `${API_BASE_URL}/2`,
-        {
-          tripIdx: currentIdx,
-          mapObject: mapObject,
-        },
-        {
-          headers: logData.headers,
-        }
-      );
+      await axios.put(`${API_BASE_URL}/2`,{tripIdx: currentIdx,mapObject: mapObject,},logData);
     } catch (err) {
       alert("put Map 에러");
     }
 
     //checkList put
     try {
-      const response = await axios.put(
-        `${API_BASE_URL}/3`,
-        {
-          tripTitle: currentIdx,
-          items: checkList,
-        },
-        {
-          headers: logData.headers,
-        }
-      );
+      const response = await axios.put(`${API_BASE_URL}/3`,{tripIdx: currentIdx,items: checkList,},logData);
     } catch (err) {
       alert("put CheckList 에러");
     }
@@ -215,6 +199,9 @@ const EntirePlan = () => {
   return (
     <div className="myPlan">
       <h2 style={{ textAlign: "center", marginBottom: 0 }}>내 일정 보기</h2>
+      <div>
+
+      </div>
       <div className="myPlanContainer">
         <div className="mapFrame">
           <Map />
@@ -238,10 +225,10 @@ const EntirePlan = () => {
                     readOnly={isReadOnly}
                     onClick={() => fetchMapCheck(trip)}
                     onChange={(e) => handleTripTitleChange(e, trip)}
-                    value={trip.idx}
+                    value={trip.title}
                   />
                   {/*해당 title로 map을 띄워주는 get요청을 onclick에 담을 것 , 해당 title의 end-start 로 day갯수도 띄워줘야함함*/}
-                  <button onClick={() => deleteTrip(trip.idx)}>삭제</button>
+                  <button className="addDataBtns" onClick={() => deleteTrip(trip.idx)}>삭제</button>
                 </li>
               ))}
             </ul>
@@ -257,7 +244,7 @@ const EntirePlan = () => {
                     <ul>
                       {stopOverList.map((point) => (
                         <li key={point.id}>
-                          <input readOnly={isReadOnly} value={point.value} />
+                          <input readOnly={isReadOnly} value={point.value.replace(/<\/?[^>]+(>|$)/g, "")} />
                         </li>
                       ))}
                     </ul>
@@ -288,7 +275,7 @@ const EntirePlan = () => {
                     }
                   />
                   {!isReadOnly && (
-                    <button onClick={() => deleteCheckList(list.id)}>
+                    <button className="addDataBtns" onClick={() => deleteCheckList(list.id)}>
                       삭제
                     </button>
                   )}
@@ -296,7 +283,7 @@ const EntirePlan = () => {
               ))}
             </ul>
             {!isReadOnly && (
-              <button onClick={() => addCheckList()}>추가</button>
+              <button className="addDataBtns" onClick={() => addCheckList()} >추가</button>
             )}
           </div>
         </div>
