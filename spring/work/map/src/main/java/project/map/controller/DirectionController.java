@@ -14,15 +14,14 @@ import project.map.dto.DirectionsResponseDTO;
 @RestController
 public class DirectionController {
 
-	@Value("${naver.api.url}")
-	private String apiUrl  ;// Directions 15 요청 서버
+	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";// Directions 15 요청 서버
 																								// url
 	// https://naveropenapi.apigw.ntruss.com/map-direction-15
 	@Value("${naver.api.key.id}") // client-id
-	private String apiKeyId ;
+	private String apiKeyId;
 
 	@Value("${naver.api.key.secret}") // client-secret
-	private String apiKeySecret ;
+	private String apiKeySecret;
 
 	private final WebClient webClient;
 
@@ -31,27 +30,15 @@ public class DirectionController {
 	}
 
 	@GetMapping("/1234")
-	public ResponseEntity<?> getDirections(@RequestParam(name = "start") String start, // 127.74645%2C37.64424
-																									// 형태로 보내야함
-//            @RequestParam(name = "waypoints") String wayPoints,
-			@RequestParam(name = "goal") String goal
-	// 기본값 trafast
+	public ResponseEntity<?> getDirections(@RequestParam(name = "start") String start,
+											@RequestParam(name = "goal") String goal
 	) {
-		 System.out.println("start:"+start);
-		 System.out.println("goal:"+ goal);
-		 
 		try {
 
 			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
-					.queryParam("start", start)
-//                        .queryParam("waypoints", wayPoints)
-					.queryParam("goal", goal).build()).header("x-ncp-apigw-api-key-id", apiKeyId)
-					.header("x-ncp-apigw-api-key", apiKeySecret).retrieve().bodyToMono(DirectionsResponseDTO.class) // mono
-																													// (0개
-																													// 또는
-																													// 1개)
-																													// 로
-																													// 반환
+					.queryParam("start", start).queryParam("goal", goal).build())
+					.header("x-ncp-apigw-api-key-id", apiKeyId).header("x-ncp-apigw-api-key", apiKeySecret).retrieve()
+					.bodyToMono(DirectionsResponseDTO.class) // mono(0개또는1개)로반환
 					.block(); // block -> ResponseEntity로 반환하기 위해 씀
 
 			System.out.println(response);
@@ -59,31 +46,21 @@ public class DirectionController {
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
 		}
-			
-		
-		
+
 	}
 
-
-
-
 	@GetMapping("/12345") // baseurl에 포함시키려했으나 권장하지 않는대서 여기에 넣음
-	public ResponseEntity<?> getDirectionsWithWayPoints(@RequestParam(name = "start") String start, // 127.74645%2C37.64424 형태로 보내야함
+	public ResponseEntity<?> getDirectionsWithWayPoints(@RequestParam(name = "start") String start, // 127.74645%2C37.64424
+																									// 형태로 보내야함
 			@RequestParam(name = "waypoints") String wayPoints, @RequestParam(name = "goal") String goal
 	// 기본값 trafast
 	) {
 		try {
-
 			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
 					.queryParam("start", start).queryParam("waypoints", wayPoints).queryParam("goal", goal).build())
 					.header("x-ncp-apigw-api-key-id", apiKeyId).header("x-ncp-apigw-api-key", apiKeySecret).retrieve()
 					.bodyToMono(DirectionsResponseDTO.class) // mono (0개 또는 1개) 로 반환
 					.block(); // block -> ResponseEntity로 반환하기 위해 씀
-
-			System.out.println("start:"+start);
-			 System.out.println("goal:"+ goal);
-			 System.out.println("waypoints"+wayPoints);
-			 System.out.println("response"+response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
@@ -92,4 +69,3 @@ public class DirectionController {
 	}
 
 }
-

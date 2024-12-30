@@ -15,8 +15,8 @@ import project.map.dto.LocalSearchResponseDTO;
 @RestController
 public class LocalSearchController {
 
-	@Value("${localSearch.api.url}")
-	private String requestUrl ;
+	
+	private String requestUrl = "https://openapi.naver.com/v1/search/local.json";
 	
 	@Value("${localSearch.api.key.id}")
 	private String clientId;
@@ -33,14 +33,10 @@ public class LocalSearchController {
 	@GetMapping("/local")
 	public ResponseEntity<?> getLocalData(@RequestParam(name = "query") String query) {
 		try {
-			System.out.println(requestUrl);
 			LocalSearchResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드
 					.queryParam("query", query).queryParam("display", 5).queryParam("start", 1)
 					.queryParam("sort", "random").build()).header("X-Naver-Client-Id", clientId)
-					.header("X-Naver-Client-Secret", clientSecret).retrieve().bodyToMono(LocalSearchResponseDTO.class) // mono(0개
-																														// 또는
-																														// 1개)로
-																														// 반환
+					.header("X-Naver-Client-Secret", clientSecret).retrieve().bodyToMono(LocalSearchResponseDTO.class) // mono(0개또는1개)로 반환
 					.block();
 			return ResponseEntity.ok(response);
 
