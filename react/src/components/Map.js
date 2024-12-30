@@ -67,6 +67,10 @@ const Map = () => {
     }
   }
 
+  useEffect(()=>{
+    console.log("dayBoolean" + JSON.stringify(dayBoolean))
+  },[dayBoolean])
+
   useEffect(() => {
     const convertXY = () => {
       switch (routeType) {

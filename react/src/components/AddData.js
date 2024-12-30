@@ -269,7 +269,7 @@ const AddData = ({ width }) => {
         </div>
       ))}
       {/* plus 경유지 추가 버튼  */}
-      {departure.title && destination.title && (
+      {departure.title && destination.title && stopOverList.length < 15 &&(
         <div className="plusBtn">
           <button type="button" onClick={plusBtnClicked}>
             경유지 추가
