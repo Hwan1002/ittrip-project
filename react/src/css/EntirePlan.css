@@ -17,9 +17,11 @@
 .myPlanContainer {
   display: flex;
   flex-direction: row;
-  border: 1px solid #dadada;
+  border: 3px solid #f6a354;
+  border-radius: 30px;
   margin-top: 20px;
   height: 700px;
+  overflow: hidden;
 }
 .myPlanContainer button:hover {
   background-color: #f78b26;
