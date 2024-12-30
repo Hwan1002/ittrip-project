@@ -39,7 +39,7 @@ const NewTrip = () => {
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-
+  
   useEffect(() => {
     setDeparture({title: "",address: "",latlng: "",});  
     setDestination({title: "",address: "",latlng: "",});  

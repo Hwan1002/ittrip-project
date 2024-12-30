@@ -28,7 +28,7 @@ const Map = () => {
     routeSaved
   } = useContext(ProjectContext);
 
-  
+  const API_KEY = "wz3pjcepky";
 
   const {
     isModalOpen,
@@ -200,7 +200,7 @@ const Map = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-      "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wz3pjcepky&submodules=geocoder";
+      `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${API_KEY}&submodules=geocoder`;
     script.async = true;
     script.onload = () => {
       if (window.naver && window.naver.maps) {
