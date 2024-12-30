@@ -91,7 +91,6 @@ const AddData = ({ width }) => {
     console.log("검색 결과 업데이트 됨 :", res);
   }, [res]);
 
-
   //출발,도착,경유 타입에 따라서 저장 방식 달라짐
   const handleCheck = (item, type) => {
     setIsNewModal(false);
@@ -157,7 +156,6 @@ const AddData = ({ width }) => {
     }
     putObject();
   };
-
 
   const handleSearch = async (value, updateState, modalTitle) => {
     if (!value) {

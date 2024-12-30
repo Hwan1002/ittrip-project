@@ -29,10 +29,10 @@ const EntirePlan = () => {
     setPath,
   } = useContext(ProjectContext);
 
-
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
   // const [maps, setMaps] = useState([]); //{days,startPlace,startAddress,goalPlace,goalAddress,wayPoints}
   const [checkList, setCheckList] = useState([]); //{id,text,checked}
+
   const [currentIdx, setCurrentIdx] = useState(null);
   const {
     isModalOpen,
@@ -42,7 +42,6 @@ const EntirePlan = () => {
     openModal,
     closeModal,
   } = useModal();
-
 
   useEffect(() => {
     if (!isReadOnly) {
@@ -140,6 +139,7 @@ const EntirePlan = () => {
     } catch (err) {
       alert("put Map 에러");
     }
+
     //checkList put
     try {
       const response = await axios.put(
