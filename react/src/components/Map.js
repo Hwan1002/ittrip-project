@@ -6,9 +6,6 @@ import Modal from "./Modal";
 import { AiOutlineSmallDash } from "react-icons/ai";
 import axios from "axios";
 import { API_BASE_URL } from "../service/api-config";
-import "../img/Icon/start.png"
-import "../img/Icon/Goal.png"
-import "../img/Icon/waypoint.png"
 
 const Map = () => {
   const {
@@ -208,6 +205,7 @@ const Map = () => {
     }
   }, [selectedDay]);
 
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -225,19 +223,19 @@ const Map = () => {
           pixelOffset: new window.naver.maps.Point(10, -10),
         });
 
-        const createMarker = (latlng, obj, data) => {
+        const createMarker = (latlng, obj, data,index) => {
 
 
           let iconUrl;
           if (obj === data.startPoint) {
             // Departure icon
-            iconUrl = require("../img/Icon/start.png");
+            iconUrl = require("../img/marker/start.png");
           } else if (obj === data.goalPoint) {
             // Destination icon
-            iconUrl = require("../img/Icon/Goal.png");
+            iconUrl = require("../img/marker/Goal.png");
           } else {
             // Waypoint icon
-            iconUrl = require("../img/Icon/waypoint.png");
+            iconUrl = require(`../img/marker/${index + 1}.png`);
           }
 
 
@@ -337,7 +335,8 @@ const Map = () => {
                   createMarker(
                     wayPointLatLng,
                     wayPoint.address,
-                    wayPoint
+                    wayPoint,
+                    index
                   )
                 );
               });
