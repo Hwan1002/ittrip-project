@@ -19,6 +19,7 @@
   flex-direction: row;
   border: 1px solid #dadada;
   margin-top: 20px;
+  height: 700px;
 }
 .myPlanContainer button:hover {
   background-color: #f78b26;
@@ -40,6 +41,10 @@
   padding: 20px;
   min-width:220px;
   min-height: 500px;
+  overflow: scroll;
+}
+.planFrame::-webkit-scrollbar {
+  display: none;
 }
 .myPlanContent {
   margin-top: 20px;
@@ -74,4 +79,31 @@
 .tripCheck ul li {
   display: flex;
   align-items: center;
+}
+.tripTitle{
+  text-align: center;
+}
+.tripTitle p {
+  font-size: 30px;
+  font-family: 'GmarketSansMedium';
+  color:#f6a354;
+  font-weight: bold;
+}
+.duration{
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  background-color: #fff;
+  width : auto;
+  height: auto;
+  border:3px solid #f6a354;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.duration p {
+  margin:10px;
+  color:#f6a354;
+  font-weight: bold;
 }

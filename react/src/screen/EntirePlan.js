@@ -60,10 +60,9 @@ const EntirePlan = () => {
         const response = await axios.get(`${API_BASE_URL}/3`, {
           headers: logData.headers, //getMapping에선 header와 param을 명시해줘야한다고 함. (logData만 쓰니 인식 못 함)
         });
-        console.log("response:" + JSON.stringify(response.data.data));
         setTrips(response.data.data);
       } catch (err) {
-        console.error(err);
+        console.error("axios get 3번 에러");
       }
     };
     fetchTrips();
@@ -71,6 +70,7 @@ const EntirePlan = () => {
 
   const fetchMapCheck = async (trip) => {
     setCurrentIdx(() => trip.idx);
+    setTitle(trip.title);
     debugger;
     try {
       const response = await axios.get(`${API_BASE_URL}/4/${trip.idx}`, {
@@ -89,8 +89,6 @@ const EntirePlan = () => {
       );
 
       setDayChecks([...daysArray]);
-      console.log(response.data[0]);
-      console.log("Mapresponse:", JSON.stringify(response.data[0].mapObject));
 
       const flatMapObjects = response.data.map((item) => item.mapObject).flat();
       //   setMaps(flatMapObjects);
@@ -111,7 +109,7 @@ const EntirePlan = () => {
       // setDestination({title: ,address:})
       //   setMaps(response.data.mapObject);
     } catch (err) {
-      alert("get Map 에러");
+      console.log("catch get Map 에러");
     }
 
     try {
@@ -195,12 +193,16 @@ const EntirePlan = () => {
   const deleteCheckList = (id) => {
     setCheckList((prev) => prev.filter((item) => item.id !== id));
   };
-
+  // const title = trips.map((item) => item.title);
+  const [title, setTitle] = useState('');
   return (
     <div className="myPlan">
       <h2 style={{ textAlign: "center", marginBottom: 0 }}>내 일정 보기</h2>
-      <div>
-
+      <div className="tripTitle">
+        {title !== ''? 
+          (<p type="text" onChange={(e) => setTitle(e.target.value)}>{title}</p>)
+          :('')
+        }
       </div>
       <div className="myPlanContainer">
         <div className="mapFrame">

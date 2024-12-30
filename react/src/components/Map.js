@@ -10,14 +10,12 @@ import { API_BASE_URL } from "../service/api-config";
 const Map = () => {
   const {
     tripDates,
-    address,
     path,
     setPath,
     routeType,
     stopOverList,
     setStopOverList,
     mapObject,
-    setMapObject,
     departure,
     setDeparture,
     destination,
@@ -27,9 +25,10 @@ const Map = () => {
     dayChecks,
     setDayChecks,
     stopOverCount,
-    isReadOnly,
-    routeSaved,setRouteSaved
+    routeSaved
   } = useContext(ProjectContext);
+
+  
 
   const {
     isModalOpen,
@@ -164,10 +163,6 @@ const Map = () => {
     };
     convertXY();
   }, [routeType, stopOverCount]);
-
-  useEffect(() => {
-    console.log("mapObject updated:", JSON.stringify(mapObject));
-  }, [mapObject]);
 
   useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
@@ -383,7 +378,6 @@ const Map = () => {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
       );
-      console.log("foundObject" + JSON.stringify(foundObject));
       const dirReq = async () => {
         if (foundObject) {
           if (foundObject.wayPoints) {
@@ -457,8 +451,6 @@ const Map = () => {
         return updatedDayBoolean;
       });
     };
-    debugger;
-    console.log(mapObject);
    
     if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
       openModal({
@@ -508,6 +500,12 @@ const Map = () => {
           </div>
         ))}
       </div>
+      {(duration !== 0 && distance !== 0)? (
+        <div className="duration">
+        <p>소요시간 : {duration}</p>
+        <p>여행거리 : {distance}</p>
+      </div>
+      ):('')}
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
