@@ -10,14 +10,12 @@ import { API_BASE_URL } from "../service/api-config";
 const Map = () => {
   const {
     tripDates,
-    address,
     path,
     setPath,
     routeType,
     stopOverList,
     setStopOverList,
     mapObject,
-    setMapObject,
     departure,
     setDeparture,
     destination,
@@ -27,9 +25,12 @@ const Map = () => {
     dayChecks,
     setDayChecks,
     stopOverCount,
-    isReadOnly,
-    routeSaved,setRouteSaved
+    routeSaved,
+    distance, setDistance,
+    duration, setDuration
   } = useContext(ProjectContext);
+
+  
 
   const {
     isModalOpen,
@@ -42,10 +43,11 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
 
-  const [distance, setDistance] = useState(0);
-  const [duration, setDuration] = useState(0);
+
   const [tollFare, setTollFare] = useState(0);
   const [fuelPrice, setFuelPrice] = useState(0);
+
+
 
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -94,6 +96,7 @@ const Map = () => {
                 }));
               }
             );
+
           break;
 
         case "destination":
@@ -163,10 +166,6 @@ const Map = () => {
   }, [routeType, stopOverCount]);
 
   useEffect(() => {
-    console.log("mapObject updated:", JSON.stringify(mapObject));
-  }, [mapObject]);
-
-  useEffect(() => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
       const startDate = new Date(tripDates.startDate);
       const endDate = new Date(tripDates.endDate);
@@ -202,6 +201,7 @@ const Map = () => {
     }
   }, [selectedDay]);
 
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -219,23 +219,33 @@ const Map = () => {
           pixelOffset: new window.naver.maps.Point(10, -10),
         });
 
-        const createMarker = (latlng, text, obj, data) => {
-          const icon = {
-            content: `
-              <div style="width: 30px; height: 30px; background-color: white; color: black; text-align: center; border-radius: 50%; line-height: 30px; font-size: 14px; font-weight: bold; position: relative; border: 3px solid #F6A354;">
-                ${text}
-                <div style="content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #F6A354;"></div>
-              </div>
-            `,
-            size: new window.naver.maps.Size(30, 30),
-            anchor: new window.naver.maps.Point(15, 15),
-          };
+        const createMarker = (latlng, obj, data,index) => {
+
+
+          let iconUrl;
+          if (obj === data.startPoint) {
+            // Departure icon
+            iconUrl = require("../img/marker/start.png");
+          } else if (obj === data.goalPoint) {
+            // Destination icon
+            iconUrl = require("../img/marker/Goal.png");
+          } else {
+            // Waypoint icon
+            iconUrl = require(`../img/marker/${index + 1}.png`);
+          }
+
 
           // 마커 객체 생성
           const marker = new window.naver.maps.Marker({
             position: latlng,
-            icon: icon,
             map: map,
+            icon: {
+              url: iconUrl,
+              size: new window.naver.maps.Size(48,48), // 마커 크기 설정
+              anchor: new window.naver.maps.Point(25,40),
+              // 이미지 크기 비율 맞추기 (background-size로 크기 조정)
+              backgroundSize: 'contain',  // 또는 'cover'를 사용하여 이미지 비율을 맞출 수 있습니다.
+            },
           });
           // 마커 클릭 이벤트 등록
           window.naver.maps.Event.addListener(marker, "click", () => {
@@ -269,6 +279,9 @@ const Map = () => {
               }
             }
           });
+          window.naver.maps.Event.addListener(map, 'click', () => {
+            infoWindow.close();
+          });
           return marker;
         };
 
@@ -290,7 +303,6 @@ const Map = () => {
             markers.push(
               createMarker(
                 departureLatLng,
-                "출발",
                 selectedData.startPoint,
                 selectedData
               )
@@ -304,7 +316,6 @@ const Map = () => {
             markers.push(
               createMarker(
                 destinationLatLng,
-                "도착",
                 selectedData.goalPoint,
                 selectedData
               )
@@ -319,12 +330,17 @@ const Map = () => {
                 markers.push(
                   createMarker(
                     wayPointLatLng,
-                    `${index + 1}`,
                     wayPoint.address,
-                    wayPoint
+                    wayPoint,
+                    index
                   )
                 );
               });
+            }
+
+            var bounds = new window.naver.maps.LatLngBounds();
+            for (var i = 0; i < markers.length; i++) {
+              bounds.extend(markers[i].getPosition());
             }
 
             // 폴리라인 생성
@@ -334,13 +350,17 @@ const Map = () => {
             );
             const polyline = new window.naver.maps.Polyline({
               path: pathCoordinates, // 경로 (LatLng 객체 배열)
-              strokeColor: "blue", // 폴리라인 색상
-              strokeWeight: 2.5, // 선 두께
+              strokeColor: "#ff5f23", // 폴리라인 색상
+              strokeWeight: 4, // 선 두께
               strokeOpacity: 0.8, // 선의 불투명도
             });
+            map.fitBounds(bounds);
+            const currentZoom = map.getZoom();
+            map.setZoom(currentZoom -1); 
 
             polyline.setMap(map);
-            map.setCenter(departureLatLng);
+           
+
           }
         };
 
@@ -359,7 +379,6 @@ const Map = () => {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
       );
-      console.log("foundObject" + JSON.stringify(foundObject));
       const dirReq = async () => {
         if (foundObject) {
           if (foundObject.wayPoints) {
@@ -432,8 +451,6 @@ const Map = () => {
         return updatedDayBoolean;
       });
     };
-    debugger;
-    console.log(mapObject);
    
     if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
       openModal({
@@ -466,7 +483,7 @@ const Map = () => {
         return updatedDayBoolean;
       });
     }
-  };
+  }
 
   return (
     <div id="mapPlan">
@@ -483,6 +500,12 @@ const Map = () => {
           </div>
         ))}
       </div>
+      {(duration !== 0 && distance !== 0)? (
+        <div className="duration">
+        <p>소요시간 : {duration}</p>
+        <p>여행거리 : {distance}</p>
+      </div>
+      ):('')}
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

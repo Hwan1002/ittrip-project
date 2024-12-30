@@ -71,6 +71,9 @@ export const ProjectProvider = ({ children }) => {
 
   const [routeSaved, setRouteSaved] = useState(false);
 
+  const [distance, setDistance] = useState(0);
+  const [duration, setDuration] = useState(0);
+
   const initObject = () => {
     setDeparture({ title: "", address: "" });
     console.log(departure);
@@ -123,7 +126,9 @@ export const ProjectProvider = ({ children }) => {
     setStopOverCount,
     isReadOnly,
     setIsReadOnly,
-    routeSaved, setRouteSaved
+    routeSaved, setRouteSaved,
+    distance, setDistance,
+    duration, setDuration
   };
 
   return (
