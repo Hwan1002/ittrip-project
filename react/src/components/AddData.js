@@ -32,7 +32,7 @@ const AddData = ({ width }) => {
     setRouteType,
     routeSaved,setRouteSaved
   } = useContext(ProjectContext);
-  const [prevLength, setPrevLength] = useState(stopOverList.length-1);
+  const [prevLength, setPrevLength] = useState(0);
   //모달창 사용
   const {
     isModalOpen,
@@ -48,7 +48,10 @@ const AddData = ({ width }) => {
   },[stopOverList])
   //경로저장하기 버튼을 눌름
   const putObject = () => {
-    if(stopOverList.length-1 > prevLength){
+    debugger;
+    console.log(stopOverList.length);
+    console.log(stopOverList);
+    if(stopOverList.length-1 >= prevLength || stopOverList !== ''){
       const foundData = mapObject.find((data) => data.days === selectedDay + 1);
       if (foundData) {
         if (foundData.StartAddress !== departure.address ||JSON.stringify(foundData.wayPoints) !== JSON.stringify(stopOverList) ||foundData.goalAddress !== destination.address) 
@@ -76,15 +79,16 @@ const AddData = ({ width }) => {
         message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
         actions: [{ label: "확인", onClick: closeModal }],
       });
-    }else{
-      setRouteSaved(true);
-        openModal({
-          title: "오류",
-          message: "fdsdfsdfsd",
-          actions: [{ label: "확인", onClick: closeModal }],
-        });
-        return;
     }
+    // else{
+    //   setRouteSaved(true);
+    //     openModal({
+    //       title: "오류",
+    //       message: "fdsdfsdfsd",
+    //       actions: [{ label: "확인", onClick: closeModal }],
+    //     });
+    //     return;
+    // }
   };
 
   useEffect(() => {

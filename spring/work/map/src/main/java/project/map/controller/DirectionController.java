@@ -19,7 +19,7 @@ public class DirectionController {
 																								// url
 	// https://naveropenapi.apigw.ntruss.com/map-direction-15
 	@Value("${naver.api.key.id}") // client-id
-	private String apiKeyId = "wz3pjcepky";
+	private String apiKeyId = "i3l7gple41";
 
 	@Value("${naver.api.key.secret}") // client-secret
 	private String apiKeySecret = "d21JDzBXMkx7E6P5KQJ0qyPf3W4jfj2e4lRZMgzQ";
