@@ -13,7 +13,7 @@ import NewTrip from "./screen/NewTrip";
 import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
-import MainTest from "./screen/MainTest";
+import Maintest from "./screen/Maintest";
 import { useEffect } from "react";
 
 function App() {

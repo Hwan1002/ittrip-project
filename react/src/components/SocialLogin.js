@@ -2,7 +2,6 @@ import { useContext, useEffect } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; 
-import { API_BASE_URL } from "../service/api-config";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 

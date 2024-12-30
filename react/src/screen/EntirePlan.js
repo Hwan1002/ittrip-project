@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import "../css/EntirePlan.css";
 import "../css/Reset.css";
 import Map from "../components/Map";
-import { API_BASE_URL } from "../service/api-config";
 import AddData from "../components/AddData";
 import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
