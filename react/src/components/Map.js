@@ -25,12 +25,13 @@ const Map = () => {
     dayChecks,
     setDayChecks,
     routeSaved,
-    setRouteSaved,
-    setMapObject,
     distance,
     setDistance,
     duration,
     setDuration,
+    flag,
+    setFlag
+
   } = useContext(ProjectContext);
 
   const {
@@ -43,9 +44,6 @@ const Map = () => {
   } = useModal();
 
   const [dayBoolean, setDayBoolean] = useState([]);
-
-  const [tollFare, setTollFare] = useState(0);
-  const [fuelPrice, setFuelPrice] = useState(0);
 
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -65,11 +63,13 @@ const Map = () => {
       return `${meters}m`;
     }
   }
-  useEffect(() => {
-    setMapObject([]);
-    setDuration(0);
-    setDistance(0);
-  }, []);
+
+  useEffect(()=>{
+    if (dayBoolean.every((data) => data === true)) {
+      const booleanArray = new Array(dayBoolean.length).fill(false);
+      setDayBoolean([...booleanArray]);
+    }
+  },[dayBoolean])
 
   useEffect(() => {
     const convertXY = () => {
@@ -200,7 +200,12 @@ const Map = () => {
         address: foundData.goalAddress,
         latlng: foundData.goalPoint,
       });
+      setFlag(true);
+    }else{
+      setFlag(false);
     }
+     
+    
   }, [selectedDay]);
 
   useEffect(() => {
@@ -370,7 +375,6 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
-    
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
@@ -405,6 +409,7 @@ const Map = () => {
                 )
               );
             } catch (error) {
+              
               alert("경유지있는 디렉션 에러");
             }
           } else {
@@ -430,6 +435,7 @@ const Map = () => {
                 )
               );
             } catch (error) {
+              
               alert("경유지없는 디렉션 에러");
             }
           }
@@ -495,14 +501,13 @@ const Map = () => {
           </div>
         ))}
       </div>
-      {duration !== null && distance !== null ? (
+      {flag && duration && distance && (
         <div className="duration">
           <p>소요시간 : {duration}</p>
           <p>여행거리 : {distance}</p>
         </div>
-      ) : (
-        ""
-      )}
+      )      
+      }
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

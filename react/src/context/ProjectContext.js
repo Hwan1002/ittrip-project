@@ -75,6 +75,8 @@ export const ProjectProvider = ({ children }) => {
 
   const [duration, setDuration] = useState(null);
 
+  const [flag, setFlag] = useState(false)
+
   const initObject = () => {
     setDeparture({ title: "", address: "" });
     setStopOverList([]);
@@ -130,6 +132,7 @@ export const ProjectProvider = ({ children }) => {
     setDistance,
     duration,
     setDuration,
+    flag,setFlag
   };
 
   return (

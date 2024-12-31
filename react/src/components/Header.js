@@ -17,8 +17,6 @@ const Header = () => {
     setTripTitle,
     tripDates,
     setTripDates,
-    setDistance,
-    setDuration,
   } = useContext(ProjectContext);
   const navigate = useNavigate();
 
@@ -67,7 +65,6 @@ const Header = () => {
 
   const handleNewPlanSubmit = (e) => {
     setIsNewPlanModal(false);
-
     e.preventDefault();
     if (!tripTitle || !tripDates.startDate || !tripDates.endDate) {
       openModal({

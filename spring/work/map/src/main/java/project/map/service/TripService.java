@@ -35,7 +35,7 @@ public class TripService {
 	public String titleConfirm(String title,String userId) {
 	    int count = 2;
 	    String newTitle = title;
-	    while (tripRepository.existsByTitle(newTitle)) {
+	    while (tripRepository.existsByTitleAndUserId(newTitle,userId)) {
 	        if (newTitle.matches(".*\\(\\d+\\)$")) {
 	            // 이미 (숫자) 형식이 포함된 경우, 숫자를 증가시킴
 	            newTitle = newTitle.replaceAll("\\(\\d+\\)$", "(" + count + ")");

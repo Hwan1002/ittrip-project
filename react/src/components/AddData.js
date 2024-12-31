@@ -27,6 +27,7 @@ const AddData = ({ width }) => {
     stopOverCount,
     setRouteType,
     setRouteSaved,
+    setFlag
   } = useContext(ProjectContext);
   const [prevLength, setPrevLength] = useState(0);
   //모달창 사용
@@ -74,6 +75,7 @@ const AddData = ({ width }) => {
         },
       ]);
       setRouteSaved(true);
+      
       openModal({
         title: `Day ${selectedDay + 1}`,
         message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
@@ -146,6 +148,8 @@ const AddData = ({ width }) => {
       return;
     }
     putObject();
+    setFlag(true);
+    
   };
 
   const handleSearch = async (value, updateState, modalTitle) => {
