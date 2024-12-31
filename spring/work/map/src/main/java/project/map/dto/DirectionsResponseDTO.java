@@ -27,11 +27,6 @@ public class DirectionsResponseDTO {
 	@Data
 	public static class Summary{
 		private Integer distance;
-		private Integer duration;
-		private Integer tollFare;
-		private Integer fuelPrice;
-		
-	}
-	 
-	
+		private Integer duration;		
+	}	 	
 }

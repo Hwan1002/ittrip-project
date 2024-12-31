@@ -6,9 +6,8 @@ import {ko} from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import "../css/Reset.css";
 import "../css/DateCheck.css";
-const DateCheck = () => {
 
-    //전역상태 관리
+const DateCheck = () => {
     const {tripDates, setTripDates, tripTitle, setTripTitle} = useContext(ProjectContext);
    
     return (

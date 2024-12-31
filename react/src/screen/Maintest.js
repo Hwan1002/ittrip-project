@@ -13,12 +13,10 @@ import local8 from "../img/MainPage/local8.png";
 import house from "../img/Icon/house2.png"
 import food from "../img/Icon/food2.png"
 import spot from "../img/Icon/spot2.png"
-import { API_BASE_URL } from "../service/api-config";
 import axios from "axios";
 import Modal from "../components/Modal";
 
-
-const Maintest = () => {
+const MainTest = () => {
 
     const [img, setImg] = useState();
     // 지역명에대한 state
@@ -88,7 +86,7 @@ const Maintest = () => {
             const requestAreaNm = async () => {
                 try {
                     // Axios 요청 (비동기 처리)
-                    const response = await axios.get(`${API_BASE_URL}/1`, {
+                    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/signgunms`, {
                         params: { areaCd: areaCd },
                     });
                     // 응답 데이터 확인
@@ -104,14 +102,10 @@ const Maintest = () => {
         } //if end
     }, [areaCd]) // useEffect end
 
-    useEffect(()=>{
-        console.log(signguNm);
-    },[signguNm])
-
     const requestData = async (item) => {
         try {
             // API 요청
-            const response = await axios.get(`${API_BASE_URL}/123`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/public`, {
                 params: {
                     signguNm: item,
                     areaNm: select
@@ -150,7 +144,6 @@ const Maintest = () => {
             <div id="bigbanner">
                 <img src={banner2} alt="banner" />
             </div>
-            
             {/* 지역 4개 */}
             <div className="localSet">
                 <div className="localtrip">
@@ -429,4 +422,4 @@ const Maintest = () => {
     );
 };
 
-export default Maintest;
+export default MainTest;

@@ -31,8 +31,9 @@ public class LocalRecController {
 		this.webClient = webClient;
 	}
 
-	@GetMapping("/123")
-	public ResponseEntity<?> getPublicData(@RequestParam(name = "signguNm") String signguNm,
+	@GetMapping("/public")
+	public ResponseEntity<?> getPublicData(
+			@RequestParam(name = "signguNm") String signguNm,
 			@RequestParam(name = "areaNm") String areaNm) {
 		AreaDTO dto = service.getCd(areaNm,signguNm);
 		try {

@@ -17,8 +17,6 @@ public class PublicDataDTO {
         private Body body;
     }
 
-
-
     @Data
     public static class Body {
         private Items items; // items가 배열 또는 객체 모두 처리 가능

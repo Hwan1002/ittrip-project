@@ -10,11 +10,11 @@ import axios from "axios";
 import Modal from "../components/Modal.js";
 import useModal from "../context/useModal.js";
 import { ProjectContext } from "../context/ProjectContext.js";
-import { API_BASE_URL } from "../service/api-config.js";
 import { format } from "date-fns";
 
 const NewTrip = () => {
   const navigate = useNavigate();
+
   const {
     isModalOpen,
     openModal,
@@ -23,31 +23,39 @@ const NewTrip = () => {
     modalMessage,
     modalActions,
   } = useModal();
+
   const {
     tripTitle,
     tripDates,
     logData,
     items,
-    mapObject,setMapObject,
+    mapObject,
+    setMapObject,
     initObject,
     setSelectedDay,
     dayChecks,
     setDeparture,
     setStopOverList,
     setDestination,
-    distance, setDistance,
-    duration, setDuration,
+    distance,
+    setDistance,
+    duration,
+    setDuration,
+    setFlag
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
 
   useEffect(() => {
-    setDeparture({title: "",address: "",latlng: "",});  
-    setDestination({title: "",address: "",latlng: "",});  
-    setStopOverList([]); 
     setMapObject([]);
-    setDistance(0);
-    setDuration(0);
+    setDeparture({ title: "", address: "", latlng: "" });
+    setDestination({ title: "", address: "", latlng: "" });
+    setStopOverList([]);
+    setFlag(false);
+    return ()=>{
+      setDistance(null);
+      setDuration(null);
+    }
   }, []);
 
   useEffect(() => {
@@ -99,7 +107,7 @@ const NewTrip = () => {
   const allAxios = async () => {
     try {
       const response1 = await axios.post(
-        `${API_BASE_URL}/1`,
+        `${process.env.REACT_APP_API_BASE_URL}/trips`,
         {
           title: tripTitle,
           startDate: formattedStartDate,
@@ -108,12 +116,12 @@ const NewTrip = () => {
         logData
       );
       const response2 = await axios.post(
-        `${API_BASE_URL}/2`,
+        `${process.env.REACT_APP_API_BASE_URL}/maps`,
         { tripTitle: tripTitle, mapObject: mapObject },
         logData
       );
       const response3 = await axios.post(
-        `${API_BASE_URL}/3`,
+        `${process.env.REACT_APP_API_BASE_URL}/checklist`,
         { tripTitle: tripTitle, items: items },
         logData
       );

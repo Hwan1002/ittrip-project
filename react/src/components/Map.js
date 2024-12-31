@@ -3,19 +3,19 @@ import React, { useEffect, useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
-import { AiOutlineSmallDash } from "react-icons/ai";
 import axios from "axios";
-import { API_BASE_URL } from "../service/api-config";
+import { use } from "react";
 
 const Map = () => {
   const {
     tripDates,
+    routeType,
+    mapObject,
+    stopOverCount,
     path,
     setPath,
-    routeType,
     stopOverList,
     setStopOverList,
-    mapObject,
     departure,
     setDeparture,
     destination,
@@ -24,13 +24,15 @@ const Map = () => {
     setSelectedDay,
     dayChecks,
     setDayChecks,
-    stopOverCount,
     routeSaved,
-    distance, setDistance,
-    duration, setDuration
-  } = useContext(ProjectContext);
+    distance,
+    setDistance,
+    duration,
+    setDuration,
+    flag,
+    setFlag
 
-  
+  } = useContext(ProjectContext);
 
   const {
     isModalOpen,
@@ -43,12 +45,6 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
 
-
-  const [tollFare, setTollFare] = useState(0);
-  const [fuelPrice, setFuelPrice] = useState(0);
-
-
-
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
@@ -59,7 +55,6 @@ const Map = () => {
 
     return `${hours}시 ${minutes}분 ${seconds}초`;
   }
-
   function formatDistance(meters) {
     if (meters >= 1000) {
       const kilometers = (meters / 1000).toFixed(1);
@@ -73,29 +68,29 @@ const Map = () => {
     const convertXY = () => {
       switch (routeType) {
         case "departure":
-          if(!departure.address){
+          if (!departure.address) {
             return;
           }
-            window.naver.maps.Service.geocode(
-              {
-                query: departure.address,
-              },
-              (status, response) => {
-                if (status === window.naver.maps.Service.Status.ERROR) {
-                  openModal({
-                    title: "주소 오류",
-                    message: "주소를 찾을 수 없습니다.",
-                  });
-                  return;
-                }
-                const result = response.v2;
-                const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
-                setDeparture((prev) => ({
-                  ...prev,
-                  latlng: latlng, // 원하는 latlng 값
-                }));
+          window.naver.maps.Service.geocode(
+            {
+              query: departure.address,
+            },
+            (status, response) => {
+              if (status === window.naver.maps.Service.Status.ERROR) {
+                openModal({
+                  title: "주소 오류",
+                  message: "주소를 찾을 수 없습니다.",
+                });
+                return;
               }
-            );
+              const result = response.v2;
+              const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+              setDeparture((prev) => ({
+                ...prev,
+                latlng: latlng, // 원하는 latlng 값
+              }));
+            }
+          );
 
           break;
 
@@ -103,27 +98,27 @@ const Map = () => {
           if (!destination.address) {
             return;
           }
-            window.naver.maps.Service.geocode(
-              {
-                query: destination.address,
-              },
-              (status, response) => {
-                if (status === window.naver.maps.Service.Status.ERROR) {
-                  openModal({
-                    title: "주소 오류",
-                    message: "주소를 찾을 수 없습니다.",
-                    actions: [{ label: "확인", onClick: closeModal }],
-                  });
-                  return;
-                }
-                const result = response.v2;
-                const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
-                setDestination((prev) => ({
-                  ...prev,
-                  latlng: latlng, // 원하는 latlng 값
-                }));
+          window.naver.maps.Service.geocode(
+            {
+              query: destination.address,
+            },
+            (status, response) => {
+              if (status === window.naver.maps.Service.Status.ERROR) {
+                openModal({
+                  title: "주소 오류",
+                  message: "주소를 찾을 수 없습니다.",
+                  actions: [{ label: "확인", onClick: closeModal }],
+                });
+                return;
               }
-            );
+              const result = response.v2;
+              const latlng = `${result.addresses[0].x},${result.addresses[0].y}`;
+              setDestination((prev) => ({
+                ...prev,
+                latlng: latlng, // 원하는 latlng 값
+              }));
+            }
+          );
           break;
 
         case "stopOver":
@@ -198,14 +193,15 @@ const Map = () => {
         address: foundData.goalAddress,
         latlng: foundData.goalPoint,
       });
+      setFlag(true);
+    }else{
+      setFlag(false);
     }
   }, [selectedDay]);
 
-
   useEffect(() => {
     const script = document.createElement("script");
-    script.src =
-      "https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=wz3pjcepky&submodules=geocoder";
+    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.REACT_APP_NAVER_MAPS_API_KEY_ID}&submodules=geocoder`;
     script.async = true;
     script.onload = () => {
       if (window.naver && window.naver.maps) {
@@ -219,9 +215,7 @@ const Map = () => {
           pixelOffset: new window.naver.maps.Point(10, -10),
         });
 
-        const createMarker = (latlng, obj, data,index) => {
-
-
+        const createMarker = (latlng, obj, data, index) => {
           let iconUrl;
           if (obj === data.startPoint) {
             // Departure icon
@@ -234,17 +228,16 @@ const Map = () => {
             iconUrl = require(`../img/marker/${index + 1}.png`);
           }
 
-
           // 마커 객체 생성
           const marker = new window.naver.maps.Marker({
             position: latlng,
             map: map,
             icon: {
               url: iconUrl,
-              size: new window.naver.maps.Size(48,48), // 마커 크기 설정
-              anchor: new window.naver.maps.Point(25,40),
+              size: new window.naver.maps.Size(48, 48), // 마커 크기 설정
+              anchor: new window.naver.maps.Point(25, 40),
               // 이미지 크기 비율 맞추기 (background-size로 크기 조정)
-              backgroundSize: 'contain',  // 또는 'cover'를 사용하여 이미지 비율을 맞출 수 있습니다.
+              backgroundSize: "contain", // 또는 'cover'를 사용하여 이미지 비율을 맞출 수 있습니다.
             },
           });
           // 마커 클릭 이벤트 등록
@@ -279,7 +272,7 @@ const Map = () => {
               }
             }
           });
-          window.naver.maps.Event.addListener(map, 'click', () => {
+          window.naver.maps.Event.addListener(map, "click", () => {
             infoWindow.close();
           });
           return marker;
@@ -356,11 +349,9 @@ const Map = () => {
             });
             map.fitBounds(bounds);
             const currentZoom = map.getZoom();
-            map.setZoom(currentZoom -1); 
+            map.setZoom(currentZoom - 1);
 
             polyline.setMap(map);
-           
-
           }
         };
 
@@ -381,19 +372,21 @@ const Map = () => {
       );
       const dirReq = async () => {
         if (foundObject) {
-          if (foundObject.wayPoints) {
+          if (foundObject.wayPoints.latlng) {
             try {
               const latlngArray = foundObject.wayPoints.map((prev) => {
                 return prev.latlng;
               });
               const lnglatString = latlngArray.join("|");
-              const response = await axios.get(`${API_BASE_URL}/12345`, {
-                params: {
-                  start: foundObject.startPoint,
-                  goal: foundObject.goalPoint,
-                  waypoints: lnglatString,
-                },
-              });
+              const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/directions/withwaypoint`,
+                {
+                  params: {
+                    start: foundObject.startPoint,
+                    goal: foundObject.goalPoint,
+                    waypoints: lnglatString,
+                  },
+                }
+              );
               setPath(response.data.route.traoptimal[0].path);
               setDuration(
                 formatDuration(
@@ -405,17 +398,21 @@ const Map = () => {
                   response.data.route.traoptimal[0].summary.distance
                 )
               );
+
             } catch (error) {
-              alert("경유지있는 디렉션 에러");
+              console.log("검색한 지역이 가깝게 검색해서 생긴 에러 : " + error);
             }
           } else {
             try {
-              const response = await axios.get(`${API_BASE_URL}/1234`, {
-                params: {
-                  start: foundObject.startPoint,
-                  goal: foundObject.goalPoint,
-                },
-              });
+              const response = await axios.get(
+                `${process.env.REACT_APP_API_BASE_URL}/directions/nowaypoint`,
+                {
+                  params: {
+                    start: foundObject.startPoint,
+                    goal: foundObject.goalPoint,
+                  },
+                }
+              );
               setPath(response.data.route.traoptimal[0].path);
               setDuration(
                 formatDuration(
@@ -428,12 +425,12 @@ const Map = () => {
                 )
               );
             } catch (error) {
+              
               alert("경유지없는 디렉션 에러");
             }
           }
         }
       };
-
       dirReq();
     }
   }, [mapObject, selectedDay]);
@@ -451,8 +448,11 @@ const Map = () => {
         return updatedDayBoolean;
       });
     };
-   
-    if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
+
+    if (
+      !routeSaved ||
+      !mapObject.find((data) => data.days === selectedDay + 1)
+    ) {
       openModal({
         message: "저장이 안된 일정이 있습니다. 넘어가시겠습니까?",
         actions: [
@@ -472,18 +472,9 @@ const Map = () => {
         ],
       });
     } else {
-      setDeparture({ title: "", address: "" });
-      setStopOverList([]);
-      setDestination({ title: "", address: "" });
-      setSelectedDay(day);
-      setDayBoolean((prev) => {
-        const updatedDayBoolean = [...prev];
-        updatedDayBoolean[selectedDay] = false;
-        updatedDayBoolean[day] = true;
-        return updatedDayBoolean;
-      });
+      afterSet();
     }
-  }
+  };
 
   return (
     <div id="mapPlan">
@@ -500,12 +491,13 @@ const Map = () => {
           </div>
         ))}
       </div>
-      {(duration !== 0 && distance !== 0)? (
+      {flag && duration && distance && (
         <div className="duration">
-        <p>소요시간 : {duration}</p>
-        <p>여행거리 : {distance}</p>
-      </div>
-      ):('')}
+          <p>소요시간 : {duration}</p>
+          <p>여행거리 : {distance}</p>
+        </div>
+      )      
+      }
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

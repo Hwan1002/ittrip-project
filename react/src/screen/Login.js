@@ -9,7 +9,6 @@ import Naver from '../img/Logo/naver.svg'
 import Google from '../img/Logo/google.svg'
 import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
-import { API_BASE_URL } from "../service/api-config";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
 
@@ -38,7 +37,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${API_BASE_URL}/signin`, logInfo);
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/signin`, logInfo);
             setLoginSuccess(true);
             if (response.data && response.data.value.token){
                 const token = response.data.value.token;
@@ -74,7 +73,7 @@ const Login = () => {
     const socialLogin = (e, provider) => {
         e.preventDefault();
         // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:3000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
-        window.location.href = API_BASE_URL + "/auth/authorize/" + provider + "?redirect_url=" + window.location.origin;
+        window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/authorize/${provider}?redirect_url=${window.location.origin}`;
 
     }
     return (
