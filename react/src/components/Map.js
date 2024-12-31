@@ -370,6 +370,7 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
+    
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
