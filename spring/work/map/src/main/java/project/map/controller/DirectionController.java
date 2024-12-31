@@ -53,7 +53,6 @@ public class DirectionController {
 			@RequestParam(name = "waypoints") String wayPoints,
 			@RequestParam(name = "goal") String goal
 	) {
-		System.out.println("wayPoint"+wayPoints);
 		try {
 			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder 
 					.queryParam("start", start).queryParam("waypoints", wayPoints).queryParam("goal", goal).build())
