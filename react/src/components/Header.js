@@ -17,8 +17,8 @@ const Header = () => {
     setTripTitle,
     tripDates,
     setTripDates,
-    setDeparture,
-    initObject,
+    setDuration,
+    setDistance,
   } = useContext(ProjectContext);
   const navigate = useNavigate();
 

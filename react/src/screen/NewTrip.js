@@ -45,9 +45,7 @@ const NewTrip = () => {
     setDeparture({title: "",address: "",latlng: "",});  
     setDestination({title: "",address: "",latlng: "",});  
     setStopOverList([]); 
-    setMapObject([]);
-    setDistance(0);
-    setDuration(0);
+    setMapObject([]); 
   }, []);
 
   useEffect(() => {

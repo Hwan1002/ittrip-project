@@ -43,10 +43,6 @@ const Map = () => {
   const [dayBoolean, setDayBoolean] = useState([]);
 
 
-  const [tollFare, setTollFare] = useState(0);
-  const [fuelPrice, setFuelPrice] = useState(0);
-
-
 
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -67,6 +63,12 @@ const Map = () => {
       return `${meters}m`;
     }
   }
+
+  useEffect(() => {
+    setDuration(0);  
+    setDistance(0);  
+  }, [selectedDay]);  
+
 
   useEffect(() => {
     const convertXY = () => {
@@ -379,6 +381,7 @@ const Map = () => {
         (data) => data.days === selectedDay + 1
       );
       const dirReq = async () => {
+        debugger
         if (foundObject) {
           if (foundObject.wayPoints) {
             try {
@@ -449,6 +452,7 @@ const Map = () => {
         updatedDayBoolean[day] = true;
         return updatedDayBoolean;
       });
+         
     };
    
     if (routeSaved  || !mapObject.find((data) => data.days === selectedDay + 1)) {
