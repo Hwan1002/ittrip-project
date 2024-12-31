@@ -51,10 +51,10 @@ const NewTrip = () => {
     setDeparture({ title: "", address: "", latlng: "" });
     setDestination({ title: "", address: "", latlng: "" });
     setStopOverList([]);
-    setFlag(false)
+    setFlag(false);
     return ()=>{
-    setDistance(null);
-    setDuration(null);
+      setDistance(null);
+      setDuration(null);
     }
   }, []);
 

@@ -7,6 +7,7 @@ import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
+
 const EntirePlan = () => {
   const {
     logData,
