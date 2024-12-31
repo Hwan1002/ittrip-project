@@ -40,6 +40,7 @@ public class DirectionController {
 					.queryParam("goal", goal).build()).header("x-ncp-apigw-api-key-id", apiKeyId)
 					.header("x-ncp-apigw-api-key", apiKeySecret).retrieve().bodyToMono(DirectionsResponseDTO.class)
 					.block(); 
+			System.out.println("respoinsssss"+response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
@@ -52,12 +53,14 @@ public class DirectionController {
 			@RequestParam(name = "waypoints") String wayPoints,
 			@RequestParam(name = "goal") String goal
 	) {
+		System.out.println("wayPoint"+wayPoints);
 		try {
 			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder 
 					.queryParam("start", start).queryParam("waypoints", wayPoints).queryParam("goal", goal).build())
 					.header("x-ncp-apigw-api-key-id", apiKeyId).header("x-ncp-apigw-api-key", apiKeySecret).retrieve()
 					.bodyToMono(DirectionsResponseDTO.class)
 					.block();
+			System.out.println("response"+response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));

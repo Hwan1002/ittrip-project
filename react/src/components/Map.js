@@ -64,13 +64,6 @@ const Map = () => {
     }
   }
 
-  useEffect(()=>{
-    if (dayBoolean.every((data) => data === true)) {
-      const booleanArray = new Array(dayBoolean.length).fill(false);
-      setDayBoolean([...booleanArray]);
-    }
-  },[dayBoolean])
-
   useEffect(() => {
     const convertXY = () => {
       switch (routeType) {
@@ -382,7 +375,7 @@ const Map = () => {
       );
       const dirReq = async () => {
         if (foundObject) {
-          if (foundObject.wayPoints) {
+          if (foundObject.wayPoints.latlng) {
             try {
               const latlngArray = foundObject.wayPoints.map((prev) => {
                 return prev.latlng;
@@ -410,7 +403,7 @@ const Map = () => {
                 )
               );
             } catch (error) {
-              
+             
               alert("경유지있는 디렉션 에러");
             }
           } else {

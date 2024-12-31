@@ -92,10 +92,12 @@ const AddData = ({ width }) => {
       case "departure":
         setDeparture({ title: item.title, address: item.address });
         setRouteType(type);
+        setStopOverCount((prev) => prev+1);
         break;
       case "destination":
         setDestination({ title: item.title, address: item.address });
         setRouteType(type);
+        setStopOverCount((prev) => prev+1);
         break;
       case "stopOver":
         if (stopOverCount == 0) {
@@ -205,7 +207,6 @@ const AddData = ({ width }) => {
 
   //경유지 삭제 버튼
   const removeStopOver = (id) => {
-    console.log(id);
     setStopOverList(stopOverList.filter((stopOver) => stopOver.id !== id));
     setStopOverCount((prev) => prev - 1);
   };
