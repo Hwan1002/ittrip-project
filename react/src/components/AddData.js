@@ -98,10 +98,12 @@ const AddData = ({ width }) => {
       case "departure":
         setDeparture({ title: item.title, address: item.address });
         setRouteType(type);
+        setStopOverCount((prev) => prev + 1);
         break;
       case "destination":
         setDestination({ title: item.title, address: item.address });
         setRouteType(type);
+        setStopOverCount((prev) => prev + 1);
         break;
       case "stopOver":
         if (stopOverCount == 0) {
