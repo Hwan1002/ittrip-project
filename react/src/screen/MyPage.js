@@ -29,16 +29,11 @@ const MyPage = () => {
         closeModal,
     } = useModal();
 
-    useEffect(()=>{
-        console.log(userData);
-    },[userData])
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/mypage`, logData);
-                debugger;
-                console.log(response.data.value)
                 setUserData(response.data.value);
                 setImgPreview(`${process.env.REACT_APP_API_BASE_URL}${response.data.value.profilePhoto}`);
             } catch (error) {
@@ -112,8 +107,6 @@ const MyPage = () => {
 
     const modify = async (e) => {
         e.preventDefault();
-        debugger;
-        console.log(userData);
         const emptyValue = Object.keys(userData).find((key) => {
             const value = userData[key];
             return typeof value === 'string' && value.trim() === '';

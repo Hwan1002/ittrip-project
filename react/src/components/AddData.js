@@ -75,7 +75,6 @@ const AddData = ({ width }) => {
         },
       ]);
       setRouteSaved(true);
-      mapObject.map(arr => console.log(arr));
       openModal({
         title: `Day ${selectedDay + 1}`,
         message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
@@ -115,9 +114,7 @@ const AddData = ({ width }) => {
         setStopOverCount((prev) => prev + 1);
         break;
       default:
-        console.log("handleCheck switch 케이스 쪽 오류");
     }
-    console.log(item,type);
     closeModal();
     openModal({
       message: `${
@@ -185,7 +182,6 @@ const AddData = ({ width }) => {
           actions: [{ label: "확인", onClick: closeModal }],
         });
       } catch (error) {
-        console.error(`검색 handleSearch 쪽 오류 : ${error}`);
         alert("handleSearch 검색 오류");
       }
     }

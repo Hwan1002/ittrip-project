@@ -53,10 +53,8 @@ const EntirePlan = () => {
   }, [isReadOnly]);
 
   useEffect(() => {
-    
     // API 호출
     const fetchTrips = async () => {
-      
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_API_BASE_URL}/trips`,
@@ -66,11 +64,11 @@ const EntirePlan = () => {
         );
         setTrips(response.data.data);
       } catch (err) {
-        console.error("axios get 3번 에러");
+        console.error(err);
       }
     };
     fetchTrips();
-    
+    setMapObject([]);
   }, []);
 
   const fetchMapCheck = async (trip) => {
@@ -112,7 +110,7 @@ const EntirePlan = () => {
       setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints]);
       setRouteSaved(true);
     } catch (err) {
-      console.log("catch get Map 에러");
+      console.error(err);
     }
 
     try {
