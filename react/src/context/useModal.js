@@ -13,6 +13,9 @@ const useModal = () => {
         setModalMessage(message || "");
         setModalActions(actions || "");
         setCurrentModal(modalType || "default");
+        setTimeout(() => {
+            document.querySelector(".modal-content").classList.add("open");
+        }, 50);
     };
 
     const closeModal = () => {

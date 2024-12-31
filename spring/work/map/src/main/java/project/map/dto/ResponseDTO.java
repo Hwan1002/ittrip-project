@@ -13,10 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseDTO<T> {
 
-	
 	private String error ;
 	private List<T> data ;
 	private T value ;
-	
 	
 }

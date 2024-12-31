@@ -10,15 +10,13 @@ import DateCheck from "./DateCheck";
 
 const Header = () => {
   const {
+    token,
     loginSuccess,
     setLoginSuccess,
-    token,
     tripTitle,
     setTripTitle,
     tripDates,
     setTripDates,
-    setDuration,
-    setDistance,
   } = useContext(ProjectContext);
   const navigate = useNavigate();
 
@@ -38,7 +36,7 @@ const Header = () => {
     if (token && !loginSuccess) {
       setLoginSuccess(true);
     }
-  }, [token,loginSuccess]);
+  }, [token, loginSuccess]);
 
   //로그아웃 버튼 클릭시 함수
   const handleLogout = () => {
@@ -87,7 +85,6 @@ const Header = () => {
             onClick: () => {
               closeModal();
               navigate("/newTrip");
-               // 상태를 닫고 이동
             },
             className: "confirm-button",
           },
@@ -97,47 +94,71 @@ const Header = () => {
   };
 
   const openNewPlanModal = (e) => {
-    if(loginSuccess){
+    if (loginSuccess) {
       e.preventDefault();
       setIsNewPlanModal(true);
       setTripTitle("");
       setTripDates({});
       openModal({});
-    }else{
+    } else {
       openModal({
-        title:"로그인",
+        title: "로그인",
         message: "로그인이 필요한 서비스 입니다.",
-        actions:[{label:"확인",onClick:()=>{closeModal();navigate("/login");}}],
-      })
+        actions: [
+          {
+            label: "확인",
+            onClick: () => {
+              closeModal();
+              navigate("/login");
+            },
+          },
+        ],
+      });
     }
-    
   };
 
   const closeModalWithReset = () => {
     setIsNewPlanModal(false);
     closeModal();
   };
- 
+
   //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
   return (
     <div className="header">
-      <Link className="logo" onClick={() => {window.location.href = "/";}}>
-        <img className="headerLogo" src={logo} alt="Logo"/>
+      <Link
+        className="logo"
+        onClick={() => {
+          window.location.href = "/";
+        }}
+      >
+        <img className="headerLogo" src={logo} alt="Logo" />
       </Link>
       <nav className="menuBar">
-        <Link className="menu" to={"/entireplan"} >My Plan</Link>
-        <Link className="menu" onClick={openNewPlanModal}>New Plan</Link>
+        <Link className="menu" to={"/entireplan"}>
+          My Plan
+        </Link>
+        <Link className="menu" onClick={openNewPlanModal}>
+          New Plan
+        </Link>
       </nav>
       <div className="headerBtn">
         {loginSuccess ? (
           <div>
-            <Link className="logout" onClick={openLogoutModal}>LOGOUT</Link>
-            <Link className="mypage" to={"/mypage"}>MYPAGE</Link>
+            <Link className="logout" onClick={openLogoutModal}>
+              LOGOUT
+            </Link>
+            <Link className="mypage" to={"/mypage"}>
+              MYPAGE
+            </Link>
           </div>
         ) : (
           <div>
-            <Link className="login" to={"/login"}>LOGIN</Link>
-            <Link className="signup" to={"/signup"}>SIGNUP</Link>
+            <Link className="login" to={"/login"}>
+              LOGIN
+            </Link>
+            <Link className="signup" to={"/signup"}>
+              SIGNUP
+            </Link>
           </div>
         )}
       </div>
@@ -150,8 +171,16 @@ const Header = () => {
         actions={
           isNewPlanModal
             ? [
-                { label: "저장", onClick:handleNewPlanSubmit, className: "save-button"},
-                { label: "취소", onClick:closeModal, className: "cancel-button"},
+                {
+                  label: "저장",
+                  onClick: handleNewPlanSubmit,
+                  className: "save-button",
+                },
+                {
+                  label: "취소",
+                  onClick: closeModal,
+                  className: "cancel-button",
+                },
               ]
             : modalActions
         }

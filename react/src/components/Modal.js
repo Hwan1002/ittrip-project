@@ -1,12 +1,33 @@
-import React from "react";
-import "../css/Modal.css"; 
+import React, { useState, useEffect } from "react";
+import "../css/Modal.css";
 
-const Modal = ({ isOpen, onClose, title, content,  actions, className}) => {
-    if (!isOpen) return null; // isOpen이 false면 Modal을 렌더링하지 않음
+const Modal = ({ isOpen, onClose, title, content, actions, className }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    // 애니메이션을 위해 상태 관리
+    useEffect(() => {
+        if (isOpen) {
+            setIsVisible(true);
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        // 애니메이션 종료 후 onClose 호출
+        setIsVisible(false);
+        setTimeout(() => {
+            onClose();
+        }, 700); // transition-duration과 동일하게 설정
+    };
+
     return (
-        <div className="modal-backdrop">
-            {/* <div className="modal-content"> */}
-            <div className={`modal-content ${className || ''}`}>
+        <div className={`modal-backdrop ${isOpen ? "open" : ""}`}>
+            <div
+                className={`modal-content ${isOpen ? "open" : ""} ${className || ""}`}
+                onTransitionEnd={() => {
+                    if (!isOpen) setIsVisible(false);
+                }}
+                style={{ display: isVisible ? "flex" : "none" }}
+            >
                 {title && <h2 className="modal-title">{title}</h2>}
                 <div className="modal-body">
                     {typeof content === "string" ? <p>{content}</p> : content}
@@ -22,8 +43,8 @@ const Modal = ({ isOpen, onClose, title, content,  actions, className}) => {
                             {action.label}
                         </button>
                     ))}
-                    {!actions.length && (
-                        <button className="default-close" onClick={onClose}>
+                    {!actions?.length && (
+                        <button className="default-close" onClick={handleClose}>
                             확인
                         </button>
                     )}

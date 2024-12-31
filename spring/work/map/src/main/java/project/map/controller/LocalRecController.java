@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import project.map.dto.AreaDTO;
 import project.map.dto.PublicDataDTO;
+import project.map.repository.AreaRepository;
 import project.map.service.TripService;
 
 @RestController
@@ -24,30 +25,34 @@ public class LocalRecController {
 	@Autowired
 	private TripService service;
 
-	@Value("${publicData_ServiceKey}")
+//	@Value("${publicData_ServiceKey}")
 	private String serviceKey;
+	private String mobileOs = "WEB";
+	private String mobileApp = "AppTest";
+	private String baseYm = "202407";
+	private String numOfRows = "60";
+	private String json = "json";
 
 	public LocalRecController(WebClient webClient) {
 		this.webClient = webClient;
 	}
 
-	@GetMapping("/123")
-	public ResponseEntity<?> getPublicData(@RequestParam(name = "signguNm") String signguNm,
+	@GetMapping("/public")
+	public ResponseEntity<?> getPublicData(
+			@RequestParam(name = "signguNm") String signguNm,
 			@RequestParam(name = "areaNm") String areaNm) {
-		AreaDTO dto = service.getCd(areaNm, signguNm);
+		AreaDTO dto = service.getCd(areaNm,signguNm);
 		try {
 			String uri = UriComponentsBuilder
 					.fromHttpUrl("http://apis.data.go.kr/B551011/TarRlteTarService/areaBasedList")
-					.queryParam("serviceKey", serviceKey).queryParam("MobileOS", "WEB")
-					.queryParam("MobileApp", "AppTest").queryParam("baseYm", "202407")
+					.queryParam("serviceKey", serviceKey).queryParam("MobileOS", mobileOs)
+					.queryParam("MobileApp", mobileApp).queryParam("baseYm", baseYm)
 					.queryParam("areaCd", dto.getAreaCd()).queryParam("signguCd", dto.getSignguCd())
-					.queryParam("numOfRows", "60").queryParam("_type", "json").build(false) // 추가적인 URL 인코딩 방지
+					.queryParam("numOfRows", numOfRows).queryParam("_type", json).build(false)
 					.toUriString();
 
-			System.out.println("Generated URI: " + uri); // 디버깅용
-
-			PublicDataDTO response = webClient.get().uri(uri).accept(MediaType.APPLICATION_JSON) // XML 형식 요청 명시
-					.retrieve().bodyToMono(PublicDataDTO.class) // 응답을 DTO로 매핑
+			PublicDataDTO response = webClient.get().uri(uri).accept(MediaType.APPLICATION_JSON)
+					.retrieve().bodyToMono(PublicDataDTO.class) 
 					.block();
 
 			return ResponseEntity.ok(response);

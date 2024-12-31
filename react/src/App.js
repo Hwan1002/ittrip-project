@@ -2,8 +2,7 @@ import "./App.css";
 import Login from "./screen/Login";
 import EntirePlan from "./screen/EntirePlan";
 import Header from "./components/Header";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-// import Main from "./screen/Main";
+import {Route, Routes, useNavigate } from "react-router-dom";
 import Map from "./components/Map";
 import SignUp from "./screen/SignUp";
 import AddData from "./components/AddData";
@@ -15,8 +14,8 @@ import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
 import Maintest from "./screen/Maintest";
-import Main from "./screen/Main";
 import { useEffect } from "react";
+
 function App() {
 
   const navigate = useNavigate();
@@ -43,7 +42,6 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Maintest />} />
-        <Route path="/1" element={<Main />} />
         <Route path="/addData" element={<AddData />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

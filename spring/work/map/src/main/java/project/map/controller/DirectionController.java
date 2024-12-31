@@ -14,80 +14,55 @@ import project.map.dto.DirectionsResponseDTO;
 @RestController
 public class DirectionController {
 
-	@Value("${naver.api.url}")
-	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";// Directions 15 요청 서버
-																								// url
-	// https://naveropenapi.apigw.ntruss.com/map-direction-15
-	@Value("${naver.api.key.id}") // client-id
-	private String apiKeyId = "i3l7gple41";
+	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";
+																								
+//	@Value("${naver.api.key.id}") 
+	private String apiKeyId= "wz3pjcepky";
 
-	@Value("${naver.api.key.secret}") // client-secret
-	private String apiKeySecret = "d21JDzBXMkx7E6P5KQJ0qyPf3W4jfj2e4lRZMgzQ";
+//	@Value("${naver.api.key.secret}")
+	private String apiKeySecret="d21JDzBXMkx7E6P5KQJ0qyPf3W4jfj2e4lRZMgzQ";
 
 	private final WebClient webClient;
 
 	public DirectionController(WebClient.Builder webClientBuilder) {
-		this.webClient = webClientBuilder.baseUrl(apiUrl).build(); // baseurl 요청 서버 location으로 정해놓기
+		this.webClient = webClientBuilder.baseUrl(apiUrl).build(); 
 	}
 
-	@GetMapping("/1234")
-	public ResponseEntity<?> getDirections(@RequestParam(name = "start") String start, // 127.74645%2C37.64424
-																									// 형태로 보내야함
-//            @RequestParam(name = "waypoints") String wayPoints,
+	@GetMapping("/directions/nowaypoint")
+	public ResponseEntity<?> getDirectionsNoWayPoint(
+			@RequestParam(name = "start") String start, 																					
 			@RequestParam(name = "goal") String goal
-	// 기본값 trafast
-	) {
-		 System.out.println("start:"+start);
-		 System.out.println("goal:"+ goal);
-		 
+	) { 
 		try {
 
-			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
+			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder 
 					.queryParam("start", start)
-//                        .queryParam("waypoints", wayPoints)
 					.queryParam("goal", goal).build()).header("x-ncp-apigw-api-key-id", apiKeyId)
-					.header("x-ncp-apigw-api-key", apiKeySecret).retrieve().bodyToMono(DirectionsResponseDTO.class) // mono
-																													// (0개
-																													// 또는
-																													// 1개)
-																													// 로
-																													// 반환
-					.block(); // block -> ResponseEntity로 반환하기 위해 씀
-
-			System.out.println(response);
+					.header("x-ncp-apigw-api-key", apiKeySecret).retrieve().bodyToMono(DirectionsResponseDTO.class)
+					.block(); 
+		
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
 		}
-			
-		
-		
 	}
 
-
-
-
-	@GetMapping("/12345") // baseurl에 포함시키려했으나 권장하지 않는대서 여기에 넣음
-	public ResponseEntity<?> getDirectionsWithWayPoints(@RequestParam(name = "start") String start, // 127.74645%2C37.64424 형태로 보내야함
-			@RequestParam(name = "waypoints") String wayPoints, @RequestParam(name = "goal") String goal
-	// 기본값 trafast
+	@GetMapping("/directions/withwaypoint") 
+	public ResponseEntity<?> getDirectionsWithWayPoints(
+			@RequestParam(name = "start") String start,
+			@RequestParam(name = "waypoints") String wayPoints,
+			@RequestParam(name = "goal") String goal
 	) {
 		try {
-
-			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
+			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder 
 					.queryParam("start", start).queryParam("waypoints", wayPoints).queryParam("goal", goal).build())
 					.header("x-ncp-apigw-api-key-id", apiKeyId).header("x-ncp-apigw-api-key", apiKeySecret).retrieve()
-					.bodyToMono(DirectionsResponseDTO.class) // mono (0개 또는 1개) 로 반환
-					.block(); // block -> ResponseEntity로 반환하기 위해 씀
-
-			System.out.println("start:"+start);
-			 System.out.println("goal:"+ goal);
-			 System.out.println("waypoints"+wayPoints);
-			 System.out.println("response"+response);
+					.bodyToMono(DirectionsResponseDTO.class)
+					.block();
+			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
-
 		}
 	}
 

@@ -17,7 +17,7 @@
 .myPlanContainer {
   display: flex;
   flex-direction: row;
-  border: 3px solid #f6a354;
+  border: 3px solid #dadada;
   border-radius: 30px;
   margin-top: 20px;
   height: 700px;

@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import "../css/CheckList.css";
 import { ProjectContext } from "../context/ProjectContext";
-import axios from "axios";
-import { API_BASE_URL } from "../service/api-config";
 
 function CheckList() {
 
-  const { input, setInput, items, setItems, logData } = useContext(ProjectContext);
+  const { input, setInput, items, setItems} = useContext(ProjectContext);
 
   //POST API 하기 위해 필요한것 userId
   const addItem = async () => {
