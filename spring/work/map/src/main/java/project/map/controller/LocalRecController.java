@@ -14,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import project.map.dto.AreaDTO;
 import project.map.dto.PublicDataDTO;
-import project.map.repository.AreaRepository;
 import project.map.service.TripService;
 
 @RestController
@@ -25,7 +24,7 @@ public class LocalRecController {
 	@Autowired
 	private TripService service;
 
-//	@Value("${publicData_ServiceKey}")
+	@Value("${public.data.api.key}")
 	private String serviceKey;
 	private String mobileOs = "WEB";
 	private String mobileApp = "AppTest";

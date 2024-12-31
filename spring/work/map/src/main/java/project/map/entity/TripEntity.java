@@ -2,8 +2,6 @@
 package project.map.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,7 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @EntityListeners(AuditingEntityListener.class) // Spring Data JPA Auditing 활성화를 위해 추가됨 
 @Builder

@@ -1,12 +1,8 @@
 package project.map.controller;
 
-import java.io.Console;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,20 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import project.map.dto.AreaDTO;
 import project.map.dto.CheckListDTO;
 import project.map.dto.CheckListDTO.Items;
 import project.map.dto.MapDTO;
-import project.map.dto.MapDTO.MapObject;
 import project.map.dto.ResponseDTO;
 import project.map.dto.TripDTO;
-import project.map.entity.AreaEntity;
 import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
 import project.map.entity.UserEntity;
-import project.map.repository.AreaRepository;
 import project.map.repository.CheckListRepository;
 import project.map.repository.MapRepository;
 import project.map.repository.TripRepository;
@@ -44,7 +35,6 @@ import project.map.service.TripService;
 
 @RestController
 @RequestMapping
-@Slf4j
 public class TripController {
 
 	@Autowired
@@ -57,8 +47,7 @@ public class TripController {
 	private CheckListRepository checkListRepository;
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private AreaRepository areaRepository;
+
 	
 	static String myTitle ;
 
@@ -93,7 +82,6 @@ public class TripController {
 			@AuthenticationPrincipal String userId,
 			@PathVariable(name = "tripIdx") Integer tripIdx) {
 		List<MapEntity> list = tripService.getMaps(userId, tripIdx);
-		TripEntity trip = tripRepository.getByIdx(tripIdx);	
 		List<MapDTO> updatedList = list.stream().map(data -> new MapDTO(data)) // MapEntity를 MapDTO로 변환
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(updatedList);	
@@ -104,8 +92,6 @@ public class TripController {
 			@AuthenticationPrincipal String userId,
 			@PathVariable(name = "tripIdx") Integer tripIdx) {
 		CheckListEntity entity  = tripService.getCheckLists(userId, tripIdx);
-		String items = entity.getItems();
-
 		List<Items> list = tripService.parseItems(entity.getItems());
 		CheckListDTO dto = CheckListDTO.builder().items(list).build();
 		return ResponseEntity.ok(dto);
@@ -253,6 +239,7 @@ public class TripController {
 			currentEntity.setStartPoint(startPoint);
 			currentEntity.setGoalPlace(goalPlace);
 			currentEntity.setGoalAddress(goalAddress);
+			currentEntity.setGoalPoint(goalPoint);			
 			currentEntity.setWaypoint(waypoints);
 
 			System.out.println("맵 엔티티: "+currentEntity);

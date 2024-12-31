@@ -2,18 +2,12 @@ package project.map.dto;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.map.entity.CheckListEntity;
-import project.map.entity.TripEntity;
-import project.map.entity.UserEntity;
-import project.map.service.TripService;
 
 @Builder
 @AllArgsConstructor
