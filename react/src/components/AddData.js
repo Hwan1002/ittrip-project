@@ -75,7 +75,6 @@ const AddData = ({ width }) => {
         },
       ]);
       setRouteSaved(true);
-      mapObject.map(arr => console.log(arr));
       openModal({
         title: `Day ${selectedDay + 1}`,
         message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
@@ -117,7 +116,6 @@ const AddData = ({ width }) => {
       default:
         console.log("handleCheck switch 케이스 쪽 오류");
     }
-    console.log(item,type);
     closeModal();
     openModal({
       message: `${

@@ -372,7 +372,7 @@ const Map = () => {
       );
       const dirReq = async () => {
         if (foundObject) {
-          if (foundObject.wayPoints.latlng) {
+          if (foundObject.wayPoints) {
             try {
               const latlngArray = foundObject.wayPoints.map((prev) => {
                 return prev.latlng;

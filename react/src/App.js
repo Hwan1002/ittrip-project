@@ -15,8 +15,18 @@ import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
 import Maintest from "./screen/Maintest";
 import { useEffect } from "react";
-
+import useModal from "./context/useModal";
+import Modal from "./components/Modal";
 function App() {
+
+  const {
+    isModalOpen,
+    openModal,
+    closeModal,
+    modalTitle,
+    modalMessage,
+    modalActions,
+  } = useModal();
 
   const navigate = useNavigate();
 
@@ -30,7 +40,10 @@ function App() {
           // 토큰이 만료되었다면 삭제
           localStorage.removeItem("token");
           alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-          navigate("/login"); // 로그인 페이지로 리다이렉트
+          openModal({
+            message: "세션이 만료되었습니다. 다시 로그인해주세요.",
+            actions:[{label:"확인", onClick:()=>{closeModal();navigate("/login");}}]
+          })
         }
       }
     }
@@ -55,6 +68,13 @@ function App() {
         <Route path="/socialLogin" element={<SocialLogin />} />
         <Route path="/checklist" element={<CheckList />} />
       </Routes>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={modalTitle}
+        content={modalMessage}
+        actions={modalActions}
+      />
     </ProjectProvider>
   );
 }
