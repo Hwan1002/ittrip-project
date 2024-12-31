@@ -25,8 +25,6 @@ const Map = () => {
     dayChecks,
     setDayChecks,
     routeSaved,
-    setRouteSaved,
-    setMapObject,
     distance,
     setDistance,
     duration,
@@ -66,16 +64,12 @@ const Map = () => {
     }
   }
 
-
   useEffect(()=>{
-    console.log("duration : "+JSON.stringify(duration));
-    console.log("distance : "+JSON.stringify(distance));
-    console.log("mapObject: "+JSON.stringify(mapObject));
-    console.log("path: "+JSON.stringify(path));
-    console.log("departure :"+JSON.stringify(departure))
-    console.log("destination:" +JSON.stringify(destination))
-    console.log("flag" +flag)
-  },[duration,distance])
+    if (dayBoolean.every((data) => data === true)) {
+      const booleanArray = new Array(dayBoolean.length).fill(false);
+      setDayBoolean([...booleanArray]);
+    }
+  },[dayBoolean])
 
   useEffect(() => {
     const convertXY = () => {
@@ -416,6 +410,7 @@ const Map = () => {
                 )
               );
             } catch (error) {
+              
               alert("경유지있는 디렉션 에러");
             }
           } else {
@@ -441,6 +436,7 @@ const Map = () => {
                 )
               );
             } catch (error) {
+              
               alert("경유지없는 디렉션 에러");
             }
           }
