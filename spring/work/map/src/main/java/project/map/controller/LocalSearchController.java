@@ -3,7 +3,9 @@ package project.map.controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -31,19 +33,28 @@ public class LocalSearchController {
 	}
 	
 	@GetMapping("/local")
-	public ResponseEntity<?> getLocalData(@RequestParam(name="query") String query){
-		try {
-			LocalSearchResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder //uri를 빌드
-					.queryParam("query", query)
-					.queryParam("display", 5)
-					.queryParam("start", 1)
-					.queryParam("sort", "random")
-					.build())
-					.header("X-Naver-Client-Id", clientId)
-					.header("X-Naver-Client-Secret", clientSecret).retrieve()
-					.bodyToMono(LocalSearchResponseDTO.class) //mono(0개 또는 1개)로 반환
-					.block();
-			return ResponseEntity.ok(response);
+	public ResponseEntity<?> getLocalData(@RequestParam(name = "query") String query) {
+	    try {
+	        
+	        LocalSearchResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder
+	                .queryParam("query", query)
+	                .queryParam("display", 5)
+	                .queryParam("start", 1)
+	                .queryParam("sort", "random")
+	                .build())
+	                .header("X-Naver-Client-Id", clientId)
+	                .header("X-Naver-Client-Secret", clientSecret)
+	                .retrieve()
+	                .bodyToMono(LocalSearchResponseDTO.class)
+	                .block();
+
+	        List<LocalSearchResponseDTO.Items> filteredItems = response.getItems().stream()
+	                .filter(item -> !item.getTitle().contains("번출구")) // 조건: 제목에 "번출구" 포함하면 제외
+	                .collect(Collectors.toList());
+			
+			 response.setItems(filteredItems);
+
+		     return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
