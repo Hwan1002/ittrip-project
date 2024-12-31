@@ -25,12 +25,7 @@ public class LocalRecController {
 	private TripService service;
 
 	@Value("${public.data.api.key}")
-	private String serviceKey;
-	private String mobileOs = "WEB";
-	private String mobileApp = "AppTest";
-	private String baseYm = "202407";
-	private String numOfRows = "60";
-	private String json = "json";
+	private String serviceKey ;
 
 	public LocalRecController(WebClient webClient) {
 		this.webClient = webClient;
@@ -44,16 +39,16 @@ public class LocalRecController {
 		try {
 			String uri = UriComponentsBuilder
 					.fromHttpUrl("http://apis.data.go.kr/B551011/TarRlteTarService/areaBasedList")
-					.queryParam("serviceKey", serviceKey).queryParam("MobileOS", mobileOs)
-					.queryParam("MobileApp", mobileApp).queryParam("baseYm", baseYm)
+					.queryParam("serviceKey", serviceKey).queryParam("MobileOS", "WEB")
+					.queryParam("MobileApp", "ittrip").queryParam("baseYm","202409")
 					.queryParam("areaCd", dto.getAreaCd()).queryParam("signguCd", dto.getSignguCd())
-					.queryParam("numOfRows", numOfRows).queryParam("_type", json).build(false)
+					.queryParam("numOfRows", "60").queryParam("_type", "json").build(false) // 추가적인 URL 인코딩 방지
 					.toUriString();
 
-			PublicDataDTO response = webClient.get().uri(uri).accept(MediaType.APPLICATION_JSON)
-					.retrieve().bodyToMono(PublicDataDTO.class) 
-					.block();
-
+			PublicDataDTO response = webClient.get().uri(uri).accept(MediaType.APPLICATION_JSON) // XML 형식 요청 명시
+					.retrieve().bodyToMono(PublicDataDTO.class) // 응답을 DTO로 매핑
+					.block();		
+			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			e.printStackTrace();

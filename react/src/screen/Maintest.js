@@ -111,7 +111,6 @@ const MainTest = () => {
                     areaNm: select
                 },
             });
-            // console.log("Response Data:", response.data.response.body.items.item);
             const items = response.data.response.body.items.item
 
             setRecButton((prevState) => ({
@@ -133,7 +132,7 @@ const MainTest = () => {
     useEffect(() => {
         if (recButton.all.length === 0) return;
         setRecommend(true);
-        console.log(recButton.all)
+
     }, [recButton])
 
     
@@ -329,7 +328,6 @@ const MainTest = () => {
                     setSignguNm("")
                     setHeader("")
                     setRecommend(false);
-                    console.log(areaCd, signguNm)
                 }} // 닫기 함수
                 content={!recommend ?
                     (<div className="mainLocal">

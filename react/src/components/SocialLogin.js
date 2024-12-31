@@ -42,7 +42,6 @@ const SocialLogin = () => {
                     }
                 }
             );
-            console.log("서버 응답:", response.data);
             if (response.data && response.data.value) {
                 setUserData(response.data.value); // 사용자 정보가 성공적으로 반환되면 context에 저장
                 setLoginSuccess(true); // 로그인 성공 상태 설정
@@ -54,7 +53,6 @@ const SocialLogin = () => {
                 throw new Error("서버 응답 구조가 예상과 다릅니다.");
             }
         } catch (error) {
-            console.error("사용자 정보 가져오기 실패:", error);
             openModal({
                 message:"사용자 정보를 가져올 수 없습니다.",
                 actions:[{label:"확인", onClick:()=>{closeModal();navigate("/login");}}],

@@ -197,8 +197,6 @@ const Map = () => {
     }else{
       setFlag(false);
     }
-     
-    
   }, [selectedDay]);
 
   useEffect(() => {
@@ -368,7 +366,6 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
-    debugger;
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1
@@ -381,8 +378,7 @@ const Map = () => {
                 return prev.latlng;
               });
               const lnglatString = latlngArray.join("|");
-              const response = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/directions/withwaypoint`,
+              const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/directions/withwaypoint`,
                 {
                   params: {
                     start: foundObject.startPoint,
@@ -402,9 +398,9 @@ const Map = () => {
                   response.data.route.traoptimal[0].summary.distance
                 )
               );
+
             } catch (error) {
-             
-              alert("경유지있는 디렉션 에러");
+              console.error(error);
             }
           } else {
             try {

@@ -56,10 +56,8 @@ public class TripController {
 	public ResponseEntity<?> getSignguNm(@RequestParam(name = "areaCd") String areaCd) {
 
 		try {
-			System.out.println("areaCd: " + areaCd);
 			List<String> dtos = tripService.getSignguNms(areaCd);
 			ResponseDTO<String> response = ResponseDTO.<String>builder().data(dtos).build();
-			System.out.println(response);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			e.printStackTrace(); // 에러 로그 출력
@@ -183,8 +181,6 @@ public class TripController {
 		TripEntity trip = tripRepository.getByIdx(dto.getTripIdx());
 		UserEntity user = userRepository.findById(userId).get();
 		List<MapEntity> mapList = tripService.getMaps(userId, dto.getTripIdx());
-
-		System.out.println("dto:"+dto);
 		StringBuilder waypointsBuilder;
 		MapEntity entity;
 		List<MapDTO.MapObject> mapObjects = dto.getMapObject();
@@ -242,7 +238,6 @@ public class TripController {
 			currentEntity.setGoalPoint(goalPoint);			
 			currentEntity.setWaypoint(waypoints);
 
-			System.out.println("맵 엔티티: "+currentEntity);
 			mapRepository.save(currentEntity);
 			
 			

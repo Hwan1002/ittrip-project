@@ -62,7 +62,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
          
          .authorizeHttpRequests(authorizeRequestsConfigurer -> 
             authorizeRequestsConfigurer
-            .requestMatchers("/","/**", "/auth/**","/oauth2/**").permitAll()
+            .requestMatchers("/","/**", "/auth/**","/oauth2/**","/login/**").permitAll()
             .anyRequest().authenticated()
          ) 
          .oauth2Login()
@@ -91,7 +91,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
    @Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://www.ittrip.online")); // 프론트엔드 주소
+		configuration.setAllowedOrigins(Arrays.asList("http://ittrip.online")); // 프론트엔드 주소
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);
