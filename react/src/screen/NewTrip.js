@@ -200,9 +200,7 @@ const NewTrip = () => {
           </div>
           <div id="checkAndEnd">
             <div id="checkListFrame">
-              <h3>
-                체크리스트
-              </h3>
+              
               <div id="checkList">
                 <CheckList />
               </div>

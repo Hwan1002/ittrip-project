@@ -82,7 +82,7 @@
 }
 .mobile .headerAllDiv{
     justify-content: space-between;
-    padding: 0 10px;
+    /* padding: 0 10px; */
 } 
 .mobile .logo{
     margin-left: 0;
