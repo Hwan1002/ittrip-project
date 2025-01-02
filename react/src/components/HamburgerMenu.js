@@ -27,7 +27,7 @@ const HamburgerMenu = () => {
         {/* 메뉴 슬라이드 */}
         <nav className={`hbgMenu ${isOpen ? "open" : ""}`}>
           <ul>
-            <li><Link to="/home" onClick={toggleMenu}>Main</Link></li>
+            <li><Link to="/" onClick={toggleMenu}>Main</Link></li>
             <li><Link to="/entireplan" onClick={toggleMenu}>My Plan</Link></li>
             <li><Link to="/newtrip" onClick={toggleMenu}>New Trip</Link></li>
             <Link className="mypage" to={"/mypage"} onClick={toggleMenu}>MYPAGE</Link>
