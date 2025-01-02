@@ -32,7 +32,7 @@ public class UserService {
 
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	// 유저 전체조회
+	// 유저 전체조회 (테스트 전용 )
 	public List<UserDTO> getAll() {
 		List<UserEntity> entities = repository.findAll();
 		List<UserDTO> dtos = entities.stream().map(UserDTO::new).collect(Collectors.toList());

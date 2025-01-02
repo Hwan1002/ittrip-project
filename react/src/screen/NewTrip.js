@@ -154,7 +154,7 @@ const NewTrip = () => {
   const buttonClicked = () => {
     if (mapObject.length !== dayChecks.length) {
       openModal({
-        title: "에러",
+        title: "경고",
         message: "저장하지 않은 날짜가 있습니다. 저장하시겠습니까?",
         actions: [
           { label: "확인", onClick: allAxios, className: "confirm-btn" },

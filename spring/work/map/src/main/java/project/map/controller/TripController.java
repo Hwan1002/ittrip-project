@@ -124,7 +124,7 @@ public class TripController {
 	@PostMapping("/maps")
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		UserEntity user = userRepository.findById(userId).get();
-		Integer tripIdx = tripRepository.getIdxByTitle(myTitle);
+		Integer tripIdx = tripRepository.getIdxByTitle(myTitle,userId);
 		TripEntity trip = tripRepository.getByIdx(tripIdx);
 		
 		StringBuilder waypointsBuilder;
@@ -164,7 +164,7 @@ public class TripController {
 		@PostMapping("/checklist")
 		public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 			UserEntity user = userRepository.findById(userId).get();
-			Integer tripIdx = tripRepository.getIdxByTitle(myTitle);
+			Integer tripIdx = tripRepository.getIdxByTitle(myTitle,userId);
 			TripEntity trip = tripRepository.getByIdx(tripIdx);
 			CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
 					items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
