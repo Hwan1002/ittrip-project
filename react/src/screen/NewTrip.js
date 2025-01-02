@@ -11,6 +11,7 @@ import Modal from "../components/Modal.js";
 import useModal from "../context/useModal.js";
 import { ProjectContext } from "../context/ProjectContext.js";
 import { format } from "date-fns";
+import { useMediaQuery } from "react-responsive";
 
 const NewTrip = () => {
   const navigate = useNavigate();
@@ -45,7 +46,10 @@ const NewTrip = () => {
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-
+  //반응형 준비
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+  const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
   useEffect(() => {
     setMapObject([]);
     setDeparture({ title: "", address: "", latlng: "" });
@@ -174,7 +178,7 @@ const NewTrip = () => {
   };
 
   return (
-    <div className="newTrip">
+    <div className={`newTrip ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
       <h2>새로운 여행 하기</h2>
       <div>
         <p className="tripTitle1">"{tripTitle}"을 계획해봐요!</p>

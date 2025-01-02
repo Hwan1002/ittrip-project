@@ -126,4 +126,11 @@
 
 
 
-
+/* 모바일 */
+.newTrip.mobile{
+    width:400px;
+    
+}
+.mobile #locationFrame {
+    width:400px;
+}
