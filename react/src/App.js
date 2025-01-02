@@ -1,4 +1,3 @@
-import "./App.css";
 import Login from "./screen/Login";
 import EntirePlan from "./screen/EntirePlan";
 import Header from "./components/Header";
@@ -13,7 +12,7 @@ import NewTrip from "./screen/NewTrip";
 import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
-import Maintest from "./screen/Maintest";
+import Main from "./screen/Main";
 import { useEffect } from "react";
 import useModal from "./context/useModal";
 import Modal from "./components/Modal";
@@ -54,7 +53,7 @@ function App() {
     <ProjectProvider>
       <Header />
       <Routes>
-        <Route path="/" element={<Maintest />} />
+        <Route path="/" element={<Main />} />
         <Route path="/addData" element={<AddData />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

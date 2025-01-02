@@ -5,6 +5,7 @@ import Modal from "../components/Modal";
 import useModal from "../context/useModal";
 import { useNavigate } from "react-router-dom";
 import { ProjectContext } from "../context/ProjectContext";
+import { useMediaQuery } from "react-responsive";
 
 const MyPage = () => {
     
@@ -29,6 +30,10 @@ const MyPage = () => {
         closeModal,
     } = useModal();
 
+    //반응형 준비
+    const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+    const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
     useEffect(()=>{
         console.log(userData);
     },[userData])
@@ -112,7 +117,6 @@ const MyPage = () => {
 
     const modify = async (e) => {
         e.preventDefault();
-        debugger;
         console.log(userData);
         const emptyValue = Object.keys(userData).find((key) => {
             const value = userData[key];
@@ -187,8 +191,8 @@ const MyPage = () => {
         }
     }
     return (
-        <div className="container">
-            <div id="myPage">
+        <div className={`myPage ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
+            <div className="myPage_container">
                 <h2 style={{ marginBottom:'20px'}}>마이 페이지</h2>
                 <div className="myPageContents">
                     <div id="profileFrame">
@@ -203,29 +207,29 @@ const MyPage = () => {
                         <form onSubmit={(e) => modify(e)}>
                             <div id="myInfo">
                                 <div className="infoInput">
-                                    <label for="userId">ID </label>
-                                    <input name="id" id="userId" style={{marginLeft:"82px"}} value={userData.id} readOnly />
+                                    <label for="userId">ID : </label>
+                                    <input name="id" id="userId" value={userData.id} readOnly />
                                 </div>
                                 {userData.authProvider !== null ? '' : (
                                     <>
                                         <div className="infoInput">
-                                            <label for="pwd">비밀번호 </label>
+                                            <label for="pwd">비밀번호 : </label>
                                             <input name="password" id="pwd" style={{marginLeft:"42px"}} type="password" value={userData.password} onChange={handleInputChange} />
                                         </div>
                                         <div className="infoInput">
-                                            <label for="pwdcf">비밀번호 확인 </label>
+                                            <label for="pwdcf">비밀번호 확인 : </label>
                                             <input id="pwdcf" type="password" onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} />
                                         </div>
                                     </>
 
                                 )}
                                 <div className="infoInput">
-                                    <label for="name">이름 </label>
-                                    <input name="userName" id="name" style={{marginLeft:"70px"}} value={userData.userName} onChange={handleInputChange} />
+                                    <label for="name">이름 : </label>
+                                    <input name="userName" id="name" value={userData.userName} onChange={handleInputChange} />
                                 </div>
                                 <div className="infoInput">
-                                    <label for="userEmail">이메일 </label>
-                                    <input name="email" id="userEmail" style={{marginLeft:"55px"}}  value={userData.email} onChange={handleInputChange} />
+                                    <label for="userEmail">이메일 : </label>
+                                    <input name="email" id="userEmail" value={userData.email} onChange={handleInputChange} />
                                 </div>
                             </div>
                             <div className="myPageBtns">
