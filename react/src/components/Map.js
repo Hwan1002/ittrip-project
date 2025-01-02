@@ -201,7 +201,7 @@ const Map = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0jaxb63h45&submodules=geocoder`;
+    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.REACT_APP_NAVER_MAPS_API_KEY_ID}&submodules=geocoder`;
     script.async = true;
     script.onload = () => {
       if (window.naver && window.naver.maps) {
