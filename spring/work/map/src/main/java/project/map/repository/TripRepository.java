@@ -23,7 +23,7 @@ public interface TripRepository extends JpaRepository<TripEntity, Integer> {
 		TripEntity getByIdx(Integer idx);
 		
 		//updateTitle에서 idx로 구분하여 타이틀을 수정하기 위해
-		@Query("select t.idx from TripEntity t where t.title and t.user.id = ?1")
+		@Query("select t.idx from TripEntity t where t.title =?1 and t.user.id = ?2")
 		Integer getIdxByTitle(String title ,String userId);
 		
 		
