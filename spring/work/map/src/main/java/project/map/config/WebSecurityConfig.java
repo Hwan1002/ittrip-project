@@ -28,10 +28,6 @@ import project.map.security.OAuthSuccessHandler;
 import project.map.security.OAuthUserServiceImpl;
 import project.map.security.RedirectUrlCookieFilter;
 
-
-
-
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig implements WebMvcConfigurer {
@@ -62,7 +58,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
          
          .authorizeHttpRequests(authorizeRequestsConfigurer -> 
             authorizeRequestsConfigurer
-            .requestMatchers("/","/**", "/auth/**","/oauth2/**").permitAll()
+            .requestMatchers("/","/**", "/auth/**","/oauth2/**","/login/**").permitAll()
             .anyRequest().authenticated()
          ) 
          .oauth2Login()
@@ -91,7 +87,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
    @Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://ittrip.life")); 
+		configuration.setAllowedOrigins(Arrays.asList("http://ittrip.shop,http://localhost:3000")); // 프론트엔드 주소
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);

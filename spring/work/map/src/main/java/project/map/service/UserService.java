@@ -32,7 +32,7 @@ public class UserService {
 
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	// 유저 전체조회
+	// 유저 전체조회 (테스트 전용 )
 	public List<UserDTO> getAll() {
 		List<UserEntity> entities = repository.findAll();
 		List<UserDTO> dtos = entities.stream().map(UserDTO::new).collect(Collectors.toList());
@@ -50,7 +50,6 @@ public class UserService {
 	public void create(UserDTO dto, MultipartFile profilePhoto) {
 		try {
 			// 필수 필드 검증
-
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
 					|| dto.getEmail() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");

@@ -399,7 +399,7 @@ const Map = () => {
               );
 
             } catch (error) {
-              console.log("검색한 지역이 가깝게 검색해서 생긴 에러 : " + error);
+              console.error(error);
             }
           } else {
             try {

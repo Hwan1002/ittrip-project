@@ -1,6 +1,5 @@
 package project.map.controller;
 
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -18,20 +17,21 @@ import project.map.dto.LocalSearchResponseDTO;
 @RestController
 public class LocalSearchController {
 
-	private final WebClient webClient;
 	
 	private String requestUrl = "https://openapi.naver.com/v1/search/local.json";
-
-	@Value("${naver.local.api.key.id}") 
+	
+	@Value("${localSearch.api.key.id}")
 	private String clientId;
 	
-	@Value("${naver.local.api.key.secret}")
+	@Value("${localSearch.api.key.secret}")
 	private String clientSecret;
 	
+	private final WebClient webClient;
+
 	public LocalSearchController(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.baseUrl(requestUrl).build();
 	}
-	
+
 	@GetMapping("/local")
 	public ResponseEntity<?> getLocalData(@RequestParam(name = "query") String query) {
 	    try {
@@ -58,8 +58,7 @@ public class LocalSearchController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(500).body(Map.of("error",e.getMessage()));
+			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
 		}
 	}
 }
-

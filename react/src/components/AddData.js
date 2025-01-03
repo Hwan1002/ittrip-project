@@ -114,7 +114,6 @@ const AddData = ({ width }) => {
         setStopOverCount((prev) => prev + 1);
         break;
       default:
-        console.log("handleCheck switch 케이스 쪽 오류");
     }
     closeModal();
     openModal({
@@ -183,7 +182,6 @@ const AddData = ({ width }) => {
           actions: [{ label: "확인", onClick: closeModal }],
         });
       } catch (error) {
-        console.error(`검색 handleSearch 쪽 오류 : ${error}`);
         alert("handleSearch 검색 오류");
       }
     }

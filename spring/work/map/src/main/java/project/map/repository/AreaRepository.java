@@ -13,15 +13,12 @@ import project.map.entity.AreaEntity;
 @Repository
 public interface AreaRepository extends JpaRepository<AreaEntity, String> {
 
+	// areaCd를 통해 database에  areaCd 에 해당하는 모든 시군구Nm를 반환한다 .
    @Query("select t.signguNm from AreaEntity t where t.areaCd = ?1")
    List<String> findByAreaCd(String areaCd);
 
+   // areaNm(지역명) 과 suignguNm(시,군,구 이름) 에 해당하는 엔티티를 반환한다 . 
    @Query("select t from AreaEntity t where t.areaNm = ?1  and t.signguNm = ?2")
    AreaEntity findByAreaNmSignguNm(String areaNm, String signguNm);
-
-   // 지역명(서울특별시), 시군구명(종로구)를 code로 매치시켜 가져오기
-   @Query("select t.areaCd , t.signguNm from AreaEntity t where t.areaNm = ?1 and t.signguNm = ?2")
-   List<AreaEntity> recommendByAddress(String areaNm, String signguNm);
-
 
 }

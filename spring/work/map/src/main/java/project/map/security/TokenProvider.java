@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,8 @@ public class TokenProvider {
 	// Base64는 데이터를 암호화하지 않으므로 보안적 이점은 없지만, 키를 사람이 읽을 수 없는 형태로 표현하여 실수로 노출되는 것을 어느
 	// 정도 방지할 수 있습니다.
 
-	private static final String SECRET_KEY_STRING = "YXNkanNhbGtkamFzbGpkYXNrbmRzYWprbmNhc3p4b2NqYXNjbmtseHpuY2tsc2FzZGphc2tsamRrbGF3aG5kcXdpZG5hc2RuYXNrbGRucXdrbGRuYXNrbGNuem1hc2RqaWFzb2RuYQ==";
+
+	private static final String SECRET_KEY_STRING  = "YXNkanNhbGtkamFzbGpkYXNrbmRzYWprbmNhc3p4b2NqYXNjbmtseHpuY2tsc2FzZGphc2tsamRrbGF3aG5kcXdpZG5hc2RuYXNrbGRucXdrbGRuYXNrbGNuem1hc2RqaWFzb2RuYQ==";
 	private static final byte[] SECRET_KEY = Base64.getDecoder().decode(SECRET_KEY_STRING);
 	private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY);
 

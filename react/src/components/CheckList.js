@@ -3,7 +3,7 @@ import "../css/CheckList.css";
 import { ProjectContext } from "../context/ProjectContext";
 
 function CheckList() {
-
+  
   const { input, setInput, items, setItems} = useContext(ProjectContext);
 
   //POST API 하기 위해 필요한것 userId

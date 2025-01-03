@@ -62,7 +62,7 @@ const EntirePlan = () => {
         );
         setTrips(response.data.data);
       } catch (err) {
-        console.error("axios get 3번 에러");
+        console.error(err);
       }
     };
     fetchTrips();
@@ -108,7 +108,7 @@ const EntirePlan = () => {
       setStopOverList([...response.data[0].mapObject[selectedDay].wayPoints]);
       setRouteSaved(true);
     } catch (err) {
-      console.log("catch get Map 에러");
+      console.error(err);
     }
 
     try {

@@ -14,12 +14,13 @@ import project.map.dto.DirectionsResponseDTO;
 @RestController
 public class DirectionController {
 
-	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";
-																								
-	@Value("${naver.maps.api.key.id}") 
+	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";// Directions 15 요청 서버
+																								// url
+	// https://naveropenapi.apigw.ntruss.com/map-direction-15
+	@Value("${naver.api.key.id}") // client-id
 	private String apiKeyId;
 
-	@Value("${naver.maps.api.key.secret}")
+	@Value("${naver.api.key.secret}") // client-secret
 	private String apiKeySecret;
 
 	private final WebClient webClient;
@@ -54,12 +55,11 @@ public class DirectionController {
 			@RequestParam(name = "goal") String goal
 	) {
 		try {
-			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder 
+			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder // uri를 빌드(파라미터들,헤더)
 					.queryParam("start", start).queryParam("waypoints", wayPoints).queryParam("goal", goal).build())
 					.header("x-ncp-apigw-api-key-id", apiKeyId).header("x-ncp-apigw-api-key", apiKeySecret).retrieve()
-					.bodyToMono(DirectionsResponseDTO.class)
-					.block();
-			
+					.bodyToMono(DirectionsResponseDTO.class) // mono (0개 또는 1개) 로 반환
+					.block(); // block -> ResponseEntity로 반환하기 위해 씀
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
@@ -67,4 +67,3 @@ public class DirectionController {
 	}
 
 }
-

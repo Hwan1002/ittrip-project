@@ -179,7 +179,6 @@ public class TripController {
 		TripEntity trip = tripService.getByIdx(dto.getTripIdx());
 		UserEntity user = userService.getById(userId);
 		List<MapEntity> mapList = tripService.getMaps(userId, dto.getTripIdx());
-
 		StringBuilder waypointsBuilder;
 		MapEntity entity;
 		List<MapDTO.MapObject> mapObjects = dto.getMapObject();
