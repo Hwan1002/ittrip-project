@@ -24,8 +24,6 @@ const EntirePlan = () => {
     mapObject,
     setMapObject,
     setRouteSaved,
-    setDistance,
-    setDuration,
     setFlag
   } = useContext(ProjectContext);
 
@@ -75,6 +73,7 @@ const EntirePlan = () => {
     setFlag(true)
     setCurrentIdx(() => trip.idx);
     setTitle(trip.title);
+
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`,
