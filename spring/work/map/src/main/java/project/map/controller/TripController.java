@@ -197,7 +197,7 @@ public class TripController {
 				mapRepository.delete(removeEntity);
 			}
 		} else { // days 갯수 늘어남 3->5개면 2개 추가해야함
-			for (int i = objectSize; i < mapSize; i++) {
+			for (int i = mapSize; i < objectSize; i++) {
 				entity = new MapEntity();
 				mapList.add(entity);
 			}
