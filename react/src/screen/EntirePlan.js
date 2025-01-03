@@ -11,21 +11,14 @@ import useModal from "../context/useModal";
 const EntirePlan = () => {
   const {
     logData,
-    setDeparture,
-    setStopOverList,
-    setDestination,
     setDayChecks,
     selectedDay,
-    departure,
-    destination,
-    stopOverList,
-    isReadOnly,
-    setIsReadOnly,
-    mapObject,
-    setMapObject,
+    departure,setDeparture,
+    destination,setDestination,
+    stopOverList,setStopOverList,
+    isReadOnly,setIsReadOnly,
+    mapObject,setMapObject,
     setRouteSaved,
-    setDistance,
-    setDuration,
     setFlag
   } = useContext(ProjectContext);
 

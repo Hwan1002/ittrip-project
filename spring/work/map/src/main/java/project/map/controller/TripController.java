@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import project.map.dto.AreaDTO;
@@ -35,12 +33,8 @@ import project.map.entity.CheckListEntity;
 import project.map.entity.MapEntity;
 import project.map.entity.TripEntity;
 import project.map.entity.UserEntity;
-import project.map.repository.AreaRepository;
-import project.map.repository.CheckListRepository;
-import project.map.repository.MapRepository;
-import project.map.repository.TripRepository;
-import project.map.repository.UserRepository;
 import project.map.service.TripService;
+import project.map.service.UserService;
 
 @RestController
 @RequestMapping
@@ -48,24 +42,15 @@ import project.map.service.TripService;
 public class TripController {
 
 	@Autowired
+	private UserService userService;
+	@Autowired
 	private TripService tripService;
-	@Autowired
-	private TripRepository tripRepository;
-	@Autowired
-	private MapRepository mapRepository;
-	@Autowired
-	private CheckListRepository checkListRepository;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private AreaRepository areaRepository;
 	
 	static String myTitle ;
 
 	// 메인페이지 areaCd를 통해 SignguNm 모달위에 매핑
 	@GetMapping("/signgunms")
 	public ResponseEntity<?> getSignguNm(@RequestParam(name = "areaCd") String areaCd) {
-
 		try {
 			List<String> dtos = tripService.getSignguNms(areaCd);
 			ResponseDTO<String> response = ResponseDTO.<String>builder().data(dtos).build();
@@ -75,7 +60,6 @@ public class TripController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
 		}
 	}
-
 
 	// ------------------ GET -----------------------
 	@GetMapping("/trips")
@@ -91,7 +75,7 @@ public class TripController {
 			@AuthenticationPrincipal String userId,
 			@PathVariable(name = "tripIdx") Integer tripIdx) {
 		List<MapEntity> list = tripService.getMaps(userId, tripIdx);
-		TripEntity trip = tripRepository.getByIdx(tripIdx);	
+		TripEntity trip = tripService.getByIdx(tripIdx);	
 		List<MapDTO> updatedList = list.stream().map(data -> new MapDTO(data)) // MapEntity를 MapDTO로 변환
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(updatedList);	
@@ -114,18 +98,18 @@ public class TripController {
 	// trip객체 : 제목,출발일,도착일 db저장
 	@PostMapping("/trips")
 	public void postTrips(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
+		UserEntity user = userService.getById(userId);
 		myTitle = tripService.titleConfirm(dto.getTitle(),userId);
 		TripEntity entity = TripEntity.builder().title(myTitle).startDate(dto.getStartDate())
 				.lastDate(dto.getLastDate()).user(user).build();
-		tripRepository.save(entity);
+		tripService.tripSave(entity);
 	}
 	// map객체 저장
 	@PostMapping("/maps")
 	public void postMaps(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		Integer tripIdx = tripRepository.getIdxByTitle(myTitle,userId);
-		TripEntity trip = tripRepository.getByIdx(tripIdx);
+		UserEntity user = userService.getById(userId);
+		Integer tripIdx = tripService.getIdxByTitleAndUserId(myTitle,userId);
+		TripEntity trip = tripService.getByIdx(tripIdx);
 		
 		StringBuilder waypointsBuilder;
 		for (MapDTO.MapObject mapObject : dto.getMapObject()) {
@@ -154,7 +138,7 @@ public class TripController {
 					.startAddress(startAddress).startPoint(startPoint).goalPlace(goalPlace).goalAddress(goalAddress).goalPoint(goalPoint).waypoint(waypoints)
 					.build();
 			
-			mapRepository.save(entity);
+			tripService.mapSave(entity);
 
 		}
 
@@ -163,14 +147,14 @@ public class TripController {
 	// checkList객체 저장
 		@PostMapping("/checklist")
 		public void postCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
-			UserEntity user = userRepository.findById(userId).get();
-			Integer tripIdx = tripRepository.getIdxByTitle(myTitle,userId);
-			TripEntity trip = tripRepository.getByIdx(tripIdx);
+			UserEntity user = userService.getById(userId);
+			Integer tripIdx = tripService.getIdxByTitleAndUserId(myTitle,userId);
+			TripEntity trip = tripService.getByIdx(tripIdx);
 			CheckListEntity entity = CheckListEntity.builder().user(user).trip(trip).
 					items(dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) // 문자열 변환 예시
                     .collect(Collectors.joining("|"))) // 리스트 -> 문자열 합치기
             .build();
-			checkListRepository.save(entity) ;	
+			tripService.checkListSave(entity);	
 		}
 
 	// ----------------- POST ---------------------------
@@ -178,22 +162,22 @@ public class TripController {
 
 	@PutMapping("/trip")
 	public void putTrip(@AuthenticationPrincipal String userId, @RequestBody TripDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		TripEntity entity = tripRepository.getByIdx(dto.getIdx());
+		UserEntity user = userService.getById(userId);
+		TripEntity entity = tripService.getByIdx(dto.getIdx());
 		String confirmedTitle = tripService.titleConfirm(dto.getTitle(),userId);
 		entity.setUser(user);
 		entity.setTitle(confirmedTitle);
 		entity.setStartDate(dto.getStartDate());
 		entity.setLastDate(dto.getLastDate());
 		
-		tripRepository.save(entity);
+		tripService.tripSave(entity);
 	}
 
 	@Transactional
 	@PutMapping("/maps")
 	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
-		TripEntity trip = tripRepository.getByIdx(dto.getTripIdx());
-		UserEntity user = userRepository.findById(userId).get();
+		TripEntity trip = tripService.getByIdx(dto.getTripIdx());
+		UserEntity user = userService.getById(userId);
 		List<MapEntity> mapList = tripService.getMaps(userId, dto.getTripIdx());
 		StringBuilder waypointsBuilder;
 		MapEntity entity;
@@ -208,7 +192,7 @@ public class TripController {
 			for (int i = mapSize - 1; i >= objectSize; i--) {
 				MapEntity removeEntity = mapList.get(i);
 				mapList.remove(i);
-				mapRepository.delete(removeEntity);
+				tripService.mapDelete(removeEntity);
 			}
 		} else { // days 갯수 늘어남 3->5개면 2개 추가해야함
 			for (int i = objectSize; i < mapSize; i++) {
@@ -251,17 +235,15 @@ public class TripController {
 			currentEntity.setGoalAddress(goalAddress);
 			currentEntity.setWaypoint(waypoints);
 
-			mapRepository.save(currentEntity);
-			
-			
+			tripService.mapSave(currentEntity);
 		}
 	}
 
 	@Transactional
 	@PutMapping("/checklist")
 	public ResponseEntity<?> putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
-		UserEntity user = userRepository.findById(userId).get();
-		TripEntity trip = tripRepository.getByIdx(dto.getTripIdx());
+		UserEntity user = userService.getById(userId);
+		TripEntity trip = tripService.getByIdx(dto.getTripIdx());
 		CheckListEntity entity = tripService.getCheckLists(userId, dto.getTripIdx());
 				
 		String items =  dto.getItems().stream().map(item -> item.getId() + ":" + item.getText() + ":" + item.isChecked()) 																															
@@ -269,14 +251,14 @@ public class TripController {
 		entity.setUser(user);
 		entity.setTrip(trip);
 		entity.setItems(items);
-		checkListRepository.save(entity);
+		tripService.checkListSave(entity) ;
 		return ResponseEntity.ok("수정 성공");
 	}
 	// ----------------- PUT ---------------------------
 	// ----------------- DELETE -------------------------
 	@DeleteMapping("/trip/{idx}")
 	public void deleteTrip(@PathVariable("idx") Integer idx) { // pathVariable 어노테이션 사용시 { } 안에들어간 값과 idx 매개변수를 인식하기위해서												
-		tripRepository.deleteById(idx);
+		tripService.tripDelete(idx);
 	}
 
 	// ----------------- DELETE -------------------------

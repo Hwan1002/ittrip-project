@@ -1,15 +1,22 @@
 .newTrip {
+    width: 1150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 450px;
+}
+.newTrip_container{
     display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로로 나열 */
+    align-items: center;
     width: 1150px;
     height: 1000px;
-    margin-top: 450px;
-    flex-direction: column; /* 자식 요소들을 세로로 나열 */
-    align-items: center; /* 자식 요소들을 가로로 중앙 정렬 */
-    padding: 20px; /* 여백 추가 (선택 사항) */
     background-color: rgba(255,255,255,0.7);
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
-}
+    padding: 20px;
 
+
+}
 .newTrip h2{
     font-size: 30px;
     font-family: 'GmarketSansMedium';
@@ -43,6 +50,9 @@
 }
 
 #rootSet h3{
+    color: #F6A354;
+    margin-top: 25px;
+    font-size: 22px;
     text-align: center;
 }
 
@@ -126,4 +136,78 @@
 
 
 
+/* 모바일 */
+.newTrip.mobile{
+    width:400px;
+    margin-top: 0;
+}
+.mobile h2{
+    font-size: 20px;
+}
+.mobile #rootSet{
+    width: 80%;
+    align-items: center;
+}
+.mobile .newTrip_container{
+    width:400px;
+    height: auto;
+    max-height: 800px;
+    overflow-y: scroll;
+    align-items: center;
+    margin-top: 100px;
+    padding: 0;
+}
+.mobile #locationFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    box-shadow: none;
+    margin-bottom: 20px;
+    width: 100%;
+    height: auto;
+}
+.mobile #addDirectionFrame{
+    align-items: center;
+    padding: 0;
+    margin-top: 20px;
+    height: auto;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.mobile .addData .saveBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 110px;
+}
+
+.mobile #newMap{
+    width: 380px;
+    height: 300px;
+}
+.mobile #checkListFrame{
+    height: auto;
+}
+.mobile #checkList{
+    width:100%;
+    min-height: 100px;
+    height: auto;
+}
+.mobile #checkAndEnd{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+.mobile .checkContents{
+    height: auto;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+.mobile #endBtFrame{
+    height: 255px;
+}
 

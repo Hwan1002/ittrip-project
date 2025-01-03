@@ -4,7 +4,6 @@ import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
 import axios from "axios";
-import { use } from "react";
 
 const Map = () => {
   const {
