@@ -25,21 +25,21 @@ const HamburgerMenu = () => {
   
   const openDateCheck = (e) => {
     e.preventDefault();
-    // if(loginSuccess){
+    if(loginSuccess){
       setTripTitle("");
       setTripDates({});
       openModal({
         message: <DateCheck/>,
         action: [{label:"저장", onClick:handleNewPlanSubmit}]
       })
-    // }else{
-    //   openModal({
-    //     className : "modal-default",
-    //     title: "로그인",
-    //     message: "로그인이 필요한 서비스 입니다.",
-    //     actions: [{label:"확인", onClick:()=>{closeModal(); navigate("/login");}}]
-    //   })
-    // }
+    }else{
+      openModal({
+        className : "modal-default",
+        title: "로그인",
+        message: "로그인이 필요한 서비스 입니다.",
+        actions: [{label:"확인", onClick:()=>{closeModal(); navigate("/login");}}]
+      })
+    }
   }
   const handleNewPlanSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ const HamburgerMenu = () => {
       openModal({
         title: "저장 완료",
         message: "여행 일정이 저장되었습니다.",
-        actions: [{ label: "확인", onClick: () => {closeModal(); navigate("/newTrip");}, className: "confirm-button", },],
+        actions: [{ label: "확인", onClick:()=>{closeModal(); navigate("/newTrip");}}],
       });
     }
   };

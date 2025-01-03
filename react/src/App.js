@@ -62,7 +62,6 @@ function App() {
         <Route path="/newtrip" element={<NewTrip />} />
         <Route path="/map" element={<Map />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mainlocal" element={<MainLocal />} />
         <Route path="/socialLogin" element={<SocialLogin />} />
         <Route path="/checklist" element={<CheckList />} />
       </Routes>

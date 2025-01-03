@@ -202,6 +202,64 @@
 
 /* 모바일 반응형 전용 모달 */
 
+/* Mainmodal 전용 css */
+.mainModal.mobile{
+    display: flex;
+    flex-direction: column;
+}
+.mobile .siGun{
+    align-items: center;
+    line-height: 1.5;
+    height:100%;
+}
+.mobile .siGunText{
+    position: static;
+}
+.mobile .siGunText .seoulKo {
+    font-size: 30px;
+}
+.mobile .siGunText .seoulEn {
+    font-size: 20px;
+}
+.mobile .siGunImg{
+    width:250px;
+}
+.mobile .siGunImg img{
+    width:100%;
+}
+.mobile .tripSelect{
+    width:350px;
+    text-align: center;
+
+}
+.mobile .tripSelect p{
+    font-size:15px;
+}
+.mobile .guSelect {
+    border-radius: 10px;
+    font-size: 12px;
+    height: 115px;
+    text-align: center;
+    overflow: scroll;
+}
+.mobile .guBt {
+    border-radius: 15px;
+    height: 25px;
+    margin: 7px;
+    width: 60px;
+}
+/* mainmodal 관광지 카테고리 css */
+/* .mobile .categoryAll{
+    width:400px;
+} */
+.mobile .categoryBtns button{
+    width:55px;
+    height: 30px;
+    font-size: 15px;
+}
+.mobile .listInfo{
+    font-size: 15px;
+}
 /* datePicker 전용 css */
 .modal-backdrop.mobile{
     
@@ -265,6 +323,7 @@
     padding: 10px;
     border-radius: 20px;
 }
+
 /* addData 검색 리스트 모달 반응형 css */
 .mobile .searchList{
     width: 250px;

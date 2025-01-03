@@ -335,7 +335,7 @@ const Main = () => {
                                     <p className="seoulKo">{header}</p>
                                     <p className="seoulEn" >{explain.english}</p>
                                 </div>
-                                <p>{explain.explain}</p>
+                                <p className="siGunExplain">{explain.explain}</p>
                             </div>
 
                             <div className="siGunImg">
@@ -347,10 +347,9 @@ const Main = () => {
                             <div className="guSelect">
                                 {signguNm && signguNm.length > 0 ? (
                                     signguNm.map((item, index) => (
-                                        <button className="guBt"
-                                            key={index}
-                                            onClick={() => requestData(item)}
-                                        >{item}</button>
+                                        <button className="guBt"key={index}onClick={() => requestData(item)}>
+                                            {item}
+                                        </button>
                                     )
                                     )) : (subRegions.map((item, index) => (
                                             <button className="guBt" key={index}
