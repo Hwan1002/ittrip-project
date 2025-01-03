@@ -38,9 +38,7 @@ const NewTrip = () => {
     setDeparture,
     setStopOverList,
     setDestination,
-    distance,
     setDistance,
-    duration,
     setDuration,
     setFlag,
   } = useContext(ProjectContext);
