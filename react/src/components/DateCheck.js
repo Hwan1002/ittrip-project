@@ -49,7 +49,6 @@ const DateCheck = () => {
                           />
                           {tripDates.startDate && tripDates.endDate && (
                             <div className="dateCheckResult">
-                              <p>여행 이름 : {tripTitle}</p>
                               <p>
                                 출발 날짜 : {tripDates.startDate.toLocaleDateString("ko-KR")}
                             </p>

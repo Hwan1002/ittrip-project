@@ -11,6 +11,7 @@ import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
+import { useMediaQuery } from "react-responsive";
 
 const Login = () => {
 
@@ -32,7 +33,9 @@ const Login = () => {
     const handleChange = (e) => {
         setLogInfo({ ...logInfo, [e.target.name]: e.target.value });
     }
-
+    const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+    const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
    
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -76,11 +79,11 @@ const Login = () => {
         window.location.href = `http://ec2-3-34-85-80.ap-northeast-2.compute.amazonaws.com:8080/auth/authorize/${provider}?redirect_url=${window.location.origin}`;
     }
     return (
-        <div id="login">
+        <div className={`login ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
             <div className="logoImg">
                 <Logo />
             </div>
-            <div className="login_container container">
+            <div className="login_container">
                 <form onSubmit={handleLogin}>
                     <div className="login_contents">
                         <h2 className="title">로그인</h2>

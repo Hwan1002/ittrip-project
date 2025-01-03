@@ -11,6 +11,7 @@ import Modal from "../components/Modal.js";
 import useModal from "../context/useModal.js";
 import { ProjectContext } from "../context/ProjectContext.js";
 import { format } from "date-fns";
+import { useMediaQuery } from "react-responsive";
 
 const NewTrip = () => {
   const navigate = useNavigate();
@@ -41,21 +42,26 @@ const NewTrip = () => {
     setDistance,
     duration,
     setDuration,
-    setFlag
+    setFlag,
   } = useContext(ProjectContext);
   const formattedStartDate = format(tripDates.startDate, "yyyy-MM-dd");
   const formattedEndDate = format(tripDates.endDate, "yyyy-MM-dd");
-
+  //반응형 준비
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const isTablet = useMediaQuery({
+    query: "(min-width: 431px) and (max-width: 1024px)",
+  });
+  const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
   useEffect(() => {
     setMapObject([]);
     setDeparture({ title: "", address: "", latlng: "" });
     setDestination({ title: "", address: "", latlng: "" });
     setStopOverList([]);
     setFlag(false);
-    return ()=>{
+    return () => {
       setDistance(null);
       setDuration(null);
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -154,7 +160,7 @@ const NewTrip = () => {
   const buttonClicked = () => {
     if (mapObject.length !== dayChecks.length) {
       openModal({
-        title: "에러",
+        title: "경고",
         message: "저장하지 않은 날짜가 있습니다. 저장하시겠습니까?",
         actions: [
           { label: "확인", onClick: allAxios, className: "confirm-btn" },
@@ -174,59 +180,58 @@ const NewTrip = () => {
   };
 
   return (
-    <div className="newTrip">
-      <h2>새로운 여행 하기</h2>
-      <div>
-        <p className="tripTitle1">"{tripTitle}"을 계획해봐요!</p>
-      </div>
-      {/* 경로설정 부분 */}
-      <div id="rootSet">
-        <h3 style={{ color: "#F6A354", marginTop: "25px", fontSize: "22px" }}>
-          경로 설정
-        </h3>
-        {/* 지도, 경로추가부분 */}
-        <div id="locationFrame">
-          <div id="newMap">
-            <Map />
-          </div>
-          <div id="addDirectionFrame">
-            <AddData width="200px" />
-          </div>
+    <div className={`newTrip ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
+      <div className="newTrip_container">
+        <h2>새로운 여행 하기</h2>
+        <div>
+          <p className="tripTitle1">"{tripTitle}"을 계획해봐요!</p>
         </div>
-        <div id="checkAndEnd">
-          <div id="checkListFrame">
-            <h3 style={{ color: "#F6A354", marginTop: 0, fontSize: "22px" }}>
-              체크리스트
-            </h3>
-            <div id="checkList">
-              <CheckList />
+        {/* 경로설정 부분 */}
+        <div id="rootSet">
+          <h3>경로 설정</h3>
+          {/* 지도, 경로추가부분 */}
+          <div id="locationFrame">
+            <div id="newMap">
+              <Map />
+            </div>
+            <div id="addDirectionFrame">
+              <AddData width="200px" />
             </div>
           </div>
-          <div id="endBtFrame">
-            <p
-              style={{
-                color: "#F6A354",
-                fontSize: "25px",
-                marginBottom: "5px",
-              }}
-            >
-              Happy Your Trip!
-            </p>
-            <p style={{ color: "#828282", marginBottom: "20px" }}>
-              일정계획이 완료되면 아래 버튼을 눌러주세요
-            </p>
-            <button id="newEnd" onClick={buttonClicked}>
-              새로운 여행 추가
-              <img
-                src={Plus2}
-                width="25px"
-                style={{ marginLeft: "15px" }}
-                alt="새로운 여행"
-              />
-            </button>
+          <div id="checkAndEnd">
+            <div id="checkListFrame">
+              
+              <div id="checkList">
+                <CheckList />
+              </div>
+            </div>
+            <div id="endBtFrame">
+              <p
+                style={{
+                  color: "#F6A354",
+                  fontSize: "25px",
+                  marginBottom: "5px",
+                }}
+              >
+                Happy Your Trip!
+              </p>
+              <p style={{ color: "#828282", marginBottom: "20px" }}>
+                일정계획이 완료되면 아래 버튼을 눌러주세요
+              </p>
+              <button id="newEnd" onClick={buttonClicked}>
+                새로운 여행 추가
+                <img
+                  src={Plus2}
+                  width="25px"
+                  style={{ marginLeft: "15px" }}
+                  alt="새로운 여행"
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

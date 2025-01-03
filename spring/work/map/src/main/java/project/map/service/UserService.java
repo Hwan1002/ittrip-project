@@ -32,7 +32,7 @@ public class UserService {
 
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	// 유저 전체조회
+	// 유저 전체조회 (테스트 전용 )
 	public List<UserDTO> getAll() {
 		List<UserEntity> entities = repository.findAll();
 		List<UserDTO> dtos = entities.stream().map(UserDTO::new).collect(Collectors.toList());
@@ -40,17 +40,16 @@ public class UserService {
 	}
 
 	// 유저 id로 조회
-	public UserDTO getById(String userId) {
+	public UserEntity getById(String userId) {
 		UserEntity entity = repository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("해당 ID를 가진 유저가 존재하지 않습니다."));
-		return toDTO(entity);
+		return entity;
 	}
 
 	// 유저 생성
 	public void create(UserDTO dto, MultipartFile profilePhoto) {
 		try {
 			// 필수 필드 검증
-
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
 					|| dto.getEmail() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");
@@ -157,7 +156,6 @@ public class UserService {
 	}
 
 	// 회원 삭제
-	@Transactional
 	public String delete(String userId) {
 		UserEntity entity = repository.findById(userId).get();
 		repository.delete(entity);

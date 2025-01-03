@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../css/MainTest.css"
-import "../css/Main.css"
+import "../css/Reset.css";
+import "../css/MainTest.css";
+import "../css/Main.css";
 import banner2 from "../img/MainPage/banner/banner2.jpg";
 import local1 from "../img/MainPage/local1.gif";
 import local2 from "../img/MainPage/local2.gif";
@@ -15,43 +16,37 @@ import food from "../img/Icon/food2.png"
 import spot from "../img/Icon/spot2.png"
 import axios from "axios";
 import Modal from "../components/Modal";
-
-const MainTest = () => {
+import { useMediaQuery } from "react-responsive";
+const Main = () => {
 
     const [img, setImg] = useState();
-    // 지역명에대한 state
+    //지역명에대한 state
     const [select, setSelect] = useState("");
-    // areaCd state 
+    //areaCd state 
     const [areaCd, setAreaCd] = useState("");
 
     //시군구 이름
     const [signguNm, setSignguNm] = useState([])
 
-    // 모달표시여부 state
+    //모달표시여부 state
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // 지역배열
+    //지역배열
     const [subRegions, setSubRegions] = useState([]);
 
-    // 설명
+    //설명
     const [explain, setExplain] = useState({});
 
-    // 모달 지역명 헤더 
+    //모달 지역명 헤더 
     const [header, setHeader] = useState();
 
-    // 추천지 렌더여부
+    //추천지 렌더여부
     const [recommend, setRecommend] = useState(false);
 
-    const [recButton, setRecButton] = useState(
-        {
-            all: [], food: [],
-            lodgment: [], spot: []
-        }
-
-
-    )
+    const [recButton, setRecButton] = useState({ all: [], food: [], lodgment: [], spot: []})
 
     const [currentView, setCurrentView] = useState("all");
+
     // 지역 코드 
     const regionData = {
         충청도: [
@@ -73,6 +68,9 @@ const MainTest = () => {
             { name: "광주광역시", areaCd: "29", header: "광주" },
         ],
     };
+    const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+    const isTablet = useMediaQuery({ query: "(min-width: 768px) and (max-width: 1024px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
 
     const regionClick = (region) => {
         setSubRegions(regionData[region]); // 하위 지역 데이터 설정
@@ -144,8 +142,8 @@ const MainTest = () => {
                 <img src={banner2} alt="banner" />
             </div>
             {/* 지역 4개 */}
-            <div className="localSet">
-                <div className="localtrip">
+            <div className={`localSet ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
+                <div className={`localtrip ${isMobile ? "mobile-layout" : ""}`}>
                     <div className="localName">
                         <p className="localEnglish">SEOUL</p>
                         <p className="localKorea">서울</p>
@@ -234,8 +232,8 @@ const MainTest = () => {
             </div>
 
             {/* 지역 4개 */}
-            <div className="localSet">
-                <div className="localtrip">
+            <div className={`localSet ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
+                <div className={`localtrip ${isMobile ? "mobile-layout" : ""}`}>
                     <div className="localName">
                         <p className="localEnglish">CHUNCHEONG</p>
                         <p className="localKorea">충청</p>
@@ -420,4 +418,4 @@ const MainTest = () => {
     );
 };
 
-export default MainTest;
+export default Main;

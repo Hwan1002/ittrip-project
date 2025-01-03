@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import project.map.dto.ResponseDTO;
 import project.map.dto.UserDTO;
+import project.map.entity.UserEntity;
+import project.map.security.TokenProvider;
 import project.map.service.UserService;
 
 @RequestMapping
@@ -27,7 +29,7 @@ public class UserController {
 
 	@GetMapping("/mypage")
 	public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal String userId) {
-		UserDTO user = service.getById(userId);
+		UserDTO user = service.toDTO(service.getById(userId)); 
 		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().value(user).build();
 		return ResponseEntity.ok(response);
 	}

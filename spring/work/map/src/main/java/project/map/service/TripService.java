@@ -22,6 +22,7 @@ import project.map.repository.TripRepository;
 @Service
 public class TripService {
 	
+	
 	@Autowired
 	private MapRepository mapRepository;
 	@Autowired
@@ -63,19 +64,38 @@ public class TripService {
 
 	//----------------------------------------------------------
 	
-	//userId 기반으로 trip객체들을 반환 (여행목록에 사용자가 설정한 여행리스트 렌더링)
 	public List<TripEntity> getTrips(String userId){
 		return tripRepository.getTripsByUserId(userId);
 	}
 	
-	//trip의 title을 받아서 MapEntity들 반환하기
 	public List<MapEntity> getMaps(String userId,Integer tripIdx){
 		return mapRepository.getLocation(userId, tripIdx);
 	}
 	
-	//trip의 title을 받아서 CheckListEntity 반환하기
 	public CheckListEntity getCheckLists(String userId,Integer idx){
 		return checkListRepository.getCheckListByUserIdAndTripIdx(userId, idx);
+	}
+
+	public TripEntity getByIdx(Integer idx) {
+		return tripRepository.getByIdx(idx);
+	}
+	public Integer getIdxByTitleAndUserId(String title,String userId) {
+		return tripRepository.getIdxByTitleAndUserId(title, userId);
+	}
+	public void tripSave(TripEntity entity) {
+		tripRepository.save(entity);
+	}
+	public void tripDelete(Integer idx) {
+		tripRepository.delete(getByIdx(idx));
+	}
+	public void mapSave(MapEntity entity) {
+		mapRepository.save(entity);
+	}
+	public void checkListSave(CheckListEntity entity) {
+		checkListRepository.save(entity);
+	}
+	public void mapDelete(MapEntity entity) {
+		mapRepository.delete(entity);
 	}
 	
 	public List<Items> parseItems(String itemsString) {
@@ -86,7 +106,7 @@ public class TripService {
 	        return itemList;
 	    }
 
-	    // ','를 기준으로 각 항목을 나눔
+	    // '|'를 기준으로 각 항목을 나눔
 	    String[] itemArray = itemsString.split("\\|");
 	    
 	    for (String item : itemArray) {
@@ -109,6 +129,7 @@ public class TripService {
 	    return itemList;
 	}
 	
+	//DB에서 받아온 WayPoint(String)을 파싱해서 배열(List)로 만들어줌
 	public static List<MapDTO.WayPointDTO> parseWaypoints(String waypoint) {
         if (waypoint == null || waypoint.isEmpty()) {
             return List.of();
@@ -125,5 +146,7 @@ public class TripService {
             })
             .toList();
     }
+	
+	
 
 }
