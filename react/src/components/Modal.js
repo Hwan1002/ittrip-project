@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "../css/Modal.css";
+import { useMediaQuery } from "react-responsive";
 
 const Modal = ({ isOpen, onClose, title, content, actions, className }) => {
     const [isVisible, setIsVisible] = useState(false);
+    const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+    const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
 
-    // 애니메이션을 위해 상태 관리
     useEffect(() => {
-        if (isOpen) {
-            setIsVisible(true);
-        }
+        if (isOpen) { setIsVisible(true);}
     }, [isOpen]);
 
     const handleClose = () => {
-        // 애니메이션 종료 후 onClose 호출
         setIsVisible(false);
         setTimeout(() => {
             onClose();
-        }, 700); // transition-duration과 동일하게 설정
+        }, 700); 
     };
 
     return (
-        <div className={`modal-backdrop ${isOpen ? "open" : ""}`}>
-            <div
-                className={`modal-content ${isOpen ? "open" : ""} ${className || ""}`}
+        <div className={`modal-backdrop ${isOpen ? "open" : ""} ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
+            <div className={`modal-content ${isOpen ? "open" : ""} ${className || ""} ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}
                 onTransitionEnd={() => {
                     if (!isOpen) setIsVisible(false);
                 }}

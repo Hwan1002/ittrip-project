@@ -10,6 +10,9 @@
 }
 .tripTitle label input{
     font-size: 16px;
+    width: 290px;
+    height: 35px;
+    border-radius: 20px;
 }
 .dateCheckResult{
     margin-top: 35px;

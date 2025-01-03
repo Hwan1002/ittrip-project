@@ -130,21 +130,24 @@
 .mobile .signUp_container{
     width: 75vw;
 }
-
+.mobile .signUp_contents h2 {
+    margin: 15px 0;
+}
 .mobile .signUp_contents input {
     width:50vw;
     height: 4vh;
     font-size: 12px;
 }
 .mobile .signUp_id button{
-    width: 55px;
-    height: 3vh;
-    font-size: 12px;
+    width: 50px;
+    height: 25px;
+    font-size: 10px;
 }
 .mobile .profileChangeBtn {
     width: 85px;
     height: 25px;
     font-size: 12px;
+    margin: 15px 0;
 }
 .mobile .sigUp_Btns button{
     width: 80px;

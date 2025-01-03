@@ -200,3 +200,69 @@
     align-items: center;
 }
 
+/* 모바일 반응형 전용 모달 */
+
+/* datePicker 전용 css */
+.modal-backdrop.mobile{
+    
+}
+.modal-content.mobile{
+    width: 300px;
+    padding: 0;
+}
+
+.mobile .modal-default{
+    width: 200px;
+    padding: 0;
+}
+.mobile .tripTitle label{
+    color: #F6A354;
+    font-size: 18px;
+    margin : 20px 0;
+}
+.mobile .tripTitle label input {
+    font-size: 12px;
+    width: 200px;
+    height: 25px;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+.mobile .modal-title{
+    margin: 20px 0;
+}
+.mobile .tripDates h3 {
+    color: #F6A354;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.mobile .react-datepicker {
+    font-size: 15px;
+    border: 1px solid #aeaeae;
+    border-radius: 0.3rem;
+}
+.mobile .dateCheckResult{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.mobile .dateCheckResult p {
+    font-size: 12px;
+    border: 2px solid #F6A354;
+    border-radius: 10px;
+    width: 150px;
+    height: 30px;
+}
+.mobile .dateCheckResult p:first-child{
+    margin-bottom: 20px;
+}
+.mobile .modal-actions{
+    margin-bottom: 15px;
+}
+.mobile .modal-actions button {
+    min-width: 60px;
+    padding: 10px;
+    border-radius: 20px;
+}

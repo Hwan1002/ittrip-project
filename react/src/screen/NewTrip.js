@@ -206,13 +206,7 @@ const NewTrip = () => {
               </div>
             </div>
             <div id="endBtFrame">
-              <p
-                style={{
-                  color: "#F6A354",
-                  fontSize: "25px",
-                  marginBottom: "5px",
-                }}
-              >
+              <p style={{ color: "#F6A354", fontSize: "25px", marginBottom: "5px",}}>
                 Happy Your Trip!
               </p>
               <p style={{ color: "#828282", marginBottom: "20px" }}>
@@ -220,12 +214,7 @@ const NewTrip = () => {
               </p>
               <button id="newEnd" onClick={buttonClicked}>
                 새로운 여행 추가
-                <img
-                  src={Plus2}
-                  width="25px"
-                  style={{ marginLeft: "15px" }}
-                  alt="새로운 여행"
-                />
+                <img src={Plus2} alt="새로운 여행"/>
               </button>
             </div>
           </div>

@@ -116,7 +116,7 @@ const EntirePlan = () => {
       );
       setCheckList(() => response.data.items);
     } catch (err) {
-      alert("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
+      console.log("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
     }
   };
 
@@ -132,7 +132,7 @@ const EntirePlan = () => {
         actions: [{ label: "확인", onClick: closeModal }],
       });
     } catch (err) {
-      alert("put Map 에러");
+      console.log("put Map 에러");
     }
 
     //checkList put
@@ -143,7 +143,7 @@ const EntirePlan = () => {
         logData
       );
     } catch (err) {
-      alert("put CheckList 에러");
+      console.log("put CheckList 에러");
     }
     setIsReadOnly(() => !isReadOnly);
   };
@@ -167,7 +167,7 @@ const EntirePlan = () => {
         ],
       });
     } catch (err) {
-      alert("삭제 실패");
+      console.log("삭제 실패");
     }
   };
 
