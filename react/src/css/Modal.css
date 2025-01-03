@@ -229,7 +229,7 @@
     padding-left: 10px;
 }
 .mobile .modal-title{
-    margin: 20px 0;
+    margin-top: 20px;
 }
 .mobile .tripDates h3 {
     color: #F6A354;
@@ -246,7 +246,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 0;
 }
 .mobile .dateCheckResult p {
     font-size: 12px;
@@ -255,14 +255,44 @@
     width: 150px;
     height: 30px;
 }
-.mobile .dateCheckResult p:first-child{
-    margin-bottom: 20px;
-}
+
 .mobile .modal-actions{
+    margin-top: 0;
     margin-bottom: 15px;
 }
 .mobile .modal-actions button {
     min-width: 60px;
     padding: 10px;
     border-radius: 20px;
+}
+/* addData 검색 리스트 모달 반응형 css */
+.mobile .searchList{
+    width: 250px;
+    margin:20px;
+}
+.mobile .searchList ul li{
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+.mobile .searchList .listNumber{
+    width:18px;
+    height: 18px;
+    font-size: 12px;
+    margin:0;
+    padding:10px;
+}
+.mobile .searchList .listTitle{
+    font-size: 12px;
+    margin: 15px 0;
+}
+.mobile .searchList .addressBtn{
+    font-size: 12px;
+    height: auto;
+    border-radius: 10px;
+    padding: 2px 12px;
+
+}
+.mobile .searchList p{
+    margin-top: 20px;
 }

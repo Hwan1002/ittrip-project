@@ -161,7 +161,11 @@ const NewTrip = () => {
     if (mapObject.length !== dayChecks.length) {
       openModal({
         title: "에러",
-        message: "저장하지 않은 날짜가 있습니다. 저장하시겠습니까?",
+        message: (
+          <>
+            저장하지 않은 날짜가 있습니다.<br />저장하시겠습니까?
+          </>
+        ),
         actions: [
           { label: "확인", onClick: allAxios, className: "confirm-btn" },
           { label: "돌아가기", onClick: closeModal, className: "cancel-btn" },

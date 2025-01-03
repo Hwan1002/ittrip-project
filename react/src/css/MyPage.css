@@ -70,13 +70,16 @@
     align-items: flex-start;
     margin-bottom: 20px;
 }
+#myinfo .infoInput{
+    margin-bottom: 15px;
+}
 #myInfo input{
     border-radius: 15px;
     height:20px;
     color: #666;
     text-align: center;
     border-width: 2px;
-
+    margin-left: 10px;
 }
 #myInfoFrame{
     display: flex;
@@ -135,7 +138,13 @@
 }
 .mobile .infoInput label{
     margin-bottom: 5px;
+    font-size: 12px;
 }
 .mobile .myPageBtns{
     margin: 0;
+}
+.mobile .myPageBtns button{
+    width: 85px;
+    height: 30px;
+    font-size: 12px;
 }

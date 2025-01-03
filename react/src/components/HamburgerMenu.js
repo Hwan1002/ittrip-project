@@ -30,7 +30,7 @@ const HamburgerMenu = () => {
       setTripDates({});
       openModal({
         message: <DateCheck/>,
-        action: [{label:"저장", onClick:()=> handleNewPlanSubmit}]
+        action: [{label:"저장", onClick:handleNewPlanSubmit}]
       })
     // }else{
     //   openModal({

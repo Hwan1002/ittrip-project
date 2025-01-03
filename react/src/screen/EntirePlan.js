@@ -7,6 +7,7 @@ import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
+import { useMediaQuery } from "react-responsive";
 
 const EntirePlan = () => {
   const {
@@ -21,6 +22,10 @@ const EntirePlan = () => {
     setRouteSaved,
     setFlag
   } = useContext(ProjectContext);
+
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+  const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
   const [checkList, setCheckList] = useState([]); //{id,text,checked}
@@ -206,7 +211,7 @@ const EntirePlan = () => {
   // const title = trips.map((item) => item.title);
   const [title, setTitle] = useState("");
   return (
-    <div className="myPlan">
+    <div className={`myPlan ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
       <h2 style={{ textAlign: "center", marginBottom: 0 }}>내 일정 보기</h2>
       <div className="tripTitle">
         {title !== "" ? (
