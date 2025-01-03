@@ -39,7 +39,7 @@ public class UserService {
 		return dtos;
 	}
 
-	// 유저 id로 조회
+	// 유저 id로 조회 (마이페이지 접근시 id로 회원entity 반환)
 	public UserDTO getById(String userId) {
 		UserEntity entity = repository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("해당 ID를 가진 유저가 존재하지 않습니다."));
@@ -50,7 +50,6 @@ public class UserService {
 	public void create(UserDTO dto, MultipartFile profilePhoto) {
 		try {
 			// 필수 필드 검증
-
 			if (dto.getId() == null || dto.getPassword() == null || dto.getUserName() == null
 					|| dto.getEmail() == null) {
 				throw new IllegalArgumentException("모든 필드는 null이 될 수 없습니다. 필수 값을 확인해주세요.");

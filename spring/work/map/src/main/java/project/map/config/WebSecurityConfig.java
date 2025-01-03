@@ -28,10 +28,6 @@ import project.map.security.OAuthSuccessHandler;
 import project.map.security.OAuthUserServiceImpl;
 import project.map.security.RedirectUrlCookieFilter;
 
-
-
-
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig implements WebMvcConfigurer {
