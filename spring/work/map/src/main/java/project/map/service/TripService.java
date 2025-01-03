@@ -86,7 +86,7 @@ public class TripService {
 		tripRepository.save(entity);
 	}
 	public void tripDelete(Integer idx) {
-		tripRepository.existsById(idx);
+		tripRepository.delete(getByIdx(idx));
 	}
 	public void mapSave(MapEntity entity) {
 		mapRepository.save(entity);
