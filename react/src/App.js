@@ -9,7 +9,6 @@ import AddRoot from "./components/AddRoot";
 import { ProjectProvider } from "./context/ProjectContext";
 import MyPage from "./screen/MyPage";
 import NewTrip from "./screen/NewTrip";
-import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
 import Main from "./screen/Main";

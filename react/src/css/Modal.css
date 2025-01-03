@@ -173,9 +173,7 @@
 .newTripModal input {
     padding-left: 10px;
 }
-/* .newTripModal .modal-actions {
-  margin-top: 20px;
-} */
+
 .searchList {
     width:600px;
     max-height: 300px;
@@ -201,28 +199,82 @@
 }
 
 /* 모바일 반응형 전용 모달 */
+/* Main 전용 css */
+/* 모바일 반응형 */
+.main.mobile{
+    width: 100%;
+    height: auto;
+    
+}
+
+.mobile #bigbanner{
+    position: absolute;
+    height:25vh;
+    top:50px;
+}
+
+.mobile .localSet{
+    position: relative;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    top:15%;
+}
+.mobile .localSet:last-child{
+    top:0;
+}
+.mobile .localtrip{
+    flex: 1 1 40vw;
+    margin : 2vh 2vw 0px 5vw;
+}
+
+.mobile .localEnglish{
+    margin:0;
+    font-size: 3.5vw;
+}
+
+.mobile .localKorea{
+    font-size: 3vw;
+    margin: 1vh 0px 1vh 2vw;
+}
+
+.mobile .localImg {
+    width: 35vw;
+    height: 18vh;
+}
 
 /* Mainmodal 전용 css */
 .mainModal.mobile{
     display: flex;
     flex-direction: column;
+    padding:15px;
+    margin-top: 100px;
 }
+
 .mobile .siGun{
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    height: 100%;
     line-height: 1.5;
-    height:100%;
 }
 .mobile .siGunText{
     position: static;
+    text-align: center;
+    width: 250px;
 }
 .mobile .siGunText .seoulKo {
-    font-size: 30px;
+    font-size: 25px;
 }
 .mobile .siGunText .seoulEn {
-    font-size: 20px;
+    font-size: 15px;
+}
+.mobile .siGunExplain{
+    font-size: 12px;
 }
 .mobile .siGunImg{
-    width:250px;
+    width:200px;
+    height: 200px;
 }
 .mobile .siGunImg img{
     width:100%;
@@ -236,6 +288,7 @@
     font-size:15px;
 }
 .mobile .guSelect {
+    width:300px;
     border-radius: 10px;
     font-size: 12px;
     height: 115px;
@@ -252,20 +305,28 @@
 /* .mobile .categoryAll{
     width:400px;
 } */
+.mobile .categoryAll{
+    width: 350px;
+}
+.mobile .categoryList{
+    width: 100%;
+}
 .mobile .categoryBtns button{
-    width:55px;
+    font-size: 12px;
+    width: 50px;
     height: 30px;
-    font-size: 15px;
+}
+.mobile .categoryBtns button:last-child{
+    margin-right:0;
+}
+.mobile .listContents{
+    width:100%;
 }
 .mobile .listInfo{
-    font-size: 15px;
+    font-size: 12px;
 }
 /* datePicker 전용 css */
-.modal-backdrop.mobile{
-    
-}
 .modal-content.mobile{
-    width: 300px;
     padding: 0;
 }
 
@@ -354,4 +415,54 @@
 }
 .mobile .searchList p{
     margin-top: 20px;
+}
+
+/*entireplan 반응형  */
+/* 모바일 반응형 */
+.myPlan.mobile{
+    width: 350px;
+    margin-top: 100px;
+    position: absolute;
+    top: 15%;
+}
+.myPlan.mobile h2{
+    margin-top:0;
+}
+.mobile .myPlanContainer {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    max-height: 800px;
+    background-color: #ffffffb3;
+}
+.mobile .tripTitle p {
+    font-size: 20px;
+    font-weight: 600;
+}
+.mobile .mapFrame {
+    width: 100%;
+    height: 350px;
+    flex: none;
+}
+.mobile #dayChecks input {
+    width: 35px;
+    height:25px;
+    font-size: 10px;
+}
+.mobile .duration {
+    border: 2px solid #f6a354;
+    border-radius: 15px;
+    bottom: 5%;
+    height: auto;
+    right: 5%;
+    width: 150px;
+    height:60px;
+    font-size: 12px;
+}
+.mobile .duration p {
+    margin:0;
+    padding-left: 10px;
+}
+.mobile .duration p:first-child{
+    padding-bottom: 10px;
 }

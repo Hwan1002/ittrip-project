@@ -151,43 +151,4 @@
         width:100vw;
     }
 
-    /* 모바일 반응형 */
-    .main.mobile{
-        width: 100%;
-        height: auto;
-        
-    }
-
-    .mobile #bigbanner{
-        position: absolute;
-        height:25vh;
-        top:50px;
-    }
     
-    .mobile .localSet{
-       position: relative;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
-        top:27vh;
-    }
-    
-    .mobile .localtrip{
-        flex: 1 1 40vw;
-        margin : 2vh 2vw 0px 5vw;
-    }
-    
-   .mobile .localEnglish{
-        margin:0;
-        font-size: 3.5vw;
-   }
-
-   .mobile .localKorea{
-        font-size: 3vw;
-        margin: 1vh 0px 1vh 2vw;
-   }
-    
-   .mobile .localImg {
-        width: 35vw;
-        height: 18vh;
-    }
