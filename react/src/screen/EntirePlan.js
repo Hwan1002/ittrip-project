@@ -121,7 +121,7 @@ const EntirePlan = () => {
       );
       setCheckList(() => response.data.items);
     } catch (err) {
-      console.log("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
+      console.log("현재 trip에 checkList 추가 안 해서 catch로 빠짐")
     }
   };
 
@@ -172,7 +172,11 @@ const EntirePlan = () => {
         ],
       });
     } catch (err) {
-      console.log("삭제 실패");
+      openModal({
+        title:"실패",
+        message : "삭제가 불가능합니다.",
+        actions:[{label:"확인", onClick:closeModal()}]
+      })
     }
   };
 

@@ -16,11 +16,11 @@ public class DirectionController {
 
 	private String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving";
 																								
-//	@Value("${naver.api.key.id}") 
-	private String apiKeyId= "wz3pjcepky";
+	@Value("${naver.maps.api.key.id}") 
+	private String apiKeyId;
 
-//	@Value("${naver.api.key.secret}")
-	private String apiKeySecret="d21JDzBXMkx7E6P5KQJ0qyPf3W4jfj2e4lRZMgzQ";
+	@Value("${naver.maps.api.key.secret}")
+	private String apiKeySecret;
 
 	private final WebClient webClient;
 
@@ -40,7 +40,7 @@ public class DirectionController {
 					.queryParam("goal", goal).build()).header("x-ncp-apigw-api-key-id", apiKeyId)
 					.header("x-ncp-apigw-api-key", apiKeySecret).retrieve().bodyToMono(DirectionsResponseDTO.class)
 					.block(); 
-			System.out.println("respoinsssss"+response);
+		
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
@@ -53,14 +53,13 @@ public class DirectionController {
 			@RequestParam(name = "waypoints") String wayPoints,
 			@RequestParam(name = "goal") String goal
 	) {
-		System.out.println("wayPoint"+wayPoints);
 		try {
 			DirectionsResponseDTO response = webClient.get().uri(uriBuilder -> uriBuilder 
 					.queryParam("start", start).queryParam("waypoints", wayPoints).queryParam("goal", goal).build())
 					.header("x-ncp-apigw-api-key-id", apiKeyId).header("x-ncp-apigw-api-key", apiKeySecret).retrieve()
 					.bodyToMono(DirectionsResponseDTO.class)
 					.block();
-			System.out.println("response"+response);
+			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));

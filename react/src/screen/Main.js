@@ -18,7 +18,6 @@ import axios from "axios";
 import Modal from "../components/Modal";
 import { useMediaQuery } from "react-responsive";
 const Main = () => {
-
     const [img, setImg] = useState();
     //지역명에대한 state
     const [select, setSelect] = useState("");
@@ -47,6 +46,7 @@ const Main = () => {
 
     const [currentView, setCurrentView] = useState("all");
 
+    
     // 지역 코드 
     const regionData = {
         충청도: [
@@ -137,14 +137,14 @@ const Main = () => {
     
 
     return (
-        <div id="main">
+        <div className={`main ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
             {/* 큰 배너 */}
             <div id="bigbanner">
                 <img src={banner2} alt="banner" />
             </div>
             {/* 지역 4개 */}
-            <div className={`localSet ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
-                <div className={`localtrip ${isMobile ? "mobile-layout" : ""}`}>
+            <div className="localSet">
+                <div className="localtrip">
                     <div className="localName">
                         <p className="localEnglish">SEOUL</p>
                         <p className="localKorea">서울</p>
@@ -233,8 +233,8 @@ const Main = () => {
             </div>
 
             {/* 지역 4개 */}
-            <div className={`localSet ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
-                <div className={`localtrip ${isMobile ? "mobile-layout" : ""}`}>
+            <div className="localSet">
+                <div className="localtrip">
                     <div className="localName">
                         <p className="localEnglish">CHUNCHEONG</p>
                         <p className="localKorea">충청</p>
