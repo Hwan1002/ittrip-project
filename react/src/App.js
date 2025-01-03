@@ -9,7 +9,6 @@ import AddRoot from "./components/AddRoot";
 import { ProjectProvider } from "./context/ProjectContext";
 import MyPage from "./screen/MyPage";
 import NewTrip from "./screen/NewTrip";
-import MainLocal from "./components/MainLocal";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
 import Main from "./screen/Main";
@@ -63,7 +62,6 @@ function App() {
         <Route path="/newtrip" element={<NewTrip />} />
         <Route path="/map" element={<Map />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mainlocal" element={<MainLocal />} />
         <Route path="/socialLogin" element={<SocialLogin />} />
         <Route path="/checklist" element={<CheckList />} />
       </Routes>
