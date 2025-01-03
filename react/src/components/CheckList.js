@@ -37,6 +37,7 @@ function CheckList() {
 
   return (
     <div className="checklistAll">
+      <h3>체크리스트</h3>
       <div className="checkInput">
         <input
           type="text"

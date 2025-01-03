@@ -75,7 +75,6 @@ const AddData = ({ width }) => {
         },
       ]);
       setRouteSaved(true);
-      
       openModal({
         title: `Day ${selectedDay + 1}`,
         message: `${selectedDay + 1}일 여행 계획이 저장되었습니다.`,
@@ -132,6 +131,7 @@ const AddData = ({ width }) => {
 
   //좌표저장
   const handlecoordinate = () => {
+    
     if (departure.address === "" || destination.address === "") {
       openModal({
         title: "오류",
@@ -311,26 +311,17 @@ const AddData = ({ width }) => {
                         {item.title.replace(/<\/?[^>]+(>|$)/g, "")}
                       </p>
                       {modalTitle === "출발지" && (
-                        <button
-                          className="addressBtn"
-                          onClick={() => handleCheck(item, "departure")}
-                        >
+                        <button className="addressBtn" onClick={() => handleCheck(item, "departure")}>
                           {item.address}
                         </button>
                       )}
                       {modalTitle === "도착지" && (
-                        <button
-                          className="addressBtn"
-                          onClick={() => handleCheck(item, "destination")}
-                        >
+                        <button className="addressBtn" onClick={() => handleCheck(item, "destination")}>
                           {item.address}
                         </button>
                       )}
                       {modalTitle === "경유지" && (
-                        <button
-                          className="addressBtn"
-                          onClick={() => handleCheck(item, "stopOver")}
-                        >
+                        <button className="addressBtn" onClick={() => handleCheck(item, "stopOver")}>
                           {item.address}
                         </button>
                       )}
@@ -346,6 +337,7 @@ const AddData = ({ width }) => {
           </div>
         }
         actions={modalActions}
+        // [{label:"확인", onClick:()=>{setRes([]); closeModal();}}]
       />
     </div>
   );

@@ -7,7 +7,7 @@ import axios from 'axios';
 import Modal from '../components/Modal';
 import useModal from '../context/useModal';
 import { ProjectContext } from '../context/ProjectContext';
-
+import { useMediaQuery } from "react-responsive";
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -22,7 +22,11 @@ const SignUp = () => {
     const [userPwdConfirm, setUserPwdConfirm] = useState('');
     const inputImgRef = useRef(null);
     const navigate = useNavigate();
-    // const[ imagePreview, setImagePreview] = useState(null);
+
+    //반응형 준비
+    const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+    const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
     const {imagePreview, setImagePreview} = useContext(ProjectContext);
 
     //모달창 구현 영역
@@ -219,11 +223,11 @@ const returnToMain = () => {
 
 
 return(
-    <div className="signUp">
+    <div className={`signUp ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
         <div className="logoImg">
             <Logo/>
         </div>
-        <div className="signUp_container container">
+        <div className="signUp_container">
             <div className="signUp_contents">
                 <h2 className="title">회원가입</h2>
                 <form className='sigup_formData' onSubmit={(e) => signUp(e)}>

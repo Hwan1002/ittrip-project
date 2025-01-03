@@ -196,8 +196,6 @@ const Map = () => {
     }else{
       setFlag(false);
     }
-     
-    
   }, [selectedDay]);
 
   useEffect(() => {
@@ -379,8 +377,7 @@ const Map = () => {
                 return prev.latlng;
               });
               const lnglatString = latlngArray.join("|");
-              const response = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/directions/withwaypoint`,
+              const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/directions/withwaypoint`,
                 {
                   params: {
                     start: foundObject.startPoint,
@@ -400,9 +397,9 @@ const Map = () => {
                   response.data.route.traoptimal[0].summary.distance
                 )
               );
+
             } catch (error) {
-             
-              alert("경유지있는 디렉션 에러");
+              console.log("검색한 지역이 가깝게 검색해서 생긴 에러 : " + error);
             }
           } else {
             try {

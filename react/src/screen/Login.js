@@ -11,6 +11,7 @@ import axios from "axios";
 import { ProjectContext } from "../context/ProjectContext";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
+import { useMediaQuery } from "react-responsive";
 
 const Login = () => {
 
@@ -32,7 +33,9 @@ const Login = () => {
     const handleChange = (e) => {
         setLogInfo({ ...logInfo, [e.target.name]: e.target.value });
     }
-
+    const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+    const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
    
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -73,15 +76,15 @@ const Login = () => {
     const socialLogin = (e, provider) => {
         e.preventDefault();
         // window.localStorage.origin : 현재웹페이지의 origin --> origin  : http://localhost:3000 ----프로토콜, 도메인, 포트번호 를 합친것을 origin이라고 한다.
-        window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/authorize/${provider}?redirect_url=${window.location.origin}`;
+        window.location.href = `http://ec2-15-165-249-109.ap-northeast-2.compute.amazonaws.com:8080/auth/authorize/${provider}?redirect_url=${window.location.origin}`;
 
     }
     return (
-        <div id="login">
+        <div className={`login ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
             <div className="logoImg">
                 <Logo />
             </div>
-            <div className="login_container container">
+            <div className="login_container">
                 <form onSubmit={handleLogin}>
                     <div className="login_contents">
                         <h2 className="title">로그인</h2>
