@@ -7,7 +7,7 @@ import useModal from "../context/useModal";
 import DateCheck from "./DateCheck";
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const {loginSuccess, tripTitle, setTripTitle, tripDates, setTripDates,} = useContext(ProjectContext);
+  const {loginSuccess, setLoginSuccess,tripTitle, setTripTitle, tripDates, setTripDates,} = useContext(ProjectContext);
   const navigate = useNavigate();
 
   const {
@@ -58,6 +58,24 @@ const HamburgerMenu = () => {
       });
     }
   };
+  //로그아웃 버튼 클릭시 함수
+  const handleLogout = () => {
+    setLoginSuccess(false);
+    localStorage.removeItem("token");
+    closeModal();
+    navigate("/login");
+  };
+  //로그아웃 전용 모달창
+  const openLogoutModal = () => {
+    openModal({
+      title: "로그아웃",
+      message: "로그아웃 하시겠습니까?",
+      actions: [
+        {label: "로그아웃",onClick: handleLogout,className: "logout-button"},
+        {label: "취소", onClick: closeModal, className: "cancle-button"},
+      ],
+    });
+  };
   return (
     <>
       <div className={`backdrop ${isOpen ? "show" : ""}`} onClick={() => setIsOpen(false)} />
@@ -82,7 +100,7 @@ const HamburgerMenu = () => {
             {loginSuccess ? (
               <>
                 <li>
-                  <Link to={"/"} onClick={()=>{toggleMenu();}}>LOGOUT</Link>
+                  <Link to={"/"} onClick={()=>{toggleMenu();openLogoutModal();}}>LOGOUT</Link>
                 </li>
                 <li>
                   <Link className="mypage" to={"/mypage"} onClick={toggleMenu}>MYPAGE</Link>
