@@ -173,7 +173,6 @@ public class TripController {
 		tripService.tripSave(entity);
 	}
 
-	@Transactional
 	@PutMapping("/maps")
 	public void putMap(@AuthenticationPrincipal String userId, @RequestBody MapDTO dto) {
 		TripEntity trip = tripService.getByIdx(dto.getTripIdx());
@@ -195,7 +194,7 @@ public class TripController {
 				tripService.mapDelete(removeEntity);
 			}
 		} else { // days 갯수 늘어남 3->5개면 2개 추가해야함
-			for (int i = objectSize; i < mapSize; i++) {
+			for (int i = mapSize; i <objectSize ; i++) {
 				entity = new MapEntity();
 				mapList.add(entity);
 			}
@@ -239,7 +238,6 @@ public class TripController {
 		}
 	}
 
-	@Transactional
 	@PutMapping("/checklist")
 	public ResponseEntity<?> putCheckList(@AuthenticationPrincipal String userId, @RequestBody CheckListDTO dto) {
 		UserEntity user = userService.getById(userId);

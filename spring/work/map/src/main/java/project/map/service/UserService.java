@@ -156,7 +156,6 @@ public class UserService {
 	}
 
 	// 회원 삭제
-	@Transactional
 	public String delete(String userId) {
 		UserEntity entity = repository.findById(userId).get();
 		repository.delete(entity);
