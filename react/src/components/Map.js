@@ -4,7 +4,6 @@ import { ProjectContext } from "../context/ProjectContext";
 import useModal from "../context/useModal";
 import Modal from "./Modal";
 import axios from "axios";
-import { use } from "react";
 
 const Map = () => {
   const {
@@ -368,7 +367,6 @@ const Map = () => {
   }, [selectedDay, departure, destination, stopOverList, mapObject, path]);
 
   useEffect(() => {
-    debugger;
     if (mapObject) {
       const foundObject = mapObject.find(
         (data) => data.days === selectedDay + 1

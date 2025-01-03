@@ -1,7 +1,7 @@
 import { SwiperSlide } from "swiper/react";
 import ImgSliderData from "../img/test/ImgSliderData";
 import Swiper from "swiper";
-import { Autoplay, Navigation, Pagination, EffectCoverflow } from "swiper/modules";
+import { Autoplay, Navigation, Pagination} from "swiper/modules";
 
 const Slider = () => {
     return(
