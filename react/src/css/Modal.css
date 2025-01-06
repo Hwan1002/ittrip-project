@@ -412,7 +412,7 @@
     flex-direction: column;
     align-items: center;
     height: auto;
-    max-height: 800px;
+    /* max-height: 800px; */
     background-color: #ffffffb3;
 }
 .mobile .tripTitle p {

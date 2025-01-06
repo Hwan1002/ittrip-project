@@ -94,9 +94,7 @@ const HamburgerMenu = () => {
             <li>
               <Link to="/newtrip" onClick={(e)=>{toggleMenu(); openDateCheck(e);}}>New Trip</Link>
             </li>
-            <li>
-              <Link className="mypage" to={"/mypage"} onClick={toggleMenu}>MYPAGE</Link>
-            </li>
+          
             {loginSuccess ? (
               <>
                 <li>

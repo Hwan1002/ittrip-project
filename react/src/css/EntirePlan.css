@@ -110,3 +110,8 @@
   font-weight: bold;
 }
 
+/* 모바일 전용 */
+.mobile .myPlanContent{
+  max-height: 250px;
+  overflow-y: scroll;
+}
