@@ -483,6 +483,9 @@ const Map = () => {
           <div id="dayChecks" key={index}>
             <input
               type="button"
+              style={{
+                backgroundColor: dayBoolean[index] ? "blue" :  "#f6a354" 
+              }}
               disabled={dayBoolean[index]}
               onClick={() => handleDayClick(index)}
               value={item}

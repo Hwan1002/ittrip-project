@@ -13,6 +13,7 @@ const EntirePlan = () => {
     logData,
     setDayChecks,
     selectedDay,
+    setSelectedDay,
     departure,setDeparture,
     destination,setDestination,
     stopOverList,setStopOverList,
@@ -46,6 +47,7 @@ const EntirePlan = () => {
   }, [isReadOnly]);
 
   useEffect(() => {
+   
     // API 호출
     const fetchTrips = async () => {
       try {
@@ -68,6 +70,7 @@ const EntirePlan = () => {
     setFlag(true)
     setCurrentIdx(() => trip.idx);
     setTitle(trip.title);
+    
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`,
@@ -116,7 +119,7 @@ const EntirePlan = () => {
       );
       setCheckList(() => response.data.items);
     } catch (err) {
-      alert("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
+      console.log("현재 trip에 checkList 추가 안 해서 catch로 빠짐")
     }
   };
 
@@ -132,7 +135,7 @@ const EntirePlan = () => {
         actions: [{ label: "확인", onClick: closeModal }],
       });
     } catch (err) {
-      alert("put Map 에러");
+      console.log("put Map 에러");
     }
 
     //checkList put
@@ -143,7 +146,7 @@ const EntirePlan = () => {
         logData
       );
     } catch (err) {
-      alert("put CheckList 에러");
+      console.log("put CheckList 에러");
     }
     setIsReadOnly(() => !isReadOnly);
   };
@@ -167,7 +170,11 @@ const EntirePlan = () => {
         ],
       });
     } catch (err) {
-      alert("삭제 실패");
+      openModal({
+        title:"실패",
+        message : "삭제가 불가능합니다.",
+        actions:[{label:"확인", onClick:closeModal()}]
+      })
     }
   };
 
