@@ -211,7 +211,7 @@ const MyPage = () => {
                                     <>
                                         <div className="infoInput">
                                             <label for="pwd">비밀번호 : </label>
-                                            <input name="password" id="pwd" style={{marginLeft:"42px"}} type="password" value={userData.password} onChange={handleInputChange} />
+                                            <input name="password" id="pwd" type="password" value={userData.password} onChange={handleInputChange} />
                                         </div>
                                         <div className="infoInput">
                                             <label for="pwdcf">비밀번호 확인 : </label>
@@ -230,7 +230,7 @@ const MyPage = () => {
                                 </div>
                             </div>
                             <div className="myPageBtns">
-                                <button type="submit" style={{marginLeft:'20px'}}>내정보 수정</button>
+                                <button type="submit">내정보 수정</button>
                                 <button type="button" onClick={handleDeleteAccount}>회원 탈퇴</button>
                             </div>
                         </form>

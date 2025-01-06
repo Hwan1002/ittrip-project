@@ -38,9 +38,7 @@ const NewTrip = () => {
     setDeparture,
     setStopOverList,
     setDestination,
-    distance,
     setDistance,
-    duration,
     setDuration,
     setFlag,
   } = useContext(ProjectContext);
@@ -160,8 +158,12 @@ const NewTrip = () => {
   const buttonClicked = () => {
     if (mapObject.length !== dayChecks.length) {
       openModal({
-        title: "경고",
-        message: "저장하지 않은 날짜가 있습니다. 저장하시겠습니까?",
+        title: "에러",
+        message: (
+          <>
+            저장하지 않은 날짜가 있습니다.<br />저장하시겠습니까?
+          </>
+        ),
         actions: [
           { label: "확인", onClick: allAxios, className: "confirm-btn" },
           { label: "돌아가기", onClick: closeModal, className: "cancel-btn" },
@@ -206,13 +208,7 @@ const NewTrip = () => {
               </div>
             </div>
             <div id="endBtFrame">
-              <p
-                style={{
-                  color: "#F6A354",
-                  fontSize: "25px",
-                  marginBottom: "5px",
-                }}
-              >
+              <p style={{ color: "#F6A354", fontSize: "25px", marginBottom: "5px",}}>
                 Happy Your Trip!
               </p>
               <p style={{ color: "#828282", marginBottom: "20px" }}>
@@ -220,12 +216,7 @@ const NewTrip = () => {
               </p>
               <button id="newEnd" onClick={buttonClicked}>
                 새로운 여행 추가
-                <img
-                  src={Plus2}
-                  width="25px"
-                  style={{ marginLeft: "15px" }}
-                  alt="새로운 여행"
-                />
+                <img src={Plus2} alt="새로운 여행"/>
               </button>
             </div>
           </div>

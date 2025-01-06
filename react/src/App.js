@@ -37,7 +37,6 @@ function App() {
         if (Date.now() > expirationTime) {
           // 토큰이 만료되었다면 삭제
           localStorage.removeItem("token");
-          alert("세션이 만료되었습니다. 다시 로그인해주세요.");
           openModal({
             message: "세션이 만료되었습니다. 다시 로그인해주세요.",
             actions:[{label:"확인", onClick:()=>{closeModal();navigate("/login");}}]

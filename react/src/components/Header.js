@@ -109,15 +109,7 @@ const Header = () => {
       openModal({
         title: "로그인",
         message: "로그인이 필요한 서비스 입니다.",
-        actions: [
-          {
-            label: "확인",
-            onClick: () => {
-              closeModal();
-              navigate("/login");
-            },
-          },
-        ],
+        actions: [{ label: "확인",onClick: () => {closeModal();navigate("/login");} }],
       });
     }
   };
