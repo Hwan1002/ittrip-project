@@ -20,7 +20,8 @@ const EntirePlan = () => {
     isReadOnly,setIsReadOnly,
     mapObject,setMapObject,
     setRouteSaved,
-    setFlag
+    setFlag,
+    setTripDates
   } = useContext(ProjectContext);
 
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
@@ -84,15 +85,17 @@ const EntirePlan = () => {
       const startDate = new Date(trip.startDate);
       const endDate = new Date(trip.lastDate);
 
-      const diffTime = endDate - startDate;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      setTripDates({startDate: startDate, endDate : endDate})
 
-      const daysArray = Array.from(
-        { length: diffDays },
-        (_, index) => `Day ${index + 1}`
-      );
+      // const diffTime = endDate - startDate;
+      // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-      setDayChecks([...daysArray]);
+      // const daysArray = Array.from(
+      //   { length: diffDays },
+      //   (_, index) => `Day ${index + 1}`
+      // );
+
+      // setDayChecks([...daysArray]);
 
       const flatMapObjects = response.data.map((item) => item.mapObject).flat();
       setMapObject(flatMapObjects);

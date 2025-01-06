@@ -30,7 +30,6 @@ const Map = () => {
     setDuration,
     flag,
     setFlag
-
   } = useContext(ProjectContext);
 
   const {
@@ -44,6 +43,21 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
 
+
+  function formatDate(date) {
+    const options = { year: 'numeric', month: 'long', day: '2-digit' };
+    return new Intl.DateTimeFormat('ko-KR', options).format(new Date(date));
+  }
+
+  console.log(tripDates)
+
+    const adjustedStartDate = new Date(tripDates.startDate);
+    adjustedStartDate.setDate(adjustedStartDate.getDate() + selectedDay); // selectedDay에 맞게 날짜를 더하거나 뺌
+    
+    // 날짜 형식에 맞춰 출력
+     const formattedAdjustedDate = formatDate(adjustedStartDate);
+
+
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
@@ -54,6 +68,7 @@ const Map = () => {
 
     return `${hours}시 ${minutes}분 ${seconds}초`;
   }
+
   function formatDistance(meters) {
     if (meters >= 1000) {
       const kilometers = (meters / 1000).toFixed(1);
@@ -62,6 +77,7 @@ const Map = () => {
       return `${meters}m`;
     }
   }
+
 
   useEffect(() => {
     const convertXY = () => {
@@ -163,6 +179,7 @@ const Map = () => {
     if (tripDates && tripDates.startDate && tripDates.endDate) {
       const startDate = new Date(tripDates.startDate);
       const endDate = new Date(tripDates.endDate);
+
 
       const diffTime = endDate - startDate;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
@@ -492,6 +509,7 @@ const Map = () => {
       </div>
       {flag && duration && distance && (
         <div className="duration">
+          <p>날짜: {formattedAdjustedDate}</p>
           <p>소요시간 : {duration}</p>
           <p>여행거리 : {distance}</p>
         </div>
