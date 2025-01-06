@@ -14,11 +14,13 @@
 }
 
 
-#bigbanner img {
+#bigbanner img{
     width: 100%;
     object-fit: cover;
 }
-
+.banner_mobile{
+    display: none;
+}
 .localSet {
     display: flex;
     justify-content: center;
@@ -155,26 +157,27 @@
     .main.mobile{
         width: 100%;
         height: auto;
-        
     }
 
     .mobile #bigbanner{
-        position: absolute;
-        height:25vh;
-        top:50px;
+        height:400px;
     }
     
+    .mobile #bigbanner img{
+        height:100%;
+        
+    }
+    
+    .mobile .localSetAll{
+        margin-top: 20px;
+    }
+
     .mobile .localSet{
-       position: relative;
         flex-wrap: wrap;
-        align-content: center;
-        justify-content: center;
-        top:27vh;
     }
     
     .mobile .localtrip{
-        flex: 1 1 40vw;
-        margin : 2vh 2vw 0px 5vw;
+        flex: 0 1 35vw;
     }
     
    .mobile .localEnglish{
