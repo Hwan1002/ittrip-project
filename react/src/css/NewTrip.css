@@ -142,7 +142,7 @@
 /* 모바일 */
 .newTrip.mobile{
     width: 80vw;
-    margin-top: 50vh;
+    margin-top: 70vh;
 }
 .mobile h2{
     font-size: 20px;
@@ -182,7 +182,8 @@
     margin: 20px auto;
     width: 95px;
 }
-.mobile .addDataBtns,.mobile .addBtn {
+
+.mobile .addDataBtns,.mobile .addBtn, .mobile .removeBtn {
     width: 45px;
     height: 30px;
     border-radius: 15px;
@@ -190,8 +191,8 @@
     margin: 10px 0;
 }
 .mobile #newMap{
-    width: 380px;
-    height: 300px;
+    width: 100%;
+    height: 30vh;
 }
 .mobile #checkListFrame{
     height: auto;
@@ -206,8 +207,8 @@
 }
 .mobile .checkInput input{
     border: 2px solid #DADADA;
-    width: 45vw;
-    height: 3vh;
+    width: 40vw;
+    height: 4vh;
     font-size: 13px;
 }
 .mobile .react-datepicker__current-month{

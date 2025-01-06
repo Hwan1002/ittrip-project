@@ -167,12 +167,7 @@
         height:100%;
         
     }
-    .mobile #bigbanner img:first-child{
-        display: none;
-    }
-    .mobile .banner_mobile{
-        display: block;
-    }
+    
     .mobile .localSetAll{
         margin-top: 20px;
     }
