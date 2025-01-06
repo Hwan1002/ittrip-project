@@ -14,11 +14,13 @@
 }
 
 
-#bigbanner img {
+#bigbanner img{
     width: 100%;
     object-fit: cover;
 }
-
+.banner_mobile{
+    display: none;
+}
 .localSet {
     display: flex;
     justify-content: center;
@@ -151,4 +153,49 @@
         width:100vw;
     }
 
+    /* 모바일 반응형 */
+    .main.mobile{
+        width: 100%;
+        height: auto;
+    }
+
+    .mobile #bigbanner{
+        height:400px;
+    }
     
+    .mobile #bigbanner img{
+        height:100%;
+        
+    }
+    .mobile #bigbanner img:first-child{
+        display: none;
+    }
+    .mobile .banner_mobile{
+        display: block;
+    }
+    .mobile .localSetAll{
+        margin-top: 20px;
+    }
+
+    .mobile .localSet{
+        flex-wrap: wrap;
+    }
+    
+    .mobile .localtrip{
+        flex: 0 1 35vw;
+    }
+    
+   .mobile .localEnglish{
+        margin:0;
+        font-size: 3.5vw;
+   }
+
+   .mobile .localKorea{
+        font-size: 3vw;
+        margin: 1vh 0px 1vh 2vw;
+   }
+    
+   .mobile .localImg {
+        width: 35vw;
+        height: 18vh;
+    }
