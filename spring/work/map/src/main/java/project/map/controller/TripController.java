@@ -39,8 +39,6 @@ public class TripController {
 
 
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private TripService tripService;
 	@Autowired
 	private TripRepository tripRepository;
@@ -50,10 +48,6 @@ public class TripController {
 	private CheckListRepository checkListRepository;
 	@Autowired
 	private UserRepository userRepository;
-
-	
-	static String myTitle ;
-
 
    
    static String myTitle ;
@@ -204,7 +198,7 @@ public class TripController {
 			for (int i = mapSize - 1; i >= objectSize; i--) {
 				MapEntity removeEntity = mapList.get(i);
 				mapList.remove(i);
-				tripService.mapDelete(removeEntity);
+				mapRepository.delete(removeEntity);
 			}
 		} else { // days 갯수 늘어남 3->5개면 2개 추가해야함
 			for (int i = mapSize; i < objectSize; i++) {
