@@ -48,14 +48,19 @@
 .localtrip{
     margin : 10px 20px 10px 20px;
 }
+
 .localImg{
     width: 250px;
     height: 250px;
 }
+
+
 .localImg img{
     width:100%;
     object-fit: cover;
 }
+
+
 
 .localtrip:hover .localImg{
     transition: 1s;
@@ -151,4 +156,28 @@
 
     #mainNewBt {
         background-color: #F6A354;
+    }
+
+
+
+
+
+    @media(max-width:500px){
+        .localImg{
+            width: 200px;
+            height: 200px;
+        }
+        .localSet{
+            display: flex;
+  flex-wrap: wrap; /* 줄 바꿈을 허용 */
+        }
+        .localtrip{
+            flex: 1 1 40%; /* 화면이 좁아지면 2개씩 배치 (한 줄에 2개) */
+        }
+        #bigbanner{
+            height: 800px;
+        }
+        #bigbanner img {
+            height: 100%;
+        }
     }
