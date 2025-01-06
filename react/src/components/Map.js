@@ -43,21 +43,6 @@ const Map = () => {
 
   const [dayBoolean, setDayBoolean] = useState([]);
 
-
-  function formatDate(date) {
-    const options = { year: 'numeric', month: 'long', day: '2-digit' };
-    return new Intl.DateTimeFormat('ko-KR', options).format(new Date(date));
-  }
-
-  console.log(tripDates)
-
-    const adjustedStartDate = new Date(tripDates.startDate);
-    adjustedStartDate.setDate(adjustedStartDate.getDate() + selectedDay); // selectedDay에 맞게 날짜를 더하거나 뺌
-    
-    // 날짜 형식에 맞춰 출력
-     const formattedAdjustedDate = formatDate(adjustedStartDate);
-
-
   function formatDuration(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
@@ -509,7 +494,6 @@ const Map = () => {
       </div>
       {flag && duration && distance && (
         <div className="duration">
-          <p>날짜: {formattedAdjustedDate}</p>
           <p>소요시간 : {duration}</p>
           <p>여행거리 : {distance}</p>
         </div>
