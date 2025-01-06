@@ -13,18 +13,28 @@
     font-weight: 400;
     font-style: normal;
 }
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+#root{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
 html,body{
     width: 100%;
-    height: 100%;
     margin: 0; 
     display: flex; 
     justify-content: center;
     align-items: center; 
     background-image: url('../img/background.svg');
-    background-position: center bottom; /* 이미지를 가로로 중앙에, 세로로 바닥에 배치 */
-    background-repeat: no-repeat; /* 이미지를 반복하지 않도록 설정 */
-    background-attachment: fixed; /* 스크롤 시 배경 이미지가 고정되도록 설정 */
-    font-family: "CustomFont", sans-serif; /* 폰트 설정 */
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-color: #F6F6F6;
 }
 body::-webkit-scrollbar {
@@ -75,7 +85,7 @@ button:hover{
 
 /*로그인, 회원가입 공통*/
 .container{
-    flex-direction: column; /* 자식 요소들을 세로로 나열 */
+    flex-direction: column; 
     display:flex;
     justify-content: center;
     align-items: center;

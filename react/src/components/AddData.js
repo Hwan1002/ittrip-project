@@ -335,7 +335,6 @@ const AddData = ({ width }) => {
           </div>
         }
         actions={modalActions}
-        // [{label:"확인", onClick:()=>{setRes([]); closeModal();}}]
       />
     </div>
   );

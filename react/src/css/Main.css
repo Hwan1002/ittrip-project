@@ -14,20 +14,18 @@
 }
 
 
-
-#bigbanner img {
+#bigbanner img{
     width: 100%;
     object-fit: cover;
 }
-
- .localSet {
+.banner_mobile{
+    display: none;
+}
+.localSet {
     display: flex;
     justify-content: center;
-    /* 수평 가운데 정렬 */
     align-items: center;
-    /* 수직 가운데 정렬 */
     width: 100%;
-    /* 부모 요소의 전체 너비 */
 }
 
 .localEnglish {
@@ -35,9 +33,7 @@
     display: inline-block;
     color: #706F6F;
 }
-
 .localKorea {
-
     font-size: 15px;
     display: inline-block;
     margin-left: 5px;
@@ -46,6 +42,7 @@
 
 
 .localtrip{
+    width:250px;
     margin : 10px 20px 10px 20px;
 }
 
@@ -157,27 +154,48 @@
     #mainNewBt {
         background-color: #F6A354;
     }
+    .tablet .localtrip{
+        width:100vw;
+    }
 
+    /* 모바일 반응형 */
+    .main.mobile{
+        width: 100%;
+        height: auto;
+    }
 
+    .mobile #bigbanner{
+        height:400px;
+    }
+    
+    .mobile #bigbanner img{
+        height:100%;
+        
+    }
+    
+    .mobile .localSetAll{
+        margin-top: 20px;
+    }
 
+    .mobile .localSet{
+        flex-wrap: wrap;
+    }
+    
+    .mobile .localtrip{
+        flex: 0 1 35vw;
+    }
+    
+   .mobile .localEnglish{
+        margin:0;
+        font-size: 3.5vw;
+   }
 
-
-    @media(max-width:500px){
-        .localImg{
-            width: 200px;
-            height: 200px;
-        }
-        .localSet{
-            display: flex;
-  flex-wrap: wrap; /* 줄 바꿈을 허용 */
-        }
-        .localtrip{
-            flex: 1 1 40%; /* 화면이 좁아지면 2개씩 배치 (한 줄에 2개) */
-        }
-        #bigbanner{
-            height: 800px;
-        }
-        #bigbanner img {
-            height: 100%;
-        }
+   .mobile .localKorea{
+        font-size: 3vw;
+        margin: 1vh 0px 1vh 2vw;
+   }
+    
+   .mobile .localImg {
+        width: 35vw;
+        height: 18vh;
     }

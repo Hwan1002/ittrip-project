@@ -7,7 +7,8 @@ import { ProjectContext } from "../context/ProjectContext";
 import Modal from "./Modal";
 import useModal from "../context/useModal";
 import DateCheck from "./DateCheck";
-
+import { useMediaQuery } from "react-responsive";
+import HamburgerMenu from "./HamburgerMenu";
 const Header = () => {
   const {
     token,
@@ -31,6 +32,10 @@ const Header = () => {
     modalMessage,
     modalActions,
   } = useModal();
+
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+  const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
 
   useEffect(() => {
     if (token && !loginSuccess) {
@@ -104,15 +109,7 @@ const Header = () => {
       openModal({
         title: "로그인",
         message: "로그인이 필요한 서비스 입니다.",
-        actions: [
-          {
-            label: "확인",
-            onClick: () => {
-              closeModal();
-              navigate("/login");
-            },
-          },
-        ],
+        actions: [{ label: "확인",onClick: () => {closeModal();navigate("/login");} }],
       });
     }
   };
@@ -124,43 +121,41 @@ const Header = () => {
 
   //Link to부분은 화면 확인을 위해 임시로 넣은 주소입니다.
   return (
-    <div className="header">
-      <Link
-        className="logo"
-        onClick={() => {
-          window.location.href = "/";
-        }}
-      >
-        <img className="headerLogo" src={logo} alt="Logo" />
-      </Link>
-      <nav className="menuBar">
-        <Link className="menu" to={"/entireplan"}>
-          My Plan
+    <div className={`header ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
+      <div className="headerAllDiv">
+        <Link className="logo" onClick={() => {window.location.href = "/";}}>
+          <img className="headerLogo" src={logo} alt="Logo" />
         </Link>
-        <Link className="menu" onClick={openNewPlanModal}>
-          New Plan
-        </Link>
-      </nav>
-      <div className="headerBtn">
-        {loginSuccess ? (
-          <div>
-            <Link className="logout" onClick={openLogoutModal}>
-              LOGOUT
-            </Link>
-            <Link className="mypage" to={"/mypage"}>
-              MYPAGE
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <Link className="login" to={"/login"}>
-              LOGIN
-            </Link>
-            <Link className="signup" to={"/signup"}>
-              SIGNUP
-            </Link>
-          </div>
-        )}
+        <HamburgerMenu/>
+        <nav className="menuBar">
+          <Link className="menu" to={"/entireplan"}>
+            My Plan
+          </Link>
+          <Link className="menu" onClick={openNewPlanModal}>
+            New Plan
+          </Link>
+        </nav>
+        <div className="headerBtn">
+          {loginSuccess ? (
+            <div>
+              <Link className="logout" onClick={openLogoutModal}>
+                LOGOUT
+              </Link>
+              <Link className="mypage" to={"/mypage"}>
+                MYPAGE
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <Link to={"/login"}>
+                LOGIN
+              </Link>
+              <Link className="signup" to={"/signup"}>
+                SIGNUP
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
       <Modal
         isOpen={isModalOpen}

@@ -7,27 +7,25 @@ import { ProjectContext } from "../context/ProjectContext";
 import axios from "axios";
 import Modal from "../components/Modal";
 import useModal from "../context/useModal";
+import { useMediaQuery } from "react-responsive";
 
 const EntirePlan = () => {
   const {
     logData,
-    setDeparture,
-    setStopOverList,
-    setDestination,
     setDayChecks,
     selectedDay,
-    departure,
-    destination,
-    stopOverList,
-    isReadOnly,
-    setIsReadOnly,
-    mapObject,
-    setMapObject,
+    departure,setDeparture,
+    destination,setDestination,
+    stopOverList,setStopOverList,
+    isReadOnly,setIsReadOnly,
+    mapObject,setMapObject,
     setRouteSaved,
-    setDistance,
-    setDuration,
     setFlag
   } = useContext(ProjectContext);
+
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)"});
+  const isTablet = useMediaQuery({ query: "(min-width: 431px) and (max-width: 1024px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
 
   const [trips, setTrips] = useState([]); //{idx,title,startDate,lastDate}
   const [checkList, setCheckList] = useState([]); //{id,text,checked}
@@ -123,7 +121,7 @@ const EntirePlan = () => {
       );
       setCheckList(() => response.data.items);
     } catch (err) {
-      alert("checkList 추가를 안 해놔서 axios에러는 뜨지만 문제 x ");
+      console.log("현재 trip에 checkList 추가 안 해서 catch로 빠짐")
     }
   };
 
@@ -139,7 +137,7 @@ const EntirePlan = () => {
         actions: [{ label: "확인", onClick: closeModal }],
       });
     } catch (err) {
-      alert("put Map 에러");
+      console.log("put Map 에러");
     }
 
     //checkList put
@@ -150,7 +148,7 @@ const EntirePlan = () => {
         logData
       );
     } catch (err) {
-      alert("put CheckList 에러");
+      console.log("put CheckList 에러");
     }
     setIsReadOnly(() => !isReadOnly);
   };
@@ -174,7 +172,11 @@ const EntirePlan = () => {
         ],
       });
     } catch (err) {
-      alert("삭제 실패");
+      openModal({
+        title:"실패",
+        message : "삭제가 불가능합니다.",
+        actions:[{label:"확인", onClick:closeModal()}]
+      })
     }
   };
 
@@ -213,7 +215,7 @@ const EntirePlan = () => {
   // const title = trips.map((item) => item.title);
   const [title, setTitle] = useState("");
   return (
-    <div className="myPlan">
+    <div className={`myPlan ${isDesktop ? "desktop" : isTablet ? "tablet" : "mobile"}`}>
       <h2 style={{ textAlign: "center", marginBottom: 0 }}>내 일정 보기</h2>
       <div className="tripTitle">
         {title !== "" ? (

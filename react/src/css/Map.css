@@ -14,9 +14,11 @@
 
 #dayFrame {
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 10px;
-  left: 14px;
+  top: 0%;
+  left: 0%;
   font-family: "GmarketSansMedium";
 }
 
@@ -35,3 +37,6 @@
 #dayChecks input:focus {
   background-color: #f78b26;
 }
+
+/* 모바일 반응형 */
+

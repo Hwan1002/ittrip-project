@@ -1,15 +1,22 @@
 .newTrip {
+    width: 1150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 450px;
+}
+.newTrip_container{
     display: flex; /* Flexbox 활성화 */
+    flex-direction: column; /* 자식 요소들을 세로로 나열 */
+    align-items: center;
     width: 1150px;
     height: 1000px;
-    margin-top: 450px;
-    flex-direction: column; /* 자식 요소들을 세로로 나열 */
-    align-items: center; /* 자식 요소들을 가로로 중앙 정렬 */
-    padding: 20px; /* 여백 추가 (선택 사항) */
     background-color: rgba(255,255,255,0.7);
     box-shadow: 0 3px 10px #cbcbcb, 0 -3px 10px #dddddd;
-}
+    padding: 20px;
 
+
+}
 .newTrip h2{
     font-size: 30px;
     font-family: 'GmarketSansMedium';
@@ -43,6 +50,9 @@
 }
 
 #rootSet h3{
+    color: #F6A354;
+    margin-top: 25px;
+    font-size: 22px;
     text-align: center;
 }
 
@@ -119,11 +129,115 @@
     padding-left: 12px;
 
 }
-
+#newEnd img{
+    width:25px;
+    margin-left: 15px;
+}
 #newEnd:hover{
     background-color: #f78b26;
 }
 
 
 
+/* 모바일 */
+.newTrip.mobile{
+    width: 80vw;
+    margin-top: 70vh;
+}
+.mobile h2{
+    font-size: 20px;
+}
+.mobile .newTrip_container{
+    width: 100%;
+    overflow-y: scroll;
+    border-radius: 10px;
+}
+.mobile #rootSet h3 {
+    font-size: 20px;
+}
+.mobile #locationFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    box-shadow: none;
+    margin-bottom: 20px;
+    width: 100%;
+    height: auto;
+}
+.mobile #addDirectionFrame{
+    align-items: center;
+    padding: 0;
+    margin-top: 20px;
+    height: auto;
+    max-height: 200px;
+    overflow-y: scroll;
+}
 
+.mobile .addData .saveBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    margin: 20px auto;
+    width: 95px;
+}
+
+.mobile .addDataBtns,.mobile .addBtn, .mobile .removeBtn {
+    width: 45px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: 10px 0;
+}
+.mobile #newMap{
+    width: 100%;
+    height: 30vh;
+}
+.mobile #checkListFrame{
+    height: auto;
+}
+.mobile #checkList{
+    width:100%;
+    min-height: 100px;
+    height: auto;
+}
+.mobile .checklistAll{
+    padding: 20px 0;
+}
+.mobile .checkInput input{
+    border: 2px solid #DADADA;
+    width: 40vw;
+    height: 4vh;
+    font-size: 13px;
+}
+.mobile .react-datepicker__current-month{
+    font-size: 18px;
+}
+.mobile #checkAndEnd{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+.mobile .checkContents{
+    height: auto;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+.mobile #endBtFrame{
+    height: 255px;
+}
+.mobile #newEnd {
+    width: 165px;
+    height: 40px;
+    border-radius: 25px;
+    border: none;
+    font-size: 15px;
+    padding-left: 12px;
+}
+
+.mobile #newEnd img{
+    width:15px;
+    margin-left: 10px;
+}
