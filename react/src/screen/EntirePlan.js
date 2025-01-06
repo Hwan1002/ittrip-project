@@ -14,6 +14,7 @@ const EntirePlan = () => {
     logData,
     setDayChecks,
     selectedDay,
+    setSelectedDay,
     departure,setDeparture,
     destination,setDestination,
     stopOverList,setStopOverList,
@@ -51,6 +52,7 @@ const EntirePlan = () => {
   }, [isReadOnly]);
 
   useEffect(() => {
+   
     // API 호출
     const fetchTrips = async () => {
       try {

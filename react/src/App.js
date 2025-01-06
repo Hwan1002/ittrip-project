@@ -6,17 +6,17 @@ import Map from "./components/Map";
 import SignUp from "./screen/SignUp";
 import AddData from "./components/AddData";
 import AddRoot from "./components/AddRoot";
-import { ProjectProvider } from "./context/ProjectContext";
+// import { ProjectProvider } from "./context/ProjectContext";
 import MyPage from "./screen/MyPage";
 import NewTrip from "./screen/NewTrip";
 import SocialLogin from "./components/SocialLogin";
 import CheckList from "./components/CheckList";
 import Main from "./screen/Main";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import useModal from "./context/useModal";
 import Modal from "./components/Modal";
+import { ProjectContext } from "./context/ProjectContext";
 function App() {
-
   const {
     isModalOpen,
     openModal,
@@ -26,8 +26,8 @@ function App() {
     modalActions,
   } = useModal();
 
+  const { setLoginSuccess } = useContext(ProjectContext);
   const navigate = useNavigate();
-
   useEffect(() => {
     function checkTokenExpiration() {
       const token = window.localStorage.getItem("token");
@@ -37,6 +37,7 @@ function App() {
         if (Date.now() > expirationTime) {
           // 토큰이 만료되었다면 삭제
           localStorage.removeItem("token");
+          setLoginSuccess(false);
           openModal({
             message: "세션이 만료되었습니다. 다시 로그인해주세요.",
             actions:[{label:"확인", onClick:()=>{closeModal();navigate("/login");}}]
@@ -48,7 +49,7 @@ function App() {
     checkTokenExpiration();
   }, [navigate]);
   return (
-    <ProjectProvider>
+    <>
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
@@ -71,7 +72,7 @@ function App() {
         content={modalMessage}
         actions={modalActions}
       />
-    </ProjectProvider>
+    </>
   );
 }
 

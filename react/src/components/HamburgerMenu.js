@@ -30,7 +30,7 @@ const HamburgerMenu = () => {
       setTripDates({});
       openModal({
         message: <DateCheck/>,
-        action: [{label:"저장", onClick:handleNewPlanSubmit}]
+        actions: [{label:"저장", onClick:handleNewPlanSubmit}]
       })
     }else{
       openModal({
@@ -54,7 +54,7 @@ const HamburgerMenu = () => {
       openModal({
         title: "저장 완료",
         message: "여행 일정이 저장되었습니다.",
-        actions: [{ label: "확인", onClick:()=>{closeModal(); navigate("/newTrip");}}],
+        actions: [{ label: "확인", onClick:()=>{closeModal(); navigate("/newtrip");}}],
       });
     }
   };
