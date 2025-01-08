@@ -23,7 +23,7 @@
 
 <br/>
 <p align="center">
-  <a href="http://ittrip.shop"><del></del> 🔗 지금 바로 ItTrip 사용하기</a>
+  <a href="http://ittrip.site"><del></del> 🔗 지금 바로 ItTrip 사용하기</a>
 </p>
 <br/>
 
