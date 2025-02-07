@@ -14,6 +14,7 @@ const EntirePlan = () => {
     logData,
     setDayChecks,
     selectedDay,
+    setSelectedDay,
     departure,setDeparture,
     destination,setDestination,
     stopOverList,setStopOverList,
@@ -51,6 +52,7 @@ const EntirePlan = () => {
   }, [isReadOnly]);
 
   useEffect(() => {
+   
     // API 호출
     const fetchTrips = async () => {
       try {
@@ -73,6 +75,7 @@ const EntirePlan = () => {
     setFlag(true)
     setCurrentIdx(() => trip.idx);
     setTitle(trip.title);
+    
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_BASE_URL}/maps/${trip.idx}`,
