@@ -17,6 +17,7 @@ import CheckList from "./components/CheckList";
 import Maintest from "./screen/Maintest";
 import Main from "./screen/Main";
 import { useEffect } from "react";
+//wlseltlarl tlwkr
 function App() {
 
   const navigate = useNavigate();
